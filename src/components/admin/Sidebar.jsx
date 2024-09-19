@@ -5,16 +5,31 @@ import {
   UserOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import Logo from "../../assets/logo.jpg";
 
 const Sidebar = () => {
   return (
     <div className="logo" style={{ height: "100%" }}>
+      <div style={{ textAlign: "center", padding: "20px 0 0" }}>
+        <img
+          src={Logo}
+          alt="Logo"
+          style={{
+            width: "80px",
+            height: "80px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            display: "inline-block",
+          }}
+        />
+      </div>
       <p
         style={{
           color: "white",
           textAlign: "center",
           fontSize: "20px",
           fontWeight: "bold",
+          padding: "0 0 20px",
         }}
       >
         Admin
