@@ -1,6 +1,6 @@
-import React from 'react';
-import { Row, Col } from 'antd';
-import CardInfo from './CardInfo';
+import React from "react";
+import { Row, Col } from "antd";
+import CardInfo from "./CardInfo";
 
 const DashboardContent = () => {
   return (
