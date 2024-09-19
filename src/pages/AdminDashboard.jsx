@@ -71,29 +71,48 @@
 
 // export default AdminDashboard;
 
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Breadcrumb } from "antd";
 import Sidebar from "../components/admin/Sidebar";
 import HeaderBar from "../components/admin/HeaderBar";
 import DashboardContent from "../components/admin/DashboardContent";
 import Sider from "antd/es/layout/Sider";
+import { Route, Routes } from "react-router-dom";
+import FishInfo from "../components/admin/InformationFish/FishInfo";
 
 const { Content, Footer } = Layout;
 
 const AdminDashboard = () => {
+  const [selectedKey, setSelectedKey] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (selectedKey) {
+      case "dashboard":
+        return <DashboardContent />;
+      case "fish-info":
+        return <FishInfo />;
+      default:
+        return <DashboardContent />;
+    }
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider collapsible>
-        <Sidebar />
+        <Sidebar setSelectedKey={setSelectedKey} />
       </Sider>
       <Layout className="site-layout">
         <HeaderBar />
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+            {/* <Breadcrumb.Item>Dashboard</Breadcrumb.Item> */}
+            <Breadcrumb.Item>
+              {selectedKey === "dashboard" ? "Dashboard" : "Fish Info"}
+            </Breadcrumb.Item>
           </Breadcrumb>
-          <DashboardContent />
+          {/* <DashboardContent /> */}
+          {renderContent()}
         </Content>
         <Footer style={{ textAlign: "center" }}>Admin Dashboard ©2024</Footer>
       </Layout>
