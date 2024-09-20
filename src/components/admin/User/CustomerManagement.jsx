@@ -174,10 +174,13 @@ const CustomerManagement = () => {
       render: (_, record) => (
         <>
           <Space size="middle">
-            <Button type="primary" onClick={() => handleEdit(record)}><EditOutlined />Sửa</Button>
+            <Button type="primary" onClick={() => handleEdit(record)}>
+              <EditOutlined />
+              Sửa
+            </Button>
           </Space>
           <Space size="middle">
-            <Button type="ghost"  onClick={() => handleView(record)}>
+            <Button type="ghost" onClick={() => handleView(record)}>
               <EyeOutlined />
             </Button>
           </Space>
@@ -187,141 +190,149 @@ const CustomerManagement = () => {
   ];
 
   return (
-    <div style={{ padding: "24px", background: "#fff" }}>
-      <Row gutter={[16, 16]}>
-        {/* Nửa trên: Danh sách khách hàng */}
-        <Col span={24}>
-          <h1>Quản Lý Khách Hàng</h1>
-          <div style={{ maxHeight: "400px" }}>
-          <Table
-            columns={columns}
-            dataSource={customers}
-            pagination={false}
-            scroll={{ y: 325 }}
-          />
-          </div>
-        </Col>
-
-        {editCustomer && (
-          <Modal
-            title="Chỉnh Sửa Thông Tin Khách Hàng"
-            visible={isModalVisible}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <Form
-              layout="vertical"
-              initialValues={{
-                username: editCustomer.username,
-                fullName: editCustomer.fullName,
-                dob: editCustomer.dob,
-                phone: editCustomer.phone,
-                email: editCustomer.email,
-              }}
-              onFinish={onFinish}
-            >
-              <Form.Item
-                label="Tên Tài Khoản"
-                name="username"
-                rules={[
-                  { required: true, message: "Vui lòng nhập tên tài khoản" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Họ và Tên"
-                name="fullName"
-                rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Ngày Tháng Năm Sinh"
-                name="dob"
-                rules={[{ required: true, message: "Vui lòng nhập ngày sinh" }]}
-              >
-                <Input type="date" />
-              </Form.Item>
-              <Form.Item
-                label="Số Điện Thoại"
-                name="phone"
-                rules={[
-                  { required: true, message: "Vui lòng nhập số điện thoại" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                    message: "Vui lòng nhập email hợp lệ",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
-        )}
-
-        {/* Nửa dưới: Chi tiết khách hàng */}
-        {selectedCustomer && (
+    <>
+      <h1 className="text-2xl font-bold mb-4">Quản Lý Khách Hàng</h1>
+      <div style={{ padding: "24px", background: "#fff" }}>
+        <Row gutter={[16, 16]}>
+          {/* Nửa trên: Danh sách khách hàng */}
           <Col span={24}>
-            <Card title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}>
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="Hồ Sơ Khách Hàng" key="1">
-                  <h3>Thông Tin</h3>
-                  <p>
-                    <strong>Họ và Tên:</strong> {selectedCustomer.fullName}
-                  </p>
-                  <p>
-                    <strong>Ngày Sinh:</strong> {selectedCustomer.dob}
-                  </p>
-                  <p>
-                    <strong>Số Điện Thoại:</strong> {selectedCustomer.phone}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {selectedCustomer.email}
-                  </p>
-                  <p>
-                    <strong>Tích Điểm:</strong> {selectedCustomer.points}
-                  </p>
-                </TabPane>
-                <TabPane tab="Lịch Sử Đơn Hàng" key="2">
-                  <Table
-                    columns={[
-                      { title: "Mã Đơn", dataIndex: "orderId" },
-                      { title: "Ngày", dataIndex: "date" },
-                      { title: "Tổng", dataIndex: "total" },
-                    ]}
-                    dataSource={selectedCustomer.orders}
-                    pagination={false}
-                  />
-                </TabPane>
-                <TabPane tab="Đánh Giá & Phản Hồi" key="3">
-                  {selectedCustomer.feedback.map((item, index) => (
-                    <div key={index}>
-                      <Rate disabled value={item.rating} />
-                      <p>{item.comment}</p>
-                    </div>
-                  ))}
-                </TabPane>
-              </Tabs>
-            </Card>
+            <div style={{ maxHeight: "400px" }}>
+              <Table
+                columns={columns}
+                dataSource={customers}
+                pagination={false}
+                scroll={{ y: 325 }}
+              />
+            </div>
           </Col>
-        )}
-      </Row>
-    </div>
+
+          {editCustomer && (
+            <Modal
+              title="Chỉnh Sửa Thông Tin Khách Hàng"
+              visible={isModalVisible}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <Form
+                layout="vertical"
+                initialValues={{
+                  username: editCustomer.username,
+                  fullName: editCustomer.fullName,
+                  dob: editCustomer.dob,
+                  phone: editCustomer.phone,
+                  email: editCustomer.email,
+                }}
+                onFinish={onFinish}
+              >
+                <Form.Item
+                  label="Tên Tài Khoản"
+                  name="username"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập tên tài khoản" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Họ và Tên"
+                  name="fullName"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập họ và tên" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Ngày Tháng Năm Sinh"
+                  name="dob"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập ngày sinh" },
+                  ]}
+                >
+                  <Input type="date" />
+                </Form.Item>
+                <Form.Item
+                  label="Số Điện Thoại"
+                  name="phone"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập số điện thoại" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      type: "email",
+                      message: "Vui lòng nhập email hợp lệ",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Lưu
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Modal>
+          )}
+
+          {/* Nửa dưới: Chi tiết khách hàng */}
+          {selectedCustomer && (
+            <Col span={24}>
+              <Card
+                title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}
+              >
+                <Tabs defaultActiveKey="1">
+                  <TabPane tab="Hồ Sơ Khách Hàng" key="1">
+                    <h3>Thông Tin</h3>
+                    <p>
+                      <strong>Họ và Tên:</strong> {selectedCustomer.fullName}
+                    </p>
+                    <p>
+                      <strong>Ngày Sinh:</strong> {selectedCustomer.dob}
+                    </p>
+                    <p>
+                      <strong>Số Điện Thoại:</strong> {selectedCustomer.phone}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {selectedCustomer.email}
+                    </p>
+                    <p>
+                      <strong>Tích Điểm:</strong> {selectedCustomer.points}
+                    </p>
+                  </TabPane>
+                  <TabPane tab="Lịch Sử Đơn Hàng" key="2">
+                    <Table
+                      columns={[
+                        { title: "Mã Đơn", dataIndex: "orderId" },
+                        { title: "Ngày", dataIndex: "date" },
+                        { title: "Tổng", dataIndex: "total" },
+                      ]}
+                      dataSource={selectedCustomer.orders}
+                      pagination={false}
+                    />
+                  </TabPane>
+                  <TabPane tab="Đánh Giá & Phản Hồi" key="3">
+                    {selectedCustomer.feedback.map((item, index) => (
+                      <div key={index}>
+                        <Rate disabled value={item.rating} />
+                        <p>{item.comment}</p>
+                      </div>
+                    ))}
+                  </TabPane>
+                </Tabs>
+              </Card>
+            </Col>
+          )}
+        </Row>
+      </div>
+    </>
   );
 };
 

@@ -32,7 +32,7 @@ const HeaderBar = () => {
     // </div>
     <div className="flex justify-end items-center p-4 bg-white shadow-sm">
       <Dropdown overlay={menu} placement="bottomRight">
-        <div className="flex items-center cursor-pointer">
+        <div className="flex items-center cursor-pointer mr-10">
           <Avatar size="large" src={avatarUrl} icon={<UserOutlined />} />
           <span className="ml-2">{username}</span>
         </div>

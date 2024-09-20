@@ -16,7 +16,7 @@ const { SubMenu } = Menu;
 const Sidebar = ({ setSelectedKey }) => {
   return (
     <div className="logo" style={{ height: "100%" }}>
-      <div style={{ textAlign: "center", padding: "20px 0 0" }}>
+      <div style={{ textAlign: "center", padding: "20px 0", width: "100%" }}>
         <img
           src={Logo}
           alt="Logo"
@@ -76,11 +76,11 @@ const Sidebar = ({ setSelectedKey }) => {
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
-        <Menu.Item key="5" icon={<GrUserManager />} title="Staff Management">
-          <Menu.Item key="5" onClick={() => setSelectedKey("staff-management")}>
+        {/* <Menu.Item key="5" icon={<GrUserManager />} title="Staff Management"> */}
+          <Menu.Item key="5" icon={<GrUserManager />} onClick={() => setSelectedKey("staff-management")} >
             Quản lí nhân viên
           </Menu.Item>
-        </Menu.Item>
+        {/* </Menu.Item> */}
         <Menu.Item
           key="6"
           icon={<SettingOutlined />}

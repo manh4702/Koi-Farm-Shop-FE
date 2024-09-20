@@ -22,10 +22,18 @@ const StaffManagement = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
+  const [form] = Form.useForm();
 
   const handleEdit = (staffMember) => {
     setSelectedStaff(staffMember);
     setIsModalVisible(true);
+
+    form.setFieldsValue({
+      username: staffMember.username,
+      fullName: staffMember.fullName,
+      phone: staffMember.phone,
+      email: staffMember.email,
+    });
   };
 
   const handleDelete = (key) => {
@@ -87,87 +95,102 @@ const StaffManagement = () => {
   ];
 
   return (
-    <div style={{ padding: "24px", background: "#fff" }}>
-      <h1>Quản Lý Nhân Viên</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <div></div> {/* Empty div for alignment */}
-        <Button
-          type="primary"
-          onClick={() => {
-            setSelectedStaff(null);
-            setIsModalVisible(true);
+    <>
+      
+      <div style={{ padding: "24px", background: "#fff" }}>
+      <h1 style={{ marginBottom: "5px", fontWeight: "bold", fontSize: "24px" }}>Quản Lý Nhân Viên</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
           }}
         >
-          Thêm Nhân Viên
-        </Button>
-      </div>
-      <Table columns={columns} dataSource={staff} />
+          <div></div> {/* Empty div for alignment */}
+          <Button
+            type="primary"
+            onClick={() => {
+              setSelectedStaff(null);
+              setIsModalVisible(true);
+            }}
+          >
+            Thêm Nhân Viên
+          </Button>
+        </div>
+        <Table columns={columns} dataSource={staff} />
 
-      <Modal
-        title={selectedStaff ? "Chỉnh Sửa Nhân Viên" : "Thêm Nhân Viên"}
-        visible={isModalVisible}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <Form
-          layout="vertical"
-          initialValues={{
-            username: selectedStaff ? selectedStaff.username : "",
-            fullName: selectedStaff ? selectedStaff.fullName : "",
-            phone: selectedStaff ? selectedStaff.phone : "",
-            email: selectedStaff ? selectedStaff.email : "",
-          }}
-          onFinish={onFinish}
+        <Modal
+          title={selectedStaff ? "Chỉnh Sửa Nhân Viên" : "Thêm Nhân Viên"}
+          visible={isModalVisible}
+          footer={null}
+          onCancel={handleCancel}
         >
-          <Form.Item
-            label="Tên Tài Khoản"
-            name="username"
-            rules={[{ required: true, message: "Vui lòng nhập tên tài khoản" }]}
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{
+              username: selectedStaff ? selectedStaff.username : "",
+              fullName: selectedStaff ? selectedStaff.fullName : "",
+              phone: selectedStaff ? selectedStaff.phone : "",
+              email: selectedStaff ? selectedStaff.email : "",
+            }}
+            onFinish={onFinish}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Họ và Tên"
-            name="fullName"
-            rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Số Điện Thoại"
-            name="phone"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: "email",
-                message: "Vui lòng nhập email hợp lệ",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              {selectedStaff ? "Cập Nhật" : "Thêm Nhân Viên"}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+            <Form.Item
+              label="Tên Tài Khoản"
+              name="username"
+              rules={[
+                { required: true, message: "Vui lòng nhập tên tài khoản" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Họ và Tên"
+              name="fullName"
+              rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Số Điện Thoại"
+              name="phone"
+              rules={[
+                { required: true, message: "Vui lòng nhập số điện thoại" },
+                {
+                  len: 10,
+                  message: "Số Điện Thoại phải là 10 số",
+                },
+              ]}
+            >
+              <Input 
+                type="number"
+                onInput={(e) => {e.target.value = e.target.value.slice(0, 10)}}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "Vui lòng nhập email hợp lệ",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                {selectedStaff ? "Cập Nhật" : "Thêm Nhân Viên"}
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+    </>
   );
 };
 
