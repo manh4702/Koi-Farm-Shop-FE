@@ -8,6 +8,8 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
+import { GiCirclingFish } from "react-icons/gi";
+import { GrUserManager } from "react-icons/gr";
 
 const { SubMenu } = Menu;
 
@@ -50,12 +52,16 @@ const Sidebar = ({ setSelectedKey }) => {
         <Menu.Item
           key="2"
           icon={<UserOutlined />}
-          onClick={() => setSelectedKey("users")}
+          onClick={() => setSelectedKey("user-management")}
         >
-          Users
+          Quản lí khách hàng
         </Menu.Item>
-        <Menu.Item key="3" onClick={() => setSelectedKey("fish-info")}>
-          InformationFish
+        <Menu.Item
+          key="3"
+          icon={<GiCirclingFish />}
+          onClick={() => setSelectedKey("fish-info")}
+        >
+          Thông tin cá
         </Menu.Item>
         {/* SubMenu for Order Management */}
         <SubMenu
@@ -66,24 +72,17 @@ const Sidebar = ({ setSelectedKey }) => {
           <Menu.Item key="4-1" onClick={() => setSelectedKey("order-list")}>
             Danh sách đơn hàng
           </Menu.Item>
-          {/* <Menu.Item
-            key="4-2"
-            onClick={() => setSelectedKey("processing-orders")}
-          >
-            Đơn hàng đang xử lý
-          </Menu.Item>
-          <Menu.Item
-            key="4-3"
-            onClick={() => setSelectedKey("completed-orders")}
-          >
-            Đơn hàng hoàn thành
-          </Menu.Item> */}
-          <Menu.Item key="4-4" onClick={() => setSelectedKey("order-tracking")}>
+          <Menu.Item key="4-2" onClick={() => setSelectedKey("order-tracking")}>
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
+        <Menu.Item key="5" icon={<GrUserManager />} title="Staff Management">
+          <Menu.Item key="5" onClick={() => setSelectedKey("staff-management")}>
+            Quản lí nhân viên
+          </Menu.Item>
+        </Menu.Item>
         <Menu.Item
-          key="5"
+          key="6"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
