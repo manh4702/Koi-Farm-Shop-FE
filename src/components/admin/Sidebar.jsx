@@ -66,7 +66,7 @@ const Sidebar = ({ setSelectedKey }) => {
           <Menu.Item key="4-1" onClick={() => setSelectedKey("order-list")}>
             Danh sách đơn hàng
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="4-2"
             onClick={() => setSelectedKey("processing-orders")}
           >
@@ -77,7 +77,7 @@ const Sidebar = ({ setSelectedKey }) => {
             onClick={() => setSelectedKey("completed-orders")}
           >
             Đơn hàng hoàn thành
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key="4-4" onClick={() => setSelectedKey("order-tracking")}>
             Theo dõi trạng thái đơn hàng
           </Menu.Item>

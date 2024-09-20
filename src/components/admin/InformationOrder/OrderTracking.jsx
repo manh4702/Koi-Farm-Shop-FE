@@ -1,4 +1,4 @@
-// src/components/admin/InformationOrder/OrderTracking.js
+// src/components/admin/InformationOrder/OrderTracking.jsx
 
 import React, { useEffect } from 'react';
 import { Table, Tag, Button, Steps } from 'antd';

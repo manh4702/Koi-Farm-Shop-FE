@@ -27,10 +27,10 @@ const AdminDashboard = () => {
       //   return <OrderManagement />;
       case "order-list":
         return <OrderList />;
-      case "processing-orders":
-        return <ProcessingOrders />; 
-      case "completed-orders":
-        return <CompletedOrders />; 
+      // case "processing-orders":
+      //   return <ProcessingOrders />; 
+      // case "completed-orders":
+      //   return <CompletedOrders />; 
       case "order-tracking":
         return <OrderTracking />; 
 

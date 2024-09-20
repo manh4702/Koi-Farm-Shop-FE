@@ -49,9 +49,32 @@ const OrderList = () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <Button type="primary" onClick={() => handleOrderDetail(record.id)}>
-          View
-        </Button>
+        <div>
+          <Button
+            type="primary"
+            onClick={() => handleOrderDetail(record.id)}
+            style={{ marginRight: 8 }}
+          >
+            View
+          </Button>
+          {record.status === 'Pending' && (
+            <>
+              <Button
+                type="default"
+                onClick={() => handleAcceptOrder(record.id)}
+                style={{ marginRight: 8 }}
+              >
+                Chấp nhận
+              </Button>
+              <Button
+                type="danger"
+                onClick={() => handleCancelOrder(record.id)}
+              >
+                Hủy
+              </Button>
+            </>
+          )}
+        </div>
       ),
     },
   ];
