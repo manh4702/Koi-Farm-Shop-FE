@@ -7,9 +7,12 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import useOrderStore from "../../../store/useOrderStore";
+import OrderTable from "./component/OrderTable";
+import OrderDetailModal from "./component/OrderDetailModal";
 
 const OrderList = () => {
   const { orders, setOrders } = useOrderStore();
+
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -54,7 +57,7 @@ const OrderList = () => {
     };
 
     fetchOrders();
-  }, [setOrders]);
+  }, [ setOrders ]);
 
   const showModal = (order) => {
     setSelectedOrder(order);
@@ -85,155 +88,21 @@ const OrderList = () => {
     message.error(`Đơn hàng ${orderId} đã bị hủy.`);
   };
 
-  const columns = [
-    {
-      title: "Order ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Customer",
-      dataIndex: "customer",
-      key: "customer",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-    },
-    {
-      title: "Products",
-      dataIndex: "products",
-      key: "products",
-      render: (products) => (
-        <ul>
-          {products.map((product) => (
-            <li key={product.name}>
-              {product.name} - {product.quantity} - ${product.price}
-            </li>
-          ))}
-        </ul>
-      ),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag
-          color={
-            status === "Completed"
-              ? "green"
-              : status === "Pending"
-              ? "volcano"
-              : status === "Processing"
-              ? "blue"
-              : status === "Canceled"
-              ? "red"
-              : "geekblue"
-          }
-        >
-          {status}
-        </Tag>
-      ),
-    },
-    {
-      title: "Total",
-      dataIndex: "total",
-      key: "total",
-      render: (total) => `$${total}`,
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (text, record) => (
-        <div>
-          {/* <Tooltip title="Xem chi tiết đơn hàng">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => console.log("Xem chi tiết đơn hàng:", record.id)}
-              style={{ marginRight: 8 }}
-            />
-          </Tooltip> */}
-          {record.status === "Pending" && (
-            <>
-              <Tooltip title="Chấp nhận và In">
-                <Button
-                  icon={<CheckOutlined />}
-                  onClick={() => showModal(record)}
-                  style={{ marginRight: 8 }}
-                ></Button>
-              </Tooltip>
-              <Tooltip title="Hủy đơn hàng">
-                <Button
-                  icon={<CloseOutlined />}
-                  danger
-                  onClick={() => handleCancelOrder(record.id)}
-                />
-              </Tooltip>
-            </>
-          )}
-        </div>
-      ),
-    },
-  ];
-
   return (
     <div className="order-list">
       <h2 className="text-2xl font-bold mb-4">Danh sách đơn hàng</h2>
-      <Table columns={columns} dataSource={orders} rowKey="id" />
+      <OrderTable
+        orders={orders}
+        showModal={showModal}
+        handleCancelOrder={handleCancelOrder}
+      />
       {selectedOrder && (
-        <Modal
-          title={`Chi tiết đơn hàng #${selectedOrder.id}`}
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button
-              key="acceptAndPrint"
-              type="primary"
-              icon={<PrinterOutlined />}
-              onClick={handleAcceptAndPrintOrder}
-            >
-              Chấp nhận và In
-            </Button>,
-            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-              Đóng
-            </Button>,
-          ]}
-        >
-          <p>
-            <strong>Khách hàng:</strong> {selectedOrder.customer}
-          </p>
-          <p>
-            <strong>Địa chỉ:</strong> {selectedOrder.address}
-          </p>
-          <p>
-            <strong>Số điện thoại:</strong> {selectedOrder.phone}
-          </p>
-          <p>
-            <strong>Tổng tiền:</strong> ${selectedOrder.total}
-          </p>
-          <h3>
-            <strong>Chi tiết sản phẩm:</strong>
-          </h3>
-          <ul>
-            {selectedOrder.products.map((product, index) => (
-              <li key={index}>
-                {product.name} - Số lượng: {product.quantity} - Giá: $
-                {product.price}
-              </li>
-            ))}
-          </ul>
-
-          <p>
-            <strong>Mô tả:</strong> {selectedOrder.description}
-          </p>
-        </Modal>
+        <OrderDetailModal
+          selectedOrder={selectedOrder}
+          isModalVisible={isModalVisible}
+          handleAcceptAndPrintOrder={handleAcceptAndPrintOrder}
+          handleCancelModal={() => setIsModalVisible(false)}
+        />
       )}
     </div>
   );

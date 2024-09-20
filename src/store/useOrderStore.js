@@ -8,17 +8,27 @@
 // export default useOrderStore;
 
 
+
 import { create } from 'zustand';
 
 // Lưu trữ vào localStorage
 const persistOrders = (orders) => {
-  localStorage.setItem('orders', JSON.stringify(orders));
+  try {
+    localStorage.setItem('orders', JSON.stringify(orders));
+  } catch (error) {
+    console.error('Error persisting orders:', error);
+  }
 };
 
 // Lấy dữ liệu từ localStorage
 const getPersistedOrders = () => {
-  const storedOrders = localStorage.getItem('orders');
-  return storedOrders ? JSON.parse(storedOrders) : [];
+  try {
+    const storedOrders = localStorage.getItem('orders');
+    return storedOrders ? JSON.parse(storedOrders) : [];
+  } catch (error) {
+    console.error('Error getting persisted orders:', error);
+    return [];
+  }
 };
 
 const useOrderStore = create((set) => ({

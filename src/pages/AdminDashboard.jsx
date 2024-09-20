@@ -66,7 +66,7 @@ const AdminDashboard = () => {
           {/* <DashboardContent /> */}
           {renderContent()}
         </Content>
-        <Footer style={{ textAlign: "center" }}>Admin Dashboard ©2024</Footer>
+        <Footer style={{ textAlign: "center", padding: "15px 0" }}>Admin Dashboard ©2024</Footer>
       </Layout>
     </Layout>
   );

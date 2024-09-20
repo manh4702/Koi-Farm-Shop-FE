@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { Table, Tag, Button, Steps } from 'antd';
-import useOrderStore from '../../../store/orderStore';
+import useOrderStore from '../../../store/useOrderStore';
 
 const { Step } = Steps;
 
