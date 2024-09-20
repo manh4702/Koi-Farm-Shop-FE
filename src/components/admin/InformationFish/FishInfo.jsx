@@ -1,6 +1,18 @@
 import React, { useState } from "react";
-import { Space, Table, Button, Form, Input, Modal } from "antd";
+import {
+  Space,
+  Table,
+  Button,
+  Form,
+  Input,
+  Modal,
+  message,
+  Select,
+  Row,
+  Col,
+} from "antd";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { DeleteOutlined, EditOutlined, SaveOutlined } from "@ant-design/icons";
 const FishInfo = () => {
   // State to manage fish data
   const [data, setData] = useState([
@@ -16,23 +28,54 @@ const FishInfo = () => {
       foodPerDay: "2 viên",
       screeningRate: "95%",
     },
-    // Add more initial data if needed
   ]);
 
-  // State to manage search query
   const [searchTerm, setSearchTerm] = useState("");
-
-  // State to control modal visibility for adding fish
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingFish, setEditingFish] = useState(null);
+  const [form] = Form.useForm();
 
-  // Form submission handler for adding new fish
   const onFinish = (values) => {
-    const newFish = {
-      key: (data.length + 1).toString(), // Generate a new key
-      ...values, // Spread the form values
-    };
-    setData([...data, newFish]); // Update the data state with new fish
-    setIsModalVisible(false); // Close the modal
+    // const newFish = {
+    //   key: (data.length + 1).toString(),
+    //   ...values,
+    // };
+    // setData([...data, newFish]);
+    // setIsModalVisible(false);
+    if (editingFish) {
+      const updatedData = data.map((fish) =>
+        fish.key === editingFish.key ? { ...fish, ...values } : fish
+      );
+      setData(updatedData);
+      setEditingFish(null);
+      message.success("Cập nhật thông tin cá thành công");
+    } else {
+      const newFish = {
+        key: (data.length + 1).toString(),
+        ...values,
+      };
+      setData([...data, newFish]);
+      message.success("Tạo thông tin thành công");
+    }
+    form.resetFields();
+    setIsModalVisible(false);
+  };
+
+  const handleEdit = (fish) => {
+    setEditingFish(fish);
+    form.setFieldsValue(fish);
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = (key) => {
+    Modal.confirm({
+      title: "Xác nhận xoá",
+      content: "Bạn có chắc chắn muốn xoá thông tin cá này?",
+      onOk() {
+        setData(data.filter((fish) => fish.key !== key));
+        message.success("Đã xóa");
+      },
+    });
   };
 
   // Filter data based on the search term
@@ -82,8 +125,23 @@ const FishInfo = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Update</a>
-          <a>Delete</a>
+          {/* <a>Update</a>
+          <a>Delete</a> */}
+
+          <Button
+            type="primary"
+            onClick={() => handleEdit(record)}
+            icon={<EditOutlined />}
+          >
+            Sửa
+          </Button>
+          <Button
+            type="danger"
+            // icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.key)}
+          >
+            <DeleteOutlined style={{ color: "red" }} />
+          </Button>
         </Space>
       ),
     },
@@ -126,84 +184,105 @@ const FishInfo = () => {
 
       {/* Modal for adding new fish */}
       <Modal
-        title="Thêm Cá Mới"
+        title={editingFish ? "Chỉnh sửa thông tin cá" : "Thêm cá mới"}
         visible={isModalVisible}
         footer={null}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => {
+          setIsModalVisible(false);
+          form.resetFields();
+          setEditingFish(null);
+        }}
       >
-        <Form onFinish={onFinish} layout="vertical">
-          <Form.Item
-            label="Tên"
-            name="name"
-            rules={[{ required: true, message: "Vui lòng nhập tên cá" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Nguồn gốc xuất xứ"
-            name="origin"
-            rules={[{ required: true, message: "Vui lòng nhập nguồn gốc" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Giới tính"
-            name="gender"
-            rules={[{ required: true, message: "Vui lòng nhập giới tính" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Tuổi"
-            name="age"
-            rules={[{ required: true, message: "Vui lòng nhập tuổi cá" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Kích thước"
-            name="size"
-            rules={[{ required: true, message: "Vui lòng nhập kích thước cá" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Giống"
-            name="breed"
-            rules={[{ required: true, message: "Vui lòng nhập giống cá" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Tính cách"
-            name="temperament"
-            rules={[{ required: true, message: "Vui lòng nhập tính cách cá" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Lượng thức ăn/ngày"
-            name="foodPerDay"
-            rules={[
-              { required: true, message: "Vui lòng nhập lượng thức ăn/ngày" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Tỉ lệ sàng lọc"
-            name="screeningRate"
-            rules={[
-              { required: true, message: "Vui lòng nhập tỉ lệ sàng lọc" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Thêm Cá
-            </Button>
-          </Form.Item>
+        <Form form={form} onFinish={onFinish} layout="vertical">
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Tên"
+                name="name"
+                rules={[{ required: true, message: "Vui lòng nhập tên cá" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Nguồn gốc xuất xứ"
+                name="origin"
+                rules={[{ required: true, message: "Vui lòng nhập nguồn gốc" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Giới tính"
+                name="gender"
+                rules={[{ required: true, message: "Vui lòng chọn giới tính" }]}
+              >
+                <Select>
+                  <Select.Option value="Male">Đực</Select.Option>
+                  <Select.Option value="Female">Cái</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Tuổi"
+                name="age"
+                rules={[{ required: true, message: "Vui lòng nhập tuổi cá" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Kích thước"
+                name="size"
+                rules={[
+                  { required: true, message: "Vui lòng nhập kích thước cá" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Giống"
+                name="breed"
+                rules={[{ required: true, message: "Vui lòng nhập giống cá" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Tính cách"
+                name="temperament"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tính cách cá" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Lượng thức ăn/ngày"
+                name="foodPerDay"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập lượng thức ăn/ngày",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Tỉ lệ sàng lọc"
+                name="screeningRate"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tỉ lệ sàng lọc" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item style={{ textAlign: "right", marginTop: "54px" }}>
+                <Button type="primary" htmlType="submit">
+                  <SaveOutlined />
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </>
