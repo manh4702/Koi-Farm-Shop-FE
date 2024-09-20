@@ -11,6 +11,8 @@ import OrderList from "../components/admin/InformationOrder/OrderList";
 import ProcessingOrders from "../components/admin/InformationOrder/ProcessingOrders";
 import CompletedOrders from "../components/admin/InformationOrder/CompletedOrders";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
+import CustomerManagement from "../components/admin/User/CustomerManagement";
+import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
 
 const { Content, Footer } = Layout;
 
@@ -21,6 +23,8 @@ const AdminDashboard = () => {
     switch (selectedKey) {
       case "dashboard":
         return <DashboardContent />;
+      case "user-management":
+        return <CustomerManagement />;
       case "fish-info":
         return <FishInfo />;
       // case "order-management":
@@ -28,11 +32,14 @@ const AdminDashboard = () => {
       case "order-list":
         return <OrderList />;
       case "processing-orders":
-        return <ProcessingOrders />; 
+        return <ProcessingOrders />;
       case "completed-orders":
-        return <CompletedOrders />; 
+        return <CompletedOrders />;
       case "order-tracking":
-        return <OrderTracking />; 
+        return <OrderTracking />;
+      // case "Staff-management":
+      case "staff-management":
+        return <StaffManagement />;
 
       default:
         return <DashboardContent />;
