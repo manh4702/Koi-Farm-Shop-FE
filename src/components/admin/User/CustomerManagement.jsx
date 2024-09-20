@@ -11,6 +11,8 @@ import {
   Col,
   Row,
   Card,
+  Popconfirm,
+  message,
 } from "antd";
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
 
@@ -25,6 +27,7 @@ const CustomerManagement = () => {
       dob: "1990-01-01",
       phone: "0123456789",
       email: "john@example.com",
+      address: "123 Main Street, City A",
       orders: [
         { orderId: "1001", date: "2023-01-15", total: "$100" },
         { orderId: "1002", date: "2023-02-10", total: "$200" },
@@ -34,11 +37,42 @@ const CustomerManagement = () => {
     },
     {
       key: "1",
-      username: "Quang_Nguyen",
-      fullName: "Quang Nguyen",
+      username: "Leo_Messi",
+      fullName: "Leo Messi",
       dob: "1990-01-01",
       phone: "0123456789",
-      email: "john@example.com",
+      email: "Messi@example.com",
+      address: "123 Main Street, City A",
+      orders: [
+        { orderId: "1001", date: "2024-01-15", total: "$100" },
+        { orderId: "1002", date: "2024-02-10", total: "$200" },
+      ],
+      points: 120,
+      feedback: [{ rating: 4, comment: "Great service!" }],
+    },
+    {
+      key: "1",
+      username: "Minh_Nhua",
+      fullName: "Minh Nhua",
+      dob: "1990-01-01",
+      phone: "0123456389",
+      email: "Minhnhua@example.com",
+      address: "123 Main Street, City A",
+      orders: [
+        { orderId: "1001", date: "2024-01-15", total: "$100" },
+        { orderId: "1002", date: "2024-02-10", total: "$200" },
+      ],
+      points: 120,
+      feedback: [{ rating: 4, comment: "Great service!" }],
+    },
+    {
+      key: "1",
+      username: "Putin_Phan",
+      fullName: "Phan Putin",
+      dob: "1999-01-01",
+      phone: "7123456789",
+      email: "Putin@example.com",
+      address: "17 Mascova, Pluxembua",
       orders: [
         { orderId: "1001", date: "2023-01-15", total: "$100" },
         { orderId: "1002", date: "2023-02-10", total: "$200" },
@@ -48,11 +82,12 @@ const CustomerManagement = () => {
     },
     {
       key: "1",
-      username: "Vuong_Nguyen",
-      fullName: "Vuong Nguyen",
-      dob: "1990-01-01",
+      username: "Ronalodo",
+      fullName: "Ronal Dang",
+      dob: "1990-04-12",
       phone: "0123456789",
       email: "john@example.com",
+      address: "123 Main Street, City A",
       orders: [
         { orderId: "1001", date: "2023-01-15", total: "$100" },
         { orderId: "1002", date: "2023-02-10", total: "$200" },
@@ -62,11 +97,12 @@ const CustomerManagement = () => {
     },
     {
       key: "1",
-      username: "john_doe",
-      fullName: "John Doe",
-      dob: "1990-01-01",
-      phone: "0123456789",
+      username: "Peter_Croud",
+      fullName: "Peter Croud",
+      dob: "1990-01-09",
+      phone: "0123453289",
       email: "john@example.com",
+      address: "123 Main Street, City A",
       orders: [
         { orderId: "1001", date: "2023-01-15", total: "$100" },
         { orderId: "1002", date: "2023-02-10", total: "$200" },
@@ -74,48 +110,7 @@ const CustomerManagement = () => {
       points: 120,
       feedback: [{ rating: 4, comment: "Great service!" }],
     },
-    {
-      key: "1",
-      username: "john_doe",
-      fullName: "John Doe",
-      dob: "1990-01-01",
-      phone: "0123456789",
-      email: "john@example.com",
-      orders: [
-        { orderId: "1001", date: "2023-01-15", total: "$100" },
-        { orderId: "1002", date: "2023-02-10", total: "$200" },
-      ],
-      points: 120,
-      feedback: [{ rating: 4, comment: "Great service!" }],
-    },
-    {
-      key: "1",
-      username: "john_doe",
-      fullName: "John Doe",
-      dob: "1990-01-01",
-      phone: "0123456789",
-      email: "john@example.com",
-      orders: [
-        { orderId: "1001", date: "2023-01-15", total: "$100" },
-        { orderId: "1002", date: "2023-02-10", total: "$200" },
-      ],
-      points: 120,
-      feedback: [{ rating: 4, comment: "Great service!" }],
-    },
-    {
-      key: "1",
-      username: "john_doe",
-      fullName: "John Doe",
-      dob: "1990-01-01",
-      phone: "0123456789",
-      email: "john@example.com",
-      orders: [
-        { orderId: "1001", date: "2023-01-15", total: "$100" },
-        { orderId: "1002", date: "2023-02-10", total: "$200" },
-      ],
-      points: 120,
-      feedback: [{ rating: 4, comment: "Great service!" }],
-    },
+    // Thêm khách hàng khác...
   ]);
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -139,11 +134,19 @@ const CustomerManagement = () => {
   const onFinish = (values) => {
     setCustomers((prev) =>
       prev.map((customer) =>
-        customer.key === selectedCustomer.key
+        customer.key === editCustomer.key
           ? { ...customer, ...values }
           : customer
       )
     );
+    handleCancel();
+  };
+
+  const handleDelete = () => {
+    setCustomers((prev) =>
+      prev.filter((customer) => customer.key !== editCustomer.key)
+    );
+    message.success("Đã xóa khách hàng thành công");
     handleCancel();
   };
 
@@ -165,6 +168,10 @@ const CustomerManagement = () => {
       dataIndex: "email",
     },
     {
+      title: "Địa Chỉ",
+      dataIndex: "address",
+    },
+    {
       title: "Điểm tích luỹ",
       dataIndex: "points",
     },
@@ -174,10 +181,12 @@ const CustomerManagement = () => {
       render: (_, record) => (
         <>
           <Space size="middle">
-            <Button type="primary" onClick={() => handleEdit(record)}><EditOutlined />Sửa</Button>
+            <Button type="primary" onClick={() => handleEdit(record)}>
+              <EditOutlined /> Sửa
+            </Button>
           </Space>
           <Space size="middle">
-            <Button type="ghost"  onClick={() => handleView(record)}>
+            <Button type="ghost" onClick={() => handleView(record)}>
               <EyeOutlined />
             </Button>
           </Space>
@@ -189,16 +198,15 @@ const CustomerManagement = () => {
   return (
     <div style={{ padding: "24px", background: "#fff" }}>
       <Row gutter={[16, 16]}>
-        {/* Nửa trên: Danh sách khách hàng */}
         <Col span={24}>
           <h1>Quản Lý Khách Hàng</h1>
           <div style={{ maxHeight: "400px" }}>
-          <Table
-            columns={columns}
-            dataSource={customers}
-            pagination={false}
-            scroll={{ y: 325 }}
-          />
+            <Table
+              columns={columns}
+              dataSource={customers}
+              pagination={false}
+              scroll={{ y: 325 }}
+            />
           </div>
         </Col>
 
@@ -217,6 +225,7 @@ const CustomerManagement = () => {
                 dob: editCustomer.dob,
                 phone: editCustomer.phone,
                 email: editCustomer.email,
+                address: editCustomer.address,
               }}
               onFinish={onFinish}
             >
@@ -265,16 +274,35 @@ const CustomerManagement = () => {
               >
                 <Input />
               </Form.Item>
+              <Form.Item
+                label="Địa Chỉ"
+                name="address"
+                rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
+              >
+                <Input />
+              </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Lưu
                 </Button>
               </Form.Item>
             </Form>
+
+            <div style={{ textAlign: "right" }}>
+              <Popconfirm
+                title="Bạn có chắc chắn muốn xóa khách hàng này không?"
+                onConfirm={handleDelete}
+                okText="Có"
+                cancelText="Không"
+              >
+                <Button type="primary" ghost style={{ marginTop: "10px" }}>
+                  Xóa
+                </Button>
+              </Popconfirm>
+            </div>
           </Modal>
         )}
 
-        {/* Nửa dưới: Chi tiết khách hàng */}
         {selectedCustomer && (
           <Col span={24}>
             <Card title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}>
@@ -292,6 +320,9 @@ const CustomerManagement = () => {
                   </p>
                   <p>
                     <strong>Email:</strong> {selectedCustomer.email}
+                  </p>
+                  <p>
+                    <strong>Địa Chỉ:</strong> {selectedCustomer.address}
                   </p>
                   <p>
                     <strong>Tích Điểm:</strong> {selectedCustomer.points}
