@@ -5,8 +5,11 @@ import {
   DashboardOutlined,
   UserOutlined,
   SettingOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
+
+const { SubMenu } = Menu;
 
 const Sidebar = ({ setSelectedKey }) => {
   return (
@@ -54,8 +57,33 @@ const Sidebar = ({ setSelectedKey }) => {
         <Menu.Item key="3" onClick={() => setSelectedKey("fish-info")}>
           InformationFish
         </Menu.Item>
-        <Menu.Item
+        {/* SubMenu for Order Management */}
+        <SubMenu
           key="4"
+          icon={<ShoppingCartOutlined />}
+          title="Order Management"
+        >
+          <Menu.Item key="4-1" onClick={() => setSelectedKey("order-list")}>
+            Danh sách đơn hàng
+          </Menu.Item>
+          <Menu.Item
+            key="4-2"
+            onClick={() => setSelectedKey("processing-orders")}
+          >
+            Đơn hàng đang xử lý
+          </Menu.Item>
+          <Menu.Item
+            key="4-3"
+            onClick={() => setSelectedKey("completed-orders")}
+          >
+            Đơn hàng hoàn thành
+          </Menu.Item>
+          <Menu.Item key="4-4" onClick={() => setSelectedKey("order-tracking")}>
+            Theo dõi trạng thái đơn hàng
+          </Menu.Item>
+        </SubMenu>
+        <Menu.Item
+          key="5"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
