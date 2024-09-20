@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table, Tag, Button } from 'antd';
-import useOrderStore from '../../../store/orderStore'; // Sử dụng store order
+import useOrderStore from '../../../store/useOrderStore'; // Sử dụng store order
 
 const ProcessingOrders = () => {
   const { orders, setOrders } = useOrderStore(); // Lấy dữ liệu orders từ store

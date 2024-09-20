@@ -6,10 +6,7 @@ import DashboardContent from "../components/admin/DashboardContent";
 import Sider from "antd/es/layout/Sider";
 import { Route, Routes } from "react-router-dom";
 import FishInfo from "../components/admin/InformationFish/FishInfo";
-import OrderManagement from "../components/admin/InformationOrder/OrderManagement";
 import OrderList from "../components/admin/InformationOrder/OrderList";
-import ProcessingOrders from "../components/admin/InformationOrder/ProcessingOrders";
-import CompletedOrders from "../components/admin/InformationOrder/CompletedOrders";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
 import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
@@ -27,17 +24,10 @@ const AdminDashboard = () => {
         return <CustomerManagement />;
       case "fish-info":
         return <FishInfo />;
-      // case "order-management":
-      //   return <OrderManagement />;
       case "order-list":
         return <OrderList />;
-      case "processing-orders":
-        return <ProcessingOrders />;
-      case "completed-orders":
-        return <CompletedOrders />;
       case "order-tracking":
         return <OrderTracking />;
-      // case "Staff-management":
       case "staff-management":
         return <StaffManagement />;
 
@@ -57,8 +47,6 @@ const AdminDashboard = () => {
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
-              selectedKey === "processing-orders" ||
-              selectedKey === "completed-orders" ||
               selectedKey === "order-tracking") && (
               <Breadcrumb.Item>Order Management</Breadcrumb.Item>
             )}
@@ -70,12 +58,6 @@ const AdminDashboard = () => {
             )}
             {selectedKey === "order-list" && (
               <Breadcrumb.Item>Order List</Breadcrumb.Item>
-            )}
-            {selectedKey === "processing-orders" && (
-              <Breadcrumb.Item>Đơn hàng đang xử lý</Breadcrumb.Item>
-            )}
-            {selectedKey === "completed-orders" && (
-              <Breadcrumb.Item>Đơn hàng hoàn thành</Breadcrumb.Item>
             )}
             {selectedKey === "order-tracking" && (
               <Breadcrumb.Item>Theo dõi trạng thái đơn hàng</Breadcrumb.Item>
