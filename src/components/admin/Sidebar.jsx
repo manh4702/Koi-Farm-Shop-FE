@@ -76,10 +76,12 @@ const Sidebar = ({ setSelectedKey }) => {
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
-        <Menu.Item key="5" icon={<GrUserManager />} title="Staff Management">
-          <Menu.Item key="5" onClick={() => setSelectedKey("staff-management")}>
-            Quản lí nhân viên
-          </Menu.Item>
+        <Menu.Item
+          key="5"
+          icon={<GrUserManager />}
+          onClick={() => setSelectedKey("staff-management")}
+        >
+          Quản lí nhân viên
         </Menu.Item>
         <Menu.Item
           key="6"
