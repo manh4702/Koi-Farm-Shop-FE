@@ -14,7 +14,7 @@ import {
   Popconfirm,
   message,
 } from "antd";
-import { EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined, SaveOutlined } from "@ant-design/icons";
 
 const { TabPane } = Tabs;
 
@@ -229,77 +229,106 @@ const CustomerManagement = () => {
               }}
               onFinish={onFinish}
             >
-              <Form.Item
-                label="Tên Tài Khoản"
-                name="username"
-                rules={[
-                  { required: true, message: "Vui lòng nhập tên tài khoản" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Họ và Tên"
-                name="fullName"
-                rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Ngày Tháng Năm Sinh"
-                name="dob"
-                rules={[{ required: true, message: "Vui lòng nhập ngày sinh" }]}
-              >
-                <Input type="date" />
-              </Form.Item>
-              <Form.Item
-                label="Số Điện Thoại"
-                name="phone"
-                rules={[
-                  { required: true, message: "Vui lòng nhập số điện thoại" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                    message: "Vui lòng nhập email hợp lệ",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Địa Chỉ"
-                name="address"
-                rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Tên Tài Khoản"
+                    name="username"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập tên tài khoản",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Họ và Tên"
+                    name="fullName"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập họ và tên" },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Ngày Tháng Năm Sinh"
+                    name="dob"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập ngày sinh" },
+                    ]}
+                  >
+                    <Input type="date" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Số Điện Thoại"
+                    name="phone"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập số điện thoại",
+                      },
+                      {
+                        len: 10,
+                        message: "Số điện thoại phải có đúng 10 chữ số",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="number"
+                      onInput={(e) => {
+                        e.target.value = e.target.value.slice(0, 10);
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        type: "email",
+                        message: "Vui lòng nhập email hợp lệ",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Địa Chỉ"
+                    name="address"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập địa chỉ" },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item style={{ textAlign: "right" }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ marginRight: "10px", marginTop: "10px" }}
+                >
+                  <SaveOutlined />
                   Lưu
                 </Button>
+                <Popconfirm
+                  title="Bạn có chắc chắn muốn xóa khách hàng này không?"
+                  onConfirm={handleDelete}
+                  okText="Có"
+                  cancelText="Không"
+                >
+                  <Button type="primary" ghost style={{ marginTop: "10px", color: "red", border: '1px solid red' }}>
+                  <DeleteOutlined style={{ color: "red" }} />Xóa
+                  </Button>
+                </Popconfirm>
               </Form.Item>
             </Form>
-
-            <div style={{ textAlign: "right" }}>
-              <Popconfirm
-                title="Bạn có chắc chắn muốn xóa khách hàng này không?"
-                onConfirm={handleDelete}
-                okText="Có"
-                cancelText="Không"
-              >
-                <Button type="primary" ghost style={{ marginTop: "10px" }}>
-                  Xóa
-                </Button>
-              </Popconfirm>
-            </div>
           </Modal>
         )}
 
@@ -308,25 +337,32 @@ const CustomerManagement = () => {
             <Card title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Hồ Sơ Khách Hàng" key="1">
-                  <h3>Thông Tin</h3>
-                  <p>
-                    <strong>Họ và Tên:</strong> {selectedCustomer.fullName}
-                  </p>
-                  <p>
-                    <strong>Ngày Sinh:</strong> {selectedCustomer.dob}
-                  </p>
-                  <p>
-                    <strong>Số Điện Thoại:</strong> {selectedCustomer.phone}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {selectedCustomer.email}
-                  </p>
-                  <p>
-                    <strong>Địa Chỉ:</strong> {selectedCustomer.address}
-                  </p>
-                  <p>
-                    <strong>Tích Điểm:</strong> {selectedCustomer.points}
-                  </p>
+                  <h3 style={{ fontWeight: "bold", fontSize: "20px", margin: "-10px 0 10px 0" }}>Thông Tin</h3>
+
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <p>
+                        <strong>Họ và Tên:</strong> {selectedCustomer.fullName}
+                      </p>
+                      <p>
+                        <strong>Ngày Sinh:</strong> {selectedCustomer.dob}
+                      </p>
+                      <p>
+                        <strong>Số Điện Thoại:</strong> {selectedCustomer.phone}
+                      </p>
+                    </Col>
+                    <Col span={12}>
+                      <p>
+                        <strong>Email:</strong> {selectedCustomer.email}
+                      </p>
+                      <p>
+                        <strong>Địa Chỉ:</strong> {selectedCustomer.address}
+                      </p>
+                      <p>
+                        <strong>Tích Điểm:</strong> {selectedCustomer.points}
+                      </p>
+                    </Col>
+                  </Row>
                 </TabPane>
                 <TabPane tab="Lịch Sử Đơn Hàng" key="2">
                   <Table
