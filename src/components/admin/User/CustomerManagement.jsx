@@ -13,8 +13,18 @@ import {
   Card,
   Popconfirm,
   message,
+  Dropdown,
+  Menu,
 } from "antd";
-import { DeleteOutlined, EditOutlined, EyeOutlined, SaveOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  SaveOutlined,
+  DownOutlined,
+  MoreOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 
 const { TabPane } = Tabs;
 
@@ -142,12 +152,17 @@ const CustomerManagement = () => {
     handleCancel();
   };
 
-  const handleDelete = () => {
-    setCustomers((prev) =>
-      prev.filter((customer) => customer.key !== editCustomer.key)
-    );
-    message.success("Đã xóa khách hàng thành công");
-    handleCancel();
+  const handleDelete = (keyToDelete) => {
+    Modal.confirm({
+      title: "Xác nhận xoá",
+      content: "Bạn có chắc chắn muốn xóa khách hàng này?",
+      onOk() {
+        setCustomers((prevCustomers) =>
+          prevCustomers.filter((customer, index) => index !== keyToDelete)
+        );
+        message.success("Đã xóa khách hàng thành công");
+      },
+    });
   };
 
   const columns = [
@@ -176,22 +191,49 @@ const CustomerManagement = () => {
       dataIndex: "points",
     },
     {
-      title: "Hành Động",
+      // title: "Hành Động",
+      title: <SettingOutlined />,
       key: "action",
-      render: (_, record) => (
-        <>
+      render: (_, record, index) => {
+        const menu = (
+          <Menu>
+            <Menu.Item
+              key="edit"
+              icon={<EditOutlined />}
+              onClick={() => handleEdit(record)}
+            >
+              Sửa
+            </Menu.Item>
+            <Menu.Item
+              key="view"
+              icon={<EyeOutlined />}
+              onClick={() => handleView(record)}
+            >
+              Xem
+            </Menu.Item>
+            <Menu.Item
+              key="delete"
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(index)}
+            >
+              Xóa
+            </Menu.Item>
+          </Menu>
+        );
+
+        return (
           <Space size="middle">
-            <Button type="primary" onClick={() => handleEdit(record)}>
-              <EditOutlined /> Sửa
-            </Button>
+            <Dropdown overlay={menu} placement="bottomLeft">
+              <Button
+                type="ghost"
+                style={{  paddingLeft: 0 }}
+              >
+                <MoreOutlined />
+              </Button>
+            </Dropdown>
           </Space>
-          <Space size="middle">
-            <Button type="ghost" onClick={() => handleView(record)}>
-              <EyeOutlined />
-            </Button>
-          </Space>
-        </>
-      ),
+        );
+      },
     },
   ];
 
@@ -317,16 +359,26 @@ const CustomerManagement = () => {
                   <SaveOutlined />
                   Lưu
                 </Button>
-                <Popconfirm
+                {/* <Popconfirm
                   title="Bạn có chắc chắn muốn xóa khách hàng này không?"
                   onConfirm={handleDelete}
                   okText="Có"
                   cancelText="Không"
                 >
-                  <Button type="primary" ghost style={{ marginTop: "10px", color: "red", border: '1px solid red' }}>
-                  <DeleteOutlined style={{ color: "red" }} />Xóa
+                  <Button
+                    type="primary"
+                    ghost
+                    style={{
+                      marginTop: "10px",
+                      color: "white",
+                      backgroundColor: "red",
+                      border: "1px solid red",
+                    }}
+                  >
+                    <DeleteOutlined />
+                    Xóa
                   </Button>
-                </Popconfirm>
+                </Popconfirm> */}
               </Form.Item>
             </Form>
           </Modal>
@@ -337,7 +389,15 @@ const CustomerManagement = () => {
             <Card title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Hồ Sơ Khách Hàng" key="1">
-                  <h3 style={{ fontWeight: "bold", fontSize: "20px", margin: "-10px 0 10px 0" }}>Thông Tin</h3>
+                  <h3
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      margin: "-10px 0 10px 0",
+                    }}
+                  >
+                    Thông Tin
+                  </h3>
 
                   <Row gutter={16}>
                     <Col span={12}>
