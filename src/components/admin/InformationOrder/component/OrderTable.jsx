@@ -48,6 +48,7 @@ const OrderTable = ({ orders, showModal, handleCancelOrder }) => {
               ? "red"
               : "geekblue"
           }
+          style={{ width: "80px", textAlign: "center" }}
         >
           {status}
         </Tag>
@@ -66,11 +67,11 @@ const OrderTable = ({ orders, showModal, handleCancelOrder }) => {
         <div>
           {record.status === "Pending" && (
             <>
-              <Tooltip title="Chấp nhận và In">
+              <Tooltip title="Chấp nhận đơn hàng">
                 <Button
                   icon={<CheckOutlined />}
                   onClick={() => showModal(record)}
-                  style={{ marginRight: 8 }}
+                  style={{ marginRight: 8, color: "green", border: '1px solid green' }}
                 />
               </Tooltip>
               <Tooltip title="Hủy đơn hàng">
