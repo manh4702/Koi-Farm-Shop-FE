@@ -10,6 +10,7 @@ import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
 import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
+import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 
 const { Content, Footer } = Layout;
 
@@ -30,7 +31,8 @@ const AdminDashboard = () => {
         return <OrderTracking />;
       case "staff-management":
         return <StaffManagement />;
-
+      case "blog-management":
+        return <BlogManagement />;
       default:
         return <DashboardContent />;
     }
@@ -48,8 +50,8 @@ const AdminDashboard = () => {
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
-              <Breadcrumb.Item>Order Management</Breadcrumb.Item>
-            )}
+                <Breadcrumb.Item>Order Management</Breadcrumb.Item>
+              )}
             {selectedKey === "dashboard" && (
               <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
             )}

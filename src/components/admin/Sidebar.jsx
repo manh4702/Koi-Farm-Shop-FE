@@ -10,7 +10,7 @@ import {
 import Logo from "../../assets/logo.jpg";
 import { GiCirclingFish } from "react-icons/gi";
 import { GrUserManager } from "react-icons/gr";
-
+import { GrBlog } from "react-icons/gr";
 const { SubMenu } = Menu;
 
 const Sidebar = ({ setSelectedKey }) => {
@@ -85,6 +85,13 @@ const Sidebar = ({ setSelectedKey }) => {
         </Menu.Item>
         <Menu.Item
           key="6"
+          icon={<GrBlog />}
+          onClick={() => setSelectedKey("blog-management")}
+        >
+          Quản lý tin tức
+        </Menu.Item>
+        <Menu.Item
+          key="7"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
