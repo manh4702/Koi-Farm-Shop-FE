@@ -6,6 +6,7 @@ import {
   UserOutlined,
   SettingOutlined,
   ShoppingCartOutlined,
+  TagsFilled,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
 import { GiCirclingFish } from "react-icons/gi";
@@ -85,6 +86,13 @@ const Sidebar = ({ setSelectedKey }) => {
         </Menu.Item>
         <Menu.Item
           key="6"
+          icon={<TagsFilled />}
+          onClick={() => setSelectedKey("promotion-management")}
+        >
+          Quản lí khuyến mãi
+        </Menu.Item>
+        <Menu.Item
+          key=""
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
