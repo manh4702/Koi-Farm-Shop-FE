@@ -28,9 +28,6 @@ const ManagerDashboard = () => {
                 return <OrderList />;
             case "order-tracking":
                 return <OrderTracking />;
-            case "staff-management":
-                return <StaffManagement />;
-
             default:
                 return <DashboardContent />;
         }
