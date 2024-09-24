@@ -12,6 +12,7 @@ import CustomerManagement from "../components/admin/User/CustomerManagement";
 import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
+import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
 
 const { Content, Footer } = Layout;
 
@@ -36,6 +37,8 @@ const AdminDashboard = () => {
         return <BlogManagement />;
       case "FAQ-management":
         return <FAQManagement />;
+      case "promotion-management":
+        return <PromotionManagement />;
       default:
         return <DashboardContent />;
     }

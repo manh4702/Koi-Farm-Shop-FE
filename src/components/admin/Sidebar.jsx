@@ -6,11 +6,8 @@ import {
   UserOutlined,
   SettingOutlined,
   ShoppingCartOutlined,
-<<<<<<< HEAD
-  QuestionCircleOutlined
-=======
-  TagsFilled,
->>>>>>> origin/main
+  QuestionCircleOutlined,
+  TagsFilled
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
 import { GiCirclingFish } from "react-icons/gi";
@@ -102,18 +99,14 @@ function Sidebar({ setSelectedKey }) {
           Quản lý tin tức
         </Menu.Item>
         <Menu.Item
-<<<<<<< HEAD
-          key="7"
+          key="8"
           icon={<QuestionCircleOutlined />}
           onClick={() => setSelectedKey("FAQ-management")}
         >
           FAQ
         </Menu.Item>
         <Menu.Item
-          key="8"
-=======
-          key=""
->>>>>>> origin/main
+          key="9"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >

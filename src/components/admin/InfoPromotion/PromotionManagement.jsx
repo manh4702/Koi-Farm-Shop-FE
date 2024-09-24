@@ -65,7 +65,7 @@ const PromotionManagement = () => {
         Thêm Chương Trình
       </Button>
       <Table columns={columns} dataSource={promotions} style={{ marginTop: 20 }} />
-      
+
       <Modal
         title={selectedPromotion ? 'Chỉnh Sửa Chương Trình' : 'Thêm Chương Trình'}
         visible={isModalVisible}
