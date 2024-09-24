@@ -11,48 +11,18 @@ import {
   Row,
   Col,
   Select,
-  Menu,
-  Dropdown,
 } from "antd";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import {
   DeleteOutlined,
   EditOutlined,
-  MoreOutlined,
   SaveOutlined,
-  SettingOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
 
 const FishInfo = () => {
   // State to manage fish data
   const [data, setData] = useState([
-    {
-      key: "1",
-      name: "Cá Betta",
-      origin: "Thái Lan",
-      gender: "Đực",
-      age: "1 năm",
-      size: "5 cm",
-      breed: "Betta splendens",
-      temperament: "Hòa đồng",
-      foodPerDay: "2 viên",
-      screeningRate: "95%",
-      image: "https://via.placeholder.com/50",
-    },
-    {
-      key: "1",
-      name: "Cá Betta",
-      origin: "Thái Lan",
-      gender: "Đực",
-      age: "1 năm",
-      size: "5 cm",
-      breed: "Betta splendens",
-      temperament: "Hòa đồng",
-      foodPerDay: "2 viên",
-      screeningRate: "95%",
-      image: "https://via.placeholder.com/50",
-    },
     {
       key: "1",
       name: "Cá Betta",
@@ -77,6 +47,7 @@ const FishInfo = () => {
 
   const onFinish = (values) => {
     if (editFish) {
+      // Update fish information
       const updatedFish = {
         ...editFish,
         ...values,
@@ -87,6 +58,7 @@ const FishInfo = () => {
       );
       message.success("Cập nhật cá thành công!");
     } else {
+      // Add new fish
       const newFish = {
         key: (data.length + 1).toString(),
         image: imageUrl,
@@ -100,13 +72,13 @@ const FishInfo = () => {
     setIsModalVisible(false);
   };
 
-  const handleDelete = (keyToDelete) => {
+  const handleDelete = (key) => {
     Modal.confirm({
       title: "Xác nhận xoá",
       content: "Bạn có chắc chắn muốn xoá thông tin cá này?",
       onOk() {
-        setData((prevData) => prevData.filter((fish, index) => index !== keyToDelete));
-        message.success("Đã xóa thành công!");
+        setData(data.filter((fish) => fish.key !== key));
+        message.success("Đã xóa cá thành công!");
       },
     });
   };
@@ -175,38 +147,22 @@ const FishInfo = () => {
       dataIndex: "screeningRate",
     },
     {
-      title: <SettingOutlined />,
+      title: "Hành động",
       key: "action",
-      render: (_, record, index) => {
-        const menu = (
-          <Menu>
-            <Menu.Item
-              key="edit"
-              icon={<EditOutlined />}
-              onClick={() => handleUpdate(record)} // Chú ý sử dụng handleUpdate ở đây
-            >
-              Sửa
-            </Menu.Item>
-            <Menu.Item
-              key="delete"
-              icon={<DeleteOutlined />}
-              onClick={() => handleDelete(index)}
-            >
-              Xóa
-            </Menu.Item>
-          </Menu>
-        );
-
-        return (
-          <Space size="middle">
-            <Dropdown overlay={menu} placement="bottomLeft">
-              <Button type="ghost" style={{ paddingLeft: 0 }}>
-                <MoreOutlined />
-              </Button>
-            </Dropdown>
-          </Space>
-        );
-      },
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            type="primary"
+            onClick={() => handleUpdate(record)}
+            icon={<EditOutlined />}
+          >
+            Sửa
+          </Button>
+          <Button type="danger" onClick={() => handleDelete(record.key)}>
+            <DeleteOutlined style={{ color: "red" }} />
+          </Button>
+        </Space>
+      ),
     },
   ];
 
