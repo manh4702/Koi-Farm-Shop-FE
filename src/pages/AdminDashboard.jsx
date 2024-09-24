@@ -11,6 +11,7 @@ import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
 import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
+import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 
 const { Content, Footer } = Layout;
 
@@ -33,6 +34,8 @@ const AdminDashboard = () => {
         return <StaffManagement />;
       case "blog-management":
         return <BlogManagement />;
+      case "FAQ-management":
+        return <FAQManagement />;
       default:
         return <DashboardContent />;
     }

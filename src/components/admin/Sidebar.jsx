@@ -6,6 +6,7 @@ import {
   UserOutlined,
   SettingOutlined,
   ShoppingCartOutlined,
+  QuestionCircleOutlined
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
 import { GiCirclingFish } from "react-icons/gi";
@@ -13,7 +14,7 @@ import { GrUserManager } from "react-icons/gr";
 import { GrBlog } from "react-icons/gr";
 const { SubMenu } = Menu;
 
-const Sidebar = ({ setSelectedKey }) => {
+function Sidebar({ setSelectedKey }) {
   return (
     <div className="logo" style={{ height: "100%" }}>
       <div style={{ textAlign: "center", padding: "20px 0 0" }}>
@@ -26,8 +27,7 @@ const Sidebar = ({ setSelectedKey }) => {
             borderRadius: "50%",
             objectFit: "cover",
             display: "inline-block",
-          }}
-        />
+          }} />
       </div>
       <p
         style={{
@@ -92,6 +92,13 @@ const Sidebar = ({ setSelectedKey }) => {
         </Menu.Item>
         <Menu.Item
           key="7"
+          icon={<QuestionCircleOutlined />}
+          onClick={() => setSelectedKey("FAQ-management")}
+        >
+          FAQ
+        </Menu.Item>
+        <Menu.Item
+          key="8"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
@@ -100,6 +107,6 @@ const Sidebar = ({ setSelectedKey }) => {
       </Menu>
     </div>
   );
-};
+}
 
 export default Sidebar;
