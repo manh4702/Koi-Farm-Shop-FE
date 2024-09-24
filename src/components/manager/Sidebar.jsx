@@ -10,7 +10,7 @@ import {
 import Logo from "../../assets/logo.jpg";
 import { GiCirclingFish } from "react-icons/gi";
 import { GrUserManager } from "react-icons/gr";
-import { GrBlog } from "react-icons/gr";
+
 const { SubMenu } = Menu;
 
 const Sidebar = ({ setSelectedKey }) => {
@@ -38,7 +38,7 @@ const Sidebar = ({ setSelectedKey }) => {
           padding: "0 0 20px",
         }}
       >
-        Admin
+        MANAGER
       </p>
 
       <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
@@ -76,22 +76,13 @@ const Sidebar = ({ setSelectedKey }) => {
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
-        <Menu.Item
-          key="5"
-          icon={<GrUserManager />}
-          onClick={() => setSelectedKey("staff-management")}
-        >
-          Quản lí nhân viên
+        <Menu.Item key="5" icon={<GrUserManager />} title="Staff Management">
+          <Menu.Item key="5" onClick={() => setSelectedKey("staff-management")}>
+            Quản lí nhân viên
+          </Menu.Item>
         </Menu.Item>
         <Menu.Item
           key="6"
-          icon={<GrBlog />}
-          onClick={() => setSelectedKey("blog-management")}
-        >
-          Quản lý tin tức
-        </Menu.Item>
-        <Menu.Item
-          key="7"
           icon={<SettingOutlined />}
           onClick={() => setSelectedKey("settings")}
         >
