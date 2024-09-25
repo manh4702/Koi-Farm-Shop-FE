@@ -13,6 +13,7 @@ import StaffManagement from "../components/admin/StaffManagement/StaffManagement
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
+import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 
 const { Content, Footer } = Layout;
 
@@ -39,6 +40,8 @@ const AdminDashboard = () => {
         return <FAQManagement />;
       case "promotion-management":
         return <PromotionManagement />;
+      case "consignment-management":
+        return <ConsignmentManagement />;
       default:
         return <DashboardContent />;
     }
@@ -56,8 +59,8 @@ const AdminDashboard = () => {
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
-                <Breadcrumb.Item>Order Management</Breadcrumb.Item>
-              )}
+              <Breadcrumb.Item>Order Management</Breadcrumb.Item>
+            )}
             {selectedKey === "dashboard" && (
               <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
             )}
@@ -74,7 +77,9 @@ const AdminDashboard = () => {
           {/* <DashboardContent /> */}
           {renderContent()}
         </Content>
-        <Footer style={{ textAlign: "center", padding: "15px 0" }}>Admin Dashboard ©2024</Footer>
+        <Footer style={{ textAlign: "center", padding: "15px 0" }}>
+          Admin Dashboard ©2024
+        </Footer>
       </Layout>
     </Layout>
   );
