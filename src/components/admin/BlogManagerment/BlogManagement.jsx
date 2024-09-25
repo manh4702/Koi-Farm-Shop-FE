@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, Input, Space } from "antd";
 
 const BlogManagement = () => {
@@ -18,10 +18,40 @@ const BlogManagement = () => {
             date: "2021-09-02",
             content: "This is the content of the second blog post.",
         },
+        {
+            key: "3",
+            title: "Third Blog Post",
+            author: "Charlie Brown",
+            date: "2021-09-03",
+            content: "This is the content of the third blog post.",
+        },
+        {
+            key: "4",
+            title: "Fourth Blog Post",
+            author: "Diana Prince",
+            date: "2021-09-04",
+            content: "This is the content of the fourth blog post.",
+        },
+        {
+            key: "5",
+            title: "Fifth Blog Post",
+            author: "Ethan Hunt",
+            date: "2021-09-05",
+            content: "This is the content of the fifth blog post.",
+        },
     ]);
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredBlogs, setFilteredBlogs] = useState(blogs);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedBlog, setSelectedBlog] = useState(null);
+
+    useEffect(() => {
+        const results = blogs.filter(blog =>
+            blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredBlogs(results);
+    }, [searchTerm, blogs]);
 
     const handleEdit = (blog) => {
         setSelectedBlog(blog);
@@ -57,19 +87,19 @@ const BlogManagement = () => {
 
     const columns = [
         {
-            title: "Title",
+            title: "Tiêu đề",
             dataIndex: "title",
         },
         {
-            title: "Author",
+            title: "Tác giả",
             dataIndex: "author",
         },
         {
-            title: "Date",
+            title: "Thời điểm",
             dataIndex: "date",
         },
         {
-            title: "Content",
+            title: "Nội dung",
             dataIndex: "content",
         },
         {
@@ -77,9 +107,9 @@ const BlogManagement = () => {
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Edit</Button>
+                    <Button onClick={() => handleEdit(record)}>Chỉnh sửa</Button>
                     <Button onClick={() => handleDelete(record.key)} danger>
-                        Delete
+                        Xóa
                     </Button>
                 </Space>
             ),
@@ -97,7 +127,14 @@ const BlogManagement = () => {
                     marginBottom: "20px",
                 }}
             >
-                <div></div> {/* Empty div for alignment */}
+                <Input.Search
+                    placeholder="Tìm blog theo tên"
+                    enterButton="Tìm kiếm"
+                    size="large"
+                    style={{ width: "300px" }}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    allowClear
+                />
                 <Button
                     type="primary"
                     onClick={() => {
@@ -105,10 +142,10 @@ const BlogManagement = () => {
                         setIsModalVisible(true);
                     }}
                 >
-                    Add Blog
+                    Thêm blog
                 </Button>
             </div>
-            <Table columns={columns} dataSource={blogs} />
+            <Table columns={columns} dataSource={filteredBlogs} />
 
             <Modal
                 title={selectedBlog ? "Edit Blog" : "Add Blog"}
