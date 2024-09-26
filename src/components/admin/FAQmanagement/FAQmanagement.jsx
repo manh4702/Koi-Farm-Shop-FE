@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input, Space } from "antd";
+import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
+
+const { Panel } = Collapse;
 
 const FAQManagement = () => {
     // State to manage FAQ data
@@ -136,6 +138,15 @@ const FAQManagement = () => {
                 </Button>
             </div>
             <Table columns={columns} dataSource={filteredFAQs} />
+
+            <h2 style={{ marginTop: "40px" }}>Xem trước FAQ</h2>
+            <Collapse>
+                {filteredFAQs.map((faq) => (
+                    <Panel header={faq.question} key={faq.key}>
+                        <p>{faq.answer}</p>
+                    </Panel>
+                ))}
+            </Collapse>
 
             <Modal
                 title={selectedFAQ ? "Cập nhật câu hỏi" : "Thêm câu hỏi mới"}
