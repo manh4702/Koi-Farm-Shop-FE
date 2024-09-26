@@ -1,83 +1,65 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input, Space } from "antd";
+import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
 
-const BlogManagement = () => {
-    // State to manage blog data
-    const [blogs, setBlogs] = useState([
+const { Panel } = Collapse;
+
+const FishSellingFAQManagement = () => {
+    // State to manage FAQ data
+    const [faqs, setFaqs] = useState([
         {
             key: "1",
-            title: "First Blog Post",
-            author: "Alice Smith",
-            date: "2021-09-01",
-            content: "This is the content of the first blog post.",
+            question: "What types of fish do you sell?",
+            answer: "We sell a variety of fresh and saltwater fish, including salmon, tuna, cod, trout, and many more.",
         },
         {
             key: "2",
-            title: "Second Blog Post",
-            author: "Bob Johnson",
-            date: "2021-09-02",
-            content: "This is the content of the second blog post.",
+            question: "How do you ensure the freshness of your fish?",
+            answer: "We source our fish daily from local fishermen and use advanced refrigeration techniques to maintain freshness.",
         },
         {
             key: "3",
-            title: "Third Blog Post",
-            author: "Charlie Brown",
-            date: "2021-09-03",
-            content: "This is the content of the third blog post.",
-        },
-        {
-            key: "4",
-            title: "Fourth Blog Post",
-            author: "Diana Prince",
-            date: "2021-09-04",
-            content: "This is the content of the fourth blog post.",
-        },
-        {
-            key: "5",
-            title: "Fifth Blog Post",
-            author: "Ethan Hunt",
-            date: "2021-09-05",
-            content: "This is the content of the fifth blog post.",
+            question: "Do you offer delivery services?",
+            answer: "Yes, we offer local delivery within a 20-mile radius. For larger orders, we can arrange shipping.",
         },
     ]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredBlogs, setFilteredBlogs] = useState(blogs);
+    const [filteredFaqs, setFilteredFaqs] = useState(faqs);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedBlog, setSelectedBlog] = useState(null);
+    const [selectedFaq, setSelectedFaq] = useState(null);
 
     useEffect(() => {
-        const results = blogs.filter(blog =>
-            blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const results = faqs.filter(faq =>
+            faq.question.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredBlogs(results);
-    }, [searchTerm, blogs]);
+        setFilteredFaqs(results);
+    }, [searchTerm, faqs]);
 
-    const handleEdit = (blog) => {
-        setSelectedBlog(blog);
+    const handleEdit = (faq) => {
+        setSelectedFaq(faq);
         setIsModalVisible(true);
     };
 
     const handleDelete = (key) => {
-        setBlogs(blogs.filter((blog) => blog.key !== key));
+        setFaqs(faqs.filter((faq) => faq.key !== key));
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setSelectedBlog(null);
+        setSelectedFaq(null);
     };
 
     const onFinish = (values) => {
-        if (selectedBlog) {
-            // Update existing blog
-            setBlogs((prev) =>
-                prev.map((blog) =>
-                    blog.key === selectedBlog.key ? { ...blog, ...values } : blog
+        if (selectedFaq) {
+            // Update existing FAQ
+            setFaqs((prev) =>
+                prev.map((faq) =>
+                    faq.key === selectedFaq.key ? { ...faq, ...values } : faq
                 )
             );
         } else {
-            // Add new blog
-            setBlogs((prev) => [
+            // Add new FAQ
+            setFaqs((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
             ]);
@@ -87,29 +69,21 @@ const BlogManagement = () => {
 
     const columns = [
         {
-            title: "Tiêu đề",
-            dataIndex: "title",
+            title: "Question",
+            dataIndex: "question",
         },
         {
-            title: "Tác giả",
-            dataIndex: "author",
-        },
-        {
-            title: "Thời điểm",
-            dataIndex: "date",
-        },
-        {
-            title: "Nội dung",
-            dataIndex: "content",
+            title: "Answer",
+            dataIndex: "answer",
         },
         {
             title: "Action",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Chỉnh sửa</Button>
+                    <Button onClick={() => handleEdit(record)}>Edit</Button>
                     <Button onClick={() => handleDelete(record.key)} danger>
-                        Xóa
+                        Delete
                     </Button>
                 </Space>
             ),
@@ -118,7 +92,7 @@ const BlogManagement = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Blog Management</h1>
+            <h1>Fish Selling FAQ Management</h1>
             <div
                 style={{
                     display: "flex",
@@ -128,8 +102,8 @@ const BlogManagement = () => {
                 }}
             >
                 <Input.Search
-                    placeholder="Tìm blog theo tên"
-                    enterButton="Tìm kiếm"
+                    placeholder="Search Fish Selling FAQs"
+                    enterButton="Search"
                     size="large"
                     style={{ width: "300px" }}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -138,17 +112,26 @@ const BlogManagement = () => {
                 <Button
                     type="primary"
                     onClick={() => {
-                        setSelectedBlog(null);
+                        setSelectedFaq(null);
                         setIsModalVisible(true);
                     }}
                 >
-                    Thêm blog
+                    Add Fish Selling FAQ
                 </Button>
             </div>
-            <Table columns={columns} dataSource={filteredBlogs} />
+            <Table columns={columns} dataSource={filteredFaqs} />
+
+            <h2 style={{ marginTop: "40px" }}>Fish Selling FAQ Preview</h2>
+            <Collapse>
+                {filteredFaqs.map((faq) => (
+                    <Panel header={faq.question} key={faq.key}>
+                        <p>{faq.answer}</p>
+                    </Panel>
+                ))}
+            </Collapse>
 
             <Modal
-                title={selectedBlog ? "Edit Blog" : "Add Blog"}
+                title={selectedFaq ? "Edit Fish Selling FAQ" : "Add Fish Selling FAQ"}
                 visible={isModalVisible}
                 footer={null}
                 onCancel={handleCancel}
@@ -156,44 +139,28 @@ const BlogManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        title: selectedBlog ? selectedBlog.title : "",
-                        author: selectedBlog ? selectedBlog.author : "",
-                        date: selectedBlog ? selectedBlog.date : "",
-                        content: selectedBlog ? selectedBlog.content : "",
+                        question: selectedFaq ? selectedFaq.question : "",
+                        answer: selectedFaq ? selectedFaq.answer : "",
                     }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Title"
-                        name="title"
-                        rules={[{ required: true, message: "Please enter the title" }]}
+                        label="Question"
+                        name="question"
+                        rules={[{ required: true, message: "Please enter the question about fish selling" }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Author"
-                        name="author"
-                        rules={[{ required: true, message: "Please enter the author" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Date"
-                        name="date"
-                        rules={[{ required: true, message: "Please enter the date" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Content"
-                        name="content"
-                        rules={[{ required: true, message: "Please enter the content" }]}
+                        label="Answer"
+                        name="answer"
+                        rules={[{ required: true, message: "Please enter the answer about fish selling" }]}
                     >
                         <Input.TextArea />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            {selectedBlog ? "Update Blog" : "Add Blog"}
+                            {selectedFaq ? "Update Fish Selling FAQ" : "Add Fish Selling FAQ"}
                         </Button>
                     </Form.Item>
                 </Form>
@@ -202,4 +169,4 @@ const BlogManagement = () => {
     );
 };
 
-export default BlogManagement;
+export default FishSellingFAQManagement;
