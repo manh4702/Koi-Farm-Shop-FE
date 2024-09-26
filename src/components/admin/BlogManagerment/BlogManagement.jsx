@@ -3,63 +3,66 @@ import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
 
 const { Panel } = Collapse;
 
-const FishSellingFAQManagement = () => {
-    // State to manage FAQ data
-    const [faqs, setFaqs] = useState([
+const BlogManagement = () => {
+    // State để quản lý dữ liệu bài viết blog
+    const [blogPosts, setBlogPosts] = useState([
         {
             key: "1",
-            question: "What types of fish do you sell?",
-            answer: "We sell a variety of fresh and saltwater fish, including salmon, tuna, cod, trout, and many more.",
+            title: "Giới thiệu về việc nuôi cá Koi",
+            content: "Nuôi cá Koi là một sở thích thú vị kết hợp giữa vẻ đẹp của thiên nhiên và nghệ thuật nuôi trồng thủy sản. Bài viết này sẽ đề cập đến những kiến thức cơ bản về việc thiết lập hồ cá Koi, chọn cá Koi khỏe mạnh và duy trì điều kiện nước tối ưu.",
+            author: "Nguyễn Văn A",
         },
         {
             key: "2",
-            question: "How do you ensure the freshness of your fish?",
-            answer: "We source our fish daily from local fishermen and use advanced refrigeration techniques to maintain freshness.",
+            title: "Chăm sóc cá Koi theo mùa",
+            content: "Khi các mùa thay đổi, nhu cầu của cá Koi cũng thay đổi theo. Tìm hiểu về các yêu cầu chăm sóc cụ thể cho cá Koi trong mùa xuân, hè, thu và đông để đảm bảo cá của bạn luôn khỏe mạnh và tươi sáng quanh năm.",
+            author: "Nguyễn Văn B",
         },
         {
             key: "3",
-            question: "Do you offer delivery services?",
-            answer: "Yes, we offer local delivery within a 20-mile radius. For larger orders, we can arrange shipping.",
+            title: "Các loại cá Koi và đặc điểm của chúng",
+            content: "Khám phá thế giới đa dạng của các loại cá Koi. Từ loại Kohaku cổ điển đến loại Showa thanh lịch, bài viết này khám phá các mẫu, màu sắc và đặc điểm riêng biệt của các giống cá Koi phổ biến.",
+            author: "Nguyễn Văn C",
         },
     ]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredFaqs, setFilteredFaqs] = useState(faqs);
+    const [filteredBlogPosts, setFilteredBlogPosts] = useState(blogPosts);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedFaq, setSelectedFaq] = useState(null);
+    const [selectedBlogPost, setSelectedBlogPost] = useState(null);
 
     useEffect(() => {
-        const results = faqs.filter(faq =>
-            faq.question.toLowerCase().includes(searchTerm.toLowerCase())
+        const results = blogPosts.filter(post =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredFaqs(results);
-    }, [searchTerm, faqs]);
+        setFilteredBlogPosts(results);
+    }, [searchTerm, blogPosts]);
 
-    const handleEdit = (faq) => {
-        setSelectedFaq(faq);
+    const handleEdit = (post) => {
+        setSelectedBlogPost(post);
         setIsModalVisible(true);
     };
 
     const handleDelete = (key) => {
-        setFaqs(faqs.filter((faq) => faq.key !== key));
+        setBlogPosts(blogPosts.filter((post) => post.key !== key));
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setSelectedFaq(null);
+        setSelectedBlogPost(null);
     };
 
     const onFinish = (values) => {
-        if (selectedFaq) {
-            // Update existing FAQ
-            setFaqs((prev) =>
-                prev.map((faq) =>
-                    faq.key === selectedFaq.key ? { ...faq, ...values } : faq
+        if (selectedBlogPost) {
+            // Cập nhật bài viết blog hiện có
+            setBlogPosts((prev) =>
+                prev.map((post) =>
+                    post.key === selectedBlogPost.key ? { ...post, ...values } : post
                 )
             );
         } else {
-            // Add new FAQ
-            setFaqs((prev) => [
+            // Thêm bài viết blog mới
+            setBlogPosts((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
             ]);
@@ -69,21 +72,26 @@ const FishSellingFAQManagement = () => {
 
     const columns = [
         {
-            title: "Question",
-            dataIndex: "question",
+            title: "Tiêu đề",
+            dataIndex: "title",
         },
         {
-            title: "Answer",
-            dataIndex: "answer",
+            title: "Nội dung",
+            dataIndex: "content",
+            ellipsis: true,
         },
         {
-            title: "Action",
+            title: "Tác giả",
+            dataIndex: "author",
+        },
+        {
+            title: "Hành động",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Edit</Button>
+                    <Button onClick={() => handleEdit(record)}>Sửa</Button>
                     <Button onClick={() => handleDelete(record.key)} danger>
-                        Delete
+                        Xóa
                     </Button>
                 </Space>
             ),
@@ -92,7 +100,7 @@ const FishSellingFAQManagement = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Fish Selling FAQ Management</h1>
+            <h1>Quản lý Blog</h1>
             <div
                 style={{
                     display: "flex",
@@ -102,8 +110,8 @@ const FishSellingFAQManagement = () => {
                 }}
             >
                 <Input.Search
-                    placeholder="Search Fish Selling FAQs"
-                    enterButton="Search"
+                    placeholder="Tìm kiếm bài viết"
+                    enterButton="Tìm kiếm"
                     size="large"
                     style={{ width: "300px" }}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -112,26 +120,27 @@ const FishSellingFAQManagement = () => {
                 <Button
                     type="primary"
                     onClick={() => {
-                        setSelectedFaq(null);
+                        setSelectedBlogPost(null);
                         setIsModalVisible(true);
                     }}
                 >
-                    Add Fish Selling FAQ
+                    Thêm bài viết
                 </Button>
             </div>
-            <Table columns={columns} dataSource={filteredFaqs} />
+            <Table columns={columns} dataSource={filteredBlogPosts} />
 
-            <h2 style={{ marginTop: "40px" }}>Fish Selling FAQ Preview</h2>
+            <h2 style={{ marginTop: "40px" }}>Xem trước bài viết</h2>
             <Collapse>
-                {filteredFaqs.map((faq) => (
-                    <Panel header={faq.question} key={faq.key}>
-                        <p>{faq.answer}</p>
+                {filteredBlogPosts.map((post) => (
+                    <Panel header={post.title} key={post.key}>
+                        <p>{post.content}</p>
+                        <p>Tác giả: {post.author}</p>
                     </Panel>
                 ))}
             </Collapse>
 
             <Modal
-                title={selectedFaq ? "Edit Fish Selling FAQ" : "Add Fish Selling FAQ"}
+                title={selectedBlogPost ? "Sửa bài viết" : "Thêm bài viết"}
                 visible={isModalVisible}
                 footer={null}
                 onCancel={handleCancel}
@@ -139,28 +148,36 @@ const FishSellingFAQManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        question: selectedFaq ? selectedFaq.question : "",
-                        answer: selectedFaq ? selectedFaq.answer : "",
+                        title: selectedBlogPost ? selectedBlogPost.title : "",
+                        content: selectedBlogPost ? selectedBlogPost.content : "",
+                        author: selectedBlogPost ? selectedBlogPost.author : "",
                     }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Question"
-                        name="question"
-                        rules={[{ required: true, message: "Please enter the question about fish selling" }]}
+                        label="Tiêu đề"
+                        name="title"
+                        rules={[{ required: true, message: "Vui lòng nhập tiêu đề bài viết" }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Answer"
-                        name="answer"
-                        rules={[{ required: true, message: "Please enter the answer about fish selling" }]}
+                        label="Nội dung"
+                        name="content"
+                        rules={[{ required: true, message: "Vui lòng nhập nội dung bài viết" }]}
                     >
-                        <Input.TextArea />
+                        <Input.TextArea rows={6} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Tác giả"
+                        name="author"
+                        rules={[{ required: true, message: "Vui lòng nhập tên tác giả" }]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            {selectedFaq ? "Update Fish Selling FAQ" : "Add Fish Selling FAQ"}
+                            {selectedBlogPost ? "Cập nhật bài viết" : "Thêm bài viết"}
                         </Button>
                     </Form.Item>
                 </Form>
@@ -169,4 +186,4 @@ const FishSellingFAQManagement = () => {
     );
 };
 
-export default FishSellingFAQManagement;
+export default BlogManagement;
