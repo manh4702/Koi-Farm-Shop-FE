@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import {
-  Table,
-  Button,
-  Form,
-  Input,
-  Select,
-  Modal,
-  message,
-  DatePicker,
-} from "antd";
+import { Table, Button, Form, Input, Select, Modal, DatePicker } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import moment from "moment"; // Thêm moment để xử lý thời gian
 
 const { Option } = Select;
 
@@ -20,20 +12,21 @@ const ConsignmentManagement = () => {
       name: "Kohaku",
       type: "Koi Nhật Bản",
       price: 1000000,
+      owner: "Nguyen Van A",
       receivedDate: new Date("2023-12-10").toISOString(),
       returnDate: new Date("2024-01-10").toISOString(),
-      status: "Chờ duyệt",
+      purpose: "Cá gửi để bán",
     },
     {
       id: 2,
       name: "Shousui",
       type: "Koi Trung Quốc",
       price: 500000,
+      owner: "Tran Van B",
       receivedDate: new Date("2023-12-15").toISOString(),
       returnDate: new Date("2024-01-15").toISOString(),
-      status: "Chấp nhận",
+      purpose: "Cá gửi chăm sóc",
     },
-    // ... thêm data fake khác
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,15 +34,10 @@ const ConsignmentManagement = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentConsignment, setCurrentConsignment] = useState(null);
 
-  // Hàm thêm cá Koi
-  const handleAdd = () => {
-    setIsAdding(true);
-  };
-
-  // Hàm cập nhật cá Koi
+  // Hàm mở modal sửa dữ liệu
   const handleEdit = (record) => {
-    setCurrentConsignment(record);
-    setIsEditing(true);
+    setCurrentConsignment(record); // Lưu bản ghi hiện tại vào state
+    setIsEditing(true); // Hiển thị modal
   };
 
   // Hàm xóa cá Koi
@@ -58,40 +46,28 @@ const ConsignmentManagement = () => {
     setConsignments(updatedConsignments);
   };
 
-  // Form thêm/sửa cá Koi
+  // Hàm submit khi nhấn "Cập nhật"
   const handleFormSubmit = (values) => {
-    // ... (lấy giá trị của form values)
+    const receivedDate = values.receivedDate.toISOString();
+    const returnDate = values.returnDate.toISOString();
 
-    // Chuyển đổi ngày nhập và ngày trả sang Date
-    const receivedDate = new Date(values.receivedDate);
-    const returnDate = new Date(values.returnDate);
-
-    // Tạo đối tượng cá Koi mới
-    const newConsignment = {
-      id: isEditing ? currentConsignment.id : Date.now(), // Sử dụng Date.now() để tạo ID tạm thời
-      name: values.name,
-      type: values.type,
-      price: values.price,
-      receivedDate: receivedDate.toISOString(),
-      returnDate: returnDate.toISOString(),
-      status: isEditing ? currentConsignment.status : "Chờ duyệt", // Giả định trạng thái mới là 'Chờ duyệt'
+    // Tạo đối tượng cập nhật với các giá trị đã thay đổi
+    const updatedConsignment = {
+      ...currentConsignment, // Giữ nguyên các giá trị cũ
+      price: values.price, // Cập nhật giá mới
+      receivedDate, // Cập nhật ngày nhập
+      returnDate, // Cập nhật ngày trả
+      purpose: values.purpose, // Cập nhật mục đích ký gửi
     };
 
-    // Thêm hoặc cập nhật data fake
-    if (isEditing) {
-      // Cập nhật data fake
-      const updatedConsignments = consignments.map((item) =>
-        item.id === currentConsignment.id ? newConsignment : item
-      );
-      setConsignments(updatedConsignments);
-    } else {
-      // Thêm data fake
-      setConsignments([...consignments, newConsignment]);
-    }
+    // Cập nhật lại danh sách
+    const updatedConsignments = consignments.map((item) =>
+      item.id === currentConsignment.id ? updatedConsignment : item
+    );
+    setConsignments(updatedConsignments);
 
     // Đóng modal
     setIsEditing(false);
-    setIsAdding(false);
   };
 
   const columns = [
@@ -99,6 +75,11 @@ const ConsignmentManagement = () => {
       title: "Tên cá Koi",
       dataIndex: "name",
       key: "name",
+    },
+    {
+      title: "Chủ sở hữu",
+      dataIndex: "owner",
+      key: "owner",
     },
     {
       title: "Loại cá",
@@ -109,6 +90,7 @@ const ConsignmentManagement = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
+      render: (text) => `${text.toLocaleString()} VND`, // Hiển thị giá với định dạng tiền tệ
     },
     {
       title: "Ngày nhập",
@@ -123,9 +105,9 @@ const ConsignmentManagement = () => {
       render: (text) => (text ? new Date(text).toLocaleDateString() : ""),
     },
     {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
+      title: "Mục đích ký gửi",
+      dataIndex: "purpose",
+      key: "purpose",
     },
     {
       title: "Hành động",
@@ -146,64 +128,79 @@ const ConsignmentManagement = () => {
   return (
     <div>
       <h1>Quản lý Ký gửi</h1>
-      <Button type="primary" onClick={handleAdd}>
-        Thêm cá Koi
-      </Button>
       <Table
         columns={columns}
         dataSource={consignments}
         loading={isLoading}
         pagination={{ pageSize: 10 }}
       />
-      {/* Modal thêm/sửa cá Koi */}
+
+      {/* Modal sửa cá Koi */}
       <Modal
-        title={isEditing ? "Sửa cá Koi" : "Thêm cá Koi"}
-        visible={isAdding || isEditing}
-        onCancel={() => {
-          setIsAdding(false);
-          setIsEditing(false);
-        }}
+        title="Sửa cá Koi"
+        visible={isEditing}
+        onCancel={() => setIsEditing(false)}
         footer={null}
       >
         <Form
-          name="consignment-form"
+          name="edit-consignment"
           onFinish={handleFormSubmit}
-          initialValues={isEditing ? currentConsignment : {}}
+          initialValues={{
+            price: currentConsignment?.price,
+            receivedDate: currentConsignment
+              ? moment(currentConsignment.receivedDate)
+              : null,
+            returnDate: currentConsignment
+              ? moment(currentConsignment.returnDate)
+              : null,
+            purpose: currentConsignment?.purpose,
+          }}
         >
+          {/* Trường chỉnh sửa Giá */}
           <Form.Item
-            name="name"
-            label="Tên cá Koi"
-            rules={[{ required: true }]}
+            name="price"
+            label="Giá"
+            rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
           >
-            <Input />
+            <Input
+              type="number"
+              addonAfter="VND" // Thêm "VND" vào sau giá trị
+            />
           </Form.Item>
-          <Form.Item name="type" label="Loại cá" rules={[{ required: true }]}>
-            <Select>
-              <Option value="Koi Nhật Bản">Koi Nhật Bản</Option>
-              <Option value="Koi Trung Quốc">Koi Trung Quốc</Option>
-              <Option value="Koi Việt Nam">Koi Việt Nam</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name="price" label="Giá" rules={[{ required: true }]}>
-            <Input type="number" />
-          </Form.Item>
+
+          {/* Trường chỉnh sửa Ngày nhập */}
           <Form.Item
             name="receivedDate"
             label="Ngày nhập"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Vui lòng chọn ngày nhập!" }]}
           >
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
+
+          {/* Trường chỉnh sửa Ngày trả */}
           <Form.Item
             name="returnDate"
             label="Ngày trả"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Vui lòng chọn ngày trả!" }]}
           >
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
+
+          {/* Trường chỉnh sửa Mục đích ký gửi */}
+          <Form.Item
+            name="purpose"
+            label="Mục đích ký gửi"
+            rules={[{ required: true, message: "Vui lòng chọn mục đích!" }]}
+          >
+            <Select>
+              <Option value="Cá gửi chăm sóc">Cá gửi chăm sóc</Option>
+              <Option value="Cá gửi để bán">Cá gửi để bán</Option>
+            </Select>
+          </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              {isEditing ? "Lưu" : "Thêm"}
+              Cập nhật
             </Button>
           </Form.Item>
         </Form>
