@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Input, Select, Modal, DatePicker } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-import moment from "moment"; // Thêm moment để xử lý thời gian
-import { MdOutlineSettings } from "react-icons/md"; // Import icon
-const { Option } = Select;
+import { Table, Button, Space, Menu, Dropdown } from "antd";
+import { DeleteOutlined, EditOutlined, MoreOutlined, SettingOutlined, PlusOutlined } from "@ant-design/icons";
+import UpdateConsignment from "./UpdateConsignment";
+import AddConsignment from "./AddConsignmentModal";
 
 const ConsignmentManagement = () => {
   const [consignments, setConsignments] = useState([
@@ -29,45 +28,59 @@ const ConsignmentManagement = () => {
     },
   ]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentConsignment, setCurrentConsignment] = useState(null);
+  const [isAdding, setIsAdding] = useState(false); 
+  const [isEditing, setIsEditing] = useState(false); 
+  const [currentConsignment, setCurrentConsignment] = useState(null); 
 
-  // Hàm mở modal sửa dữ liệu
+  // Hàm mở modal sửa
   const handleEdit = (record) => {
-    setCurrentConsignment(record); // Lưu bản ghi hiện tại vào state
-    setIsEditing(true); // Hiển thị modal
+    setCurrentConsignment(record);
+    setIsEditing(true);
   };
 
-  // Hàm xóa cá Koi
+  // Hàm mở modal thêm
+  const handleAdd = () => {
+    setIsAdding(true);
+  };
+
+  // Hàm xóa đơn ký gửi
   const handleDelete = (id) => {
-    const updatedConsignments = consignments.filter((item) => item.id !== id);
-    setConsignments(updatedConsignments);
+    setConsignments(consignments.filter((item) => item.id !== id));
   };
 
-  // Hàm submit khi nhấn "Cập nhật"
-  const handleFormSubmit = (values) => {
-    const receivedDate = values.receivedDate.toISOString();
-    const returnDate = values.returnDate.toISOString();
-
-    // Tạo đối tượng cập nhật với các giá trị đã thay đổi
+  // Hàm cập nhật đơn ký gửi
+  const handleUpdateSubmit = (values) => {
     const updatedConsignment = {
-      ...currentConsignment, // Giữ nguyên các giá trị cũ
-      price: values.price, // Cập nhật giá mới
-      receivedDate, // Cập nhật ngày nhập
-      returnDate, // Cập nhật ngày trả
-      purpose: values.purpose, // Cập nhật mục đích ký gửi
+      ...currentConsignment,
+      price: values.price,
+      receivedDate: values.receivedDate.toISOString(),
+      returnDate: values.returnDate.toISOString(),
+      purpose: values.purpose,
     };
 
-    // Cập nhật lại danh sách
-    const updatedConsignments = consignments.map((item) =>
-      item.id === currentConsignment.id ? updatedConsignment : item
+    setConsignments(
+      consignments.map((item) =>
+        item.id === currentConsignment.id ? updatedConsignment : item
+      )
     );
-    setConsignments(updatedConsignments);
-
-    // Đóng modal
     setIsEditing(false);
+  };
+
+  // Hàm thêm đơn ký gửi mới
+  const handleAddSubmit = (values) => {
+    const newConsignment = {
+      id: consignments.length + 1,
+      name: values.name,
+      type: values.type,
+      price: values.price,
+      owner: values.owner,
+      receivedDate: values.receivedDate.toISOString(),
+      returnDate: values.returnDate.toISOString(),
+      purpose: values.purpose,
+    };
+
+    setConsignments([...consignments, newConsignment]);
+    setIsAdding(false);
   };
 
   const columns = [
@@ -90,7 +103,7 @@ const ConsignmentManagement = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text.toLocaleString()} VND`, // Hiển thị giá với định dạng tiền tệ
+      render: (text) => `${text.toLocaleString()} VND`,
     },
     {
       title: "Ngày nhập",
@@ -110,101 +123,57 @@ const ConsignmentManagement = () => {
       key: "purpose",
     },
     {
-      title: <MdOutlineSettings />,
+      title: <SettingOutlined />,
       key: "action",
-      render: (record) => (
-        <div>
-          <Button type="primary" onClick={() => handleEdit(record)}>
-            Sửa
-          </Button>
-          <Button type="danger" onClick={() => handleDelete(record.id)}>
-            <DeleteOutlined />
-          </Button>
-        </div>
-      ),
+      render: (_, record) => {
+        const menu = (
+          <Menu>
+            <Menu.Item key="edit" icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+              Sửa
+            </Menu.Item>
+            <Menu.Item key="delete" icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>
+              Xóa
+            </Menu.Item>
+          </Menu>
+        );
+
+        return (
+          <Space size="middle">
+            <Dropdown overlay={menu} placement="bottomLeft">
+              <Button type="ghost" style={{ paddingLeft: 0 }}>
+                <MoreOutlined />
+              </Button>
+            </Dropdown>
+          </Space>
+        );
+      },
     },
   ];
 
   return (
     <div>
-      <h1 style={{ fontSize: "20px" }}>Quản lý ký gửi</h1>
-      <Table
-        columns={columns}
-        dataSource={consignments}
-        loading={isLoading}
-        pagination={{ pageSize: 20 }}
+      <h1 style={{ fontSize: "20px", marginBottom: "20px" }}>Quản lý ký gửi</h1>
+
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} style={{ marginBottom: 16, float: "right" }}>
+        Thêm đơn ký gửi
+      </Button>
+
+      <Table columns={columns} dataSource={consignments} pagination={{ pageSize: 20 }} />
+
+      {/* Modal thêm đơn ký gửi */}
+      <AddConsignment
+        visible={isAdding}
+        onCancel={() => setIsAdding(false)}
+        onSubmit={handleAddSubmit}
       />
 
-      {/* Modal sửa cá Koi */}
-      <Modal
-        title="Sửa cá Koi"
+      {/* Modal sửa đơn ký gửi */}
+      <UpdateConsignment
         visible={isEditing}
         onCancel={() => setIsEditing(false)}
-        footer={null}
-      >
-        <Form
-          name="edit-consignment"
-          onFinish={handleFormSubmit}
-          initialValues={{
-            price: currentConsignment?.price,
-            receivedDate: currentConsignment
-              ? moment(currentConsignment.receivedDate)
-              : null,
-            returnDate: currentConsignment
-              ? moment(currentConsignment.returnDate)
-              : null,
-            purpose: currentConsignment?.purpose,
-          }}
-        >
-          {/* Trường chỉnh sửa Giá */}
-          <Form.Item
-            name="price"
-            label="Giá"
-            rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
-          >
-            <Input
-              type="number"
-              addonAfter="VND" // Thêm "VND" vào sau giá trị
-            />
-          </Form.Item>
-
-          {/* Trường chỉnh sửa Ngày nhập */}
-          <Form.Item
-            name="receivedDate"
-            label="Ngày nhập"
-            rules={[{ required: true, message: "Vui lòng chọn ngày nhập!" }]}
-          >
-            <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
-
-          {/* Trường chỉnh sửa Ngày trả */}
-          <Form.Item
-            name="returnDate"
-            label="Ngày trả"
-            rules={[{ required: true, message: "Vui lòng chọn ngày trả!" }]}
-          >
-            <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
-
-          {/* Trường chỉnh sửa Mục đích ký gửi */}
-          <Form.Item
-            name="purpose"
-            label="Mục đích ký gửi"
-            rules={[{ required: true, message: "Vui lòng chọn mục đích!" }]}
-          >
-            <Select>
-              <Option value="Cá gửi chăm sóc">Cá gửi chăm sóc</Option>
-              <Option value="Cá gửi để bán">Cá gửi để bán</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Cập nhật
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+        onSubmit={handleUpdateSubmit}
+        consignment={currentConsignment}
+      />
     </div>
   );
 };
