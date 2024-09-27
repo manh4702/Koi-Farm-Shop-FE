@@ -21,11 +21,9 @@ import {
   MoreOutlined,
   SaveOutlined,
   SettingOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 
 const FishInfo = () => {
-  // State to manage fish data
   const [data, setData] = useState([
     {
       key: "1",
@@ -96,6 +94,7 @@ const FishInfo = () => {
   ]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [viewFish, setViewFish] = useState(null); // State cho modal "Xem chi tiết"
   const [editFish, setEditFish] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -144,6 +143,11 @@ const FishInfo = () => {
     form.setFieldsValue(fish);
     setImageUrl(fish.image);
     setIsModalVisible(true);
+  };
+
+  // Hàm để mở modal "Xem chi tiết"
+  const handleViewDetails = (fish) => {
+    setViewFish(fish);
   };
 
   const columns = [
@@ -196,6 +200,12 @@ const FishInfo = () => {
       render: (_, record, index) => {
         const menu = (
           <Menu>
+            <Menu.Item
+              key="view"
+              onClick={() => handleViewDetails(record)} // Mở modal "Xem chi tiết"
+            >
+              Xem chi tiết
+            </Menu.Item>
             <Menu.Item
               key="edit"
               icon={<EditOutlined />}
@@ -265,131 +275,52 @@ const FishInfo = () => {
           )}
         />
       </div>
+
+      {/* Modal "Xem chi tiết" */}
       <Modal
-        title={editFish ? "Chỉnh sửa thông tin cá" : "Thêm cá mới"}
-        visible={isModalVisible}
+        title="Thông tin chi tiết cá"
+        visible={!!viewFish}
         footer={null}
-        onCancel={() => {
-          setIsModalVisible(false);
-          form.resetFields();
-          setEditFish(null);
-          setImageUrl("");
-        }}
+        onCancel={() => setViewFish(null)}
       >
-        <Form form={form} onFinish={onFinish} layout="vertical">
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Tên"
-                name="name"
-                rules={[{ required: true, message: "Vui lòng nhập tên cá" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Nguồn gốc xuất xứ"
-                name="origin"
-                rules={[{ required: true, message: "Vui lòng chọn nguồn gốc" }]}
-              >
-                <Select>
-                  <Select.Option value="Trung Quốc">Trung Quốc</Select.Option>
-                  <Select.Option value="Việt Nam">Việt Nam</Select.Option>
-                  <Select.Option value="Nhật Bản">Nhật Bản</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Giới tính"
-                name="gender"
-                rules={[{ required: true, message: "Vui lòng chọn giới tính" }]}
-              >
-                <Select>
-                  <Select.Option value="Male">Đực</Select.Option>
-                  <Select.Option value="Female">Cái</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Tuổi"
-                name="age"
-                rules={[{ required: true, message: "Vui lòng nhập tuổi cá" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Kích thước"
-                name="size"
-                rules={[
-                  { required: true, message: "Vui lòng nhập kích thước cá" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Giống"
-                name="breed"
-                rules={[{ required: true, message: "Vui lòng chọn giống cá" }]}
-              >
-                <Select>
-                  <Select.Option value="Betta splendens">
-                    Betta splendens
-                  </Select.Option>
-                  <Select.Option value="Koi">Koi</Select.Option>
-                  <Select.Option value="Guppy">Guppy</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Lượng thức ăn/ngày (gram)"
-                name="foodPerDay"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng nhập lượng thức ăn/ngày",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Tỉ lệ sàng lọc"
-                name="screeningRate"
-                rules={[
-                  { required: true, message: "Vui lòng nhập tỉ lệ sàng lọc" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Ảnh (Link URL)"
-                name="image"
-                rules={[{ required: !editFish, message: "Vui lòng thêm ảnh" }]}
-              >
-                <Input
-                  placeholder="Nhập URL ảnh"
-                  onChange={(e) => setImageUrl(e.target.value)}
-                />
-              </Form.Item>
-              {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt="uploaded fish"
-                  style={{
-                    marginTop: "10px",
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                  }}
-                />
-              )}
-              <Form.Item style={{ textAlign: "right", marginTop: "54px" }}>
-                <Button type="primary" htmlType="submit">
-                  <SaveOutlined />
-                  {editFish ? "Cập Nhật" : "Thêm Cá"}
-                </Button>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+        {viewFish && (
+          <>
+            <img
+              src={viewFish.image}
+              alt={viewFish.name}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "cover",
+                marginBottom: "20px",
+              }}
+            />
+            <p>
+              <strong>Tên:</strong> {viewFish.name}
+            </p>
+            <p>
+              <strong>Nguồn gốc xuất xứ:</strong> {viewFish.origin}
+            </p>
+            <p>
+              <strong>Giới tính:</strong> {viewFish.gender}
+            </p>
+            <p>
+              <strong>Tuổi:</strong> {viewFish.age}
+            </p>
+            <p>
+              <strong>Kích thước:</strong> {viewFish.size}
+            </p>
+            <p>
+              <strong>Giống:</strong> {viewFish.breed}
+            </p>
+            <p>
+              <strong>Lượng thức ăn/ngày (gram):</strong> {viewFish.foodPerDay}
+            </p>
+            <p>
+              <strong>Tỉ lệ sàng lọc:</strong> {viewFish.screeningRate}
+            </p>
+          </>
+        )}
       </Modal>
     </>
   );
