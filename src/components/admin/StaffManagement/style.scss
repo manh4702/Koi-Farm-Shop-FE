@@ -1,0 +1,57 @@
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.nav {
+  cursor: pointer;
+  font-size: 20px;
+}
+.datetime {
+  font-size: 18px;
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.week-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.week-cell {
+  text-align: center;
+  font-weight: bold;
+}
+.day-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.day-cell {
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+}
+.day-cell--in-month {
+  background-color: #f0f0f0;
+}
+.day-cell--faded {
+  background-color: #e0e0e0;
+}
+.bg-green-500 {
+  background-color: #22c55e; /* Màu xanh lá */
+}
+.bg-gray-400 {
+  background-color: #9ca3af; /* Màu xám */
+}
