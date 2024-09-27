@@ -1,83 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input, Space } from "antd";
+import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
+
+const { Panel } = Collapse;
 
 const BlogManagement = () => {
-    // State to manage blog data
-    const [blogs, setBlogs] = useState([
+    // State để quản lý dữ liệu bài viết blog
+    const [blogPosts, setBlogPosts] = useState([
         {
             key: "1",
-            title: "First Blog Post",
-            author: "Alice Smith",
-            date: "2021-09-01",
-            content: "This is the content of the first blog post.",
+            title: "Giới thiệu về việc nuôi cá Koi",
+            content: "Nuôi cá Koi là một sở thích thú vị kết hợp giữa vẻ đẹp của thiên nhiên và nghệ thuật nuôi trồng thủy sản. Bài viết này sẽ đề cập đến những kiến thức cơ bản về việc thiết lập hồ cá Koi, chọn cá Koi khỏe mạnh và duy trì điều kiện nước tối ưu.",
+            author: "Nguyễn Văn A",
         },
         {
             key: "2",
-            title: "Second Blog Post",
-            author: "Bob Johnson",
-            date: "2021-09-02",
-            content: "This is the content of the second blog post.",
+            title: "Chăm sóc cá Koi theo mùa",
+            content: "Khi các mùa thay đổi, nhu cầu của cá Koi cũng thay đổi theo. Tìm hiểu về các yêu cầu chăm sóc cụ thể cho cá Koi trong mùa xuân, hè, thu và đông để đảm bảo cá của bạn luôn khỏe mạnh và tươi sáng quanh năm.",
+            author: "Nguyễn Văn B",
         },
         {
             key: "3",
-            title: "Third Blog Post",
-            author: "Charlie Brown",
-            date: "2021-09-03",
-            content: "This is the content of the third blog post.",
-        },
-        {
-            key: "4",
-            title: "Fourth Blog Post",
-            author: "Diana Prince",
-            date: "2021-09-04",
-            content: "This is the content of the fourth blog post.",
-        },
-        {
-            key: "5",
-            title: "Fifth Blog Post",
-            author: "Ethan Hunt",
-            date: "2021-09-05",
-            content: "This is the content of the fifth blog post.",
+            title: "Các loại cá Koi và đặc điểm của chúng",
+            content: "Khám phá thế giới đa dạng của các loại cá Koi. Từ loại Kohaku cổ điển đến loại Showa thanh lịch, bài viết này khám phá các mẫu, màu sắc và đặc điểm riêng biệt của các giống cá Koi phổ biến.",
+            author: "Nguyễn Văn C",
         },
     ]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredBlogs, setFilteredBlogs] = useState(blogs);
+    const [filteredBlogPosts, setFilteredBlogPosts] = useState(blogPosts);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedBlog, setSelectedBlog] = useState(null);
+    const [selectedBlogPost, setSelectedBlogPost] = useState(null);
 
     useEffect(() => {
-        const results = blogs.filter(blog =>
-            blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const results = blogPosts.filter(post =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredBlogs(results);
-    }, [searchTerm, blogs]);
+        setFilteredBlogPosts(results);
+    }, [searchTerm, blogPosts]);
 
-    const handleEdit = (blog) => {
-        setSelectedBlog(blog);
+    const handleEdit = (post) => {
+        setSelectedBlogPost(post);
         setIsModalVisible(true);
     };
 
     const handleDelete = (key) => {
-        setBlogs(blogs.filter((blog) => blog.key !== key));
+        setBlogPosts(blogPosts.filter((post) => post.key !== key));
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setSelectedBlog(null);
+        setSelectedBlogPost(null);
     };
 
     const onFinish = (values) => {
-        if (selectedBlog) {
-            // Update existing blog
-            setBlogs((prev) =>
-                prev.map((blog) =>
-                    blog.key === selectedBlog.key ? { ...blog, ...values } : blog
+        if (selectedBlogPost) {
+            // Cập nhật bài viết blog hiện có
+            setBlogPosts((prev) =>
+                prev.map((post) =>
+                    post.key === selectedBlogPost.key ? { ...post, ...values } : post
                 )
             );
         } else {
-            // Add new blog
-            setBlogs((prev) => [
+            // Thêm bài viết blog mới
+            setBlogPosts((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
             ]);
@@ -91,23 +76,20 @@ const BlogManagement = () => {
             dataIndex: "title",
         },
         {
+            title: "Nội dung",
+            dataIndex: "content",
+            ellipsis: true,
+        },
+        {
             title: "Tác giả",
             dataIndex: "author",
         },
         {
-            title: "Thời điểm",
-            dataIndex: "date",
-        },
-        {
-            title: "Nội dung",
-            dataIndex: "content",
-        },
-        {
-            title: "Action",
+            title: "Hành động",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Chỉnh sửa</Button>
+                    <Button onClick={() => handleEdit(record)}>Sửa</Button>
                     <Button onClick={() => handleDelete(record.key)} danger>
                         Xóa
                     </Button>
@@ -118,7 +100,7 @@ const BlogManagement = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Blog Management</h1>
+            <h1>Quản lý Blog</h1>
             <div
                 style={{
                     display: "flex",
@@ -128,7 +110,7 @@ const BlogManagement = () => {
                 }}
             >
                 <Input.Search
-                    placeholder="Tìm blog theo tên"
+                    placeholder="Tìm kiếm bài viết"
                     enterButton="Tìm kiếm"
                     size="large"
                     style={{ width: "300px" }}
@@ -138,17 +120,27 @@ const BlogManagement = () => {
                 <Button
                     type="primary"
                     onClick={() => {
-                        setSelectedBlog(null);
+                        setSelectedBlogPost(null);
                         setIsModalVisible(true);
                     }}
                 >
-                    Thêm blog
+                    Thêm bài viết
                 </Button>
             </div>
-            <Table columns={columns} dataSource={filteredBlogs} />
+            <Table columns={columns} dataSource={filteredBlogPosts} />
+
+            <h2 style={{ marginTop: "40px" }}>Xem trước bài viết</h2>
+            <Collapse>
+                {filteredBlogPosts.map((post) => (
+                    <Panel header={post.title} key={post.key}>
+                        <p>{post.content}</p>
+                        <p>Tác giả: {post.author}</p>
+                    </Panel>
+                ))}
+            </Collapse>
 
             <Modal
-                title={selectedBlog ? "Edit Blog" : "Add Blog"}
+                title={selectedBlogPost ? "Sửa bài viết" : "Thêm bài viết"}
                 visible={isModalVisible}
                 footer={null}
                 onCancel={handleCancel}
@@ -156,44 +148,36 @@ const BlogManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        title: selectedBlog ? selectedBlog.title : "",
-                        author: selectedBlog ? selectedBlog.author : "",
-                        date: selectedBlog ? selectedBlog.date : "",
-                        content: selectedBlog ? selectedBlog.content : "",
+                        title: selectedBlogPost ? selectedBlogPost.title : "",
+                        content: selectedBlogPost ? selectedBlogPost.content : "",
+                        author: selectedBlogPost ? selectedBlogPost.author : "",
                     }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Title"
+                        label="Tiêu đề"
                         name="title"
-                        rules={[{ required: true, message: "Please enter the title" }]}
+                        rules={[{ required: true, message: "Vui lòng nhập tiêu đề bài viết" }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Author"
-                        name="author"
-                        rules={[{ required: true, message: "Please enter the author" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Date"
-                        name="date"
-                        rules={[{ required: true, message: "Please enter the date" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Content"
+                        label="Nội dung"
                         name="content"
-                        rules={[{ required: true, message: "Please enter the content" }]}
+                        rules={[{ required: true, message: "Vui lòng nhập nội dung bài viết" }]}
                     >
-                        <Input.TextArea />
+                        <Input.TextArea rows={6} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Tác giả"
+                        name="author"
+                        rules={[{ required: true, message: "Vui lòng nhập tên tác giả" }]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            {selectedBlog ? "Update Blog" : "Add Blog"}
+                            {selectedBlogPost ? "Cập nhật bài viết" : "Thêm bài viết"}
                         </Button>
                     </Form.Item>
                 </Form>
