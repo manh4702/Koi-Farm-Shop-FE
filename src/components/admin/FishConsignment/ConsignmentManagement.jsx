@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, Button, Form, Input, Select, Modal, DatePicker } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import moment from "moment"; // Thêm moment để xử lý thời gian
-
+import { MdOutlineSettings } from "react-icons/md"; // Import icon
 const { Option } = Select;
 
 const ConsignmentManagement = () => {
@@ -110,7 +110,7 @@ const ConsignmentManagement = () => {
       key: "purpose",
     },
     {
-      title: "Hành động",
+      title: <MdOutlineSettings />,
       key: "action",
       render: (record) => (
         <div>
@@ -127,12 +127,12 @@ const ConsignmentManagement = () => {
 
   return (
     <div>
-      <h1>Quản lý Ký gửi</h1>
+      <h1 style={{ fontSize: "20px" }}>Quản lý ký gửi</h1>
       <Table
         columns={columns}
         dataSource={consignments}
         loading={isLoading}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 20 }}
       />
 
       {/* Modal sửa cá Koi */}

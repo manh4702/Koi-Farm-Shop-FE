@@ -6,7 +6,6 @@ import {
   Form,
   Input,
   Modal,
-  Upload,
   message,
   Row,
   Col,
@@ -90,7 +89,6 @@ const FishInfo = () => {
       image:
         "https://th.bing.com/th/id/OIP.eBk5_laeQXvAe-rVaOGe2AHaE7?w=267&h=180&c=7&r=0&o=5&pid=1.7", // Hình ảnh đại diện
     },
-    // Thêm các mẫu dữ liệu khác...
   ]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -150,6 +148,21 @@ const FishInfo = () => {
     setViewFish(fish);
   };
 
+  // Hàm tìm kiếm theo nhiều trường
+  const filteredData = data.filter((fish) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return (
+      fish.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.origin.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.gender.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.age.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.size.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.breed.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.foodPerDay.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fish.screeningRate.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  });
+
   const columns = [
     {
       title: "Ảnh",
@@ -167,7 +180,7 @@ const FishInfo = () => {
       dataIndex: "name",
     },
     {
-      title: "Nguồn gốc xuất xứ",
+      title: "Nguồn gốc",
       dataIndex: "origin",
     },
     {
@@ -187,7 +200,7 @@ const FishInfo = () => {
       dataIndex: "breed",
     },
     {
-      title: "Lượng thức ăn/ngày (gram)",
+      title: "Lượng thức ăn/ngày",
       dataIndex: "foodPerDay",
     },
     {
@@ -248,7 +261,7 @@ const FishInfo = () => {
         }}
       >
         <Input.Search
-          placeholder="Tìm kiếm cá theo tên"
+          placeholder="Tìm kiếm"
           enterButton="Tìm kiếm"
           size="large"
           style={{ width: "300px" }}
@@ -268,12 +281,7 @@ const FishInfo = () => {
         </Button>
       </div>
       <div style={{ padding: "24px", background: "#fff" }}>
-        <Table
-          columns={columns}
-          dataSource={data.filter((fish) =>
-            fish.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )}
-        />
+        <Table columns={columns} dataSource={filteredData} />
       </div>
 
       {/* Modal "Xem chi tiết" */}
