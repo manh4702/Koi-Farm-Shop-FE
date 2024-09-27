@@ -29,42 +29,68 @@ const FishInfo = () => {
   const [data, setData] = useState([
     {
       key: "1",
-      name: "Cá Betta",
-      origin: "Thái Lan",
+      name: "Cá Koi Kohaku",
+      origin: "Nhật Bản",
       gender: "Đực",
-      age: "1 năm",
-      size: "5 cm",
-      breed: "Betta splendens",
-      temperament: "Hòa đồng",
-      foodPerDay: "2 viên",
+      age: "2 năm",
+      size: "30 cm",
+      breed: "Kohaku",
+      foodPerDay: "10 gram",
       screeningRate: "95%",
-      image: "https://via.placeholder.com/50",
+      image:
+        "https://www.bing.com/th?id=OIP.Ya3VaVVCB_Y_3Y-5KTaKTwHaGR&w=189&h=150&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2", // Hình ảnh đại diện
     },
     {
-      key: "1",
-      name: "Cá Betta",
-      origin: "Thái Lan",
-      gender: "Đực",
-      age: "1 năm",
-      size: "5 cm",
-      breed: "Betta splendens",
-      temperament: "Hòa đồng",
-      foodPerDay: "2 viên",
-      screeningRate: "95%",
-      image: "https://via.placeholder.com/50",
+      key: "2",
+      name: "Cá Koi Taisho Sanke",
+      origin: "Nhật Bản",
+      gender: "Cái",
+      age: "3 năm",
+      size: "40 cm",
+      breed: "Taisho Sanke",
+      foodPerDay: "12 gram",
+      screeningRate: "92%",
+      image:
+        "https://th.bing.com/th/id/OIP.vtcssOYbyaiGOuVEhsGP4wHaGT?w=203&h=180&c=7&r=0&o=5&pid=1.7", // Hình ảnh đại diện
     },
     {
-      key: "1",
-      name: "Cá Betta",
-      origin: "Thái Lan",
+      key: "3",
+      name: "Cá Koi Showa",
+      origin: "Nhật Bản",
       gender: "Đực",
-      age: "1 năm",
-      size: "5 cm",
-      breed: "Betta splendens",
-      temperament: "Hòa đồng",
-      foodPerDay: "2 viên",
-      screeningRate: "95%",
-      image: "https://via.placeholder.com/50",
+      age: "1.5 năm",
+      size: "35 cm",
+      breed: "Showa",
+      foodPerDay: "15 gram",
+      screeningRate: "94%",
+      image:
+        "https://www.bing.com/th?id=OIP.cpWRibJrzkJ3cCgFQza5FAHaNk&w=120&h=185&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2", // Hình ảnh đại diện
+    },
+    {
+      key: "4",
+      name: "Cá Koi Asagi",
+      origin: "Nhật Bản",
+      gender: "Cái",
+      age: "4 năm",
+      size: "45 cm",
+      breed: "Asagi",
+      foodPerDay: "18 gram",
+      screeningRate: "96%",
+      image:
+        "https://th.bing.com/th/id/OIP.lMX80zGUNsx9E1jOlIaNGgHaEK?w=312&h=180&c=7&r=0&o=5&pid=1.7", // Hình ảnh đại diện
+    },
+    {
+      key: "5",
+      name: "Cá Koi Shusui",
+      origin: "Nhật Bản",
+      gender: "Đực",
+      age: "2.5 năm",
+      size: "50 cm",
+      breed: "Shusui",
+      foodPerDay: "20 gram",
+      screeningRate: "90%",
+      image:
+        "https://th.bing.com/th/id/OIP.eBk5_laeQXvAe-rVaOGe2AHaE7?w=267&h=180&c=7&r=0&o=5&pid=1.7", // Hình ảnh đại diện
     },
     // Thêm các mẫu dữ liệu khác...
   ]);
@@ -105,7 +131,9 @@ const FishInfo = () => {
       title: "Xác nhận xoá",
       content: "Bạn có chắc chắn muốn xoá thông tin cá này?",
       onOk() {
-        setData((prevData) => prevData.filter((fish, index) => index !== keyToDelete));
+        setData((prevData) =>
+          prevData.filter((fish, index) => index !== keyToDelete)
+        );
         message.success("Đã xóa thành công!");
       },
     });
@@ -116,14 +144,6 @@ const FishInfo = () => {
     form.setFieldsValue(fish);
     setImageUrl(fish.image);
     setIsModalVisible(true);
-  };
-
-  const handleImageChange = (info) => {
-    if (info.file.status === "done") {
-      const reader = new FileReader();
-      reader.onload = (e) => setImageUrl(e.target.result);
-      reader.readAsDataURL(info.file.originFileObj);
-    }
   };
 
   const columns = [
@@ -163,11 +183,7 @@ const FishInfo = () => {
       dataIndex: "breed",
     },
     {
-      title: "Tính cách",
-      dataIndex: "temperament",
-    },
-    {
-      title: "Lượng thức ăn/ngày",
+      title: "Lượng thức ăn/ngày (gram)",
       dataIndex: "foodPerDay",
     },
     {
@@ -273,9 +289,13 @@ const FishInfo = () => {
               <Form.Item
                 label="Nguồn gốc xuất xứ"
                 name="origin"
-                rules={[{ required: true, message: "Vui lòng nhập nguồn gốc" }]}
+                rules={[{ required: true, message: "Vui lòng chọn nguồn gốc" }]}
               >
-                <Input />
+                <Select>
+                  <Select.Option value="Trung Quốc">Trung Quốc</Select.Option>
+                  <Select.Option value="Việt Nam">Việt Nam</Select.Option>
+                  <Select.Option value="Nhật Bản">Nhật Bản</Select.Option>
+                </Select>
               </Form.Item>
               <Form.Item
                 label="Giới tính"
@@ -308,21 +328,18 @@ const FishInfo = () => {
               <Form.Item
                 label="Giống"
                 name="breed"
-                rules={[{ required: true, message: "Vui lòng nhập giống cá" }]}
+                rules={[{ required: true, message: "Vui lòng chọn giống cá" }]}
               >
-                <Input />
+                <Select>
+                  <Select.Option value="Betta splendens">
+                    Betta splendens
+                  </Select.Option>
+                  <Select.Option value="Koi">Koi</Select.Option>
+                  <Select.Option value="Guppy">Guppy</Select.Option>
+                </Select>
               </Form.Item>
               <Form.Item
-                label="Tính cách"
-                name="temperament"
-                rules={[
-                  { required: true, message: "Vui lòng nhập tính cách cá" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Lượng thức ăn/ngày"
+                label="Lượng thức ăn/ngày (gram)"
                 name="foodPerDay"
                 rules={[
                   {
@@ -343,32 +360,27 @@ const FishInfo = () => {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Ảnh"
+                label="Ảnh (Link URL)"
                 name="image"
                 rules={[{ required: !editFish, message: "Vui lòng thêm ảnh" }]}
               >
-                <Upload
-                  name="image"
-                  listType="picture"
-                  showUploadList={false}
-                  beforeUpload={() => false}
-                  onChange={handleImageChange}
-                >
-                  <Button icon={<UploadOutlined />}>Chọn Ảnh</Button>
-                </Upload>
-                {imageUrl && (
-                  <img
-                    src={imageUrl}
-                    alt="uploaded fish"
-                    style={{
-                      marginTop: "10px",
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                    }}
-                  />
-                )}
+                <Input
+                  placeholder="Nhập URL ảnh"
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
               </Form.Item>
+              {imageUrl && (
+                <img
+                  src={imageUrl}
+                  alt="uploaded fish"
+                  style={{
+                    marginTop: "10px",
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
               <Form.Item style={{ textAlign: "right", marginTop: "54px" }}>
                 <Button type="primary" htmlType="submit">
                   <SaveOutlined />
