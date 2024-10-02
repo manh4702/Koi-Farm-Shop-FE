@@ -1,9 +1,10 @@
 // src/user/HomePage.jsx
-import React from 'react';
-import Header from '../components/user/Shared/Header';
-import Footer from '../components/user/Shared/Footer';
+import React from "react";
+import Header from "../components/user/Shared/Header";
+import Footer from "../components/user/Shared/Footer";
 // import ProductList from './Product/ProductList'; // Gọi ProductList để hiển thị danh sách sản phẩm
-import Search from '../components/user/Shared/Search'; // Nếu bạn muốn có ô tìm kiếm
+import Search from "../components/user/Shared/Search"; //
+import ZaloIcon from "../components/user/pages/ZaloIcon";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
         {/* <ProductList /> Hiển thị danh sách sản phẩm */}
       </main>
       <Footer />
+      <ZaloIcon />
     </div>
   );
 };
