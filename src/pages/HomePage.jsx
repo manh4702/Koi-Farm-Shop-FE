@@ -15,8 +15,9 @@ const HomePage = () => {
         <h1 className="text-2xl font-bold mb-4">Sản phẩm cá Koi</h1>
         {/* <ProductList /> Hiển thị danh sách sản phẩm */}
       </main>
-      <Footer />
       <ZaloIcon />
+
+      <Footer />
     </div>
   );
 };
