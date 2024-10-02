@@ -1,26 +1,49 @@
 // src/user/Shared/Footer.jsx
+import { Col, Row } from "antd";
 import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-8">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Cột Giới Thiệu Chung */}
-        <div>
-          <h3 className="font-bold mb-4">GIỚI THIỆU CHUNG</h3>
+    <footer
+      style={{ backgroundColor: "black", color: "white", padding: "2rem 0" }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "2rem",
+          justifyContent: "space-between",
+          padding: "1rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+            GIỚI THIỆU CHUNG
+          </h3>
           <img
             src="src/assets/logoKoi.png"
             alt="KoiFishLogo"
-            width="50%"
-            height="100"
-            className="mb-4"
+            style={{
+              width: "70%",
+              height: "70%",
+              marginBottom: "1rem",
+              marginLeft: "-37px",
+            }}
           />
         </div>
 
-        {/* Cột Thông Tin Tài Khoản */}
         <div>
-          <h3 className="font-bold mb-4">THÔNG TIN TÀI KHOẢN</h3>
-          <ul className="list-inside list-disc">
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+            THÔNG TIN TÀI KHOẢN
+          </h3>
+          <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
             <li>Danh sách các shop, cá nhân ký gửi cá Koi</li>
             <li>Đăng ký & Đăng nhập</li>
             <li>Mất mật khẩu</li>
@@ -29,10 +52,11 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Cột Dành Cho Người Yêu Thích Koi */}
         <div>
-          <h3 className="font-bold mb-4">DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI</h3>
-          <ul className="list-inside list-disc">
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+            DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI
+          </h3>
+          <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
             <li>Điều khoản mua hàng</li>
             <li>Hướng dẫn mua hàng</li>
             <li>Phương thức thanh toán</li>
@@ -44,10 +68,20 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="container mx-auto mb-1">
-        <h3 className="font-bold">BẢN ĐỒ & BẢN QUYỀN</h3>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "2rem auto 0 auto",
+            padding: "1rem",
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "2rem",
+          }}
+        >
           <div>
+            <h3 style={{ fontWeight: "bold" }}>BẢN ĐỒ & BẢN QUYỀN</h3>
+
             <p>
               Địa chỉ xem cá Koi: Lô E2a-7, Đường D1, Khu Công Nghệ Cao, Long
               Thạnh Mỹ, Hồ Chí Minh.
@@ -58,16 +92,23 @@ const Footer = () => {
             <p>Gmail: cakoistore.com</p>
             <p>Email: cakoistore.com</p>
           </div>
-          <div>
+          <div
+            style={{
+              height: "200px",
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "35px",
+            }}
+          >
             <iframe
               src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA4kGszgb6NL-qz4uDEcApxGKQpEXfchzI&q=Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Hồ Chí Minh 700000" // Thay bằng link nhúng Google Maps của bạn
               width="500px"
               height="100%"
-              marginLeft="10px"
               frameBorder="0"
               allowFullScreen=""
               aria-hidden="false"
               tabIndex="0"
+              style={{ borderRadius: "10px" }}
             ></iframe>
           </div>
         </div>
