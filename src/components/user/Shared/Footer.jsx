@@ -15,15 +15,6 @@ const Footer = () => {
             height="100"
             className="mb-4"
           />
-          {/* <p>
-            Địa chỉ xem cá Koi: Lô E2a-7, Đường D1, Khu Công Nghệ Cao, Long
-            Thạnh Mỹ, Hồ Chí Minh.
-          </p>
-          <p>(Ô tô ra vào thoải mái, đỗ xe trực tiếp tại trại 5000m²)</p>
-          <p>Tel: 036988088 - 0907832421 (Zalo)</p>
-          <p>Hotline: 036988088 - 0907832421</p>
-          <p>Gmail: cakoistore.com</p>
-          <p>Email: cakoistore.com</p> */}
         </div>
 
         {/* Cột Thông Tin Tài Khoản */}
@@ -70,8 +61,9 @@ const Footer = () => {
           <div>
             <iframe
               src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA4kGszgb6NL-qz4uDEcApxGKQpEXfchzI&q=Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Hồ Chí Minh 700000" // Thay bằng link nhúng Google Maps của bạn
-              width="100%"
+              width="500px"
               height="100%"
+              marginLeft="10px"
               frameBorder="0"
               allowFullScreen=""
               aria-hidden="false"

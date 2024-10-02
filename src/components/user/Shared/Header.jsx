@@ -14,15 +14,15 @@ const Header = () => {
       style={{ height: "200px", backgroundColor: "white", color: "black" }}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
+        <h1 className="text-xl font-bold" style={{ color: "red" }}>
           <PhoneOutlined /> 036988088 - 0907832421
         </h1>
         <div className="flex items-center space-x-2">
-          <Menu mode="horizontal" className="flex items-center">
+          <Menu mode="horizontal" className="flex items-center" style={{fontSize: "16px"}}>
             <Menu.Item key="login">
               <Link to="/login">Đăng Nhập</Link>
             </Menu.Item>
-            <span>/</span>
+            <span>|</span>
             <Menu.Item key="register">
               <Link to="/register">Đăng Ký</Link>
             </Menu.Item>
