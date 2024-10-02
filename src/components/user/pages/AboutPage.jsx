@@ -7,12 +7,6 @@ import ZaloIcon from "./ZaloIcon";
 const AboutPage = () => {
   return (
     <>
-      <>
-        <Header />
-        <div className="container mx-auto my-8">{/* Existing content */}</div>
-        <ZaloIcon />
-        <Footer />
-      </>
       <Header />
       <div className="container mx-auto my-8">
         <h1 className="text-4xl font-bold mb-4">
@@ -95,7 +89,7 @@ const AboutPage = () => {
           Email: cakoistore.com
         </p>
       </div>
-
+      <ZaloIcon />
       <Footer />
     </>
   );
