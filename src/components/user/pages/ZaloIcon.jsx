@@ -58,6 +58,7 @@ const ZaloIcon = () => {
       <AnimatedZaloButton
         className="fixed bottom-4 right-4 bg-blue-500 rounded-full p-3 cursor-pointer shadow-lg hover:bg-blue-600 transition-colors duration-300"
         onClick={openZalo}
+        style={{ marginBottom: "100px" }}
       >
         <AnimatedZaloIcon className="text-white text-3xl" />
       </AnimatedZaloButton>
