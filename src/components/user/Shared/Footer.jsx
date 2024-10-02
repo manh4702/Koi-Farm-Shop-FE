@@ -5,7 +5,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer
-      style={{ backgroundColor: "#808080", color: "white", padding: "2rem 0" }}
+      style={{ backgroundColor: "black", color: "white", padding: "2rem 0" }}
     >
       <div
         style={{
