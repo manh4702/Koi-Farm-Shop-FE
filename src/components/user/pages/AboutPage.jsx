@@ -2,10 +2,17 @@
 import React from "react";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+import ZaloIcon from "./ZaloIcon";
 
 const AboutPage = () => {
   return (
     <>
+      <>
+        <Header />
+        <div className="container mx-auto my-8">{/* Existing content */}</div>
+        <ZaloIcon />
+        <Footer />
+      </>
       <Header />
       <div className="container mx-auto my-8">
         <h1 className="text-4xl font-bold mb-4">
