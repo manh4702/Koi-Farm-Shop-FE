@@ -8,28 +8,38 @@ const FAQManagement = () => {
     const [faqs, setFaqs] = useState([
         {
             key: "1",
-            question: "What is your return policy?",
-            answer: "We offer a 30-day return policy for all unused items.",
+            title: "Tiêu đề 1",
+            name: "Họ và Tên 1",
+            email: "email1@example.com",
+            phone: "0123456789",
         },
         {
             key: "2",
-            question: "How long does shipping take?",
-            answer: "Shipping typically takes 3-5 business days within the continental US.",
+            title: "Tiêu đề 2",
+            name: "Họ và Tên 2",
+            email: "email2@example.com",
+            phone: "0987654321",
         },
         {
             key: "3",
-            question: "Do you offer international shipping?",
-            answer: "Yes, we offer international shipping to select countries. Please check our shipping page for more details.",
+            title: "Tiêu đề 3",
+            name: "Họ và Tên 3",
+            email: "email3@example.com",
+            phone: "0123456789",
         },
         {
             key: "4",
-            question: "What payment methods do you accept?",
-            answer: "We accept major credit cards, PayPal, and Apple Pay.",
+            title: "Tiêu đề 4",
+            name: "Họ và Tên 4",
+            email: "email4@example.com",
+            phone: "0987654321",
         },
         {
             key: "5",
-            question: "How can I track my order?",
-            answer: "Once your order is shipped, you will receive a tracking number via email to monitor your package's progress.",
+            title: "Tiêu đề 5",
+            name: "Họ và Tên 5",
+            email: "email5@example.com",
+            phone: "0123456789",
         },
     ]);
 
@@ -39,8 +49,10 @@ const FAQManagement = () => {
     useEffect(() => {
         const filtered = faqs.filter(
             (faq) =>
-                faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+                faq.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.phone.includes(searchTerm)
         );
         setFilteredFAQs(filtered);
     }, [searchTerm, faqs]);
@@ -86,12 +98,20 @@ const FAQManagement = () => {
 
     const columns = [
         {
-            title: "Câu hỏi",
-            dataIndex: "question",
+            title: "Tiêu đề",
+            dataIndex: "title",
         },
         {
-            title: "Trả lời",
-            dataIndex: "answer",
+            title: "Họ và Tên",
+            dataIndex: "name",
+        },
+        {
+            title: "Email",
+            dataIndex: "email",
+        },
+        {
+            title: "Điện thoại",
+            dataIndex: "phone",
         },
         {
             title: "Thao tác",
@@ -142,8 +162,10 @@ const FAQManagement = () => {
             <h2 style={{ marginTop: "40px" }}>Xem trước FAQ</h2>
             <Collapse>
                 {filteredFAQs.map((faq) => (
-                    <Panel header={faq.question} key={faq.key}>
-                        <p>{faq.answer}</p>
+                    <Panel header={faq.title} key={faq.key}>
+                        <p>{faq.name}</p>
+                        <p>{faq.email}</p>
+                        <p>{faq.phone}</p>
                     </Panel>
                 ))}
             </Collapse>
@@ -157,24 +179,40 @@ const FAQManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        question: selectedFAQ ? selectedFAQ.question : "",
-                        answer: selectedFAQ ? selectedFAQ.answer : "",
+                        title: selectedFAQ ? selectedFAQ.title : "",
+                        name: selectedFAQ ? selectedFAQ.name : "",
+                        email: selectedFAQ ? selectedFAQ.email : "",
+                        phone: selectedFAQ ? selectedFAQ.phone : "",
                     }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Câu hỏi"
-                        name="question"
-                        rules={[{ required: true, message: "Vui lòng nhập câu hỏi" }]}
+                        label="Tiêu đề"
+                        name="title"
+                        rules={[{ required: true, message: "Vui lòng nhập tiêu đề" }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Trả lời"
-                        name="answer"
-                        rules={[{ required: true, message: "Vui lòng nhập câu trả lời" }]}
+                        label="Họ và Tên"
+                        name="name"
+                        rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
                     >
-                        <Input.TextArea />
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: "Vui lòng nhập email" }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Điện thoại"
+                        name="phone"
+                        rules={[{ required: true, message: "Vui lòng nhập điện thoại" }]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
