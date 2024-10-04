@@ -1,12 +1,18 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import AdminDashboard from './pages/AdminDashboard';
-import ManagerDashboard from './pages/ManagerDashboard';
-import HomePage from './pages/HomePage';
-import AboutPage from './components/user/pages/AboutPage';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import ManagerDashboard from "./pages/ManagerDashboard";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./components/user/pages/AboutPage";
+import ProductPage from "./components/user/pages/ProductPage";
 
 const App = () => {
   return (
@@ -18,6 +24,7 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/manager" element={<ManagerDashboard />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/products" element={<ProductPage />} />
       </Routes>
     </Router>
   );
