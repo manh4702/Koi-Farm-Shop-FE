@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
+import { FontColorsOutlined } from "@ant-design/icons";
 
 const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
   return (
@@ -23,44 +24,77 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
           borderRadius: "8px",
         }}
       >
-        Register
+        Đăng ký
       </h2>
       <Form
         name="register"
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        style={{ width: "400px", height: "400px", marginTop: "20px" }}
+        style={{ width: "400px", height: "450px", marginTop: "20px" }}
       >
         <Form.Item
           name="email"
           rules={[
             {
               required: true,
-              message: "Please input your email!",
+              message: "Vui lòng nhập Email!",
               type: "email",
             },
           ]}
         >
-          <Input style={{ height: "45px" }} placeholder="Email" />
+          <lable
+            style={{
+              fontSize: "16px",
+              color: "white",
+            }}
+          >
+            Email <span style={{ color: "red" }}>*</span>
+          </lable>
+          <Input style={{ height: "45px" }} placeholder="Nhập Email" />
         </Form.Item>
 
         <Form.Item
           name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          style={{
+            marginTop: "-10px",
+          }}
+          rules={[{ required: true, message: "Vui lòng nhập Họ và tên!" }]}
         >
-          <Input style={{ height: "45px" }} placeholder="Username" />
+          <lable
+            style={{
+              fontSize: "16px",
+              color: "white",
+            }}
+          >
+            Họ và tên <span style={{ color: "red" }}>*</span>
+          </lable>
+          <Input style={{ height: "45px" }} placeholder="Họ và tên" />
         </Form.Item>
 
         <Form.Item
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          style={{
+            marginTop: "-10px",
+          }}
+          rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
         >
-          <Input.Password style={{ height: "45px" }} placeholder="Password" />
+          <lable
+            style={{
+              fontSize: "16px",
+              color: "white",
+            }}
+          >
+            Mật khẩu <span style={{ color: "red" }}>*</span>
+          </lable>
+          <Input.Password style={{ height: "45px" }} placeholder="Mật khẩu" />
         </Form.Item>
 
         <Form.Item
           name="confirm"
+          style={{
+            marginTop: "-10px",
+          }}
           dependencies={["password"]}
           hasFeedback
           rules={[
@@ -77,16 +111,23 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
             }),
           ]}
         >
-          <Input.Password style={{ height: "45px" }} placeholder="Confirm Password" />
+          <label style={{ fontSize: "16px", color: "white" }}>
+            Nhập lại mật khẩu! <span style={{ color: "red" }}>*</span>
+          </label>
+          <Input.Password
+            style={{ height: "45px" }}
+            placeholder="Xác nhận mật khẩu"
+          />
         </Form.Item>
 
         <Form.Item
           name="remember"
           valuePropName="checked"
           rules={[{ required: true, message: "Please accept the terms!" }]}
+          style={{ marginTop: "-10px" }}
         >
           <Checkbox style={{ color: "white" }}>
-            I agree to the terms and conditions
+            Tôi đồng ý với các điều khoản của shop.
           </Checkbox>
         </Form.Item>
 
@@ -95,16 +136,32 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
             type="primary"
             htmlType="submit"
             loading={loading}
-            style={{ width: "100%", height: "45px" }}
+            style={{
+              width: "100%",
+              height: "45px",
+              fontSize: "16px",
+              marginTop: "-10px",
+            }}
           >
-            Register
+            Đăng ký
           </Button>
         </Form.Item>
       </Form>
 
       <div style={{ textAlign: "center" }}>
         <p style={{ color: "white" }}>
-          Already have an account? <a href="/login">Login here</a>
+          Bạn đã có tài khoản?{" "}
+          <a
+            href="/login"
+            style={{
+              textDecoration: "none", // Bỏ gạch chân mặc định
+              color: "white",
+            }}
+            onMouseEnter={(e) => (e.target.style.textDecoration = "underline")}
+            onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
+          >
+            Đăng nhập tại đây.
+          </a>
         </p>
       </div>
     </div>
