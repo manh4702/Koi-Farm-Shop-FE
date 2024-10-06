@@ -11,7 +11,6 @@ const { Header: AntHeader } = Layout;
 
 const Header = () => {
   const location = useLocation();
-  // const navigate = useNavigate();
   const cartItems = useCartStore((state) => state.items);
 
   const getMenuItemStyle = (path) => {
@@ -96,6 +95,14 @@ const Header = () => {
             <Menu.Item key="products">
               <Link to="/products" style={getMenuItemStyle("/products")}>
                 Sản Phẩm
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="consignment">
+              <Link
+                to="/fish-consignment"
+                style={getMenuItemStyle("/fish-consignment")}
+              >
+                Ký Gửi Cá
               </Link>
             </Menu.Item>
             <Menu.Item key="cart">
