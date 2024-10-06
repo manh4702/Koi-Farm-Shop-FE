@@ -49,6 +49,12 @@ const Footer = () => {
             <li>Quên mật khẩu</li>
             <li>Đăng kí ký gửi bán cá</li>
             <li>Xem giỏ hàng</li>
+            <li>
+              <a href="/fish-consignment" style={{ color: "white" }}>
+                Ký gửi cá
+              </a>
+            </li>{" "}
+            {/* Thêm mục ký gửi */}
           </ul>
         </div>
 
