@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { DollarOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import useCartStore from "../../../store/cartStore";
 const FishCard = ({ fish }) => {
   // const history = useHistory();
 
@@ -8,8 +10,16 @@ const FishCard = ({ fish }) => {
   //   history.push(`/products/${fish.id}`);
   // };
   const navigate = useNavigate();
+  const addItem = useCartStore((state) => state.addItem);
+
   const handleViewDetails = () => {
     navigate(`/products/${fish.id}`);
+  };
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addItem(fish);
+    message.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   return (
@@ -22,6 +32,7 @@ const FishCard = ({ fish }) => {
           style={{
             height: "450px",
             objectFit: "initial",
+            width: "100%",
           }}
         />
       }
@@ -31,7 +42,7 @@ const FishCard = ({ fish }) => {
         margin: "0 auto",
         position: "relative",
         transition: "transform 0.3s",
-        height: "100%",
+        height: "auto",
       }}
       onClick={handleViewDetails}
       className="fish-card"
@@ -69,41 +80,46 @@ const FishCard = ({ fish }) => {
           display: "flex",
           justifyContent: "space-between",
           marginBottom: "-10px",
+          flexDirection: "column", // Chuyển đổi sang cột
+          gap: "10px", //
         }}
       >
         <Button
           type="primary"
           style={{
-            backgroundColor: "#3B82F6",
+            backgroundColor: "red",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={handleAddToCart}
+        >
+          <ShoppingCartOutlined /> Thêm vào giỏ hàng
+        </Button>
+        <Button
+          type="default"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transition: "border 0.3s",
+            border: "2px solid transparent",
+            color: "black",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.border = "2px solid red";
+            e.currentTarget.style.color = "red";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.border = "2px solid transparent";
+            e.currentTarget.style.color = "black";
           }}
         >
-          Thêm vào giỏ hàng
+          <DollarOutlined /> Mua ngay
         </Button>
-        <Button type="default">Mua ngay</Button>
       </div>
-      {/* Button "Xem chi tiết" hiển thị khi hover */}
-      {/* <Button
-        type="default"
-        onClick={handleViewDetails}
-        style={{
-          position: "absolute",
-          bottom: "1rem",
-          right: "1rem",
-          opacity: 0,
-          transition: "opacity 0.3s ease",
-          backgroundColor: "#FFFFFF",
-          borderColor: "#3B82F6",
-          color: "#3B82F6",
-        }}
-        className="view-details-button"
-      >
-        Xem chi tiết
-      </Button> */}
-      {/* <style jsx="true">{`
-        .fish-card:hover .view-details-button {
-          opacity: 1;
-        }
-      `}</style> */}
     </Card>
   );
 };

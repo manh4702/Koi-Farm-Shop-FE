@@ -14,6 +14,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
 import ProductDetailPage from "./components/user/pages/ProductDetailPage";
+import CartPage from "./components/user/pages/CartPage";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route path="/cart" element={<CartPage />} />
         {/* Thêm route chi tiết sản phẩm */}
       </Routes>
     </Router>
