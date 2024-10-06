@@ -3,6 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+
 const fishes = [
   {
     id: 1,
@@ -22,6 +23,9 @@ const ProductDetailPage = () => {
   if (!fish) {
     return <div>Không tìm thấy sản phẩm.</div>;
   }
+
+  console.log("Product ID:", id);
+  console.log("Fish found:", fish);
 
   return (
     <div className="min-h-screen flex flex-col">

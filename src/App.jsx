@@ -13,7 +13,7 @@ import ManagerDashboard from "./pages/ManagerDashboard";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
-import ProductDetailPage from "./components/user/Product/ProductDetailPage"; // Đường dẫn đã được sửa lại cho đúng
+import ProductDetailPage from "./components/user/pages/ProductDetailPage";
 
 const App = () => {
   return (
@@ -26,7 +26,7 @@ const App = () => {
         <Route path="/manager" element={<ManagerDashboard />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
-        <Route path="/products/:id" element={<ProductDetailPage />} />{" "}
+        <Route path="/products/:id" element={<ProductDetailPage />} />
         {/* Thêm route chi tiết sản phẩm */}
       </Routes>
     </Router>

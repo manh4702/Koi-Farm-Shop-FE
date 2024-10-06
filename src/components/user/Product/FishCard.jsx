@@ -1,11 +1,15 @@
 import React from "react";
 import { Card, Button } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const FishCard = ({ fish }) => {
-  const history = useHistory();
+  // const history = useHistory();
 
+  // const handleViewDetails = () => {
+  //   history.push(`/products/${fish.id}`);
+  // };
+  const navigate = useNavigate();
   const handleViewDetails = () => {
-    history.push(`/products/${fish.id}`);
+    navigate(`/products/${fish.id}`);
   };
 
   return (
@@ -16,43 +20,46 @@ const FishCard = ({ fish }) => {
           alt={fish.name}
           src={fish.image}
           style={{
-            height: "100%",
-            objectFit: "cover",
+            height: "450px",
+            objectFit: "initial",
           }}
         />
       }
       style={{
         width: "100%",
-        maxWidth: "20rem", // 320px (max-w-sm)
+        maxWidth: "20rem",
         margin: "0 auto",
         position: "relative",
         transition: "transform 0.3s",
+        height: "100%",
       }}
+      onClick={handleViewDetails}
       className="fish-card"
     >
       <h3
         style={{
-          fontSize: "1.125rem", // text-lg
-          fontWeight: "bold", // font-bold
-          marginBottom: "0.5rem", // mb-2
+          fontSize: "1.125rem",
+          fontWeight: "bold",
+          marginBottom: "0.5rem",
         }}
       >
         {fish.name}
       </h3>
       <p
         style={{
-          color: "#718096", // text-gray-600
-          marginBottom: "0.5rem", // mb-2
+          color: "#718096",
+          marginBottom: "0.5rem",
+          height: "70px",
         }}
       >
         {fish.description}
       </p>
       <p
         style={{
-          fontSize: "1.25rem", // text-xl
-          fontWeight: "bold", // font-bold
-          color: "#2563EB", // text-blue-600
-          marginBottom: "1rem", // mb-4
+          fontSize: "1.25rem",
+          fontWeight: "bold",
+          color: "#2563EB",
+          marginBottom: "1rem",
         }}
       >
         {fish.price}
@@ -61,20 +68,21 @@ const FishCard = ({ fish }) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
+          marginBottom: "-10px",
         }}
       >
         <Button
           type="primary"
           style={{
-            backgroundColor: "#3B82F6", // bg-blue-500
+            backgroundColor: "#3B82F6",
           }}
         >
-          Add to Cart
+          Thêm vào giỏ hàng
         </Button>
-        <Button type="default">Buy Now</Button>
+        <Button type="default">Mua ngay</Button>
       </div>
       {/* Button "Xem chi tiết" hiển thị khi hover */}
-      <Button
+      {/* <Button
         type="default"
         onClick={handleViewDetails}
         style={{
@@ -90,12 +98,12 @@ const FishCard = ({ fish }) => {
         className="view-details-button"
       >
         Xem chi tiết
-      </Button>
-      <style jsx="true">{`
+      </Button> */}
+      {/* <style jsx="true">{`
         .fish-card:hover .view-details-button {
           opacity: 1;
         }
-      `}</style>
+      `}</style> */}
     </Card>
   );
 };

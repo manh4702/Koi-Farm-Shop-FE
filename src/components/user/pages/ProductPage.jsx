@@ -75,19 +75,44 @@ const fishes = [
     image:
       "https://th.bing.com/th/id/OIP.1CiBj7IMyAUNgClKWx8ajwHaLG?w=115&h=180&c=7&r=0&o=5&pid=1.7",
   },
+  {
+    id: 8,
+    name: "Tancho",
+    description:
+      "Koi Tancho 60 cm, 2.5 tuổi, nổi bật với đốm tròn màu đỏ trên đầu, được xem là biểu tượng may mắn.",
+    price: "1,000,000 VND",
+    image:
+      "https://th.bing.com/th/id/OIP.1CiBj7IMyAUNgClKWx8ajwHaLG?w=115&h=180&c=7&r=0&o=5&pid=1.7",
+  },
 ];
 
 const ProductPage = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      style={{ minHeight: "100px", display: "flex", flexDirection: "column" }}
+    >
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Các loại cá Koi</h1>
+      <main
+        style={{
+          flexGrow: 1,
+          maxWidth: "100%",
+          margin: "0 190px",
+          padding: "32px 16px",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "1.875rem",
+            fontWeight: "bold",
+            marginBottom: "32px",
+          }}
+        >
+          Các loại cá Koi
+        </h1>
         <Row gutter={[16, 16]}>
           {fishes.map((fish) => (
-            <Col key={fish.id} xs={24} sm={12} md={4}>
+            <Col key={fish.id} xs={24} sm={12} md={6}>
               {" "}
-              {/* Điều chỉnh md thành 4 để có 5 cột */}
               <FishCard fish={fish} />
             </Col>
           ))}
