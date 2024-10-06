@@ -1,5 +1,5 @@
 import React from "react";
-import { SiZalo } from "react-icons/si";
+import { SiFacebook } from "react-icons/si";
 import { Tooltip } from "antd";
 import styled, { keyframes } from "styled-components";
 
@@ -36,7 +36,7 @@ const rotate = keyframes`
   }
 `;
 
-const AnimatedZaloButton = styled.div`
+const AnimatedFBButton = styled.div`
   animation: ${pulse} 2s infinite;
 
   &:hover {
@@ -44,26 +44,26 @@ const AnimatedZaloButton = styled.div`
   }
 `;
 
-const AnimatedZaloIcon = styled(SiZalo)`
+const AnimatedFBIcon = styled(SiFacebook)`
   animation: ${rotate} 3s linear infinite;
 `;
 
-const ZaloIcon = () => {
-  const openZalo = () => {
-    window.open("https://zalo.me/0907832421", "_blank");
+const FBIconts = () => {
+  const openFB = () => {
+    window.open("http://localhost:3000/admin", "_blank");
   };
 
   return (
-    <Tooltip title="Liên hệ qua Zalo" placement="left">
-      <AnimatedZaloButton
+    <Tooltip title="Liên hệ qua FaceBook" placement="left">
+      <AnimatedFBButton
         className="fixed bottom-4 right-4 bg-blue-500 rounded-full p-3 cursor-pointer shadow-lg hover:bg-blue-600 transition-colors duration-300"
-        onClick={openZalo}
-        style={{ marginBottom: "100px" }}
+        onClick={openFB}
+        style={{ marginBottom: "180px" }}
       >
-        <AnimatedZaloIcon className="text-white text-3xl" />
-      </AnimatedZaloButton>
+        <AnimatedFBIcon className="text-white text-3xl" />
+      </AnimatedFBButton>
     </Tooltip>
   );
 };
 
-export default ZaloIcon;
+export default FBIconts;

@@ -26,6 +26,7 @@ import {
   DownOutlined,
   MoreOutlined,
   SettingOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 
 const { TabPane } = Tabs;
@@ -38,7 +39,7 @@ const FishInfo = () => {
       name: "Cá Koi Kohaku",
       origin: "Nhật Bản",
       gender: "Đực",
-      age: "2",
+      age: 2.0,
       size: "30",
       breed: "Kohaku",
       foodQuantity: "10",
@@ -51,7 +52,7 @@ const FishInfo = () => {
       name: "Cá Koi Taisho Sanke",
       origin: "Nhật Bản",
       gender: "Cái",
-      age: "3",
+      age: 3.0,
       size: "40",
       breed: "Taisho Sanke",
       foodQuantity: "12",
@@ -64,7 +65,7 @@ const FishInfo = () => {
       name: "Cá Koi Showa",
       origin: "Nhật Bản",
       gender: "Đực",
-      age: "1.5",
+      age: 1.5,
       size: "35",
       breed: "Showa",
       foodQuantity: "15",
@@ -77,7 +78,7 @@ const FishInfo = () => {
       name: "Cá Koi Asagi",
       origin: "Nhật Bản",
       gender: "Cái",
-      age: "4",
+      age: 4.0,
       size: "45",
       breed: "Asagi",
       foodQuantity: "18",
@@ -90,7 +91,7 @@ const FishInfo = () => {
       name: "Cá Koi Shusui",
       origin: "Nhật Bản",
       gender: "Đực",
-      age: "2.5",
+      age: 2.5,
       size: "50",
       breed: "Shusui",
       foodQuantity: "20",
@@ -104,6 +105,7 @@ const FishInfo = () => {
   const [selectedFish, setSelectedFish] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editFish, setEditFish] = useState(null);
+  const [addFish, setAddFish] = useState(null);
 
   const handleView = (fish) => {
     setSelectedFish(fish);
@@ -114,19 +116,40 @@ const FishInfo = () => {
     setIsModalVisible(true);
   };
 
+  const handleAdd = () => {
+    setAddFish({
+      key: (fishes.length + 1).toString(),
+      name: "",
+      origin: "",
+      gender: "",
+      age: "",
+      size: "",
+      breed: "",
+      foodQuantity: "",
+      screeningRate: "",
+      image: "",
+    });
+    setIsModalVisible(true);
+  };
+
   const handleCancel = () => {
     setIsModalVisible(false);
     setEditFish(null);
+    setAddFish(null);
   };
 
   const onFinish = (values) => {
-    setFishes((prev) =>
-      prev.map((fish) =>
-        fish.key === editFish.key
-          ? { ...fish, ...values, age: `${values.age}`, size: `${values.size}` }
-          : fish
-      )
-    );
+    if (editFish) {
+      setFishes((prev) =>
+        prev.map((fish) =>
+          fish.key === editFish.key
+            ? { ...fish, ...values, age: parseFloat(values.age), size: `${values.size}` }
+            : fish
+        )
+      );
+    } else if (addFish) {
+      setFishes((prev) => [...prev, { ...values, key: (prev.length + 1).toString() }]);
+    }
     handleCancel();
   };
 
@@ -231,6 +254,11 @@ const FishInfo = () => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <h1>Thông tin Cá</h1>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+              Thêm mới cá
+            </Button>
+          </div>
           <div style={{ maxHeight: "400px" }}>
             <Table
               columns={columns}
@@ -241,9 +269,9 @@ const FishInfo = () => {
           </div>
         </Col>
 
-        {editFish && (
+        {(editFish || addFish) && (
           <Modal
-            title="Sửa Thông tin Cá"
+            title={editFish ? "Sửa Thông tin Cá" : "Thêm mới Cá"}
             visible={isModalVisible}
             footer={null}
             onCancel={handleCancel}
@@ -251,17 +279,27 @@ const FishInfo = () => {
             <Form
               layout="vertical"
               initialValues={{
-                name: editFish.name,
-                origin: editFish.origin,
-                gender: editFish.gender,
-                age: editFish.age,
-                size: editFish.size,
-                breed: editFish.breed,
-                foodQuantity: editFish.foodQuantity,
-                screeningRate: editFish.screeningRate,
+                name: editFish ? editFish.name : "",
+                origin: editFish ? editFish.origin : "",
+                gender: editFish ? editFish.gender : "",
+                age: editFish ? editFish.age : "",
+                size: editFish ? editFish.size : "",
+                breed: editFish ? editFish.breed : "",
+                foodQuantity: editFish ? editFish.foodQuantity : "",
+                screeningRate: editFish ? editFish.screeningRate : "",
+                image: editFish ? editFish.image : "",
               }}
               onFinish={onFinish}
             >
+              <Form.Item
+                label="Link ảnh cá"
+                name="image"
+                rules={[
+                  { required: true, message: "Vui lòng nhập link ảnh cá" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item
@@ -368,7 +406,7 @@ const FishInfo = () => {
                   style={{ marginRight: "10px", marginTop: "10px" }}
                 >
                   <SaveOutlined />
-                  Lưu
+                  {editFish ? "Lưu" : "Thêm mới"}
                 </Button>
               </Form.Item>
             </Form>

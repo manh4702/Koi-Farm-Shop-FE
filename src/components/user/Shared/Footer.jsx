@@ -44,11 +44,17 @@ const Footer = () => {
             THÔNG TIN TÀI KHOẢN
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
-            <li>Danh sách các shop, cá nhân ký gửi cá Koi</li>
+            <li>Danh sách cá, cá nhân ký gửi cá Koi</li>
             <li>Đăng ký & Đăng nhập</li>
-            <li>Mất mật khẩu</li>
-            <li>Đăng nhập bán buôn</li>
-            <li>Đăng ký bán buôn</li>
+            <li>Quên mật khẩu</li>
+            <li>Đăng kí ký gửi bán cá</li>
+            <li>Xem giỏ hàng</li>
+            <li>
+              <a href="/fish-consignment" style={{ color: "white" }}>
+                Ký gửi cá
+              </a>
+            </li>{" "}
+            {/* Thêm mục ký gửi */}
           </ul>
         </div>
 
@@ -89,7 +95,6 @@ const Footer = () => {
             <p>(Ô tô ra vào thoải mái, đỗ xe trực tiếp tại trại 5000m²)</p>
             <p>Tel: 036988088 - 0907832421 (Zalo)</p>
             <p>Hotline: 036988088 - 0907832421</p>
-            <p>Gmail: cakoistore.com</p>
             <p>Email: cakoistore.com</p>
           </div>
           <div
