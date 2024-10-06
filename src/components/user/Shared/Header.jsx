@@ -1,6 +1,6 @@
 // src/user/Shared/Header.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Layout, Menu, Space } from "antd";
 import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import LogoKoi from "../../../assets/LogoKoi.png";
@@ -9,16 +9,40 @@ import Search from "./Search";
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
+  const location = useLocation();
+
+  const getMenuItemStyle = (path) => {
+    return location.pathname === path
+      ? { fontSize: "16px", fontWeight: "bold", color: "red" } // Style khi đang ở trang đó
+      : { fontSize: "16px", fontWeight: "bold", color: "black" }; // Style mặc định
+  };
+
   return (
     <AntHeader
-      style={{ height: "200px", backgroundColor: "white", color: "black" }}
+      style={{
+        height: "200px",
+        backgroundColor: "white",
+        color: "white",
+        borderBottom: "1px solid #d9d9d9",
+      }}
     >
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold" style={{ color: "red" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0 auto",
+          maxWidth: "1200px",
+        }}
+      >
+        <h1 style={{ fontSize: "20px", fontWeight: "bold", color: "red" }}>
           <PhoneOutlined /> 036988088 - 0907832421
         </h1>
-        <div className="flex items-center space-x-2">
-          <Menu mode="horizontal" className="flex items-center" style={{fontSize: "16px"}}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <Menu
+            mode="horizontal"
+            style={{ display: "flex", alignItems: "center", fontSize: "16px" }}
+          >
             <Menu.Item key="login">
               <Link to="/login">Đăng Nhập</Link>
             </Menu.Item>
@@ -29,31 +53,40 @@ const Header = () => {
           </Menu>
         </div>
       </div>
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="logo">
-          <img src={LogoKoi} alt="Cá Koi Store" style={{ height: "150px" }} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0 150px",
+          maxWidth: "100%",
+        }}
+      >
+        <div style={{ height: "150px" }}>
+          <img
+            src={LogoKoi}
+            alt="Cá Koi Store"
+            style={{ height: "100%", objectFit: "contain" }}
+          />
         </div>
         <Search />
-        <Menu mode="horizontal" className="flex items-center">
+        <Menu
+          mode="horizontal"
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <Space size="large">
             <Menu.Item key="home">
-              <Link to="/" style={{ fontSize: "16px", fontWeight: "bold" }}>
+              <Link to="/" style={getMenuItemStyle("/")}>
                 Trang Chủ
               </Link>
             </Menu.Item>
             <Menu.Item key="about">
-              <Link
-                to="/about"
-                style={{ fontSize: "16px", fontWeight: "bold" }}
-              >
+              <Link to="/about" style={getMenuItemStyle("/about")}>
                 Giới Thiệu
               </Link>
             </Menu.Item>
             <Menu.Item key="products">
-              <Link
-                to="/products"
-                style={{ fontSize: "16px", fontWeight: "bold" }}
-              >
+              <Link to="/products" style={getMenuItemStyle("/products")}>
                 Sản Phẩm
               </Link>
             </Menu.Item>
