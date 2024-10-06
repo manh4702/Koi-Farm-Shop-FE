@@ -1,21 +1,29 @@
 // src/user/Shared/Header.jsx
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Layout, Menu, Space } from "antd";
+import { Badge, Layout, Menu, Space } from "antd";
 import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import LogoKoi from "../../../assets/LogoKoi.png";
 import Search from "./Search";
+import useCartStore from "../../../store/cartStore";
 
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
   const location = useLocation();
+  // const navigate = useNavigate();
+  const cartItems = useCartStore((state) => state.items);
 
   const getMenuItemStyle = (path) => {
     return location.pathname === path
       ? { fontSize: "16px", fontWeight: "bold", color: "red" } // Style khi đang ở trang đó
       : { fontSize: "16px", fontWeight: "bold", color: "black" }; // Style mặc định
   };
+
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <AntHeader
@@ -91,9 +99,11 @@ const Header = () => {
               </Link>
             </Menu.Item>
             <Menu.Item key="cart">
-              <Link to="/cart">
-                <ShoppingCartOutlined style={{ fontSize: "20px" }} />
-              </Link>
+              <Badge count={cartItemCount} overflowCount={99}>
+                <Link to="/cart" style={getMenuItemStyle("/cart")}>
+                  <ShoppingCartOutlined style={{ fontSize: "20px" }} />
+                </Link>
+              </Badge>
             </Menu.Item>
           </Space>
         </Menu>
