@@ -15,7 +15,7 @@ import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
 import ProductDetailPage from "./components/user/pages/ProductDetailPage";
 import CartPage from "./components/user/pages/CartPage";
-
+import FishConsignment from "./components/user/pages/FishConsignment";
 const App = () => {
   return (
     <Router>
@@ -29,6 +29,7 @@ const App = () => {
         <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/fish-consignment" element={<FishConsignment />} />
         {/* Thêm route chi tiết sản phẩm */}
       </Routes>
     </Router>
