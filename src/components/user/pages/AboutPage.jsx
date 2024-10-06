@@ -3,6 +3,8 @@ import React from "react";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import ZaloIcon from "./ZaloIcon";
+import FBIconts from "./FacebookIcon";
+import YTIconts from "./YoutubeIcon";
 
 const AboutPage = () => {
   return (
@@ -90,6 +92,8 @@ const AboutPage = () => {
         </p>
       </div>
       <ZaloIcon />
+      <FBIconts />
+      <YTIconts />
       <Footer />
     </>
   );

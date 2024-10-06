@@ -4,32 +4,47 @@ import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
 const { Panel } = Collapse;
 
 const FAQManagement = () => {
-    // State to manage FAQ data
+    // State để quản lý dữ liệu FAQ
     const [faqs, setFaqs] = useState([
         {
             key: "1",
-            question: "What is your return policy?",
-            answer: "We offer a 30-day return policy for all unused items.",
+            title: "Cách chăm sóc cá koi?",
+            name: "John Doe",
+            email: "johndoe@example.com",
+            phone: "0123456789",
+            content: "Tôi muốn biết cách chăm sóc cá koi.",
         },
         {
             key: "2",
-            question: "How long does shipping take?",
-            answer: "Shipping typically takes 3-5 business days within the continental US.",
+            title: "Cách chọn cá koi khỏe mạnh?",
+            name: "Jane Doe",
+            email: "janedoe@example.com",
+            phone: "0987654321",
+            content: "Tôi cần một hướng dẫn về cách chọn cá koi khỏe mạnh.",
         },
         {
             key: "3",
-            question: "Do you offer international shipping?",
-            answer: "Yes, we offer international shipping to select countries. Please check our shipping page for more details.",
+            title: "Giá của cá koi là bao nhiêu?",
+            name: "James Smith",
+            email: "jamessmith@example.com",
+            phone: "0123456789",
+            content: "Tôi muốn biết giá của cá koi.",
         },
         {
             key: "4",
-            question: "What payment methods do you accept?",
-            answer: "We accept major credit cards, PayPal, and Apple Pay.",
+            title: "Cách nuôi cá koi trong bể?",
+            name: "Emily Johnson",
+            email: "emilyjohnson@example.com",
+            phone: "0987654321",
+            content: "Tôi cần một hướng dẫn về cách nuôi cá koi trong bể.",
         },
         {
             key: "5",
-            question: "How can I track my order?",
-            answer: "Once your order is shipped, you will receive a tracking number via email to monitor your package's progress.",
+            title: "Các bệnh thường gặp của cá koi?",
+            name: "Michael Williams",
+            email: "michaelwilliams@example.com",
+            phone: "0123456789",
+            content: "Tôi muốn tuân theo các thực hành tốt nhất trong nuôi cá koi.",
         },
     ]);
 
@@ -39,8 +54,11 @@ const FAQManagement = () => {
     useEffect(() => {
         const filtered = faqs.filter(
             (faq) =>
-                faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+                faq.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                faq.phone.includes(searchTerm) ||
+                faq.content.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredFAQs(filtered);
     }, [searchTerm, faqs]);
@@ -68,14 +86,14 @@ const FAQManagement = () => {
 
     const onFinish = (values) => {
         if (selectedFAQ) {
-            // Update existing FAQ
+            // Cập nhật FAQ hiện có
             setFaqs((prev) =>
                 prev.map((faq) =>
                     faq.key === selectedFAQ.key ? { ...faq, ...values } : faq
                 )
             );
         } else {
-            // Add new FAQ
+            // Thêm FAQ mới
             setFaqs((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
@@ -86,12 +104,20 @@ const FAQManagement = () => {
 
     const columns = [
         {
-            title: "Câu hỏi",
-            dataIndex: "question",
+            title: "Tiêu đề",
+            dataIndex: "title",
         },
         {
-            title: "Trả lời",
-            dataIndex: "answer",
+            title: "Họ và Tên",
+            dataIndex: "name",
+        },
+        {
+            title: "Email",
+            dataIndex: "email",
+        },
+        {
+            title: "Điện thoại",
+            dataIndex: "phone",
         },
         {
             title: "Thao tác",
@@ -109,7 +135,7 @@ const FAQManagement = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Quản lý Câu hỏi thường gặp</h1>
+            <h1>Quản lý Câu hỏi thường gặp về buôn bán cá koi</h1>
             <div
                 style={{
                     display: "flex",
@@ -142,8 +168,11 @@ const FAQManagement = () => {
             <h2 style={{ marginTop: "40px" }}>Xem trước FAQ</h2>
             <Collapse>
                 {filteredFAQs.map((faq) => (
-                    <Panel header={faq.question} key={faq.key}>
-                        <p>{faq.answer}</p>
+                    <Panel header={faq.title} key={faq.key}>
+                        <p>{faq.name}</p>
+                        <p>{faq.email}</p>
+                        <p>{faq.phone}</p>
+                        <p>{faq.content}</p>
                     </Panel>
                 ))}
             </Collapse>
@@ -157,24 +186,48 @@ const FAQManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        question: selectedFAQ ? selectedFAQ.question : "",
-                        answer: selectedFAQ ? selectedFAQ.answer : "",
+                        title: selectedFAQ ? selectedFAQ.title : "",
+                        name: selectedFAQ ? selectedFAQ.name : "",
+                        email: selectedFAQ ? selectedFAQ.email : "",
+                        phone: selectedFAQ ? selectedFAQ.phone : "",
+                        content: selectedFAQ ? selectedFAQ.content : "",
                     }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Câu hỏi"
-                        name="question"
-                        rules={[{ required: true, message: "Vui lòng nhập câu hỏi" }]}
+                        label="Tiêu đề"
+                        name="title"
+                        rules={[{ required: true, message: "Vui lòng nhập tiêu đề" }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Trả lời"
-                        name="answer"
-                        rules={[{ required: true, message: "Vui lòng nhập câu trả lời" }]}
+                        label="Họ và Tên"
+                        name="name"
+                        rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
                     >
-                        <Input.TextArea />
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: "Vui lòng nhập email" }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Điện thoại"
+                        name="phone"
+                        rules={[{ required: true, message: "Vui lòng nhập điện thoại" }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Nội dung"
+                        name="content"
+                        rules={[{ required: true, message: "Vui lòng nhập nội dung" }]}
+                    >
+                        <Input.TextArea rows={4} />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">

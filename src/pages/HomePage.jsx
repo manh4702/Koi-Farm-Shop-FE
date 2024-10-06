@@ -5,6 +5,8 @@ import Footer from "../components/user/Shared/Footer";
 // import ProductList from './Product/ProductList'; // Gọi ProductList để hiển thị danh sách sản phẩm
 import Search from "../components/user/Shared/Search"; //
 import ZaloIcon from "../components/user/pages/ZaloIcon";
+import YTIconts from "../components/user/pages/YoutubeIcon";
+import FBIconts from "../components/user/pages/FacebookIcon";
 
 const HomePage = () => {
   return (
@@ -16,6 +18,8 @@ const HomePage = () => {
         {/* <ProductList /> Hiển thị danh sách sản phẩm */}
       </main>
       <ZaloIcon />
+      <FBIconts />
+      <YTIconts />
       <Footer />
     </div>
   );
