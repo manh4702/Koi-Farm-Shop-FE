@@ -4,42 +4,47 @@ import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
 const { Panel } = Collapse;
 
 const FAQManagement = () => {
-    // State to manage FAQ data
+    // State để quản lý dữ liệu FAQ
     const [faqs, setFaqs] = useState([
         {
             key: "1",
-            title: "Tiêu đề 1",
-            name: "Họ và Tên 1",
-            email: "email1@example.com",
+            title: "Cách chăm sóc cá koi?",
+            name: "John Doe",
+            email: "johndoe@example.com",
             phone: "0123456789",
+            content: "Tôi muốn biết cách chăm sóc cá koi.",
         },
         {
             key: "2",
-            title: "Tiêu đề 2",
-            name: "Họ và Tên 2",
-            email: "email2@example.com",
+            title: "Cách chọn cá koi khỏe mạnh?",
+            name: "Jane Doe",
+            email: "janedoe@example.com",
             phone: "0987654321",
+            content: "Tôi cần một hướng dẫn về cách chọn cá koi khỏe mạnh.",
         },
         {
             key: "3",
-            title: "Tiêu đề 3",
-            name: "Họ và Tên 3",
-            email: "email3@example.com",
+            title: "Giá của cá koi là bao nhiêu?",
+            name: "James Smith",
+            email: "jamessmith@example.com",
             phone: "0123456789",
+            content: "Tôi muốn biết giá của cá koi.",
         },
         {
             key: "4",
-            title: "Tiêu đề 4",
-            name: "Họ và Tên 4",
-            email: "email4@example.com",
+            title: "Cách nuôi cá koi trong bể?",
+            name: "Emily Johnson",
+            email: "emilyjohnson@example.com",
             phone: "0987654321",
+            content: "Tôi cần một hướng dẫn về cách nuôi cá koi trong bể.",
         },
         {
             key: "5",
-            title: "Tiêu đề 5",
-            name: "Họ và Tên 5",
-            email: "email5@example.com",
+            title: "Các bệnh thường gặp của cá koi?",
+            name: "Michael Williams",
+            email: "michaelwilliams@example.com",
             phone: "0123456789",
+            content: "Tôi muốn tuân theo các thực hành tốt nhất trong nuôi cá koi.",
         },
     ]);
 
@@ -52,7 +57,8 @@ const FAQManagement = () => {
                 faq.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 faq.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 faq.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                faq.phone.includes(searchTerm)
+                faq.phone.includes(searchTerm) ||
+                faq.content.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredFAQs(filtered);
     }, [searchTerm, faqs]);
@@ -80,14 +86,14 @@ const FAQManagement = () => {
 
     const onFinish = (values) => {
         if (selectedFAQ) {
-            // Update existing FAQ
+            // Cập nhật FAQ hiện có
             setFaqs((prev) =>
                 prev.map((faq) =>
                     faq.key === selectedFAQ.key ? { ...faq, ...values } : faq
                 )
             );
         } else {
-            // Add new FAQ
+            // Thêm FAQ mới
             setFaqs((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
@@ -129,7 +135,7 @@ const FAQManagement = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Quản lý Câu hỏi thường gặp</h1>
+            <h1>Quản lý Câu hỏi thường gặp về buôn bán cá koi</h1>
             <div
                 style={{
                     display: "flex",
@@ -166,6 +172,7 @@ const FAQManagement = () => {
                         <p>{faq.name}</p>
                         <p>{faq.email}</p>
                         <p>{faq.phone}</p>
+                        <p>{faq.content}</p>
                     </Panel>
                 ))}
             </Collapse>
@@ -183,6 +190,7 @@ const FAQManagement = () => {
                         name: selectedFAQ ? selectedFAQ.name : "",
                         email: selectedFAQ ? selectedFAQ.email : "",
                         phone: selectedFAQ ? selectedFAQ.phone : "",
+                        content: selectedFAQ ? selectedFAQ.content : "",
                     }}
                     onFinish={onFinish}
                 >
@@ -213,6 +221,13 @@ const FAQManagement = () => {
                         rules={[{ required: true, message: "Vui lòng nhập điện thoại" }]}
                     >
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Nội dung"
+                        name="content"
+                        rules={[{ required: true, message: "Vui lòng nhập nội dung" }]}
+                    >
+                        <Input.TextArea rows={4} />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
