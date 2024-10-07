@@ -1,5 +1,5 @@
 // src/user/Shared/Header.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Badge, Layout, Menu, Space } from "antd";
 import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -103,6 +103,11 @@ const Header = () => {
                 style={getMenuItemStyle("/fish-consignment")}
               >
                 Ký Gửi Cá
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="news">
+              <Link to="/news" style={getMenuItemStyle("/news")}>
+                Tin Tức
               </Link>
             </Menu.Item>
             <Menu.Item key="cart">
