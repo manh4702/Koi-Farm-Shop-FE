@@ -143,14 +143,61 @@ const fishes = [
     image:
       "https://koilover.vn/uploads/thumbs/doitsusanke_20190801093628345.jpg",
   },
+  {
+    id: 17,
+    name: "Lô Koi Sanke & Showa",
+    description:
+      "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
+    price: "3,500,000 VND",
+    image: "https://example.com/sanke-showa-lot.jpg",
+    isLot: true,
+    birthYear: 2021,
+    quantity: 5,
+    fishes: [
+      { name: "Sanke", quantity: 3 },
+      { name: "Showa", quantity: 2 },
+    ],
+  },
+  {
+    id: 18,
+    name: "Bộ Gosanke Premium",
+    description:
+      "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
+    price: "5,000,000 VND",
+    image: "https://example.com/gosanke-premium.jpg",
+    isLot: true,
+    birthYear: 2020,
+    quantity: 3,
+    fishes: [
+      { name: "Kohaku", quantity: 1 },
+      { name: "Sanke", quantity: 1 },
+      { name: "Showa", quantity: 1 },
+    ],
+  },
+  {
+    id: 19,
+    name: "Lô Koi Butterfly",
+    description:
+      "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
+    price: "2,800,000 VND",
+    image: "https://example.com/butterfly-koi-lot.jpg",
+    isLot: true,
+    birthYear: 2022,
+    quantity: 4,
+    fishes: [
+      { name: "Butterfly Kohaku", quantity: 1 },
+      { name: "Butterfly Showa", quantity: 1 },
+      { name: "Butterfly Sanke", quantity: 1 },
+      { name: "Butterfly Goshiki", quantity: 1 },
+    ],
+  },
 
-  // ... (Các đối tượng cá còn lại tương tự)
+  // Thêm các đối tượng lô cá và cá khác
 ];
 
 const ITEMS_PER_PAGE = 12;
 
 const ProductPage = () => {
-  // Tạo một state để theo dõi thẻ cá nào đang được hover
   const [hoveredFishId, setHoveredFishId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -184,7 +231,7 @@ const ProductPage = () => {
             marginBottom: "32px",
           }}
         >
-          Các loại cá Koi
+          Các loại cá Koi và Lô Cá
         </h1>
         <Row gutter={[16, 16]}>
           {currentFishes.map((fish) => (
