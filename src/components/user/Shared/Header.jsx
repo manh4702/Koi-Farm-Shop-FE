@@ -1,5 +1,5 @@
 // src/user/Shared/Header.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Badge, Layout, Menu, Space } from "antd";
 import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -110,12 +110,15 @@ const Header = () => {
                 Tin Tức
               </Link>
             </Menu.Item>
+<<<<<<< HEAD
             <Menu.Item key="contact">
               <Link to="/contact" style={getMenuItemStyle("/contact")}>
                 Liên Hệ
               </Link>
             </Menu.Item>
 
+=======
+>>>>>>> 95e7b1fe8406e98358678851cf3b154d3c3ccec4
             <Menu.Item key="cart">
               <Badge count={cartItemCount} overflowCount={99}>
                 <Link to="/cart" style={getMenuItemStyle("/cart")}>
