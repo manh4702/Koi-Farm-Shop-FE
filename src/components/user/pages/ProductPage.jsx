@@ -1,5 +1,5 @@
 // src/components/user/pages/ProductPage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Tooltip, Pagination } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
@@ -199,8 +199,7 @@ const fishes = [
       { name: "Butterfly Goshiki", quantity: 1 },
     ],
   },
-
-  // Thêm các đối tượng lô cá và cá khác
+  // Thêm cá khác ...
 ];
 
 const ITEMS_PER_PAGE = 12;
@@ -218,6 +217,11 @@ const ProductPage = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  // Cuộn về đầu trang khi thay đổi trang
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]); // Gọi khi currentPage thay đổi
 
   return (
     <div
