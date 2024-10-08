@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Card, Button } from "antd";
+// src/components/user/Product/FishCard.jsx
+import React from "react";
+import { Card, Button, Tag, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { DollarOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, DollarOutlined } from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
-const FishCard = ({ fish }) => {
-  // const history = useHistory();
 
-  // const handleViewDetails = () => {
-  //   history.push(`/products/${fish.id}`);
-  // };
+const FishCard = ({ fish }) => {
   const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
 
@@ -31,7 +28,7 @@ const FishCard = ({ fish }) => {
           src={fish.image}
           style={{
             height: "450px",
-            objectFit: "initial",
+            objectFit: "cover",
             width: "100%",
           }}
         />
@@ -45,7 +42,6 @@ const FishCard = ({ fish }) => {
         height: "auto",
       }}
       onClick={handleViewDetails}
-      className="fish-card"
     >
       <h3
         style={{
@@ -56,15 +52,27 @@ const FishCard = ({ fish }) => {
       >
         {fish.name}
       </h3>
-      <p
-        style={{
-          color: "#718096",
-          marginBottom: "0.5rem",
-          height: "70px",
-        }}
-      >
-        {fish.description}
-      </p>
+      <p style={{ marginBottom: "0.5rem" }}>{fish.description}</p>
+
+      {fish.isLot ? (
+        <>
+          <p>
+            <strong>Năm sinh:</strong> {fish.birthYear}
+          </p>
+          <p>
+            <strong>Số lượng:</strong> {fish.quantity} con
+          </p>
+          <div style={{ marginBottom: "0.5rem" }}>
+            Các loại cá trong lô:
+            {fish.fishes.map((type, index) => (
+              <Tag key={index} color="blue" style={{ marginRight: "5px" }}>
+                {type.name} ({type.quantity} con)
+              </Tag>
+            ))}
+          </div>
+        </>
+      ) : null}
+
       <p
         style={{
           fontSize: "1.25rem",
@@ -75,15 +83,7 @@ const FishCard = ({ fish }) => {
       >
         {fish.price}
       </p>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "-10px",
-          flexDirection: "column", // Chuyển đổi sang cột
-          gap: "10px", //
-        }}
-      >
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <Button
           type="primary"
           style={{
