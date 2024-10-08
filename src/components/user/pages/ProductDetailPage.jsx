@@ -226,7 +226,8 @@ const fishes = [
     description:
       "Koi Doitsu Kujaku 55 cm, 2 tuổi, vảy ánh kim sáng kết hợp màu đỏ và trắng tạo nên vẻ đẹp nổi bật.",
     price: "650,000 VND",
-    image: "https://koilover.vn/uploads/thumbs/kujyaku_20190801093000123.jpg",
+    image:
+      "https://th.bing.com/th/id/OIP.3lnsfQUPO4ZMLA1Xr0s3QgHaLc?w=201&h=310&c=7&r=0&o=5&pid=1.7",
     size: "55 cm",
     year: 2022,
     origin: "Nhật Bản",
@@ -244,7 +245,7 @@ const fishes = [
       "Koi Yamabuki Ogon 60 cm, 3 tuổi, màu vàng ánh kim, rất nổi bật và thu hút trong các hồ Koi.",
     price: "700,000 VND",
     image:
-      "https://koilover.vn/uploads/thumbs/yamabukiogon_20190801093145245.jpg",
+      "https://th.bing.com/th/id/OIP.qjAQlysT0IBlOkrtY5qD5gHaLI?w=115&h=180&c=7&r=0&o=5&pid=1.7",
     size: "60 cm",
     year: 2020,
     origin: "Nhật Bản",
@@ -261,7 +262,8 @@ const fishes = [
     description:
       "Koi Shusui 50 cm, 1.5 tuổi, có vảy dọc lưng xanh, kết hợp với phần thân trắng pha màu đỏ cam.",
     price: "500,000 VND",
-    image: "https://koilover.vn/uploads/thumbs/shusui_20190801093220223.jpg",
+    image:
+      "https://th.bing.com/th/id/OIP.kH_bEW8tRBBH0V-qoETOcQHaLC?w=203&h=304&c=7&r=0&o=5&pid=1.7",
     size: "50 cm",
     year: 2021,
     origin: "Nhật Bản",
@@ -278,8 +280,9 @@ const fishes = [
     description:
       "Koi Ki Utsuri 65 cm, 2 tuổi, với màu vàng sáng xen lẫn màu đen đậm, tạo nên vẻ tương phản đầy cuốn hút.",
     price: "600,000 VND",
-    image: "https://koilover.vn/uploads/thumbs/kiutsuri_20190801093334245.jpg",
-    size: "65 cm",
+    image:
+      "https://th.bing.com/th/id/OIP.GST467YSEAQo31msgUOebAHaHW?w=173&h=180&c=7&r=0&o=5&pid=1.7",
+    size: "34 cm",
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
@@ -295,7 +298,8 @@ const fishes = [
     description:
       "Koi Kumonryu 70 cm, 3 tuổi, màu trắng pha đen thay đổi theo mùa, được xem là cá Koi của sự bí ẩn.",
     price: "850,000 VND",
-    image: "https://koilover.vn/uploads/thumbs/kumonryu_20190801093451356.jpg",
+    image:
+      "https://th.bing.com/th/id/OIP.E-kBjXfwdIB-sqxRDZUA0gHaLH?w=203&h=304&c=7&r=0&o=5&pid=1.7",
     size: "70 cm",
     year: 2020,
     origin: "Nhật Bản",
@@ -312,7 +316,8 @@ const fishes = [
     description:
       "Koi Benigoi 60 cm, 2.5 tuổi, toàn thân đỏ rực rỡ, thể hiện sự mạnh mẽ và nổi bật trong hồ Koi.",
     price: "950,000 VND",
-    image: "https://koilover.vn/uploads/thumbs/benigoi_20190801093517289.jpg",
+    image:
+      "https://th.bing.com/th/id/OIP.tOWHDImwqRI_eKn7m7uYNgHaMH?w=195&h=319&c=7&r=0&o=5&pid=1.7",
     size: "60 cm",
     year: 2021,
     origin: "Nhật Bản",
@@ -330,7 +335,7 @@ const fishes = [
       "Koi Doitsu Sanke 75 cm, 4 tuổi, vảy sáng và kết hợp màu đỏ trắng cùng các đốm đen đặc trưng.",
     price: "1,200,000 VND",
     image:
-      "https://koilover.vn/uploads/thumbs/doitsusanke_20190801093628345.jpg",
+      "https://www.bing.com/th?id=OIP.tmy5i34MSmX0nw1w1GZ4FQHaLH&w=136&h=204&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2",
     size: "75 cm",
     year: 2019,
     origin: "Nhật Bản",
@@ -347,7 +352,8 @@ const fishes = [
     description:
       "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
     price: "3,500,000 VND",
-    image: "https://example.com/sanke-showa-lot.jpg",
+    image:
+      "https://th.bing.com/th/id/OIP.9wxu3jj4OLWUS8AfTCpPwQHaEK?w=301&h=180&c=7&r=0&o=5&pid=1.7",
     isLot: true, // Đây là lô cá
     year: 2021,
     origin: "Nhật Bản",
@@ -359,14 +365,16 @@ const fishes = [
       { name: "Sanke", quantity: 3 },
       { name: "Showa", quantity: 2 },
     ],
+    video: "https://www.youtube.com/watch?v=showa_video_link",
   },
   {
     id: 18,
-    name: "Bộ Gosanke Premium",
+    name: "Lô cá Gosanke Premium",
     description:
       "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
     price: "5,000,000 VND",
-    image: "https://example.com/gosanke-premium.jpg",
+    image:
+      "https://cdn11.bigcommerce.com/s-upcqwyrrdy/images/stencil/1280x1280/products/12349/31213/japanese-premium-gosanke-8-10inch-koi-4pack-1000__59378.1680885854.jpg?c=1",
     isLot: true, // Đây là lô cá
     year: 2019,
     origin: "Nhật Bản",
@@ -386,7 +394,8 @@ const fishes = [
     description:
       "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
     price: "2,800,000 VND",
-    image: "https://example.com/butterfly-koi-lot.jpg",
+    image:
+      "https://cdn11.bigcommerce.com/s-kkon4imfg5/images/stencil/1280x1280/products/405/667/KOI_BUTTERFLY_6_-8___59746.1522374966.jpg?c=2",
     isLot: true, // Đây là lô cá
     year: 2019,
     origin: "Nhật Bản",
@@ -475,7 +484,6 @@ const ProductDetailPage = () => {
           )}
         </div>
 
-        {/* Phần thông tin chi tiết */}
         <div style={{ flex: 1 }}>
           <h1
             style={{
@@ -494,14 +502,49 @@ const ProductDetailPage = () => {
           <p style={{ marginBottom: "24px" }}>{fish.description}</p>
 
           <div>
+            {/* Hiển thị thông tin chung cho cả cá thể và lô cá */}
+            {!fish.isLot ? (
+              <>
+                <p>
+                  <strong>Giới tính:</strong> {fish.gender}
+                </p>
+                <p>
+                  <strong>Kích thước:</strong> {fish.size}
+                </p>
+                <p>
+                  <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
+                </p>
+              </>
+            ) : (
+              <>
+                {fish.gender && (
+                  <p>
+                    <strong>Giới tính:</strong> {fish.gender}
+                  </p>
+                )}
+                {fish.size && (
+                  <p>
+                    <strong>Kích thước:</strong> {fish.size}
+                  </p>
+                )}
+                <p>
+                  <strong>Số lượng cá trong lô:</strong> {fish.quantity}
+                </p>
+                <h3>Chi tiết các loại cá trong lô:</h3>
+                <ul>
+                  {fish.fishes.map((item, index) => (
+                    <li key={index}>
+                      {item.name} - {item.quantity} con
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
             <p>
-              <strong>Giới tính:</strong> {fish.gender}
+              <strong>Tuổi:</strong> {fish.age} năm
             </p>
             <p>
               <strong>Nguồn gốc:</strong> {fish.origin}
-            </p>
-            <p>
-              <strong>Tuổi:</strong> {fish.age} năm
             </p>
             <p>
               <strong>Giống:</strong> {fish.breed}
@@ -510,7 +553,7 @@ const ProductDetailPage = () => {
               <strong>Lượng thức ăn/ngày:</strong> {fish.foodPerDay} gram
             </p>
             <p>
-              <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
+              <strong>Năm sinh:</strong> {fish.year}
             </p>
           </div>
 
@@ -558,43 +601,17 @@ const ProductDetailPage = () => {
           {/* Kiểm tra nếu có video giới thiệu */}
           {fish.video && (
             <>
-              <h2>Video Giới Thiệu</h2>
+              <h2>Video về cá</h2>
               <iframe
                 width="100%"
                 height="315"
-                src={fish.video}
+                src={fish.video.replace("watch?v=", "embed/")}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{ marginBottom: "24px" }}
               ></iframe>
-            </>
-          )}
-
-          {/* Hiển thị thông tin nếu là lô cá */}
-          {fish.isLot ? (
-            <>
-              <p>
-                <strong>Năm sinh:</strong> {fish.year}
-              </p>
-              <p>
-                <strong>Số lượng cá trong lô:</strong> {fish.quantity}
-              </p>
-              <h3>Chi tiết các loại cá trong lô:</h3>
-              <ul>
-                {fish.fishes.map((item, index) => (
-                  <li key={index}>
-                    {item.name} - {item.quantity} con
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>Kích thước:</strong> {fish.size}
-              </p>
             </>
           )}
         </div>
