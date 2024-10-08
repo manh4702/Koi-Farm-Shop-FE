@@ -16,14 +16,9 @@ import ProductPage from "./components/user/pages/ProductPage";
 import ProductDetailPage from "./components/user/pages/ProductDetailPage";
 import CartPage from "./components/user/pages/CartPage";
 import FishConsignment from "./components/user/pages/FishConsignment";
-<<<<<<< HEAD
-
-import LienHe from "./components/user/pages/LienHe";
-
-=======
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
->>>>>>> 95e7b1fe8406e98358678851cf3b154d3c3ccec4
+import LienHe from "./components/user/pages/LienHe";
 const App = () => {
   return (
     <Router>
@@ -38,12 +33,9 @@ const App = () => {
         <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/fish-consignment" element={<FishConsignment />} />
-<<<<<<< HEAD
-        <Route path="/contact" element={<LienHe />} />
-=======
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
->>>>>>> 95e7b1fe8406e98358678851cf3b154d3c3ccec4
+        <Route path="/contact" element={<LienHe />} />
         {/* Thêm route chi tiết sản phẩm */}
       </Routes>
     </Router>
