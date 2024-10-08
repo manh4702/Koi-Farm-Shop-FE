@@ -18,7 +18,6 @@ import FishConsignment from "./components/user/pages/FishConsignment";
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
-
 const App = () => {
   return (
     <Router>

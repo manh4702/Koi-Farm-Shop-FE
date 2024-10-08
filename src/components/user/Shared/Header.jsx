@@ -110,6 +110,11 @@ const Header = () => {
                 Tin Tức
               </Link>
             </Menu.Item>
+            <Menu.Item key="contact">
+              <Link to="/contact" style={getMenuItemStyle("/contact")}>
+                Liên Hệ
+              </Link>
+            </Menu.Item>
             <Menu.Item key="cart">
               <Badge count={cartItemCount} overflowCount={99}>
                 <Link to="/cart" style={getMenuItemStyle("/cart")}>
@@ -117,6 +122,7 @@ const Header = () => {
                 </Link>
               </Badge>
             </Menu.Item>
+
           </Space>
         </Menu>
       </div>
