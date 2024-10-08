@@ -18,6 +18,7 @@ import CartPage from "./components/user/pages/CartPage";
 import FishConsignment from "./components/user/pages/FishConsignment";
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
+import LienHe from "./components/user/pages/LienHe";
 const App = () => {
   return (
     <Router>
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/fish-consignment" element={<FishConsignment />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
+        <Route path="/contact" element={<LienHe />} />
         {/* Thêm route chi tiết sản phẩm */}
       </Routes>
     </Router>
