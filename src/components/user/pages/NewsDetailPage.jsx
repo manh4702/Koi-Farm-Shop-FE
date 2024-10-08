@@ -1,4 +1,3 @@
-// src/components/user/pages/NewsDetailPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, Button, Skeleton, message } from "antd";
@@ -18,24 +17,34 @@ const NewsDetailPage = () => {
         // Giả lập dữ liệu API, thay thế bằng URL API thực tế của bạn
         const response = await new Promise((resolve) =>
           setTimeout(() => {
-            resolve({
-              success: true,
-              data: {
-                id,
-                title: "Khuyến mãi lớn mùa hè cho cá Koi",
-                date: "2023-07-15",
-                content:
-                  "Chúng tôi đang tổ chức chương trình khuyến mãi lớn dành cho tất cả khách hàng yêu thích cá Koi. Giảm giá lên đến 30% cho các dòng cá Koi đặc biệt...",
-                imageUrl: "https://via.placeholder.com/800x400", // Giả lập hình ảnh
-              },
-            });
+            // Kiểm tra nếu ID không hợp lệ
+            if (id !== "1" && id !== "2") {
+              resolve({
+                success: false,
+                message: "Không tìm thấy bài viết tin tức.",
+              });
+            } else {
+              resolve({
+                success: true,
+                data: {
+                  id,
+                  title: "Khuyến mãi lớn mùa hè cho cá Koi",
+                  date: "2023-07-15",
+                  content:
+                    "Chúng tôi đang tổ chức chương trình khuyến mãi lớn dành cho tất cả khách hàng yêu thích cá Koi. Giảm giá lên đến 30% cho các dòng cá Koi đặc biệt...",
+                  imageUrl: "https://via.placeholder.com/800x400", // Giả lập hình ảnh
+                },
+              });
+            }
           }, 1000)
         );
 
         if (response.success) {
           setNewsItem(response.data);
         } else {
-          throw new Error("Không tìm thấy bài viết tin tức.");
+          throw new Error(
+            response.message || "Không tìm thấy bài viết tin tức."
+          );
         }
       } catch (err) {
         setError(err.message);
