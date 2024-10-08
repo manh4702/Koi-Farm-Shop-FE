@@ -1,11 +1,11 @@
 // src/components/user/pages/ProductDetailPage.jsx
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import { Card, Button } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import useCartStore from "../../../store/cartStore";
+import { Button, message } from "antd";
+import { ShoppingCartOutlined, DollarOutlined } from "@ant-design/icons";
+import useCartStore from "../../../store/cartStore"; // Store quản lý giỏ hàng
 
 const fishes = [
   {
@@ -20,6 +20,11 @@ const fishes = [
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://koilover.vn/uploads/thumbs/karashigoi_20190801092911330.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5PF0YC5oyRfmFHF49BXTUsQkB7HAimFGYfA&s",
@@ -38,6 +43,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://koilover.vn/uploads/thumbs/goshiki_20190801092826524.jpg",
       "https://koilover.vn/uploads/images/goshiki_sideview.jpg",
@@ -56,6 +66,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://koilover.vn/uploads/thumbs/Asagi_20190801092355819.jpg",
       "https://koilover.vn/uploads/images/asagi_sideview.jpg",
@@ -74,6 +89,11 @@ const fishes = [
     year: 2020,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://koilover.vn/uploads/thumbs/kohaku_20190801092416968.jpg",
       "https://koilover.vn/uploads/images/kohaku_sideview.jpg",
@@ -93,6 +113,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://th.bing.com/th/id/OIP.6Vs0Oo2wsWAF5FtPVTRHZwHaLH?w=135&h=204&c=7&r=0&o=5&pid=1.7",
       "https://koilover.vn/uploads/images/showa_sideview.jpg",
@@ -112,6 +137,11 @@ const fishes = [
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://th.bing.com/th/id/OIP.QweGuNY3xoLztgP99hL2-AHaMr?w=191&h=327&c=7&r=0&o=5&pid=1.7",
       "https://koilover.vn/uploads/images/shiro_sideview.jpg",
@@ -131,6 +161,11 @@ const fishes = [
     year: 2020,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://th.bing.com/th/id/OIP.iQfjAgZSl6tCTFf6T4AS8QHaKs?w=131&h=190&c=7&r=0&o=5&pid=1.7",
       "https://koilover.vn/uploads/images/sanke_sideview.jpg",
@@ -150,6 +185,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://th.bing.com/th/id/OIP.1CiBj7IMyAUNgClKWx8ajwHaLG?w=115&h=180&c=7&r=0&o=5&pid=1.7",
       "https://koilover.vn/uploads/images/tancho_sideview.jpg",
@@ -168,6 +208,11 @@ const fishes = [
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
     images: [
       "https://koilover.vn/uploads/thumbs/kujyaku_20190801093000123.jpg",
       "https://koilover.vn/uploads/images/kujaku_sideview.jpg",
@@ -186,6 +231,11 @@ const fishes = [
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 11,
@@ -199,6 +249,11 @@ const fishes = [
     year: 2020,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 12,
@@ -211,6 +266,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 13,
@@ -223,6 +283,11 @@ const fishes = [
     year: 2022,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 14,
@@ -235,6 +300,11 @@ const fishes = [
     year: 2020,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 15,
@@ -247,6 +317,11 @@ const fishes = [
     year: 2021,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
   {
     id: 16,
@@ -260,23 +335,96 @@ const fishes = [
     year: 2019,
     origin: "Nhật Bản",
     seller: "On Koi Farm",
+    gender: "Đực", // Giới tính
+    breed: "Karashigoi", // Giống
+    age: 2, // Tuổi (năm)
+    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
+    screeningRate: "95%", // Tỉ lệ sàng lọc
   },
-  // ... Các con cá khác cũng thêm các thuộc tính tương tự như trên
+  {
+    id: 17,
+    name: "Lô Koi Sanke & Showa",
+    description:
+      "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
+    price: "3,500,000 VND",
+    image: "https://example.com/sanke-showa-lot.jpg",
+    isLot: true, // Đây là lô cá
+    year: 2021,
+    origin: "Nhật Bản",
+    seller: "On Koi Farm",
+    age: 2, // Tuổi (năm)
+    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
+    quantity: 5,
+    fishes: [
+      { name: "Sanke", quantity: 3 },
+      { name: "Showa", quantity: 2 },
+    ],
+  },
+  {
+    id: 18,
+    name: "Bộ Gosanke Premium",
+    description:
+      "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
+    price: "5,000,000 VND",
+    image: "https://example.com/gosanke-premium.jpg",
+    isLot: true, // Đây là lô cá
+    year: 2019,
+    origin: "Nhật Bản",
+    seller: "On Koi Farm",
+    age: 2, // Tuổi (năm)
+    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
+    quantity: 3,
+    fishes: [
+      { name: "Kohaku", quantity: 1 },
+      { name: "Sanke", quantity: 1 },
+      { name: "Showa", quantity: 1 },
+    ],
+  },
+  {
+    id: 19,
+    name: "Lô Koi Butterfly",
+    description:
+      "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
+    price: "2,800,000 VND",
+    image: "https://example.com/butterfly-koi-lot.jpg",
+    isLot: true, // Đây là lô cá
+    year: 2019,
+    origin: "Nhật Bản",
+    seller: "On Koi Farm",
+    age: 2, // Tuổi (năm)
+    foodPerDay: 150, // Lượng thức ăn/ngày (gram)
+    quantity: 4,
+    fishes: [
+      { name: "Butterfly Kohaku", quantity: 1 },
+      { name: "Butterfly Showa", quantity: 1 },
+      { name: "Butterfly Sanke", quantity: 1 },
+      { name: "Butterfly Goshiki", quantity: 1 },
+    ],
+  },
+  // Các sản phẩm khác...<3
 ];
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const fish = fishes.find((fish) => fish.id === parseInt(id));
+  const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
+
+  const fish = fishes.find((fish) => fish.id === parseInt(id));
 
   if (!fish) {
     return <div>Không tìm thấy sản phẩm.</div>;
   }
 
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-    addItem(fish);
+  // Hàm xử lý thêm vào giỏ hàng
+  const handleAddToCart = () => {
+    addItem(fish); // Thêm sản phẩm vào giỏ hàng
     message.success("Đã thêm sản phẩm vào giỏ hàng");
+  };
+
+  // Hàm xử lý khi nhấn "Mua ngay"
+  const handleBuyNow = () => {
+    addItem(fish); // Thêm sản phẩm vào giỏ hàng
+    navigate("/checkout"); // Điều hướng đến trang thanh toán
   };
 
   return (
@@ -308,21 +456,23 @@ const ProductDetailPage = () => {
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             }}
           />
-          <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-            {fish.images.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`Image ${index + 1} of ${fish.name}`}
-                style={{
-                  width: "100px",
-                  height: "auto",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              />
-            ))}
-          </div>
+          {fish.images && fish.images.length > 0 && (
+            <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+              {fish.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Image ${index + 1} of ${fish.name}`}
+                  style={{
+                    width: "100px",
+                    height: "auto",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Phần thông tin chi tiết */}
@@ -334,7 +484,7 @@ const ProductDetailPage = () => {
               marginBottom: "16px",
             }}
           >
-            {fish.name} - {fish.size}
+            {fish.name}
           </h1>
           <p
             style={{ fontSize: "1.5rem", color: "#c0392b", fontWeight: "bold" }}
@@ -342,83 +492,111 @@ const ProductDetailPage = () => {
             Giá bán: {fish.price}
           </p>
           <p style={{ marginBottom: "24px" }}>{fish.description}</p>
-          <h2>Video Giới Thiệu</h2>
-          <iframe
-            width="100%"
-            height="315"
-            src={fish.video}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ marginBottom: "24px" }}
-          ></iframe>
-          {/* Thông tin chi tiết khác */}
+
           <div>
             <p>
-              <strong>Người bán:</strong> {fish.seller}
-            </p>
-            <p>
-              <strong>Năm sinh:</strong> {fish.year}
-            </p>
-            <p>
-              <strong>Kích thước:</strong> {fish.size}
-            </p>
-            <p>
-              <strong>Giống cá:</strong> {fish.name}
+              <strong>Giới tính:</strong> {fish.gender}
             </p>
             <p>
               <strong>Nguồn gốc:</strong> {fish.origin}
             </p>
+            <p>
+              <strong>Tuổi:</strong> {fish.age} năm
+            </p>
+            <p>
+              <strong>Giống:</strong> {fish.breed}
+            </p>
+            <p>
+              <strong>Lượng thức ăn/ngày:</strong> {fish.foodPerDay} gram
+            </p>
+            <p>
+              <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
+            </p>
           </div>
-          <div
+
+          {/* Nút thêm vào giỏ hàng */}
+          <Button
+            type="primary"
             style={{
+              backgroundColor: "red",
+              width: "100%",
               display: "flex",
-              justifyContent: "space-between",
-              marginTop: "20px",
-              flexDirection: "row",
-              gap: "15px",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: "10px",
             }}
+            onClick={handleAddToCart}
           >
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "red",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "16px",
-              }}
-              // onClick={handleAddToCart}
-            >
-              Mua ngay
-            </Button>
-            <Button
-              type="default"
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                transition: "border 0.3s",
-                border: "2px solid black",
-                color: "black",
-                fontSize: "16px",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.border = "2px solid red";
-                e.currentTarget.style.color = "red";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.border = "2px solid black";
-                e.currentTarget.style.color = "black";
-              }}
-              onClick={handleAddToCart}
-            >
-              <ShoppingCartOutlined /> Thêm vào giỏ hàng
-            </Button>
-          </div>
+            <ShoppingCartOutlined /> Thêm vào giỏ hàng
+          </Button>
+
+          {/* Nút mua ngay */}
+          <Button
+            type="default"
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              transition: "border 0.3s",
+              border: "2px solid transparent",
+              color: "black",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = "2px solid red";
+              e.currentTarget.style.color = "red";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.border = "2px solid transparent";
+              e.currentTarget.style.color = "black";
+            }}
+            onClick={handleBuyNow}
+          >
+            <DollarOutlined /> Mua ngay
+          </Button>
+
+          {/* Kiểm tra nếu có video giới thiệu */}
+          {fish.video && (
+            <>
+              <h2>Video Giới Thiệu</h2>
+              <iframe
+                width="100%"
+                height="315"
+                src={fish.video}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ marginBottom: "24px" }}
+              ></iframe>
+            </>
+          )}
+
+          {/* Hiển thị thông tin nếu là lô cá */}
+          {fish.isLot ? (
+            <>
+              <p>
+                <strong>Năm sinh:</strong> {fish.year}
+              </p>
+              <p>
+                <strong>Số lượng cá trong lô:</strong> {fish.quantity}
+              </p>
+              <h3>Chi tiết các loại cá trong lô:</h3>
+              <ul>
+                {fish.fishes.map((item, index) => (
+                  <li key={index}>
+                    {item.name} - {item.quantity} con
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p>
+                <strong>Kích thước:</strong> {fish.size}
+              </p>
+            </>
+          )}
         </div>
       </main>
       <Footer />
