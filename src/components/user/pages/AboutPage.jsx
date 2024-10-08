@@ -53,22 +53,40 @@ const AboutPage = () => {
           />
         </div>
         <p className="text-lg mt-4">
-          Sau hơn 1 vài năm phát triển, luôn cải tiến để đáp ứng tốt nhất nhu
-          cầu của cộng đồng chơi Koi Việt Nam, FishKoi Store đã đạt được một số
-          thành tựu như sau:
+          Đây là hình ảnh của trang trại và các giống cá của chúng tôi:
         </p>
-        <div className="mb-8">
+        <div class="flex space-x-4">
           <img
-            src="https://toidi.net/wp-content/uploads/2017/02/hosokai-koi-farm.jpg" // Thay thế đường dẫn này bằng link ảnh của bạn
-            alt="Mô tả ảnh"
-            className="w-full h-auto"
+            src="https://th.bing.com/th/id/OIP.9AHnAIv0xZcg1JIre_GRxwHaFj?w=310&h=186&c=7&r=0&o=5&pid=1.7"
+            alt="Mô tả ảnh 1"
+            className="w-full max-w-[310px] h-auto"
+          />
+          <img
+            src="https://th.bing.com/th/id/OIP.NLzHqlXoZLVcInCKQqUB9wHaE8?w=279&h=186&c=7&r=0&o=5&pid=1.7"
+            alt="Mô tả ảnh 2"
+            className="w-full max-w-[310px] h-auto"
+          />
+          <img
+            src="https://th.bing.com/th/id/OIP.GAzG7rF4gFNtb8YMAuv0egHaEK?rs=1&pid=ImgDetMain"
+            alt="Mô tả ảnh 3"
+            className="w-full max-w-[310px] h-auto"
+          />
+          <img
+            src="https://diadiemnamdinh.com/wp-content/uploads/2024/10/htx-san-xuat-va-thuong-mai-tan-khanh-xa-minh-tan-huyen-vu-ban-tinh-nam-dinh-1-1728004554587998176524-1536x1102.jpeg"
+            alt="Mô tả ảnh 4"
+            className="w-full max-w-[310px] h-auto"
           />
         </div>
-        <ul className="list-disc list-inside text-lg mt-4">
+
+        <ul className="text-lg mt-4">
           <li>
-            Hệ thống showroom tại Hồ Chí Minh và khu kỹ thuật dưỡng cá có tổng
-            diện tích mặt nước trên 6000m² với trên 160 hồ cá Koi các loại.
+            Sau hơn 1 vài năm phát triển, luôn cải tiến để đáp ứng tốt nhất nhu
+            cầu của cộng đồng chơi Koi Việt Nam, FishKoi Store đã đạt được một
+            số thành tựu như sau: Hệ thống showroom tại Hồ Chí Minh và khu kỹ
+            thuật dưỡng cá có tổng diện tích mặt nước trên 6000m² với trên 160
+            hồ cá Koi các loại.
           </li>
+
           <li>
             Đối tác cá: Trên 20 trại cá hàng đầu của Nhật như Narita, Sakai,
             Momotaro, Dainichi, Ogata, Omosako, Isa, Marusei, Marudo... cung cấp
