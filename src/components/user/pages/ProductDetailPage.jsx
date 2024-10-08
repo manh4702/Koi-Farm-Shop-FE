@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import { Card, Button } from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import useCartStore from "../../../store/cartStore";
 
 const fishes = [
   {
@@ -265,10 +267,17 @@ const fishes = [
 const ProductDetailPage = () => {
   const { id } = useParams();
   const fish = fishes.find((fish) => fish.id === parseInt(id));
+  const addItem = useCartStore((state) => state.addItem);
 
   if (!fish) {
     return <div>Không tìm thấy sản phẩm.</div>;
   }
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addItem(fish);
+    message.success("Đã thêm sản phẩm vào giỏ hàng");
+  };
 
   return (
     <div
@@ -361,6 +370,54 @@ const ProductDetailPage = () => {
             <p>
               <strong>Nguồn gốc:</strong> {fish.origin}
             </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px",
+              flexDirection: "row",
+              gap: "15px",
+            }}
+          >
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "red",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "16px",
+              }}
+              // onClick={handleAddToCart}
+            >
+              Mua ngay
+            </Button>
+            <Button
+              type="default"
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                transition: "border 0.3s",
+                border: "2px solid black",
+                color: "black",
+                fontSize: "16px",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.border = "2px solid red";
+                e.currentTarget.style.color = "red";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.border = "2px solid black";
+                e.currentTarget.style.color = "black";
+              }}
+              onClick={handleAddToCart}
+            >
+              <ShoppingCartOutlined /> Thêm vào giỏ hàng
+            </Button>
           </div>
         </div>
       </main>

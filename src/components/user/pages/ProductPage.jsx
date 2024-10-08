@@ -217,7 +217,13 @@ const ProductPage = () => {
           ))}
         </Row>
         {/* Container phân trang, căn về bên phải */}
-        <div style={{ textAlign: "right", marginTop: "32px" }}>
+        <div
+          style={{
+            textAlign: "right",
+            marginTop: "32px",
+            float: "right",
+          }}
+        >
           <Pagination
             current={currentPage}
             pageSize={ITEMS_PER_PAGE}
