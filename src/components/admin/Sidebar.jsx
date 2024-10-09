@@ -120,7 +120,7 @@ function Sidebar({ setSelectedKey }) {
           icon={<MdFeedback />}
           onClick={() => setSelectedKey("feedback-management")}
         >
-          Đánh giá 
+          Đánh giá
         </Menu.Item>
         <Menu.Item
           key=""
