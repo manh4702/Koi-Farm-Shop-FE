@@ -34,7 +34,7 @@ const App = () => {
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
-        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
         {/* Trang giỏ hàng và ký gửi cá */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/fish-consignment" element={<FishConsignment />} />

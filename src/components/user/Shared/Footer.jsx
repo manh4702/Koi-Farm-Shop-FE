@@ -28,7 +28,7 @@ const Footer = () => {
             GIỚI THIỆU CHUNG
           </h3>
           <img
-            src="src/assets/logoKoi.png"
+            src="/src/assets/logoKoi.png"
             alt="KoiFishLogo"
             style={{
               width: "70%",
