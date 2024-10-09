@@ -18,6 +18,7 @@ import FishConsignment from "./components/user/pages/FishConsignment";
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
+import LienHe from "./components/user/pages/LienHe";
 const App = () => {
   return (
     <Router>
@@ -40,6 +41,7 @@ const App = () => {
         {/* Tin tức và chi tiết tin tức */}
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
+        <Route path="/contact" element={<LienHe />} />
         {/* Điều hướng sai hoặc không tìm thấy trang */}
         <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
       </Routes>
