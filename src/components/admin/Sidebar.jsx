@@ -11,6 +11,7 @@ import {
   FileDoneOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
+import { MdFeedback } from "react-icons/md";
 import { GiCirclingFish } from "react-icons/gi";
 import { GrUserManager } from "react-icons/gr";
 import { GrBlog } from "react-icons/gr";
@@ -108,11 +109,18 @@ function Sidebar({ setSelectedKey }) {
           Quản lý tin tức
         </Menu.Item>
         <Menu.Item
-          key="9"
+          key="10"
           icon={<QuestionCircleOutlined />}
           onClick={() => setSelectedKey("FAQ-management")}
         >
           FAQ
+        </Menu.Item>
+        <Menu.Item
+          key="9"
+          icon={<MdFeedback />}
+          onClick={() => setSelectedKey("feedback-management")}
+        >
+          Đánh giá
         </Menu.Item>
         <Menu.Item
           key=""
