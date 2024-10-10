@@ -28,7 +28,7 @@ const Footer = () => {
             GIỚI THIỆU CHUNG
           </h3>
           <img
-            src="src/assets/logoKoi.png"
+            src="/src/assets/logoKoi.png"
             alt="KoiFishLogo"
             style={{
               width: "70%",
@@ -48,7 +48,11 @@ const Footer = () => {
             <li>Đăng ký & Đăng nhập</li>
             <li>Quên mật khẩu</li>
             <li>Đăng kí ký gửi bán cá</li>
-            <li>Xem giỏ hàng</li>
+            <li>
+              <a href="/cart" style={{ color: "white" }}>
+                Xem giỏ hàng
+              </a>
+            </li>
             <li>
               <a href="/fish-consignment" style={{ color: "white" }}>
                 Ký gửi cá

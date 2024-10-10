@@ -77,7 +77,7 @@ const FishCard = ({ fish }) => {
         style={{
           fontSize: "1.25rem",
           fontWeight: "bold",
-          color: "#2563EB",
+          color: "red",
           marginBottom: "1rem",
         }}
       >
@@ -93,9 +93,9 @@ const FishCard = ({ fish }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onClick={handleAddToCart}
+          // onClick={handleAddToCart}
         >
-          <ShoppingCartOutlined /> Thêm vào giỏ hàng
+          Mua ngay
         </Button>
         <Button
           type="default"
@@ -105,7 +105,7 @@ const FishCard = ({ fish }) => {
             justifyContent: "center",
             alignItems: "center",
             transition: "border 0.3s",
-            border: "2px solid transparent",
+            border: "2px solid black",
             color: "black",
           }}
           onMouseEnter={(e) => {
@@ -113,11 +113,12 @@ const FishCard = ({ fish }) => {
             e.currentTarget.style.color = "red";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.border = "2px solid transparent";
+            e.currentTarget.style.border = "2px solid black";
             e.currentTarget.style.color = "black";
           }}
+          onClick={handleAddToCart}
         >
-          <DollarOutlined /> Mua ngay
+          <ShoppingCartOutlined /> Thêm vào giỏ hàng
         </Button>
       </div>
     </Card>
