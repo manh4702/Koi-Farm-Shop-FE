@@ -47,7 +47,13 @@ const Header = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Menu
             mode="horizontal"
-            style={{ display: "flex", alignItems: "center", fontSize: "16px" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "black",
+            }}
           >
             <Menu.Item key="login">
               <Link to="/login">Đăng Nhập</Link>
@@ -57,6 +63,13 @@ const Header = () => {
               <Link to="/register">Đăng Ký</Link>
             </Menu.Item>
           </Menu>
+          <Badge count={cartItemCount} overflowCount={99}>
+            <Link to="/cart" style={getMenuItemStyle("/cart")}>
+              <ShoppingCartOutlined
+                style={{ fontSize: "20px", marginLeft: "20px" }}
+              />
+            </Link>
+          </Badge>
         </div>
       </div>
       <div
@@ -66,20 +79,24 @@ const Header = () => {
           alignItems: "center",
           margin: "0 150px",
           maxWidth: "100%",
+          height: "150px",
         }}
       >
         {/* Bọc logo trong thẻ Link */}
-        <Link to="/" style={{ height: "150px" }}>
+        <Link
+          to="/"
+          // style={{ height: "150px" }}
+        >
           <img
             src={LogoKoi}
             alt="Cá Koi Store"
-            style={{ height: "100%", objectFit: "contain" }}
+            style={{ height: "200px", objectFit: "contain" }}
           />
         </Link>
         <Search />
         <Menu
           mode="horizontal"
-          style={{ display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center", marginLeft: "30px" }}
         >
           <Space size="large">
             <Menu.Item key="home">
@@ -115,14 +132,13 @@ const Header = () => {
                 Liên Hệ
               </Link>
             </Menu.Item>
-            <Menu.Item key="cart">
-              <Badge count={cartItemCount} overflowCount={99}>
-                <Link to="/cart" style={getMenuItemStyle("/cart")}>
-                  <ShoppingCartOutlined style={{ fontSize: "20px" }} />
-                </Link>
-              </Badge>
-            </Menu.Item>
-
+            {/* <Menu.Item key="cart">
+            <Badge count={cartItemCount} overflowCount={99}>
+              <Link to="/cart" style={getMenuItemStyle("/cart")}>
+                <ShoppingCartOutlined style={{ fontSize: "20px" }} />
+              </Link>
+            </Badge>
+          </Menu.Item> */}
           </Space>
         </Menu>
       </div>

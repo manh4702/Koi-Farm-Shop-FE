@@ -29,6 +29,13 @@ const featuredFishes = [
       "https://th.bing.com/th/id/OIP.6Vs0Oo2wsWAF5FtPVTRHZwHaLH?w=135&h=204&c=7&r=0&o=5&pid=1.7",
     price: "750,000 VND",
   },
+  {
+    id: 4,
+    name: "Showa",
+    image:
+      "https://th.bing.com/th/id/OIP.6Vs0Oo2wsWAF5FtPVTRHZwHaLH?w=135&h=204&c=7&r=0&o=5&pid=1.7",
+    price: "750,000 VND",
+  },
 ];
 
 const HomePage = () => {
@@ -46,7 +53,7 @@ const HomePage = () => {
 
         <section className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Cá Koi nổi bật</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             {featuredFishes.map((fish) => (
               <div key={fish.id} className="border p-4">
                 <img
@@ -57,7 +64,7 @@ const HomePage = () => {
                 <h3 className="text-xl font-semibold">{fish.name}</h3>
                 <p className="text-red-500 font-bold">{fish.price}</p>
                 <Link
-                  to={`/product/${fish.id}`}
+                  to={`/products/${fish.id}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
                 >
                   Xem chi tiết
