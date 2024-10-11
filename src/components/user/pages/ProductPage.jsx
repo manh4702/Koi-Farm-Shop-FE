@@ -1,6 +1,6 @@
 // src/components/user/pages/ProductPage.jsx
 import React, { useState, useEffect } from "react";
-import { Row, Col, Tooltip, Pagination } from "antd";
+import { Row, Col, Tooltip, Pagination, Checkbox, Modal, Button } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
@@ -207,7 +207,7 @@ const ITEMS_PER_PAGE = 12;
 const ProductPage = () => {
   const [hoveredFishId, setHoveredFishId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [selectedFishes, setSelectedFishes] = useState([]);
   // Lấy các thẻ cá thuộc trang hiện tại
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -217,7 +217,96 @@ const ProductPage = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+   // Hàm chọn cá để so sánh
+   const handleSelectFish = (fishId) => {
+    const selectedFish = fishes.find((fish) => fish.id === fishId);
+    if (!selectedFish) return;
 
+    if (selectedFishes.includes(selectedFish)) {
+      setSelectedFishes(selectedFishes.filter((fish) => fish.id !== fishId));
+    } else {
+      if (selectedFishes.length < 2) {
+        setSelectedFishes([...selectedFishes, selectedFish]);
+      } else {
+        Modal.warning({
+          title: "Chỉ có thể so sánh 2 cá",
+          content: "Bạn chỉ có thể chọn tối đa 2 cá để so sánh.",
+        });
+      }
+    }
+  };
+
+     // Hiển thị bảng so sánh
+    const showCompareModal = () => {
+    Modal.info({
+      title: "So sánh cá",
+      content: (
+        <div>
+          {selectedFishes.length === 2 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Thuộc tính</th>
+                  <th>{selectedFishes[0].name}</th>
+                  <th>{selectedFishes[1].name}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Giá</td>
+                  <td>{selectedFishes[0].price}</td>
+                  <td>{selectedFishes[1].price}</td>
+                </tr>
+                <tr>
+                  <td>Kích thước</td>
+                  <td>{selectedFishes[0].size}</td>
+                  <td>{selectedFishes[1].size}</td>
+                </tr>
+                <tr>
+                  <td>Tuổi</td>
+                  <td>{selectedFishes[0].age}</td>
+                  <td>{selectedFishes[1].age}</td>
+                </tr>
+                <tr>
+                  <td>Năm sinh</td>
+                  <td>{selectedFishes[0].year}</td>
+                  <td>{selectedFishes[1].year}</td>
+                </tr>
+                <tr>
+                  <td>Nguồn gốc</td>
+                  <td>{selectedFishes[0].origin}</td>
+                  <td>{selectedFishes[1].origin}</td>
+                </tr>
+                <tr>
+                  <td>Giống</td>
+                  <td>{selectedFishes[0].breed}</td>
+                  <td>{selectedFishes[1].breed}</td>
+                </tr>
+                <tr>
+                  <td>Giới tính</td>
+                  <td>{selectedFishes[0].gender}</td>
+                  <td>{selectedFishes[1].gender}</td>
+                </tr>
+                <tr>
+                  <td>Lượng thức ăn/ngày</td>
+                  <td>{selectedFishes[0].foodPerDay}</td>
+                  <td>{selectedFishes[1].foodPerDay}</td>
+                </tr>
+                <tr>
+                  <td>Tỉ lệ sàng lọc</td>
+                  <td>{selectedFishes[0].screeningRate}</td>
+                  <td>{selectedFishes[1].screeningRate}</td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p>Vui lòng chọn 2 cá để so sánh.</p>
+          )}
+        </div>
+      ),
+      onOk() {},
+    });
+  };
   // Cuộn về đầu trang khi thay đổi trang
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -236,15 +325,35 @@ const ProductPage = () => {
           padding: "32px 16px",
         }}
       >
-        <h1
+        {/* Container cho tiêu đề và nút so sánh */}
+        <div
           style={{
-            fontSize: "1.875rem",
-            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center", // Căn giữa theo chiều dọc
             marginBottom: "32px",
           }}
         >
-          Các loại cá Koi và Lô Cá
-        </h1>
+          <h1
+            style={{
+              fontSize: "1.875rem",
+              fontWeight: "bold",
+            }}
+          >
+            Các loại cá Koi và Lô Cá
+          </h1>
+          {/* Nút hiện bảng so sánh */}
+          {selectedFishes.length === 2 && (
+            <Button
+              type="primary"
+              onClick={showCompareModal}
+              style={{ marginLeft: "auto" }} // Đẩy nút sang bên phải
+            >
+              So sánh {selectedFishes.length} cá đã chọn
+            </Button>
+          )}
+        </div>
+  
         <Row gutter={[16, 16]}>
           {currentFishes.map((fish) => (
             <Col
@@ -272,6 +381,14 @@ const ProductPage = () => {
                   />
                 </Tooltip>
               )}
+              {/* Checkbox để chọn cá so sánh */}
+              <Checkbox
+                checked={selectedFishes.includes(fish)}
+                onChange={() => handleSelectFish(fish.id)}
+                style={{ position: "absolute", top: "10px", right: "10px" }}
+              >
+                So sánh
+              </Checkbox>
             </Col>
           ))}
         </Row>
@@ -293,7 +410,7 @@ const ProductPage = () => {
       </main>
       <Footer />
     </div>
-  );
+  );  
 };
 
 export default ProductPage;
