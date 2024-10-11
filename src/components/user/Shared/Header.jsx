@@ -1,4 +1,3 @@
-// src/user/Shared/Header.jsx
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Badge, Layout, Menu, Space } from "antd";
@@ -69,13 +68,14 @@ const Header = () => {
           maxWidth: "100%",
         }}
       >
-        <div style={{ height: "150px" }}>
+        {/* Bọc logo trong thẻ Link */}
+        <Link to="/" style={{ height: "150px" }}>
           <img
             src={LogoKoi}
             alt="Cá Koi Store"
             style={{ height: "100%", objectFit: "contain" }}
           />
-        </div>
+        </Link>
         <Search />
         <Menu
           mode="horizontal"
@@ -110,6 +110,11 @@ const Header = () => {
                 Tin Tức
               </Link>
             </Menu.Item>
+            <Menu.Item key="contact">
+              <Link to="/contact" style={getMenuItemStyle("/contact")}>
+                Liên Hệ
+              </Link>
+            </Menu.Item>
             <Menu.Item key="cart">
               <Badge count={cartItemCount} overflowCount={99}>
                 <Link to="/cart" style={getMenuItemStyle("/cart")}>
@@ -117,6 +122,7 @@ const Header = () => {
                 </Link>
               </Badge>
             </Menu.Item>
+
           </Space>
         </Menu>
       </div>

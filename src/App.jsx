@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -18,23 +17,33 @@ import CartPage from "./components/user/pages/CartPage";
 import FishConsignment from "./components/user/pages/FishConsignment";
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
+import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
+import LienHe from "./components/user/pages/LienHe";
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Trang chủ */}
         <Route path="/" element={<HomePage />} />
+        {/* Đăng nhập và đăng ký */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        {/* Dashboard admin và quản lý */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/manager" element={<ManagerDashboard />} />
+        {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
+        {/* Trang giỏ hàng và ký gửi cá */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/fish-consignment" element={<FishConsignment />} />
+        {/* Tin tức và chi tiết tin tức */}
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
-        {/* Thêm route chi tiết sản phẩm */}
+        <Route path="/contact" element={<LienHe />} />
+        {/* Điều hướng sai hoặc không tìm thấy trang */}
+        <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
       </Routes>
     </Router>
   );
