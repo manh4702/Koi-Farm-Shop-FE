@@ -5,6 +5,9 @@ import { EyeOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import FishCard from "../Product/FishCard";
+import ZaloIcon from "./ZaloIcon";
+import YTIconts from "./YoutubeIcon";
+import FBIconts from "./FacebookIcon";
 
 const fishes = [
   {
@@ -217,8 +220,8 @@ const ProductPage = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-   // Hàm chọn cá để so sánh
-   const handleSelectFish = (fishId) => {
+  // Hàm chọn cá để so sánh
+  const handleSelectFish = (fishId) => {
     const selectedFish = fishes.find((fish) => fish.id === fishId);
     if (!selectedFish) return;
 
@@ -236,8 +239,8 @@ const ProductPage = () => {
     }
   };
 
-     // Hiển thị bảng so sánh
-    const showCompareModal = () => {
+  // Hiển thị bảng so sánh
+  const showCompareModal = () => {
     Modal.info({
       title: "So sánh cá",
       content: (
@@ -330,7 +333,7 @@ const ProductPage = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center", // Căn giữa theo chiều dọc
+            alignItems: "center",
             marginBottom: "32px",
           }}
         >
@@ -347,13 +350,17 @@ const ProductPage = () => {
             <Button
               type="primary"
               onClick={showCompareModal}
-              style={{ marginLeft: "auto" }} // Đẩy nút sang bên phải
+              style={{
+                marginLeft: "auto",
+                color: "white",
+                backgroundColor: "red",
+              }}
             >
               So sánh {selectedFishes.length} cá đã chọn
             </Button>
           )}
         </div>
-  
+
         <Row gutter={[16, 16]}>
           {currentFishes.map((fish) => (
             <Col
@@ -366,29 +373,41 @@ const ProductPage = () => {
               style={{ position: "relative" }}
             >
               <FishCard fish={fish} />
-              {hoveredFishId === fish.id && (
+              {/* {hoveredFishId === fish.id && (
                 <Tooltip title="Xem chi tiết">
                   <EyeOutlined
                     style={{
                       position: "absolute",
-                      top: "50%",
+                      top: "150px",
                       left: "50%",
                       transform: "translate(-50%, -50%)",
                       fontSize: "30px",
-                      color: "#1890ff",
+                      color: "red",
                       cursor: "pointer",
                     }}
                   />
                 </Tooltip>
-              )}
+              )} */}
               {/* Checkbox để chọn cá so sánh */}
-              <Checkbox
-                checked={selectedFishes.includes(fish)}
-                onChange={() => handleSelectFish(fish.id)}
-                style={{ position: "absolute", top: "10px", right: "10px" }}
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  padding: "4px",
+                  position: "absolute",
+                  top: "10px",
+                  right: "39px",
+                  backgroundColor: "InactiveCaption",
+                }}
               >
-                So sánh
-              </Checkbox>
+                <Checkbox
+                  checked={selectedFishes.includes(fish)}
+                  onChange={() => handleSelectFish(fish.id)}
+                  // style={{ position: "absolute", top: "10px", right: "30px" }}
+                >
+                  So sánh
+                </Checkbox>
+              </div>
             </Col>
           ))}
         </Row>
@@ -408,9 +427,12 @@ const ProductPage = () => {
           />
         </div>
       </main>
+      <ZaloIcon />
+      <YTIconts />
+      <FBIconts />
       <Footer />
     </div>
-  );  
+  );
 };
 
 export default ProductPage;

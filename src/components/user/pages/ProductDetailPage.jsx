@@ -562,46 +562,48 @@ const ProductDetailPage = () => {
             type="primary"
             style={{
               backgroundColor: "red",
-              width: "100%",
+              width: "50%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              marginTop: "20px",
               marginBottom: "10px",
-            }}
-            onClick={handleAddToCart}
-          >
-            <ShoppingCartOutlined /> Thêm vào giỏ hàng
-          </Button>
-
-          {/* Nút mua ngay */}
-          <Button
-            type="default"
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              transition: "border 0.3s",
-              border: "2px solid transparent",
-              color: "black",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.border = "2px solid red";
-              e.currentTarget.style.color = "red";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.border = "2px solid transparent";
-              e.currentTarget.style.color = "black";
             }}
             onClick={handleBuyNow}
           >
             <DollarOutlined /> Mua ngay
           </Button>
 
+          {/* Nút mua ngay */}
+          <Button
+            type="default"
+            style={{
+              width: "50%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              transition: "border 0.3s",
+              border: "2px solid black",
+              color: "black",
+              marginBottom: "30px",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = "2px solid red";
+              e.currentTarget.style.color = "red";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.border = "2px solid black";
+              e.currentTarget.style.color = "black";
+            }}
+            onClick={handleAddToCart}
+          >
+            <ShoppingCartOutlined /> Thêm vào giỏ hàng
+          </Button>
+
           {/* Kiểm tra nếu có video giới thiệu */}
           {fish.video && (
             <>
-              <h2>Video về cá</h2>
+              {/* <h2>Video về cá</h2> */}
               <iframe
                 width="100%"
                 height="315"
