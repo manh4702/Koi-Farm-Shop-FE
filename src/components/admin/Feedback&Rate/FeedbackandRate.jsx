@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
-
+import { CiStar } from "react-icons/ci";
 const { Panel } = Collapse;
 
 const FeedbackAndRate = () => {
@@ -12,7 +12,7 @@ const FeedbackAndRate = () => {
             email: "johndoe@example.com",
             phone: "0123456789",
             feedback: "I want to give feedback about the product.",
-            rating: 4,
+            rating: 1,
         },
         {
             key: "2",
@@ -20,9 +20,25 @@ const FeedbackAndRate = () => {
             email: "janedoe@example.com",
             phone: "0987654321",
             feedback: "I need to rate the service.",
-            rating: 5,
+            rating: 2,
         },
         // Add more feedback and rating data here
+        {
+            key: "3",
+            name: "Alex Smith",
+            email: "alexsmith@example.com",
+            phone: "5556667777",
+            feedback: "The product exceeded my expectations.",
+            rating: 3,
+        },
+        {
+            key: "4",
+            name: "Emily Johnson",
+            email: "emilyjohnson@example.com",
+            phone: "3334445555",
+            feedback: "The customer service was very helpful.",
+            rating: 5,
+        },
     ]);
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -45,11 +61,6 @@ const FeedbackAndRate = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedFeedback, setSelectedFeedback] = useState(null);
-
-    const handleEdit = (feedback) => {
-        setSelectedFeedback(feedback);
-        setIsModalVisible(true);
-    };
 
     const handleDelete = (key) => {
         setFeedbacks(feedbacks.filter((feedback) => feedback.key !== key));
@@ -98,13 +109,13 @@ const FeedbackAndRate = () => {
         {
             title: "Rating",
             dataIndex: "rating",
+        render: (text) => `${text} ⭐️`,
         },
         {
             title: "Action",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Edit</Button>
                     <Button onClick={() => handleDelete(record.key)} danger>
                         Delete
                     </Button>
@@ -144,18 +155,6 @@ const FeedbackAndRate = () => {
                 </Button>
             </div>
             <Table columns={columns} dataSource={filteredFeedbacks} />
-
-            <h2 style={{ marginTop: "40px" }}>Preview Feedback</h2>
-            <Collapse>
-                {filteredFeedbacks.map((feedback) => (
-                    <Panel header={feedback.name} key={feedback.key}>
-                        <p>{feedback.email}</p>
-                        <p>{feedback.phone}</p>
-                        <p>{feedback.feedback}</p>
-                        <p>{feedback.rating}</p>
-                    </Panel>
-                ))}
-            </Collapse>
 
             <Modal
                 title={selectedFeedback ? "Update feedback" : "Add new feedback"}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
+import { Table, Button, Modal, Form, Input, Space, Collapse, Select, Tag, message } from "antd";
 
 const { Panel } = Collapse;
 
@@ -12,7 +12,8 @@ const FAQManagement = () => {
             name: "John Doe",
             email: "johndoe@example.com",
             phone: "0123456789",
-            content: "Tôi muốn biết cách chăm sóc cá koi.",
+          
+            status: "Hoàn thành",
         },
         {
             key: "2",
@@ -20,7 +21,8 @@ const FAQManagement = () => {
             name: "Jane Doe",
             email: "janedoe@example.com",
             phone: "0987654321",
-            content: "Tôi cần một hướng dẫn về cách chọn cá koi khỏe mạnh.",
+            
+            status: "Chưa trả lời",
         },
         {
             key: "3",
@@ -28,7 +30,8 @@ const FAQManagement = () => {
             name: "James Smith",
             email: "jamessmith@example.com",
             phone: "0123456789",
-            content: "Tôi muốn biết giá của cá koi.",
+            
+            status: "Hoàn thành",
         },
         {
             key: "4",
@@ -36,7 +39,8 @@ const FAQManagement = () => {
             name: "Emily Johnson",
             email: "emilyjohnson@example.com",
             phone: "0987654321",
-            content: "Tôi cần một hướng dẫn về cách nuôi cá koi trong bể.",
+            
+            status: "Chưa trả lời",
         },
         {
             key: "5",
@@ -44,7 +48,8 @@ const FAQManagement = () => {
             name: "Michael Williams",
             email: "michaelwilliams@example.com",
             phone: "0123456789",
-            content: "Tôi muốn tuân theo các thực hành tốt nhất trong nuôi cá koi.",
+            
+            status: "Hoàn thành",
         },
     ]);
 
@@ -70,13 +75,9 @@ const FAQManagement = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedFAQ, setSelectedFAQ] = useState(null);
 
-    const handleEdit = (faq) => {
-        setSelectedFAQ(faq);
+    const handleFAQModal = (faq) => {
+        setSelectedFAQ({ ...faq });
         setIsModalVisible(true);
-    };
-
-    const handleDelete = (key) => {
-        setFaqs(faqs.filter((faq) => faq.key !== key));
     };
 
     const handleCancel = () => {
@@ -86,18 +87,14 @@ const FAQManagement = () => {
 
     const onFinish = (values) => {
         if (selectedFAQ) {
-            // Cập nhật FAQ hiện có
+            // Cập nhật FAQ hiện có và thay đổi trạng thái thành "Hoàn thành"
             setFaqs((prev) =>
                 prev.map((faq) =>
-                    faq.key === selectedFAQ.key ? { ...faq, ...values } : faq
+                    faq.key === selectedFAQ.key ? { ...faq, ...values, status: "Hoàn thành" } : faq
                 )
             );
-        } else {
-            // Thêm FAQ mới
-            setFaqs((prev) => [
-                ...prev,
-                { key: (prev.length + 1).toString(), ...values },
-            ]);
+            // Hiển thị thông báo đã gửi câu trả lời về email người hỏi
+            message.success(`Đã gửi câu trả lời về email ${selectedFAQ.email}.`);
         }
         handleCancel();
     };
@@ -120,14 +117,18 @@ const FAQManagement = () => {
             dataIndex: "phone",
         },
         {
+            title: "Trạng thái",
+            dataIndex: "status",
+            render: (status) => (
+                <Tag color={status === 'Hoàn thành' ? 'green' : 'volcano'}>{status}</Tag>
+            ),
+        },
+        {
             title: "Thao tác",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleEdit(record)}>Chỉnh sửa</Button>
-                    <Button onClick={() => handleDelete(record.key)} danger>
-                        Xóa
-                    </Button>
+                    <Button onClick={() => handleFAQModal(record)}>Trả lời</Button>
                 </Space>
             ),
         },
@@ -153,15 +154,6 @@ const FAQManagement = () => {
                     onChange={(e) => handleSearch(e.target.value)}
                     allowClear
                 />
-                <Button
-                    type="primary"
-                    onClick={() => {
-                        setSelectedFAQ(null);
-                        setIsModalVisible(true);
-                    }}
-                >
-                    Thêm câu hỏi
-                </Button>
             </div>
             <Table columns={columns} dataSource={filteredFAQs} />
 
@@ -173,12 +165,13 @@ const FAQManagement = () => {
                         <p>{faq.email}</p>
                         <p>{faq.phone}</p>
                         <p>{faq.content}</p>
+                        <p>Trạng thái: {faq.status}</p>
                     </Panel>
                 ))}
             </Collapse>
 
             <Modal
-                title={selectedFAQ ? "Cập nhật câu hỏi" : "Thêm câu hỏi mới"}
+                title="Trả lời câu hỏi"
                 visible={isModalVisible}
                 footer={null}
                 onCancel={handleCancel}
@@ -186,52 +179,36 @@ const FAQManagement = () => {
                 <Form
                     layout="vertical"
                     initialValues={{
-                        title: selectedFAQ ? selectedFAQ.title : "",
-                        name: selectedFAQ ? selectedFAQ.name : "",
                         email: selectedFAQ ? selectedFAQ.email : "",
                         phone: selectedFAQ ? selectedFAQ.phone : "",
-                        content: selectedFAQ ? selectedFAQ.content : "",
+                        // Không tự động fill dữ liệu vào nội dung trả lời  
                     }}
                     onFinish={onFinish}
                 >
-                    <Form.Item
-                        label="Tiêu đề"
-                        name="title"
-                        rules={[{ required: true, message: "Vui lòng nhập tiêu đề" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Họ và Tên"
-                        name="name"
-                        rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
-                    >
-                        <Input />
-                    </Form.Item>
                     <Form.Item
                         label="Email"
                         name="email"
                         rules={[{ required: true, message: "Vui lòng nhập email" }]}
                     >
-                        <Input />
+                        <Input disabled={selectedFAQ ? true : false} />
                     </Form.Item>
                     <Form.Item
                         label="Điện thoại"
                         name="phone"
                         rules={[{ required: true, message: "Vui lòng nhập điện thoại" }]}
                     >
-                        <Input />
+                        <Input disabled={selectedFAQ ? true : false} />
                     </Form.Item>
                     <Form.Item
-                        label="Nội dung"
+                        label="Nội dung trả lời"
                         name="content"
-                        rules={[{ required: true, message: "Vui lòng nhập nội dung" }]}
+                        rules={[{ required: true, message: "Vui lòng nhập nội dung trả lời" }]}
                     >
                         <Input.TextArea rows={4} />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            {selectedFAQ ? "Cập nhật" : "Thêm mới"}
+                            Gửi
                         </Button>
                     </Form.Item>
                 </Form>
