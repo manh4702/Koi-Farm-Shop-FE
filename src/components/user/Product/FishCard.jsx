@@ -23,15 +23,18 @@ const FishCard = ({ fish }) => {
     <Card
       hoverable
       cover={
-        <img
-          alt={fish.name}
-          src={fish.image}
-          style={{
-            height: "450px",
-            objectFit: "cover",
-            width: "100%",
-          }}
-        />
+        <div style={{ height: "300px" }}>
+          <img
+            alt={fish.name}
+            src={fish.image}
+            style={{
+              // height: "450px",
+              height: "100%",
+              objectFit: "contain",
+              width: "100%",
+            }}
+          />
+        </div>
       }
       style={{
         width: "100%",
@@ -52,10 +55,12 @@ const FishCard = ({ fish }) => {
       >
         {fish.name}
       </h3>
-      <p style={{ marginBottom: "0.5rem" }}>{fish.description}</p>
+      <p style={{ marginBottom: "0.5rem", height: "80px", width: "100%" }}>
+        {fish.description}
+      </p>
 
       {fish.isLot ? (
-        <>
+        <div style={{ height: "200px" }}>
           <p>
             <strong>Năm sinh:</strong> {fish.birthYear}
           </p>
@@ -63,14 +68,18 @@ const FishCard = ({ fish }) => {
             <strong>Số lượng:</strong> {fish.quantity} con
           </p>
           <div style={{ marginBottom: "0.5rem" }}>
-            Các loại cá trong lô:
+            Các loại cá trong lô: <br />
             {fish.fishes.map((type, index) => (
-              <Tag key={index} color="blue" style={{ marginRight: "5px" }}>
+              <Tag
+                key={index}
+                color="gold"
+                style={{ margin: "0.25rem 0.25rem 0.25rem 0" }}
+              >
                 {type.name} ({type.quantity} con)
               </Tag>
             ))}
           </div>
-        </>
+        </div>
       ) : null}
 
       <p

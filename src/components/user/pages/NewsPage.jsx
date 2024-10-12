@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Card, List, Typography } from "antd";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+import ZaloIcon from "./ZaloIcon";
+import YTIconts from "./YoutubeIcon";
+import FBIconts from "./FacebookIcon";
 
 const { Title } = Typography;
 
@@ -136,6 +139,9 @@ const NewsPage = () => {
           </div>
         </div>
       </div>
+      <ZaloIcon />
+      <YTIconts />
+      <FBIconts />
       <Footer />
     </div>
   );
