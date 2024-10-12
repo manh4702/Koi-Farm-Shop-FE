@@ -13,7 +13,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
 import ProductDetailPage from "./components/user/pages/ProductDetailPage";
-import CartPage from "./components/user/pages/CartPage";
+import CartPage from "./components/user/Cart/CartPage";
 import FishConsignment from "./components/user/pages/FishConsignment";
 import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
