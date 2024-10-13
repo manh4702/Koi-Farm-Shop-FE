@@ -58,6 +58,11 @@ const FishCard = ({ fish }) => {
       <p style={{ marginBottom: "0.5rem", height: "80px", width: "100%" }}>
         {fish.description}
       </p>
+      <p style={{ marginBottom: "0.5rem", display: "flex", alignItems: "center" }}>
+        Đánh giá: {Array.from({ length: fish.rating }, (_, index) => (
+          <span key={index}>⭐️</span>
+        ))}
+      </p>
 
       {fish.isLot ? (
         <div style={{ height: "200px" }}>
