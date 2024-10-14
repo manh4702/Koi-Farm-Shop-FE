@@ -15,12 +15,14 @@ const featuredFishes = [
     image:
       "https://koilover.vn/uploads/thumbs/karashigoi_20190801092911330.jpg",
     price: "300,000 VND",
+    description: "Cá Koi Karashigoi là một trong những loài cá Koi phổ biến nhất, được ưa chuộng bởi màu sắc và hình dạng độc đáo.",
   },
   {
     id: 2,
     name: "Goshiki",
     image: "https://koilover.vn/uploads/thumbs/goshiki_20190801092826524.jpg",
     price: "500,000 VND",
+    description: "Cá Koi Goshiki là một loài cá Koi có màu sắc rực rỡ, được ưa chuộng bởi vẻ đẹp và sự hiếm có.",
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const featuredFishes = [
     image:
       "https://th.bing.com/th/id/OIP.6Vs0Oo2wsWAF5FtPVTRHZwHaLH?w=135&h=204&c=7&r=0&o=5&pid=1.7",
     price: "750,000 VND",
+    description: "Cá Koi Showa là một loài cá Koi có màu sắc đen trắng, được ưa chuộng bởi vẻ đẹp và sự hiếm có.",
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ const featuredFishes = [
     image:
       "https://th.bing.com/th/id/OIP.6Vs0Oo2wsWAF5FtPVTRHZwHaLH?w=135&h=204&c=7&r=0&o=5&pid=1.7",
     price: "750,000 VND",
+    description: "Cá Koi Showa là một loài cá Koi có màu sắc đen trắng, được ưa chuộng bởi vẻ đẹp và sự hiếm có.",
   },
 ];
 
@@ -63,6 +67,7 @@ const HomePage = () => {
                 />
                 <h3 className="text-xl font-semibold">{fish.name}</h3>
                 <p className="text-red-500 font-bold">{fish.price}</p>
+                <p className="text-gray-700">{fish.description}</p>
                 <Link
                   to={`/products/${fish.id}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
