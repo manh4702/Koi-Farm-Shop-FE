@@ -1,10 +1,13 @@
 // src/components/user/pages/FishConsignment.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Button, DatePicker, Select, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import moment from "moment";
+import ZaloIcon from "./ZaloIcon";
+import YTIconts from "./YoutubeIcon";
+import FBIconts from "./FacebookIcon";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -307,6 +310,9 @@ const FishConsignment = () => {
           )}
         </Form>
       </main>
+      <ZaloIcon />
+      <YTIconts />
+      <FBIconts />
       <Footer />
     </div>
   );
