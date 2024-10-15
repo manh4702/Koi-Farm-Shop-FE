@@ -50,7 +50,7 @@ const AnimatedFBIcon = styled(SiFacebook)`
 
 const FBIconts = () => {
   const openFB = () => {
-    window.open("https://www.facebook.com/vuongnguyentg", "_blank");
+    window.open("https://www.facebook.com/HoangThienKoi?mibextid=LQQJ4d", "_blank");
   };
 
   return (

@@ -3,9 +3,10 @@ import React from "react";
 import { Link } from "react-router-dom"; // Import Link để điều hướng
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
-import ZaloIcon from "../components/user/pages/ZaloIcon";
-import YTIconts from "../components/user/pages/YoutubeIcon";
-import FBIconts from "../components/user/pages/FacebookIcon";
+import ZaloIcon from "../components/user/Shared/ZaloIcon";
+import FBIconts from "../components/user/Shared/FacebookIcon";
+import YTIconts from "../components/user/Shared/YoutubeIcon";
+
 
 // Dữ liệu mẫu cho trang chủ
 const featuredFishes = [
