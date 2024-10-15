@@ -2,9 +2,10 @@ import React from "react";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import Search from "../Shared/Search";
-import ZaloIcon from "./ZaloIcon";
-import FacebookIcon from "./FacebookIcon";
-import YoutubeIcon from "./YoutubeIcon";
+import ZaloIcon from "../Shared/ZaloIcon";
+import FBIconts from "../Shared/FacebookIcon";
+import YTIconts from "../Shared/YoutubeIcon";
+
 
 const LienHe = () => {
   return (
@@ -118,8 +119,8 @@ const LienHe = () => {
         </form>
       </main>
       <ZaloIcon />
-      <FacebookIcon />
-      <YoutubeIcon />
+      <FBIconts />
+      <YTIconts />
       <Footer />
     </div>
   );

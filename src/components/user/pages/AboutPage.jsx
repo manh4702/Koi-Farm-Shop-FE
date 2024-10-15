@@ -2,9 +2,10 @@
 import React from "react";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import ZaloIcon from "./ZaloIcon";
-import FBIconts from "./FacebookIcon";
-import YTIconts from "./YoutubeIcon";
+import ZaloIcon from "../Shared/ZaloIcon";
+import FBIconts from "../Shared/FacebookIcon";
+import YTIconts from "../Shared/YoutubeIcon";
+
 
 const AboutPage = () => {
   return (
