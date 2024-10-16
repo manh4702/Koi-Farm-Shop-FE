@@ -69,11 +69,11 @@ const Footer = () => {
             DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
-            <li>Điều khoản mua hàng</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Phương thức thanh toán</li>
-            <li>Chính sách bảo mật</li>
-            <li>Chính sách đổi trả hàng</li>
+            <li><a href="/terms-of-purchase">Điều khoản mua hàng</a></li>
+            <li><a href="/purchase-guidelines">Hướng dẫn mua hàng</a></li>
+            <li><a href="/payment-methods">Phương thức thanh toán</a></li>
+            <li><a href="/privacy-policy">Chính sách bảo mật</a></li>
+            <li><a href="/return-policy">Chính sách đổi trả hàng</a></li>
           </ul>
         </div>
       </div>
