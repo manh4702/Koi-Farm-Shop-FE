@@ -1,9 +1,9 @@
-// src/axios.js
+// src/api/axios.js
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const instance = axios.create({
-  baseURL: 'https://your-api-url.com', // Replace with your API base URL
+  baseURL: 'https://localhost:5260/api', // Replace with your API base URL
   timeout: 5000, // Adjust timeout according to your needs
 });
 
