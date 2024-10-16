@@ -1,8 +1,49 @@
-import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Checkbox, DatePicker } from "antd";
 import { FontColorsOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+
+    // Chỉ cho phép nhập số và giới hạn độ dài là 10 ký tự
+    if (/^\d*$/.test(value)) {
+      setPhone(value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      message.error("Mật khẩu không khớp!");
+      return;
+    }
+
+    if (!agreeTerms) {
+      message.error("Bạn cần đồng ý với các điều khoản!");
+      return;
+    }
+
+    const data = {
+      email,
+      username,
+      password,
+      phone,
+      dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
+    };
+
+    onFinish(data); // Truyền dữ liệu đã nhập về `onFinish`
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "50px" }}>
       <div style={{ display: "flex", gap: "50px", maxWidth: "1200px" }}>
@@ -65,158 +106,136 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
           >
             Đăng ký
           </h1>
-          <Form
-            name="register"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            style={{ width: "400px", height: "450px", marginTop: "20px" }}
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "400px", marginTop: "20px" }}
           >
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập Email!",
-                  type: "email",
-                },
-              ]}
-            >
-              <lable
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                Email <span style={{ color: "red" }}>*</span>
-              </lable>
-              <Input style={{ height: "35px" }} placeholder="Nhập Email" />
-            </Form.Item>
-
-            <Form.Item
-              name="username"
+            <label style={{ fontSize: "16px" }}>
+              Email <span style={{ color: "red" }}>*</span>
+            </label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Nhập Email"
+              required
               style={{
-                marginTop: "-10px",
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
               }}
-              rules={[{ required: true, message: "Vui lòng nhập Họ và tên!" }]}
-            >
-              <lable
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                Họ và tên <span style={{ color: "red" }}>*</span>
-              </lable>
-              <Input style={{ height: "35px" }} placeholder="Họ và tên" />
-            </Form.Item>
+            />
 
-            <Form.Item
-              name="password"
+            <label style={{ fontSize: "16px" }}>
+              Họ và tên <span style={{ color: "red" }}>*</span>
+            </label>
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Họ và tên"
+              required
               style={{
-                marginTop: "-10px",
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
               }}
-              rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
-            >
-              <lable
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                Mật khẩu <span style={{ color: "red" }}>*</span>
-              </lable>
-              <Input.Password
-                style={{ height: "35px" }}
-                placeholder="Mật khẩu"
-              />
-            </Form.Item>
+            />
 
-            <Form.Item
-              name="confirm"
+            <label style={{ fontSize: "16px" }}>
+              Mật khẩu <span style={{ color: "red" }}>*</span>
+            </label>
+            <Input.Password
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Mật khẩu"
+              required
               style={{
-                marginTop: "-10px",
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
               }}
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                { required: true, message: "Please confirm your password!" },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("The two passwords do not match!")
-                    );
-                  },
-                }),
-              ]}
+            />
+
+            <label style={{ fontSize: "16px" }}>
+              Nhập lại mật khẩu <span style={{ color: "red" }}>*</span>
+            </label>
+            <Input.Password
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Xác nhận mật khẩu"
+              required
+              style={{
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
+              }}
+            />
+
+            <label style={{ fontSize: "16px" }}>
+              Số điện thoại <span style={{ color: "red" }}>*</span>
+            </label>
+            <Input
+              value={phone}
+              onChange={handlePhoneChange}
+              placeholder="Số điện thoại"
+              required
+              maxLength={10}
+              style={{
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
+              }}
+            />
+
+            <label style={{ fontSize: "16px" }}>
+              Ngày sinh <span style={{ color: "red" }}>*</span>
+            </label>
+            <DatePicker
+              value={dateOfBirth ? moment(dateOfBirth) : null} // Hiển thị giá trị đã chọn
+              onChange={(date) => setDateOfBirth(date)} // Cập nhật giá trị dateOfBirth
+              format="DD-MM-YYYY" // Định dạng hiển thị
+              placeholder="Chọn ngày sinh"
+              style={{
+                width: "100%",
+                marginBottom: "10px",
+                border: "1px solid black",
+                borderRadius: "8px",
+              }}
+            />
+
+            <Checkbox
+              checked={agreeTerms}
+              onChange={(e) => setAgreeTerms(e.target.checked)}
+              style={{ marginBottom: "20px" }}
             >
-              <label style={{ fontSize: "16px" }}>
-                Nhập lại mật khẩu! <span style={{ color: "red" }}>*</span>
-              </label>
-              <Input.Password
-                style={{ height: "35px" }}
-                placeholder="Xác nhận mật khẩu"
-              />
-            </Form.Item>
+              Tôi đồng ý với các điều khoản của shop.
+            </Checkbox>
 
-            <Form.Item
-              name="remember"
-              valuePropName="checked"
-              rules={[{ required: true, message: "Please accept the terms!" }]}
-              style={{ marginTop: "-10px" }}
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{
+                width: "220px",
+                backgroundColor: "red",
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "white",
+                borderRadius: "8px",
+                // marginTop: "20px",
+              }}
             >
-              <style>
-                {`
-          /* Đổi màu khi checkbox được chọn */
-          .custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
-            background-color: red; /* Màu nền đỏ khi được chọn */
-            border-color: red; /* Màu viền đỏ khi được chọn */
-          }
+              Đăng ký
+            </Button>
+          </form>
 
-          /* Màu viền khi chưa được chọn */
-          .custom-checkbox .ant-checkbox-inner {
-            border-color: #555; /* Màu viền khi chưa được chọn */
-          }
-
-          /* Màu của dấu check */
-          .custom-checkbox .ant-checkbox-checked .ant-checkbox-inner::after {
-            border-color: white; /* Màu của dấu check */
-          }
-        `}
-              </style>
-              <Checkbox className="custom-checkbox">
-                Tôi đồng ý với các điều khoản của shop.
-              </Checkbox>
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                style={{
-                  width: "220px",
-                  marginTop: "-10px",
-                  backgroundColor: "red",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  color: "white",
-                  borderRadius: "8px",
-                }}
-              >
-                Đăng ký
-              </Button>
-            </Form.Item>
-          </Form>
-
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "white" }}>
+          <div style={{ marginTop: "20px" }}>
+            <p style={{}}>
               Bạn đã có tài khoản?{" "}
               <a
                 href="/login"
                 style={{
                   textDecoration: "none", // Bỏ gạch chân mặc định
-                  color: "white",
                 }}
                 onMouseEnter={(e) =>
                   (e.target.style.textDecoration = "underline")

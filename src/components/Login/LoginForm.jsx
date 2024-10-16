@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col } from "antd";
 import { SiGoogle } from "react-icons/si";
 import { Link } from "react-router-dom";
 
 const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Gọi hàm onFinish với dữ liệu email và password
+    onFinish({ email, password });
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "50px" }}>
       <div style={{ display: "flex", gap: "50px", maxWidth: "1200px" }}>
@@ -58,71 +67,71 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
           >
             Đăng nhập
           </h1>
-          <Form
-            name="login"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            style={{ width: "400px", height: "18rem", marginTop: "22px" }}
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", marginTop: "22px" }}
           >
-            <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: "Vui lòng nhập email!" },
-                { type: 'email', message: 'Vui lòng nhập email hợp lệ' }
-              ]}
-            >
+            <div>
               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
                 Email<span style={{ color: "red" }}>*</span>
               </label>
-              <Input
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} // Cập nhật state email
                 style={{
+                  display: "block",
+                  width: "100%",
                   height: "35px",
-                  border: "1px solid black",
                   marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
                 }}
                 placeholder="Nhập Email"
+                required
               />
-            </Form.Item>
+            </div>
 
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Vui lòng nhập mật khẩu!" },
-              ]}
-            >
+            <div style={{ marginTop: "16px" }}>
               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
-                Mật khẩu<span style={{ color: "red" }}>*</span>
+                Mật khẩu<span style={{ color: "red" }}>*</span>
               </label>
-              <Input.Password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
                 style={{
+                  display: "block",
+                  width: "100%",
                   height: "35px",
-                  border: "1px solid black",
                   marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
                 }}
                 placeholder="Nhập mật khẩu"
+                required
               />
-            </Form.Item>
+            </div>
 
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                style={{
-                  width: "220px",
-                  marginTop: "5px",
-                  backgroundColor: "red",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  color: "white",
-                  borderRadius: "8px",
-                }}
-              >
-                Đăng nhập
+            <div style={{ marginTop: "16px" }}>
+            <Button
+              style={{
+                width: "220px",
+                marginTop: "24px",
+                backgroundColor: "red",
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "white",
+                borderRadius: "8px",
+              }}
+              disabled={loading}
+            >
+                {loading ? "Đang đăng nhập..." : "Đăng nhập"}
               </Button>
-            </Form.Item>
-          </Form>
+            </div>
+          </form>
         </div>
       </div>
     </div>
