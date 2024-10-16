@@ -19,6 +19,7 @@ import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
+import PrivateRoute from "./routes/PrivateRoute";
 const App = () => {
   return (
     <Router>
@@ -29,8 +30,22 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         {/* Dashboard admin và quản lý */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/manager" element={<ManagerDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute allowedRoles={["1"]}>
+              <AdminDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            <PrivateRoute allowedRoles={["2"]}>
+              <ManagerDashboard />
+            </PrivateRoute>
+          }
+        />
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
