@@ -5,9 +5,10 @@ import { EyeOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import FishCard from "../Product/FishCard";
-import ZaloIcon from "./ZaloIcon";
-import YTIconts from "./YoutubeIcon";
-import FBIconts from "./FacebookIcon";
+import ZaloIcon from "../Shared/ZaloIcon";
+import YTIconts from "../Shared/YoutubeIcon";
+import FBIconts from "../Shared/FacebookIcon";
+
 const fishes = [
   {
     id: 1,
@@ -212,7 +213,8 @@ const fishes = [
     description:
       "Koi Doitsu Kujaku 55 cm, 2 tuổi, vảy ánh kim sáng kết hợp màu đỏ và trắng tạo nên vẻ đẹp nổi bật.",
     price: "650,000 VND",
-    image: "https://images2.thanhnien.vn/zoom/686_429/Uploaded/ngocquy/2019_01_28/ca-tre-shuttesrtock_OSDE.jpg",
+    image:
+      "https://images2.thanhnien.vn/zoom/686_429/Uploaded/ngocquy/2019_01_28/ca-tre-shuttesrtock_OSDE.jpg",
     size: "55 cm",
     year: 2022,
     origin: "Nhật Bản",
@@ -472,75 +474,363 @@ const ProductPage = () => {
     Modal.info({
       title: "So sánh cá",
       content: (
-        <div>
-          {selectedFishes.length === 2 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>Thuộc tính</th>
-                  <th>{selectedFishes[0].name}</th>
-                  <th>{selectedFishes[1].name}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Giá</td>
-                  <td>{selectedFishes[0].price}</td>
-                  <td>{selectedFishes[1].price}</td>
-                </tr>
-                <tr>
-                  <td>Kích thước</td>
-                  <td>{selectedFishes[0].size}</td>
-                  <td>{selectedFishes[1].size}</td>
-                </tr>
-                <tr>
-                  <td>Tuổi</td>
-                  <td>{selectedFishes[0].age}</td>
-                  <td>{selectedFishes[1].age}</td>
-                </tr>
-                <tr>
-                  <td>Năm sinh</td>
-                  <td>{selectedFishes[0].year}</td>
-                  <td>{selectedFishes[1].year}</td>
-                </tr>
-                <tr>
-                  <td>Nguồn gốc</td>
-                  <td>{selectedFishes[0].origin}</td>
-                  <td>{selectedFishes[1].origin}</td>
-                </tr>
-                <tr>
-                  <td>Giống</td>
-                  <td>{selectedFishes[0].breed}</td>
-                  <td>{selectedFishes[1].breed}</td>
-                </tr>
-                <tr>
-                  <td>Giới tính</td>
-                  <td>{selectedFishes[0].gender}</td>
-                  <td>{selectedFishes[1].gender}</td>
-                </tr>
-                <tr>
-                  <td>Lượng thức ăn/ngày</td>
-                  <td>{selectedFishes[0].foodPerDay}</td>
-                  <td>{selectedFishes[1].foodPerDay}</td>
-                </tr>
-                <tr>
-                  <td>Tỉ lệ sàng lọc</td>
-                  <td>{selectedFishes[0].screeningRate}</td>
-                  <td>{selectedFishes[1].screeningRate}</td>
-                </tr>
-                <tr>
-                  <td>Đánh giá</td>
-                  <td>{selectedFishes[0].rating} ⭐️</td>
-                  <td>{selectedFishes[1].rating} ⭐️</td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <p>Vui lòng chọn 2 cá để so sánh.</p>
-          )}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "300px",
+
+          }}
+        >
+          <div
+            // style={{
+            //   // borderRadius: "12px", // Bo góc cho div chứa bảng
+            //   // overflow: "hidden", // Đảm bảo bảng không vượt quá vùng bo góc
+            // //   border: "1px solid black", 
+            // }}
+          >
+            {selectedFishes.length === 2 ? (
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center", // Căn giữa chữ trong ô
+                        backgroundColor: "#f2f2f2",
+                      }}
+                    >
+                      Thuộc tính
+                    </th>
+                    <th
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center", // Căn giữa chữ trong ô
+                        backgroundColor: "#f2f2f2",
+                      }}
+                    >
+                      {selectedFishes[0].name}
+                    </th>
+                    <th
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center", // Căn giữa chữ trong ô
+                        backgroundColor: "#f2f2f2",
+                      }}
+                    >
+                      {selectedFishes[1].name}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Giá
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].price}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].price}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Kích thước
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].size}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].size}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Tuổi
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].age}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].age}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Năm sinh
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].year}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].year}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Nguồn gốc
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].origin}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].origin}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Giống
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].breed}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].breed}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Giới tính
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].gender}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].gender}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Lượng thức ăn/ngày
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].foodPerDay}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].foodPerDay}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Tỉ lệ sàng lọc
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].screeningRate}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].screeningRate}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Đánh giá
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[0].rating} ⭐️
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "8px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectedFishes[1].rating} ⭐️
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            ) : (
+              <p>Vui lòng chọn 2 cá để so sánh.</p>
+            )}
+          </div>
         </div>
       ),
-      onOk() { },
+      onOk() {},
     });
   };
   // Cuộn về đầu trang khi thay đổi trang
@@ -636,7 +926,7 @@ const ProductPage = () => {
                 <Checkbox
                   checked={selectedFishes.includes(fish)}
                   onChange={() => handleSelectFish(fish.id)}
-                // style={{ position: "absolute", top: "10px", right: "30px" }}
+                  // style={{ position: "absolute", top: "10px", right: "30px" }}
                 >
                   So sánh
                 </Checkbox>
