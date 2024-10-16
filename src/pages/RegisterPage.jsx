@@ -4,6 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "../API/axios";
 import backgroundImage from "../assets/login.png";
 import RegisterForm from "../components/Login/RegisterForm";
+import Header from "../components/user/Shared/Header";
+import Footer from "../components/user/Shared/Footer";
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
@@ -39,20 +41,10 @@ const RegisterPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "right",
-        alignItems: "center",
-        height: "100vh",
-        backgroundImage: `url("${backgroundImage}")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div>
+      <Header />
       <RegisterForm />
-
+      <Footer />
     </div>
   );
 };
