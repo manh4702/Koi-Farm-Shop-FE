@@ -24,6 +24,7 @@ import PurchaseGuide from './components/user/Rules/PurchaseGuide';
 import PaymentMethods from './components/user/Rules/PaymentMethods';
 import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
 import ReturnPolicy from './components/user/Rules/ReturnPolicy';
+import PrivateRoute from "./routes/PrivateRoute";
 const App = () => {
   return (
     <Router>
@@ -34,8 +35,22 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         {/* Dashboard admin và quản lý */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/manager" element={<ManagerDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute allowedRoles={["1"]}>
+              <AdminDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            <PrivateRoute allowedRoles={["2"]}>
+              <ManagerDashboard />
+            </PrivateRoute>
+          }
+        />
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
