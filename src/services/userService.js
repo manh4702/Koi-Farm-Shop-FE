@@ -16,6 +16,7 @@ export const fetchUsersByRole = async (roleId) => {
       // Map lại dữ liệu từ API vào định dạng mà bảng của bạn yêu cầu
       return filteredUsers.map((user, index) => ({
         key: index,
+        roleId: user.roleId,
         userId: user.userId,
         username: user.name,
         fullName: user.name,

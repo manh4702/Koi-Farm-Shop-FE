@@ -18,12 +18,17 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import Calendar from "./Calendar"; // Import Calendar
-import { createStaff, deleteUser, fetchUsersByRole } from "../../../services/userService";
+import {
+  createStaff,
+  deleteUser,
+  fetchUsersByRole,
+} from "../../../services/userService";
 import moment from "moment";
 
 const { Option } = Select;
 
 const StaffManagement = () => {
+  const [manager, setManager] = useState([]);
   const [staff, setStaff] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -37,9 +42,11 @@ const StaffManagement = () => {
       setLoading(true);
       // const timestamp = new Date().getTime();
       // const staffData = await fetchUsersByRole([2, 3]); // Lấy danh sách nhân viên có roleId = 3
+      const managerData = await fetchUsersByRole(2);
       const staffData = await fetchUsersByRole(3);
-      console.log('staff:', staffData);
+      console.log("staff:", staffData, "manager:", managerData);
       setStaff(staffData);
+      setManager(managerData);
       // setLoading(false);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu nhân viên");
@@ -51,6 +58,8 @@ const StaffManagement = () => {
   useEffect(() => {
     loadStaff();
   }, []);
+
+  const combinedData = [...manager, ...staff];
 
   const showCalendarModal = (staffMember) => {
     setSelectedStaff(staffMember);
@@ -72,7 +81,7 @@ const StaffManagement = () => {
     const newStaff = {
       name: values.name,
       email: values.email,
-      password: "Abc@123", 
+      password: "Abc@123",
       phone: values.phone,
       dateOfBirth: moment(values.dateOfBirth).toISOString(),
     };
@@ -145,18 +154,18 @@ const StaffManagement = () => {
   };
 
   const columns = [
-    {
-      title: "Ảnh",
-      dataIndex: "avatar",
-      render: (text, record) => (
-        <img
-          src={record.avatar || "https://via.placeholder.com/50"}
-          alt={record.fullName}
-          width="50"
-          height="50"
-        />
-      ),
-    },
+    // {
+    //   title: "Ảnh",
+    //   dataIndex: "avatar",
+    //   render: (text, record) => (
+    //     <img
+    //       src={record.avatar || "https://via.placeholder.com/50"}
+    //       alt={record.fullName}
+    //       width="50"
+    //       height="50"
+    //     />
+    //   ),
+    // },
     // {
     //   title: "Tên Tài Khoản",
     //   dataIndex: "username",
@@ -176,21 +185,30 @@ const StaffManagement = () => {
     {
       title: "Chức vụ",
       dataIndex: "position",
+      render: (_, record) => {
+        if (record.roleId === 2) {
+          return "Manager";
+        } else if (record.roleId === 3) {
+          return "Staff";
+        } else {
+          return "Unknown"; // Trường hợp không xác định được roleId
+        }
+      },
     },
-    {
-      title: "Truy cập trang web",
-      dataIndex: "hasAccess",
-      render: (text, record) => (
-        <Switch
-          checked={record.hasAccess}
-          onChange={(checked) => handleAccessToggle(record.key, checked)}
-          disabled={
-            record.position !== "Nhân viên bán hàng" &&
-            record.position !== "Quản lý"
-          }
-        />
-      ),
-    },
+    // {
+    //   title: "Truy cập trang web",
+    //   dataIndex: "hasAccess",
+    //   render: (text, record) => (
+    //     <Switch
+    //       checked={record.hasAccess}
+    //       onChange={(checked) => handleAccessToggle(record.key, checked)}
+    //       disabled={
+    //         record.position !== "Nhân viên bán hàng" &&
+    //         record.position !== "Quản lý"
+    //       }
+    //     />
+    //   ),
+    // },
     {
       title: "Hành Động",
       key: "action",
@@ -199,12 +217,6 @@ const StaffManagement = () => {
           <Button onClick={() => handleEdit(record)}>Sửa</Button>
           <Button onClick={() => handleDelete(record.userId)} danger>
             Xóa
-          </Button>
-          <Button
-            icon={<CalendarOutlined />}
-            onClick={() => showCalendarModal(record)}
-          >
-            Lịch
           </Button>
         </Space>
       ),
@@ -222,7 +234,7 @@ const StaffManagement = () => {
       >
         Thêm nhân viên
       </Button>
-      <Table columns={columns} dataSource={staff} />
+      <Table columns={columns} dataSource={combinedData} loading={loading} />
 
       {/* Modal thêm nhân viên */}
       <Modal
@@ -358,7 +370,7 @@ const StaffManagement = () => {
       </Modal>
 
       {/* Modal lịch làm việc */}
-      <Modal
+      {/* <Modal
         title={`Lịch Làm Việc - ${selectedStaff?.fullName}`}
         visible={calendarModalVisible}
         footer={null}
@@ -368,7 +380,7 @@ const StaffManagement = () => {
         {selectedStaff && (
           <Calendar workSchedule={selectedStaff.workSchedule} />
         )}
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
