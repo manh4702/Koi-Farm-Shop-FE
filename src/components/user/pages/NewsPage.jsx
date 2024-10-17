@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Card, List, Typography } from "antd";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import ZaloIcon from "./ZaloIcon";
-import YTIconts from "./YoutubeIcon";
-import FBIconts from "./FacebookIcon";
+import ZaloIcon from "../Shared/ZaloIcon";
+import YTIconts from "../Shared/YoutubeIcon";
+import FBIconts from "../Shared/FacebookIcon";
+
 
 const { Title } = Typography;
 

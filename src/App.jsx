@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,7 +19,26 @@ import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
+import TermsOfService from './components/user/Rules/TermsOfService';
+import PurchaseGuide from './components/user/Rules/PurchaseGuide';
+import PaymentMethods from './components/user/Rules/PaymentMethods';
+import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
+import ReturnPolicy from './components/user/Rules/ReturnPolicy';
+import PrivateRoute from "./routes/PrivateRoute";
+import useAuthStore from "./store/store";
 const App = () => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const role = localStorage.getItem("userRole");
+    const username = localStorage.getItem("username");
+
+    if (token && role && username) {
+      setAuth({ username, role, token });
+    }
+  },[setAuth]);
+
   return (
     <Router>
       <Routes>
@@ -29,8 +48,22 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         {/* Dashboard admin và quản lý */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/manager" element={<ManagerDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute allowedRoles={["Admin"]}>
+              <AdminDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            <PrivateRoute allowedRoles={["Manager"]}>
+              <ManagerDashboard />
+            </PrivateRoute>
+          }
+        />
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
@@ -44,6 +77,11 @@ const App = () => {
         <Route path="/contact" element={<LienHe />} />
         {/* Điều hướng sai hoặc không tìm thấy trang */}
         <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/purchase-guide" element={<PurchaseGuide />} />
+        <Route path="/payment-methods" element={<PaymentMethods />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/return-policy" element={<ReturnPolicy />} />
       </Routes>
     </Router>
   );

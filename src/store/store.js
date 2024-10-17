@@ -1,15 +1,29 @@
-import { create } from 'zustand';
-import Cookies from 'js-cookie';
+// src/store/store.js
+import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-  isLoggedIn: !!Cookies.get('isLoggedIn'),
-  login: (username) => {
-    Cookies.set('isLoggedIn', username);
-    set({ isLoggedIn: true });
+  email: localStorage.getItem("email") || null,
+  token: localStorage.getItem("authToken") || null,
+  role: localStorage.getItem("userRole") || null,
+  setAuth: (authData) => {
+    set({
+      email: authData.email,
+      token: authData.token,
+      role: authData.role,
+    });
+    localStorage.setItem("email", authData.email);
+    localStorage.setItem("authToken", authData.token);
+    localStorage.setItem("userRole", authData.role);
   },
   logout: () => {
-    Cookies.remove('isLoggedIn');
-    set({ isLoggedIn: false });
+    set({
+      email: null,
+      token: null,
+      role: null,
+    });
+    localStorage.removeItem("email");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
   },
 }));
 

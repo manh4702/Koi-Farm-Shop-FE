@@ -16,6 +16,7 @@ const Footer = () => {
           gap: "2rem",
           justifyContent: "space-between",
           padding: "1rem",
+          height: "15rem",
         }}
       >
         <div
@@ -44,10 +45,15 @@ const Footer = () => {
             THÔNG TIN TÀI KHOẢN
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
-            <li>Danh sách cá, cá nhân ký gửi cá Koi</li>
-            <li>Đăng ký & Đăng nhập</li>
-            <li>Quên mật khẩu</li>
-            <li>Đăng kí ký gửi bán cá</li>
+            <li>
+              <a href="/login">Đăng ký & Đăng nhập</a>
+            </li>
+            {/* <li>Quên mật khẩu</li> */}
+            <li>
+             <a href="/fish-consignment" style={{ color: "white" }}>
+                Đăng kí ký gửi bán cá
+            </a>
+            </li>
             <li>
               <a href="/cart" style={{ color: "white" }}>
                 Xem giỏ hàng
@@ -67,14 +73,32 @@ const Footer = () => {
             DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
-            <li>Điều khoản mua hàng</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Phương thức thanh toán</li>
-            <li>Phương thức vận chuyển</li>
-            <li>Chính sách bảo mật</li>
-            <li>Chính sách đổi trả hàng</li>
-            <li>Hướng dẫn bán hàng</li>
-          </ul>
+       <li>
+       <a href="/terms-of-service" style={{ color: "white" }}>
+            Điều khoản mua hàng
+        </a>
+      </li>
+      <li>
+      <a href="/purchase-guide" style={{ color: "white" }}>
+            Hướng dẫn mua hàng
+      </a>
+      </li>
+      <li>
+      <a href="/payment-methods" style={{ color: "white" }}>
+            Phương thức thanh toán
+       </a>
+       </li>
+      <li>
+       <a href="/privacy-policy" style={{ color: "white" }}>
+            Chính sách bảo mật
+       </a>
+      </li>
+      <li>
+        <a href="/return-policy" style={{ color: "white" }}>
+            Chính sách đổi trả hàng
+       </a>
+      </li>
+      </ul>
         </div>
       </div>
 

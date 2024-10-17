@@ -5,9 +5,10 @@ import { InboxOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import moment from "moment";
-import ZaloIcon from "./ZaloIcon";
-import YTIconts from "./YoutubeIcon";
-import FBIconts from "./FacebookIcon";
+import ZaloIcon from "../Shared/ZaloIcon";
+import YTIconts from "../Shared/YoutubeIcon";
+import FBIconts from "../Shared/FacebookIcon";
+
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;

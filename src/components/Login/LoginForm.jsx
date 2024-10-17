@@ -1,111 +1,138 @@
-import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Checkbox, Row, Col } from "antd";
 import { SiGoogle } from "react-icons/si";
 import { Link } from "react-router-dom";
 
 const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Gọi hàm onFinish với dữ liệu email và password
+    onFinish({ email, password });
+  };
+
   return (
-    <div
-      style={{
-        maxWidth: "500px",
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        marginRight: "100px",
-        backgroundColor: "rgba(44, 62, 80, 0.5)",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          fontWeight: "bold",
-          fontSize: "35px",
-          backgroundColor: "#ecf0f1",
-          padding: "5px",
-          borderRadius: "8px",
-        }}
-      >
-        Đăng nhập
-      </h2>
-      <Form
-        name="login"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        style={{ width: "400px", height: "300px", marginTop: "20px" }}
-      >
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <label style={{ color: "white", fontSize: "16px" }}>
-            Email<span style={{ color: "red" }}>*</span>
-          </label>
-          <Input style={{ height: "50px" }} placeholder="Nhập Email" />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <label style={{ color: "white", fontSize: "16px" }}>
-            Mật khẩu<span style={{ color: "red" }}>*</span>
-          </label>
-          <Input.Password
-            style={{ height: "50px" }}
-            placeholder="Nhập mật khẩu"
-          />
-        </Form.Item>
-
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox style={{ color: "white" }}>Ghi nhớ mật khẩu</Checkbox>
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={loading}
-            style={{ width: "100%", fontSize: "16px", height: "40px" }}
+    <div style={{ display: "flex", justifyContent: "center", padding: "50px" }}>
+      <div style={{ display: "flex", gap: "50px", maxWidth: "1200px" }}>
+        <div style={{ maxWidth: "400px" }}>
+          <h1 style={{ fontSize: "22px", fontWeight: "bold", color: "#333" }}>
+            Đối với khách hàng mới
+          </h1>
+          <h2
+            style={{
+              marginTop: "20px",
+              color: "#555",
+              lineHeight: "2",
+              width: "350px",
+            }}
           >
-            Đăng nhập
-          </Button>
-        </Form.Item>
-      </Form>
-      <div
-        style={{ textAlign: "center", marginBottom: "16px", color: "white" }}
-      >
-        <p style={{ marginBottom: "8px" }}>- Hoặc -</p>
-        <Button
-          type="default"
+            Bằng cách tạo tài khoản, bạn sẽ có thể mua sắm nhanh hơn, cập nhật
+            trạng thái của đơn hàng và theo dõi các đơn hàng bạn đã thực hiện
+            trước đó. Bạn muốn tham gia đấu giá bạn cũng phải là thành viên để
+            có những quyền lợi của mình.
+          </h2>
+          <Link to="/register">
+            <Button
+              style={{
+                width: "220px",
+                marginTop: "28px",
+                backgroundColor: "red",
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "white",
+                borderRadius: "8px",
+              }}
+            >
+              Đăng ký tài khoản
+            </Button>
+          </Link>
+        </div>
+
+        <div
           style={{
-            width: "250px",
-            height: "40px",
-            backgroundColor: "red",
-            color: "white",
-            border: "none",
-            fontSize: "16px",
+            maxWidth: "500px",
+            marginLeft: "30px",
           }}
         >
-          <SiGoogle style={{ marginRight: "8px" }} />
-          Đăng nhập với Google
-        </Button>
-      </div>
-      <div style={{ textAlign: "center", color: "white" }}>
-        <p>
-          Bạn không có tài khoản?{" "}
-          <a
-            href="/register"
+          <h1
             style={{
-              textDecoration: "none", // Bỏ gạch chân mặc định
-              color: "white",
+              textAlign: "left",
+              fontWeight: "bold",
+              fontSize: "20px",
+              // padding: "5px",
+              borderRadius: "8px",
             }}
-            onMouseEnter={(e) => (e.target.style.textDecoration = "underline")}
-            onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
           >
-            Đăng kí tại đây
-          </a>
-        </p>
+            Đăng nhập
+          </h1>
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", marginTop: "22px" }}
+          >
+            <div>
+              <label style={{ fontSize: "16px", fontWeight: "bold" }}>
+                Email<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} // Cập nhật state email
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "35px",
+                  marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
+                }}
+                placeholder="Nhập Email"
+                required
+              />
+            </div>
+
+            <div style={{ marginTop: "16px" }}>
+              <label style={{ fontSize: "16px", fontWeight: "bold" }}>
+                Mật khẩu<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "35px",
+                  marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
+                }}
+                placeholder="Nhập mật khẩu"
+                required
+              />
+            </div>
+
+            <div style={{ marginTop: "16px" }}>
+            <button
+              style={{
+                width: "220px",
+                marginTop: "24px",
+                backgroundColor: "red",
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "white",
+                borderRadius: "8px",
+              }}
+              disabled={loading}
+            >
+                {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
