@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,7 +20,20 @@ import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
 import PrivateRoute from "./routes/PrivateRoute";
+import useAuthStore from "./store/store";
 const App = () => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const role = localStorage.getItem("userRole");
+    const username = localStorage.getItem("username");
+
+    if (token && role && username) {
+      setAuth({ username, role, token });
+    }
+  },[setAuth]);
+
   return (
     <Router>
       <Routes>
@@ -33,7 +46,7 @@ const App = () => {
         <Route
           path="/admin"
           element={
-            <PrivateRoute allowedRoles={["1"]}>
+            <PrivateRoute allowedRoles={["Admin"]}>
               <AdminDashboard />
             </PrivateRoute>
           }
@@ -41,7 +54,7 @@ const App = () => {
         <Route
           path="/manager"
           element={
-            <PrivateRoute allowedRoles={["2"]}>
+            <PrivateRoute allowedRoles={["Manager"]}>
               <ManagerDashboard />
             </PrivateRoute>
           }
