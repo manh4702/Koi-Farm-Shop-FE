@@ -5,13 +5,13 @@ import styled, { keyframes } from "styled-components";
 
 const pulse = keyframes`
   0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
   }
 `;
 
@@ -49,15 +49,15 @@ const AnimatedYTIcon = styled(SiYoutube)`
 `;
 
 const YTIconts = () => {
-  const openFB = () => {
-    window.open("http://localhost:3000/admin", "_blank");
+  const openYT = () => {
+    window.open("https://www.youtube.com/@OnkoiQuangMinh", "_blank");
   };
 
   return (
-    <Tooltip title="Xem qua YoutuBe" placement="left">
+    <Tooltip title="Xem qua YouTube" placement="left">
       <AnimatedYTButton
-        className="fixed bottom-4 right-4 bg-blue-500 rounded-full p-3 cursor-pointer shadow-lg hover:bg-blue-600 transition-colors duration-300"
-        onClick={openFB}
+        className="fixed bottom-4 right-4 bg-red-600 rounded-full p-3 cursor-pointer shadow-lg hover:bg-red-700 transition-colors duration-300"
+        onClick={openYT}
         style={{ marginBottom: "20px" }}
       >
         <AnimatedYTIcon className="text-white text-3xl" />

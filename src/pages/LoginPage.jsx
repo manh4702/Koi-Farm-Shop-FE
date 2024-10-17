@@ -33,12 +33,14 @@ const LoginPage = () => {
         message.success("Login successful!");
 
         // Phân quyền dựa trên role
-        if (role === "1") {
+        if (role === "Admin") {
           navigate("/admin"); // Admin
-        } else if (role === "2") {
+        } else if (role === "Manager") {
           navigate("/manager"); // Manager
-        } else if (role === "3") {
-          navigate("/"); // Staff
+        } else if (role === "Staff") {
+          navigate("/staff"); // Staff
+        } else if (role === "Customer") {
+          navigate("/"); // Customer
         } else {
           navigate("/"); // Khách hàng
         }

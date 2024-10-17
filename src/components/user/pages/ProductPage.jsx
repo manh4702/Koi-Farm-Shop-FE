@@ -830,7 +830,9 @@ const ProductPage = () => {
           </div>
         </div>
       ),
-      onOk() {},
+      onOk() {
+        setSelectedFishes([]);
+      },
     });
   };
   // Cuộn về đầu trang khi thay đổi trang

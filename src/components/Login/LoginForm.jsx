@@ -116,7 +116,7 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
             </div>
 
             <div style={{ marginTop: "16px" }}>
-            <Button
+            <button
               style={{
                 width: "220px",
                 marginTop: "24px",
@@ -129,7 +129,7 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
               disabled={loading}
             >
                 {loading ? "Đang đăng nhập..." : "Đăng nhập"}
-              </Button>
+              </button>
             </div>
           </form>
         </div>
