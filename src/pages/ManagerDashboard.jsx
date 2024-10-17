@@ -9,12 +9,16 @@ import FishInfo from "../components/admin/InformationFish/FishInfo";
 import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
+import StaffManagement from "../components/admin/StaffManagement/StaffManagement";
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
+import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
+import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
+import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 
 const { Content, Footer } = Layout;
 
-const ManagerDashboard = () => {
+const AdminDashboard = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
 
   const renderContent = () => {
@@ -29,10 +33,18 @@ const ManagerDashboard = () => {
         return <OrderList />;
       case "order-tracking":
         return <OrderTracking />;
+      case "staff-management":
+        return <StaffManagement />;
       case "blog-management":
         return <BlogManagement />;
       case "FAQ-management":
         return <FAQManagement />;
+      case "feedback-management":
+        return <FeedbackAndRate />;
+      case "promotion-management":
+        return <PromotionManagement />;
+      case "consignment-management":
+        return <ConsignmentManagement />;
       default:
         return <DashboardContent />;
     }
@@ -50,8 +62,8 @@ const ManagerDashboard = () => {
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
-              <Breadcrumb.Item>Order Management</Breadcrumb.Item>
-            )}
+                <Breadcrumb.Item>Order Management</Breadcrumb.Item>
+              )}
             {selectedKey === "dashboard" && (
               <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
             )}
@@ -76,4 +88,4 @@ const ManagerDashboard = () => {
   );
 };
 
-export default ManagerDashboard;
+export default AdminDashboard;
