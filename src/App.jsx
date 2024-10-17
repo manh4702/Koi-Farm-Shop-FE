@@ -19,6 +19,11 @@ import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
+import TermsOfService from './components/user/Rules/TermsOfService';
+import PurchaseGuide from './components/user/Rules/PurchaseGuide';
+import PaymentMethods from './components/user/Rules/PaymentMethods';
+import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
+import ReturnPolicy from './components/user/Rules/ReturnPolicy';
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
 const App = () => {
@@ -72,6 +77,11 @@ const App = () => {
         <Route path="/contact" element={<LienHe />} />
         {/* Điều hướng sai hoặc không tìm thấy trang */}
         <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/purchase-guide" element={<PurchaseGuide />} />
+        <Route path="/payment-methods" element={<PaymentMethods />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/return-policy" element={<ReturnPolicy />} />
       </Routes>
     </Router>
   );
