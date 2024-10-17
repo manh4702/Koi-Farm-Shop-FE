@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,7 +25,20 @@ import PaymentMethods from './components/user/Rules/PaymentMethods';
 import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
 import ReturnPolicy from './components/user/Rules/ReturnPolicy';
 import PrivateRoute from "./routes/PrivateRoute";
+import useAuthStore from "./store/store";
 const App = () => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const role = localStorage.getItem("userRole");
+    const username = localStorage.getItem("username");
+
+    if (token && role && username) {
+      setAuth({ username, role, token });
+    }
+  },[setAuth]);
+
   return (
     <Router>
       <Routes>
@@ -38,7 +51,7 @@ const App = () => {
         <Route
           path="/admin"
           element={
-            <PrivateRoute allowedRoles={["1"]}>
+            <PrivateRoute allowedRoles={["Admin"]}>
               <AdminDashboard />
             </PrivateRoute>
           }
@@ -46,7 +59,7 @@ const App = () => {
         <Route
           path="/manager"
           element={
-            <PrivateRoute allowedRoles={["2"]}>
+            <PrivateRoute allowedRoles={["Manager"]}>
               <ManagerDashboard />
             </PrivateRoute>
           }

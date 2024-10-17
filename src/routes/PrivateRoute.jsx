@@ -11,7 +11,7 @@ const PrivateRoute = ({ children, allowedRoles }) => {
   }
 
   // Nếu vai trò của người dùng không nằm trong danh sách allowedRoles, điều hướng về trang 403 (hoặc 404)
-  if (!allowedRoles.includes(role)) {
+  if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="*" />; // Hoặc trang khác như 404
   }
 

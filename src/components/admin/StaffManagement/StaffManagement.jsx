@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Button,
@@ -10,6 +10,7 @@ import {
   Select,
   Upload,
   message,
+  DatePicker,
 } from "antd";
 import {
   UploadOutlined,
@@ -17,50 +18,39 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import Calendar from "./Calendar"; // Import Calendar
+import { createStaff, deleteUser, fetchUsersByRole } from "../../../services/userService";
+import moment from "moment";
 
 const { Option } = Select;
 
 const StaffManagement = () => {
-  const [staff, setStaff] = useState([
-    {
-      key: "1",
-      avatar:
-        "https://th.bing.com/th?id=OSK.vAVgNtmxfd8YO0kEZHIT1A&w=130&h=100&c=8&r=0&o=6&pid=SANGAM", // Example URL
-      username: "alice_smith",
-      fullName: "Alice Smith",
-      phone: "0123456789",
-      email: "alice@example.com",
-      position: "Nhân viên chăm sóc cá", // Chức vụ
-      hasAccess: false, // Truy cập trang web (default không có)
-      workSchedule: [
-        { date: "2023-09-01", status: "Làm việc" },
-        { date: "2023-09-02", status: "Nghỉ phép" },
-        { date: "2023-09-03", status: "Làm việc" },
-      ],
-    },
-    {
-      key: "2",
-      avatar:
-        "https://th.bing.com/th?id=OSK.58d505ebd03191fc0e909e43554a6aa5&w=80&h=80&c=7&r=0&o=6&pid=SANGAM", // Example URL
-      username: "bob_johnson",
-      fullName: "Bob Johnson",
-      phone: "9876543210",
-      email: "bob@example.com",
-      position: "Nhân viên bán hàng", // Chức vụ
-      hasAccess: true, // Truy cập trang web
-      workSchedule: [
-        { date: "2023-09-01", status: "Làm việc" },
-        { date: "2023-09-02", status: "Làm việc" },
-        { date: "2023-09-03", status: "Nghỉ phép" },
-      ],
-    },
-  ]);
-
+  const [staff, setStaff] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+
+  const loadStaff = async () => {
+    try {
+      setLoading(true);
+      // const timestamp = new Date().getTime();
+      // const staffData = await fetchUsersByRole([2, 3]); // Lấy danh sách nhân viên có roleId = 3
+      const staffData = await fetchUsersByRole(3);
+      console.log('staff:', staffData);
+      setStaff(staffData);
+      // setLoading(false);
+    } catch (error) {
+      message.error("Lỗi khi lấy dữ liệu nhân viên");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadStaff();
+  }, []);
 
   const showCalendarModal = (staffMember) => {
     setSelectedStaff(staffMember);
@@ -77,6 +67,30 @@ const StaffManagement = () => {
     setIsModalVisible(true);
   };
 
+  const handleAddSubmit = async (values) => {
+    // Dữ liệu gửi đến API
+    const newStaff = {
+      name: values.name,
+      email: values.email,
+      password: "Abc@123", 
+      phone: values.phone,
+      dateOfBirth: moment(values.dateOfBirth).toISOString(),
+    };
+
+    try {
+      await createStaff(newStaff);
+      message.success("Thêm nhân viên thành công");
+      loadStaff();
+      setIsModalVisible(false);
+    } catch (error) {
+      message.error("Lỗi khi thêm nhân viên");
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleEdit = (staffMember) => {
     setSelectedStaff(staffMember);
     form.setFieldsValue({
@@ -85,8 +99,20 @@ const StaffManagement = () => {
     setIsEditModalVisible(true);
   };
 
-  const handleDelete = (key) => {
-    setStaff(staff.filter((member) => member.key !== key));
+  const handleDelete = (userId) => {
+    Modal.confirm({
+      title: "Xác nhận xoá",
+      content: "Bạn có chắc chắn muốn xóa nhân viên này?",
+      onOk: async () => {
+        try {
+          await deleteUser(userId);
+          message.success("Đã xóa nhân viên thành công");
+          loadStaff(); // Tải lại danh sách sau khi xóa thành công
+        } catch (error) {
+          message.error("Lỗi khi xóa nhân viên");
+        }
+      },
+    });
   };
 
   const handleCancelEdit = () => {
@@ -110,20 +136,6 @@ const StaffManagement = () => {
     });
   };
 
-  const handleAddSubmit = (values) => {
-    setStaff((prevStaff) => [
-      ...prevStaff,
-      {
-        ...values,
-        key: (prevStaff.length + 1).toString(),
-        hasAccess:
-          values.position === "Nhân viên bán hàng" ||
-          values.position === "Quản lý",
-      },
-    ]);
-    setIsModalVisible(false);
-  };
-
   const handleAccessToggle = (key, checked) => {
     setStaff((prevStaff) =>
       prevStaff.map((member) =>
@@ -145,10 +157,10 @@ const StaffManagement = () => {
         />
       ),
     },
-    {
-      title: "Tên Tài Khoản",
-      dataIndex: "username",
-    },
+    // {
+    //   title: "Tên Tài Khoản",
+    //   dataIndex: "username",
+    // },
     {
       title: "Họ và Tên",
       dataIndex: "fullName",
@@ -185,7 +197,7 @@ const StaffManagement = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => handleEdit(record)}>Sửa</Button>
-          <Button onClick={() => handleDelete(record.key)} danger>
+          <Button onClick={() => handleDelete(record.userId)} danger>
             Xóa
           </Button>
           <Button
@@ -217,37 +229,56 @@ const StaffManagement = () => {
         title="Thêm nhân viên mới"
         visible={isModalVisible}
         footer={null}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={handleCancel}
       >
         <Form layout="vertical" onFinish={handleAddSubmit}>
-          <Form.Item
+          {/* <Form.Item
             label="Tên Tài Khoản"
-            name="username"
+            name="email"
             rules={[{ required: true, message: "Vui lòng nhập tên tài khoản" }]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="Họ và Tên"
-            name="fullName"
+            name="name"
             rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item label="Số Điện Thoại" name="phone">
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Vui lòng nhập email" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Email" name="email">
-            <Input />
+          <Form.Item
+            label="Số Điện Thoại"
+            name="phone"
+            rules={[
+              { required: true, message: "Vui lòng nhập số điện thoại" },
+              { len: 10, message: "Số điện thoại phải có đúng 10 chữ số" },
+            ]}
+          >
+            <Input
+              maxLength={10} // Giới hạn tối đa 10 ký tự
+              onInput={(e) => {
+                // Chỉ cho phép nhập các ký tự số
+                e.target.value = e.target.value.replace(/[^0-9]/g, "");
+              }}
+            />
           </Form.Item>
-          <Form.Item label="Chức vụ" name="position">
-            <Select>
-              <Option value="Nhân viên chăm sóc cá">
-                Nhân viên chăm sóc cá
-              </Option>
-              <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
-              <Option value="Quản lý">Quản lý</Option>
-            </Select>
+
+          <Form.Item
+            label="Ngày Sinh"
+            name="dateOfBirth"
+            rules={[{ required: true, message: "Vui lòng chọn ngày sinh" }]}
+          >
+            <DatePicker
+              // showTime // Hiển thị chọn thời gian
+              format="YYYY-MM-DD"
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

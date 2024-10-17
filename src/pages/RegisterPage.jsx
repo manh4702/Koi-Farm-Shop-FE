@@ -17,7 +17,7 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/User", {
+      const response = await axios.post("/User", {
         name: values.username,       // Sử dụng "username" để map với "name" trên API
         email: values.email,
         password: values.password,
