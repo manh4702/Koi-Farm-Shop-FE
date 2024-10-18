@@ -125,6 +125,7 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
                 fontWeight: "bold",
                 color: "white",
                 borderRadius: "8px",
+                height: "31px",
               }}
               disabled={loading}
             >
