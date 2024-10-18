@@ -9,7 +9,6 @@ import ZaloIcon from "../Shared/ZaloIcon";
 import YTIconts from "../Shared/YoutubeIcon";
 import FBIconts from "../Shared/FacebookIcon";
 
-
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { Dragger } = Upload;
@@ -19,24 +18,21 @@ const FishConsignment = () => {
   const [purpose, setPurpose] = useState(null);
   const [price, setPrice] = useState(0);
 
-  // Hàm xử lý khi thay đổi mục đích ký gửi
   const handlePurposeChange = (value) => {
     setPurpose(value);
-    form.resetFields(); // Đặt lại các trường của form khi chọn loại ký gửi mới
+    form.resetFields(); // Reset form fields when a new purpose is selected
   };
 
-  // Hàm tính giá tiền ký gửi chăm sóc
   const calculatePrice = (dateRange) => {
     if (dateRange) {
       const days = dateRange[1].diff(dateRange[0], "days");
-      const pricePerDay = days > 30 ? 20000 : 30000; // Giá cho 1 ngày ký gửi
+      const pricePerDay = days > 30 ? 20000 : 30000; // Price per day
       setPrice(days * pricePerDay);
     } else {
       setPrice(0);
     }
   };
 
-  // Hàm xử lý khi nhấn vào nút tạo đơn ký gửi
   const onFinish = (values) => {
     const formPayload = {
       ...values,
@@ -51,13 +47,11 @@ const FishConsignment = () => {
 
     message.success("Đơn ký gửi đã được tạo và gửi tới admin!");
     console.log("Form Data: ", formPayload);
-    // Thực hiện thêm logic để gửi tới admin, ví dụ: API request, gửi qua email, lưu trữ DB
+    // Add additional logic to send data to admin, e.g., API request, email, DB storage
   };
 
   return (
-    <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
       <main
         style={{
@@ -67,42 +61,27 @@ const FishConsignment = () => {
           margin: "0 auto",
         }}
       >
-        <h1
-          style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}
-        >
+        <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}>
           Tạo Đơn Ký Gửi Cá Koi
         </h1>
         <Form form={form} onFinish={onFinish} layout="vertical">
-          <Form.Item
-            name="purpose"
-            label="Mục đích ký gửi"
-            rules={[
-              { required: true, message: "Vui lòng chọn mục đích ký gửi" },
-            ]}
-          >
+          <Form.Item name="purpose" label="Mục đích ký gửi">
             <Select
               placeholder="Chọn mục đích ký gửi"
               onChange={handlePurposeChange}
+              allowClear
             >
               <Option value="care">Ký gửi chăm sóc</Option>
               <Option value="sell">Ký gửi để bán</Option>
             </Select>
           </Form.Item>
 
-          {/* Hiển thị tiêu đề xác nhận loại ký gửi */}
           {purpose && (
-            <h2
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: "bold",
-                marginBottom: "16px",
-              }}
-            >
+            <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
               {purpose === "care" ? "Ký gửi chăm sóc" : "Ký gửi để bán"}
             </h2>
           )}
 
-          {/* Form ký gửi chăm sóc */}
           {purpose === "care" && (
             <>
               <Form.Item
@@ -135,6 +114,12 @@ const FishConsignment = () => {
                 getValueFromEvent={(e) =>
                   Array.isArray(e) ? e : e && e.fileList
                 }
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng tải lên ít nhất một hình ảnh",
+                  },
+                ]}
                 extra="Tải lên hình ảnh về cá của bạn"
               >
                 <Dragger
@@ -155,12 +140,6 @@ const FishConsignment = () => {
               <Form.Item
                 name="videoLink"
                 label="Liên kết video về cá"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng cung cấp liên kết video",
-                  },
-                ]}
               >
                 <Input placeholder="Liên kết video (YouTube, v.v.)" />
               </Form.Item>
@@ -173,21 +152,13 @@ const FishConsignment = () => {
                 <Button type="primary" htmlType="submit">
                   Tạo đơn ký gửi
                 </Button>
-                <p
-                  style={{
-                    marginTop: "16px",
-                    color: "red",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì
-                  thêm.
+                <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
+                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì thêm.
                 </p>
               </Form.Item>
             </>
           )}
 
-          {/* Form ký gửi để bán */}
           {purpose === "sell" && (
             <>
               <Form.Item
@@ -209,9 +180,7 @@ const FishConsignment = () => {
               <Form.Item
                 name="origin"
                 label="Xuất xứ"
-                rules={[
-                  { required: true, message: "Vui lòng nhập xuất xứ của cá" },
-                ]}
+                rules={[{ required: true, message: "Vui lòng nhập xuất xứ của cá" }]}
               >
                 <Input placeholder="Nhập xuất xứ" />
               </Form.Item>
@@ -219,9 +188,7 @@ const FishConsignment = () => {
               <Form.Item
                 name="length"
                 label="Chiều dài (cm)"
-                rules={[
-                  { required: true, message: "Vui lòng nhập chiều dài của cá" },
-                ]}
+                rules={[{ required: true, message: "Vui lòng nhập chiều dài của cá" }]}
               >
                 <Input placeholder="Nhập chiều dài của cá (cm)" type="number" />
               </Form.Item>
@@ -230,9 +197,7 @@ const FishConsignment = () => {
                 name="certification"
                 label="Giấy chứng nhận (nếu có)"
                 valuePropName="fileList"
-                getValueFromEvent={(e) =>
-                  Array.isArray(e) ? e : e && e.fileList
-                }
+                getValueFromEvent={(e) => Array.isArray(e) ? e : e.fileList}
               >
                 <Dragger
                   name="certification"
@@ -252,7 +217,13 @@ const FishConsignment = () => {
                 name="images"
                 label="Hình ảnh về cá"
                 valuePropName="fileList"
-                getValueFromEvent={(e) => (Array.isArray(e) ? e : e.fileList)}
+                getValueFromEvent={(e) => Array.isArray(e) ? e : e.fileList}
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng tải lên ít nhất một hình ảnh",
+                  },
+                ]}
               >
                 <Dragger
                   name="images"
@@ -272,12 +243,6 @@ const FishConsignment = () => {
               <Form.Item
                 name="videoLink"
                 label="Liên kết video về cá"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng cung cấp liên kết video",
-                  },
-                ]}
               >
                 <Input placeholder="Liên kết video (YouTube, v.v.)" />
               </Form.Item>
@@ -285,9 +250,7 @@ const FishConsignment = () => {
               <Form.Item
                 name="price"
                 label="Giá muốn bán (VND)"
-                rules={[
-                  { required: true, message: "Vui lòng nhập giá muốn bán" },
-                ]}
+                rules={[{ required: true, message: "Vui lòng nhập giá muốn bán" }]}
               >
                 <Input placeholder="Nhập giá muốn bán (VND)" type="number" />
               </Form.Item>
@@ -296,15 +259,8 @@ const FishConsignment = () => {
                 <Button type="primary" htmlType="submit">
                   Tạo đơn ký gửi
                 </Button>
-                <p
-                  style={{
-                    marginTop: "16px",
-                    color: "red",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì
-                  thêm.
+                <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
+                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì thêm.
                 </p>
               </Form.Item>
             </>
