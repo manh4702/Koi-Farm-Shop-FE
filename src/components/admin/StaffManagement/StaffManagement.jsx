@@ -19,15 +19,19 @@ import {
 } from "@ant-design/icons";
 import Calendar from "./Calendar"; // Import Calendar
 import {
+  createManager,
   createStaff,
+  deleteStaff,
   deleteUser,
   fetchUsersByRole,
 } from "../../../services/userService";
 import moment from "moment";
+import useAuth from "../../../hooks/useAuth";
 
 const { Option } = Select;
 
 const StaffManagement = () => {
+  useAuth();
   const [manager, setManager] = useState([]);
   const [staff, setStaff] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -36,6 +40,7 @@ const StaffManagement = () => {
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const [role, setRole] = useState("Staff");
 
   const loadStaff = async () => {
     try {
@@ -78,7 +83,7 @@ const StaffManagement = () => {
 
   const handleAddSubmit = async (values) => {
     // Dữ liệu gửi đến API
-    const newStaff = {
+    const newUserData = {
       name: values.name,
       email: values.email,
       password: "Abc@123",
@@ -87,8 +92,13 @@ const StaffManagement = () => {
     };
 
     try {
-      await createStaff(newStaff);
-      message.success("Thêm nhân viên thành công");
+      if (role === "Manager") {
+        await createManager(newUserData);
+        message.success("Thêm quản lý thành công");
+      } else {
+        await createStaff(newUserData);
+        message.success("Thêm nhân viên thành công");
+      }
       loadStaff();
       setIsModalVisible(false);
     } catch (error) {
@@ -114,7 +124,7 @@ const StaffManagement = () => {
       content: "Bạn có chắc chắn muốn xóa nhân viên này?",
       onOk: async () => {
         try {
-          await deleteUser(userId);
+          await deleteStaff(userId);
           message.success("Đã xóa nhân viên thành công");
           loadStaff(); // Tải lại danh sách sau khi xóa thành công
         } catch (error) {
@@ -154,22 +164,6 @@ const StaffManagement = () => {
   };
 
   const columns = [
-    // {
-    //   title: "Ảnh",
-    //   dataIndex: "avatar",
-    //   render: (text, record) => (
-    //     <img
-    //       src={record.avatar || "https://via.placeholder.com/50"}
-    //       alt={record.fullName}
-    //       width="50"
-    //       height="50"
-    //     />
-    //   ),
-    // },
-    // {
-    //   title: "Tên Tài Khoản",
-    //   dataIndex: "username",
-    // },
     {
       title: "Họ và Tên",
       dataIndex: "fullName",
@@ -191,24 +185,10 @@ const StaffManagement = () => {
         } else if (record.roleId === 3) {
           return "Staff";
         } else {
-          return "Unknown"; // Trường hợp không xác định được roleId
+          return "Unknown";
         }
       },
     },
-    // {
-    //   title: "Truy cập trang web",
-    //   dataIndex: "hasAccess",
-    //   render: (text, record) => (
-    //     <Switch
-    //       checked={record.hasAccess}
-    //       onChange={(checked) => handleAccessToggle(record.key, checked)}
-    //       disabled={
-    //         record.position !== "Nhân viên bán hàng" &&
-    //         record.position !== "Quản lý"
-    //       }
-    //     />
-    //   ),
-    // },
     {
       title: "Hành Động",
       key: "action",
@@ -243,14 +223,18 @@ const StaffManagement = () => {
         footer={null}
         onCancel={handleCancel}
       >
-        <Form layout="vertical" onFinish={handleAddSubmit}>
-          {/* <Form.Item
-            label="Tên Tài Khoản"
-            name="email"
-            rules={[{ required: true, message: "Vui lòng nhập tên tài khoản" }]}
+        <Form layout="vertical" form={form} onFinish={handleAddSubmit}>
+          
+          <Form.Item
+            label="Chức vụ"
+            name="role"
+            rules={[{ required: true, message: "Vui lòng chọn chức vụ" }]}
           >
-            <Input />
-          </Form.Item> */}
+            <Select onChange={(value) => setRole(value)}>
+              <Option value="Manager">Quản lý</Option>
+              <Option value="Staff">Nhân viên</Option>
+            </Select>
+          </Form.Item>
           <Form.Item
             label="Họ và Tên"
             name="name"
@@ -274,9 +258,8 @@ const StaffManagement = () => {
             ]}
           >
             <Input
-              maxLength={10} // Giới hạn tối đa 10 ký tự
+              maxLength={10} 
               onInput={(e) => {
-                // Chỉ cho phép nhập các ký tự số
                 e.target.value = e.target.value.replace(/[^0-9]/g, "");
               }}
             />
@@ -288,7 +271,6 @@ const StaffManagement = () => {
             rules={[{ required: true, message: "Vui lòng chọn ngày sinh" }]}
           >
             <DatePicker
-              // showTime // Hiển thị chọn thời gian
               format="YYYY-MM-DD"
             />
           </Form.Item>
