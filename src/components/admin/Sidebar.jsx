@@ -78,7 +78,7 @@ function Sidebar({ setSelectedKey }) {
         <SubMenu
           key="5"
           icon={<ShoppingCartOutlined />}
-          title="Order Management"
+          title="Quản lí đơn hàng"
         >
           <Menu.Item key="5-1" onClick={() => setSelectedKey("order-list")}>
             Danh sách đơn hàng

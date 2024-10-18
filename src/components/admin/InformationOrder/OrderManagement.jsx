@@ -60,7 +60,7 @@ const OrderManagement = () => {
   };
 
   return (
-    <div className="order-management">
+    <div className="Quản lí đơn hàng">
       <h2 className="text-2xl font-bold mb-4">Quản lý đơn hàng</h2>
       <Table columns={columns} dataSource={orders} rowKey="id" />
     </div>
