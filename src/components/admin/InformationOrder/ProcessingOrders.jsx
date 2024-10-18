@@ -9,8 +9,8 @@ const ProcessingOrders = () => {
     const fetchProcessingOrders = async () => {
       // Giả lập API lấy danh sách đơn hàng đang xử lý
       const data = [
-        { id: 1, customer: 'John Doe', status: 'Processing', total: 100 },
-        { id: 3, customer: 'Michael Smith', status: 'Processing', total: 200 },
+        { id: 1, customer: 'John Doe', status: 'Đang xử lý', total: 100000 },
+        { id: 3, customer: 'Michael Smith', status: 'Đang xử lý', total: 200000 },
       ];
       setOrders(data);
     };
@@ -20,17 +20,17 @@ const ProcessingOrders = () => {
 
   const columns = [
     {
-      title: 'Order ID',
+      title: 'Mã đơn hàng',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Customer',
+      title: 'Khách hàng',
       dataIndex: 'customer',
       key: 'customer',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
@@ -40,17 +40,17 @@ const ProcessingOrders = () => {
       ),
     },
     {
-      title: 'Total',
+      title: 'Tổng tiền (VND)',
       dataIndex: 'total',
       key: 'total',
-      render: (total) => `$${total}`,
+      render: (total) => `${total.toLocaleString()} VND`,
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (text, record) => (
         <Button type="primary" onClick={() => handleOrderDetail(record.id)}>
-          View
+          Xem
         </Button>
       ),
     },

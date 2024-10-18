@@ -232,25 +232,6 @@ const fishes = [
   },
   {
     id: 10,
-    name: "Doitsu Kujaku",
-    description:
-      "Koi Doitsu Kujaku 55 cm, 2 tuổi, vảy ánh kim sáng kết hợp màu đỏ và trắng tạo nên vẻ đẹp nổi bật.",
-    price: "650,000 VND",
-    image:
-      "https://th.bing.com/th/id/OIP.3lnsfQUPO4ZMLA1Xr0s3QgHaLc?w=201&h=310&c=7&r=0&o=5&pid=1.7",
-    size: "55 cm",
-    year: 2022,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    gender: "Đực", // Giới tính
-    breed: "Karashigoi", // Giống
-    age: 2, // Tuổi (năm)
-    foodPerDay: 30, // Lượng thức ăn/ngày (gram)
-    screeningRate: "95%", // Tỉ lệ sàng lọc
-    rating: 2,
-  },
-  {
-    id: 11,
     name: "Yamabuki Ogon",
     description:
       "Koi Yamabuki Ogon 60 cm, 3 tuổi, màu vàng ánh kim, rất nổi bật và thu hút trong các hồ Koi.",
@@ -269,7 +250,7 @@ const fishes = [
     rating: 1,
   },
   {
-    id: 12,
+    id: 11,
     name: "Shusui",
     description:
       "Koi Shusui 50 cm, 1.5 tuổi, có vảy dọc lưng xanh, kết hợp với phần thân trắng pha màu đỏ cam.",
@@ -288,7 +269,7 @@ const fishes = [
     rating: 2,
   },
   {
-    id: 13,
+    id: 12,
     name: "Ki Utsuri",
     description:
       "Koi Ki Utsuri 65 cm, 2 tuổi, với màu vàng sáng xen lẫn màu đen đậm, tạo nên vẻ tương phản đầy cuốn hút.",
@@ -307,7 +288,7 @@ const fishes = [
     rating: 3,
   },
   {
-    id: 14,
+    id: 13,
     name: "Kumonryu",
     description:
       "Koi Kumonryu 70 cm, 3 tuổi, màu trắng pha đen thay đổi theo mùa, được xem là cá Koi của sự bí ẩn.",
@@ -326,7 +307,7 @@ const fishes = [
     rating: 4.5,
   },
   {
-    id: 15,
+    id: 14,
     name: "Benigoi",
     description:
       "Koi Benigoi 60 cm, 2.5 tuổi, toàn thân đỏ rực rỡ, thể hiện sự mạnh mẽ và nổi bật trong hồ Koi.",
@@ -345,7 +326,7 @@ const fishes = [
     rating: 3.5,
   },
   {
-    id: 16,
+    id: 15,
     name: "Doitsu Sanke",
     description:
       "Koi Doitsu Sanke 75 cm, 4 tuổi, vảy sáng và kết hợp màu đỏ trắng cùng các đốm đen đặc trưng.",
@@ -362,9 +343,10 @@ const fishes = [
     foodPerDay: 30, // Lượng thức ăn/ngày (gram)
     screeningRate: "95%", // Tỉ lệ sàng lọc
     rating: 5,
+    video: "https://youtu.be/8_8uHDO679Y",
   },
   {
-    id: 17,
+    id: 16,
     name: "Lô Koi Sanke & Showa",
     description:
       "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
@@ -386,7 +368,7 @@ const fishes = [
     rating: 4,
   },
   {
-    id: 18,
+    id: 17,
     name: "Lô cá Gosanke Premium",
     description:
       "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
@@ -408,7 +390,7 @@ const fishes = [
     rating: 3,
   },
   {
-    id: 19,
+    id: 18,
     name: "Lô Koi Butterfly",
     description:
       "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
