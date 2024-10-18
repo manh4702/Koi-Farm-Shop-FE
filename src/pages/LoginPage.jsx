@@ -32,7 +32,7 @@ const LoginPage = () => {
 
         message.success("Login successful!");
 
-        navigateBasedOnRole(role);
+        // navigateBasedOnRole(role);
 
         // Phân quyền dựa trên role
         if (role === "Admin") {

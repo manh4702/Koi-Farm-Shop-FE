@@ -19,7 +19,7 @@ const useAuthStore = create((set) => ({
     localStorage.setItem("userRole", authData.role);
     localStorage.setItem("expiration", expirationTime);
   },
-  logout: () => {
+  logout: (navigate) => {
     set({
       email: null,
       token: null,
@@ -30,7 +30,9 @@ const useAuthStore = create((set) => ({
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("expiration");
-    navigate("/login");
+    if (navigate) {
+      navigate("/login");
+    }
   },
 }));
 
