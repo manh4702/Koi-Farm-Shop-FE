@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Breadcrumb } from "antd";
 import Sidebar from "../components/admin/Sidebar";
 import HeaderBar from "../components/admin/HeaderBar";
 import DashboardContent from "../components/admin/DashboardContent";
 import Sider from "antd/es/layout/Sider";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import FishInfo from "../components/admin/InformationFish/FishInfo";
 import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
@@ -15,11 +15,26 @@ import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
+import useAuthStore from "../store/store";
 
 const { Content, Footer } = Layout;
 
 const AdminDashboard = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
+  // const token = useAuthStore((state) => state.token);
+  // const expiration = useAuthStore((state) => state.expiration);
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const checkTokenExpiration = () => {
+  //     if (!token || Date.now() > expiration) {
+  //       message.error("Session expired, please login again.");
+  //       navigate("/login"); // Redirect to login page
+  //     }
+  //   };
+
+  //   checkTokenExpiration();
+  // }, [token, expiration, navigate]);
 
   const renderContent = () => {
     switch (selectedKey) {

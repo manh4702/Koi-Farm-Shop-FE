@@ -23,6 +23,7 @@ export const fetchUsersByRole = async (roleId) => {
         dob: user.dateOfBirth.split("T")[0],
         phone: user.phone,
         email: user.email,
+        status: user.status ,
         address: "Unknown", // API hiện không trả về địa chỉ, có thể cập nhật nếu cần
         points: 0, // API hiện không trả về điểm, có thể cập nhật sau
         feedback: [], // API hiện không trả về phản hồi, có thể cập nhật sau
@@ -48,6 +49,19 @@ export const createStaff = async (staffData) => {
   }
 };
 
+export const createManager = async (managerData) => {
+  try {
+    const response = await axios.post("/api/User/CreateManager", managerData);
+    if (response.data.success) {
+      return response.data; // Trả về dữ liệu nếu thêm thành công
+    } else {
+      throw new Error(response.data.message || "Tạo quản lý thất bại");
+    }
+  } catch (error) {
+    throw error; // Bắt lỗi để xử lý sau
+  }
+};
+
 
 export const updateUser = async (userId, updatedData) => {
   try {
@@ -62,9 +76,35 @@ export const updateUser = async (userId, updatedData) => {
   }
 };
 
-export const deleteUser = async (userId) => {
+export const deleteStaff = async (userId) => {
   try {
     const response = await axios.delete(`/api/User/${userId}`);
+    if (response.data.success) {
+      return response.data; // Trả về dữ liệu nếu xóa thành công
+    } else {
+      throw new Error(response.data.message || "Xóa người dùng thất bại");
+    }
+  } catch (error) {
+    throw error; // Bắt lỗi để xử lý sau
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const response = await axios.put(`/api/User/deleteUser/${userId}`);
+    if (response.data.success) {
+      return response.data; // Trả về dữ liệu nếu xóa thành công
+    } else {
+      throw new Error(response.data.message || "Xóa người dùng thất bại");
+    }
+  } catch (error) {
+    throw error; // Bắt lỗi để xử lý sau
+  }
+};
+
+export const restoreUser = async (userId) => {
+  try {
+    const response = await axios.put(`/api/User/restoreUser/${userId}`);
     if (response.data.success) {
       return response.data; // Trả về dữ liệu nếu xóa thành công
     } else {
