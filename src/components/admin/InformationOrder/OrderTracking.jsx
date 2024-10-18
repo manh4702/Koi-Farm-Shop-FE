@@ -16,16 +16,16 @@ const OrderTracking = () => {
         {
           id: 1,
           customer: 'John Doe',
-          status: 'Processing',
-          total: 100,
-          steps: ['Ordered', 'Processing'],
+          status: 'Đang xử lý',
+          total: 100000,
+          steps: ['Đã đặt hàng', 'Đang xử lý'],
         },
         {
           id: 2,
           customer: 'Jane Doe',
-          status: 'Completed',
-          total: 150,
-          steps: ['Ordered', 'Processing', 'Shipped', 'Delivered'],
+          status: 'Hoàn thành',
+          total: 150000,
+          steps: ['Đã đặt hàng', 'Đang xử lý', 'Đã vận chuyển', 'Đã giao hàng'],
         },
         // Các đơn hàng khác
       ];
@@ -54,38 +54,38 @@ const OrderTracking = () => {
 
   const columns = [
     {
-      title: 'Order ID',
+      title: 'Mã đơn hàng',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Customer',
+      title: 'Khách hàng',
       dataIndex: 'customer',
       key: 'customer',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = 'blue';
-        if (status === 'Completed') color = 'green';
-        else if (status === 'Pending') color = 'volcano';
+        if (status === 'Hoàn thành') color = 'green';
+        else if (status === 'Đang chờ xử lý') color = 'volcano';
         return <Tag color={color}>{status}</Tag>;
       },
     },
     {
-      title: 'Total',
+      title: 'Tổng tiền (VND)',
       dataIndex: 'total',
       key: 'total',
-      render: (total) => `$${total}`,
+      render: (total) => `${total.toLocaleString()} VND`,
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (text, record) => (
         <Button type="primary" onClick={() => handleOrderDetail(record.id)}>
-          View
+          Xem
         </Button>
       ),
     },

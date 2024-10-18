@@ -5,12 +5,12 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 const OrderTable = ({ orders, showModal, handleCancelOrder }) => {
   const columns = [
-    { title: "Order ID", dataIndex: "id", key: "id" },
-    { title: "Customer", dataIndex: "customer", key: "customer" },
-    { title: "Address", dataIndex: "address", key: "address" },
-    { title: "Phone", dataIndex: "phone", key: "phone" },
+    { title: "Mã đơn hàng", dataIndex: "id", key: "id" },
+    { title: "Khách hàng", dataIndex: "customer", key: "customer" },
+    { title: "Địa chỉ", dataIndex: "address", key: "address" },
+    { title: "Số điện thoại", dataIndex: "phone", key: "phone" },
     {
-      title: "Products",
+      title: "Sản phẩm",
       dataIndex: "products",
       key: "products",
       render: (products) => {
@@ -23,8 +23,8 @@ const OrderTable = ({ orders, showModal, handleCancelOrder }) => {
           <ul>
             {products.map((product, index) => (
               <li key={index}>
-                {product.name} - Số lượng: {product.quantity} - Giá: $
-                {product.price}
+                {product.name} - Số lượng: {product.quantity} - Giá:{" "}
+                {product.price.toLocaleString()} VND
               </li>
             ))}
           </ul>
@@ -32,40 +32,40 @@ const OrderTable = ({ orders, showModal, handleCancelOrder }) => {
       },
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: (status) => (
         <Tag
           color={
-            status === "Completed"
+            status === "Hoàn thành"
               ? "green"
-              : status === "Pending"
+              : status === "Đang chờ xử lý"
               ? "volcano"
-              : status === "Processing"
+              : status === "Đang xử lý"
               ? "blue"
-              : status === "Canceled"
+              : status === "Đã hủy"
               ? "red"
               : "geekblue"
           }
-          style={{ width: "80px", textAlign: "center" }}
+          style={{ width: "100px", textAlign: "center" }}
         >
           {status}
         </Tag>
       ),
     },
     {
-      title: "Total",
+      title: "Tổng tiền",
       dataIndex: "total",
       key: "total",
-      render: (total) => `$${total}`,
+      render: (total) => `${total.toLocaleString()} VND`,
     },
     {
-      title: "Action",
+      title: "Hành động",
       key: "action",
       render: (text, record) => (
         <div>
-          {record.status === "Pending" && (
+          {record.status === "Đang chờ xử lý" && (
             <>
               <Tooltip title="Chấp nhận đơn hàng">
                 <Button
