@@ -16,6 +16,7 @@ import PromotionManagement from "../components/admin/InfoPromotion/PromotionMana
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import useAuthStore from "../store/store";
+import BatchInfo from "../components/admin/BatchofFish/batchInfo";
 
 const { Content, Footer } = Layout;
 
@@ -60,6 +61,8 @@ const AdminDashboard = () => {
         return <PromotionManagement />;
       case "consignment-management":
         return <ConsignmentManagement />;
+      case "batch-info":
+        return <BatchInfo />;
       default:
         return <DashboardContent />;
     }
