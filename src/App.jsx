@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
+import StaffDashboard from "./pages/StaffDashboard";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
@@ -62,6 +63,14 @@ const App = () => {
             <PrivateRoute allowedRoles={["Manager"]}>
               <ManagerDashboard />
             </PrivateRoute>
+          }
+        />
+        <Route
+          path="/staff"
+          element={
+            // <PrivateRoute allowedRoles={["Manager"]}>
+              <StaffDashboard />
+            // </PrivateRoute>
           }
         />
         {/* Trang thông tin và sản phẩm */}

@@ -16,6 +16,7 @@ import {
   Dropdown,
   Menu,
   DatePicker,
+  Switch,
 } from "antd";
 import {
   DeleteOutlined,
@@ -29,13 +30,16 @@ import {
 import {
   deleteUser,
   fetchUsersByRole,
+  restoreUser,
   updateUser,
 } from "../../../services/userService";
 import moment from "moment";
+import useAuth from "../../../hooks/useAuth";
 
 const { TabPane } = Tabs;
 
 const CustomerManagement = () => {
+  useAuth();
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -54,6 +58,8 @@ const CustomerManagement = () => {
       setLoading(false);
     }
   };
+
+  console.log("customers", customers);
 
   useEffect(() => {
     loadCustomers();
@@ -77,18 +83,12 @@ const CustomerManagement = () => {
 
   const onFinish = async (values) => {
     const updatedData = {
-      userId: editCustomer.userId,
       name: values.fullName,
       email: values.email,
       phone: values.phone,
       dateOfBirth: values.dob.format("YYYY-MM-DD"),
-      roleId: 4,
-      status: "Active",
+      password: values.password ? values.password : "",
     };
-
-    if (values.password) {
-      updatedData.password = values.password;
-    }
 
     try {
       await updateUser(editCustomer.userId, updatedData);
@@ -100,20 +100,35 @@ const CustomerManagement = () => {
     }
   };
 
-  const handleDelete = async (userId) => {
-    Modal.confirm({
-      title: "Xác nhận xoá",
-      content: "Bạn có chắc chắn muốn xóa khách hàng này?",
-      onOk: async () => {
-        try {
-          await deleteUser(userId);
-          message.success("Đã xóa khách hàng thành công");
-          loadCustomers(); // Tải lại danh sách sau khi xóa thành công
-        } catch (error) {
-          message.error("Lỗi khi xóa khách hàng");
-        }
-      },
-    });
+  // const handleDelete = async (userId) => {
+  //   Modal.confirm({
+  //     title: "Xác nhận xoá",
+  //     content: "Bạn có chắc chắn muốn xóa khách hàng này?",
+  //     onOk: async () => {
+  //       try {
+  //         await deleteUser(userId);
+  //         message.success("Đã xóa khách hàng thành công");
+  //         loadCustomers(); // Tải lại danh sách sau khi xóa thành công
+  //       } catch (error) {
+  //         message.error("Lỗi khi xóa khách hàng");
+  //       }
+  //     },
+  //   });
+  // };
+
+  const handleStatusToggle = async (userId, currentStatus) => {
+    try {
+      if (currentStatus === "Disable") {
+        await restoreUser(userId);
+        message.success("Đã kích hoạt người dùng thành công");
+      } else {
+        await deleteUser(userId);
+        message.success("Đã vô hiệu hóa người dùng thành công");
+      }
+      loadCustomers();
+    } catch (error) {
+      message.error("Lỗi khi thay đổi trạng thái người dùng");
+    }
   };
 
   const columns = [
@@ -142,6 +157,22 @@ const CustomerManagement = () => {
       dataIndex: "points",
     },
     {
+      title: "Trạng Thái",
+      dataIndex: "status",
+      render: (status, record) => (
+        <Switch
+          checked={status !== "Disable"}
+          // onChange={(checked) => handleStatusToggle(record.userId, checked)}
+          onChange={(checked) => handleStatusToggle(record.userId, status)}
+          // checkedChildren="Kích hoạt"
+          // unCheckedChildren="Disable"
+          style={{
+            backgroundColor: record.status === "Active" ? "#52c41a" : "#f5222d", // Green for active, red for inactive
+          }}
+        />
+      ),
+    },
+    {
       // title: "Hành Động",
       title: <SettingOutlined />,
       key: "action",
@@ -162,13 +193,13 @@ const CustomerManagement = () => {
             >
               Xem
             </Menu.Item>
-            <Menu.Item
+            {/* <Menu.Item
               key="delete"
               icon={<DeleteOutlined />}
-              onClick={() => handleDelete(index)}
+              onClick={() => handleDelete(record.userId)}
             >
               Xóa
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu>
         );
 

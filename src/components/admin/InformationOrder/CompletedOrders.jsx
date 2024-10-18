@@ -11,8 +11,8 @@ const CompletedOrders = () => {
     const fetchCompletedOrders = async () => {
       // Giả lập API lấy danh sách đơn hàng hoàn thành
       const data = [
-        { id: 2, customer: 'Jane Doe', status: 'Completed', total: 150 },
-        { id: 4, customer: 'Alice Johnson', status: 'Completed', total: 250 },
+        { id: 2, customer: 'Jane Doe', status: 'Hoàn thành', total: 150000 },
+        { id: 4, customer: 'Alice Johnson', status: 'Hoàn thành', total: 250000 },
       ];
       setOrders(data);
     };
@@ -22,17 +22,17 @@ const CompletedOrders = () => {
 
   const columns = [
     {
-      title: 'Order ID',
+      title: 'Mã đơn hàng',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Customer',
+      title: 'Khách hàng',
       dataIndex: 'customer',
       key: 'customer',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
@@ -42,17 +42,17 @@ const CompletedOrders = () => {
       ),
     },
     {
-      title: 'Total',
+      title: 'Tổng tiền',
       dataIndex: 'total',
       key: 'total',
-      render: (total) => `$${total}`,
+      render: (total) => `${total.toLocaleString()} VND`,
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (text, record) => (
         <Button type="primary" onClick={() => handleOrderDetail(record.id)}>
-          View
+          Xem
         </Button>
       ),
     },
@@ -65,7 +65,7 @@ const CompletedOrders = () => {
 
   return (
     <div className="completed-orders">
-      <h2 className="text-2xl font-bold mb-4">Đơn hàng hoàn thành</h2>
+      <h2 className="text-2xl font-bold mb-4">Danh sách đơn hàng hoàn thành</h2>
       <Table columns={columns} dataSource={orders} rowKey="id" />
     </div>
   );
