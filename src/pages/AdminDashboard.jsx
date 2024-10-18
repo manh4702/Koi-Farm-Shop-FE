@@ -80,7 +80,7 @@ const AdminDashboard = () => {
             <Breadcrumb.Item>Admin</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
-                <Breadcrumb.Item>Order Management</Breadcrumb.Item>
+                <Breadcrumb.Item>Quản lí đơn hàng</Breadcrumb.Item>
               )}
             {selectedKey === "dashboard" && (
               <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
