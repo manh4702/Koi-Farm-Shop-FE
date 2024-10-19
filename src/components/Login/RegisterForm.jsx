@@ -38,7 +38,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
       username,
       password,
       phone,
-      dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
+      // dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
+      dateOfBirth: dateOfBirth ? dateOfBirth.format("YYYY-MM-DD") : null,
     };
 
     onFinish(data); // Truyền dữ liệu đã nhập về `onFinish`
@@ -215,13 +216,15 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               type="primary"
               htmlType="submit"
               loading={loading}
+              disabled={!agreeTerms}
               style={{
                 width: "220px",
-                backgroundColor: "red",
+                backgroundColor: agreeTerms ? "red" : "gray",
                 fontSize: "16px",
                 fontWeight: "bold",
                 color: "white",
                 borderRadius: "8px",
+                cursor: agreeTerms ? "pointer" : "not-allowed",
                 // marginTop: "20px",
               }}
             >
