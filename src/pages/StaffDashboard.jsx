@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Breadcrumb } from "antd";
-import Sidebar from "../components/manager/Sidebar";
-import HeaderBar from "../components/manager/HeaderBar";
+import Sidebar from "../components/staff/Sidebar";
+import HeaderBar from "../components/staff/HeaderBar";
 import DashboardContent from "../components/manager/DashboardContent";
 import Sider from "antd/es/layout/Sider";
 import { Route, Routes } from "react-router-dom";
@@ -25,16 +25,16 @@ const AdminDashboard = () => {
     switch (selectedKey) {
       case "dashboard":
         return <DashboardContent />;
-      case "user-management":
-        return <CustomerManagement />;
+      // case "user-management":
+      //   return <CustomerManagement />;
       case "fish-info":
         return <FishInfo />;
       case "order-list":
         return <OrderList />;
       case "order-tracking":
         return <OrderTracking />;
-      case "staff-management":
-        return <StaffManagement />;
+      // case "staff-management":
+      //   return <StaffManagement />;
       case "blog-management":
         return <BlogManagement />;
       case "FAQ-management":
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
           {renderContent()}
         </Content>
         <Footer style={{ textAlign: "center", padding: "15px 0" }}>
-          Admin Dashboard ©2024
+          Staff Dashboard ©2024
         </Footer>
       </Layout>
     </Layout>

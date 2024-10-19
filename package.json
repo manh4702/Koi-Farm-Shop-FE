@@ -18,6 +18,7 @@
     "antd": "^5.20.6",
     "axios": "^1.7.7",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "lodash": "^4.17.21",

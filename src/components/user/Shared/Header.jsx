@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Badge, Layout, Menu, Space } from "antd";
-import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Badge, Dropdown, Layout, Menu, Space, Avatar } from "antd";
+import {
+  PhoneOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import LogoKoi from "../../../assets/LogoKoi.png";
 import Search from "./Search";
 import useCartStore from "../../../store/cartStore";
@@ -21,6 +25,17 @@ const Header = () => {
   const cartItemCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
+  );
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile">
+        <Link to="/profile">Thông Tin Cá Nhân</Link>
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={() => clearUserAuth()}>
+        Đăng Xuất
+      </Menu.Item>
+    </Menu>
   );
 
   return (
@@ -55,13 +70,24 @@ const Header = () => {
               color: "black",
             }}
           >
-            <Menu.Item key="login">
-              <Link to="/login">Đăng Nhập</Link>
-            </Menu.Item>
-            <span>|</span>
-            <Menu.Item key="register">
-              <Link to="/register">Đăng Ký</Link>
-            </Menu.Item>
+            {/* {username ? (
+              <Dropdown overlay={userMenu}>
+                <Space>
+                  <Avatar icon={<UserOutlined />} />
+                  {username}
+                </Space>
+              </Dropdown>
+            ) : ( */}
+              <>
+                <Menu.Item key="login">
+                  <Link to="/login">Đăng Nhập</Link>
+                </Menu.Item>
+                <span>|</span>
+                <Menu.Item key="register">
+                  <Link to="/register">Đăng Ký</Link>
+                </Menu.Item>
+              </>
+            {/* )} */}
           </Menu>
           <Badge count={cartItemCount} overflowCount={99}>
             <Link to="/cart" style={getMenuItemStyle("/cart")}>

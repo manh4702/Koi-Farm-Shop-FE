@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
+import StaffDashboard from "./pages/StaffDashboard";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./components/user/pages/AboutPage";
 import ProductPage from "./components/user/pages/ProductPage";
@@ -19,11 +20,11 @@ import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
-import TermsOfService from './components/user/Rules/TermsOfService';
-import PurchaseGuide from './components/user/Rules/PurchaseGuide';
-import PaymentMethods from './components/user/Rules/PaymentMethods';
-import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
-import ReturnPolicy from './components/user/Rules/ReturnPolicy';
+import TermsOfService from "./components/user/Rules/TermsOfService";
+import PurchaseGuide from "./components/user/Rules/PurchaseGuide";
+import PaymentMethods from "./components/user/Rules/PaymentMethods";
+import PrivacyPolicy from "./components/user/Rules/PrivacyPolicy";
+import ReturnPolicy from "./components/user/Rules/ReturnPolicy";
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
 const App = () => {
@@ -37,7 +38,7 @@ const App = () => {
     if (token && role && username) {
       setAuth({ username, role, token });
     }
-  },[setAuth]);
+  }, [setAuth]);
 
   return (
     <Router>
@@ -61,6 +62,14 @@ const App = () => {
           element={
             <PrivateRoute allowedRoles={["Manager"]}>
               <ManagerDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/staff"
+          element={
+            <PrivateRoute allowedRoles={["Staff"]}>
+              <StaffDashboard />
             </PrivateRoute>
           }
         />

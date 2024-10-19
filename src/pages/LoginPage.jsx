@@ -25,7 +25,7 @@ const LoginPage = () => {
         localStorage.setItem("authToken", token);
 
         setAuth({
-          username: values.email,
+          username: values.username,
           role: role,
           token: token,
         });

@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
   email: localStorage.getItem("email") || null,
+  username: localStorage.getItem("username") || null,
   token: localStorage.getItem("authToken") || null,
   role: localStorage.getItem("userRole") || null,
   expiration: localStorage.getItem("expiration") || null,
@@ -15,6 +16,7 @@ const useAuthStore = create((set) => ({
       expiration: expirationTime,
     });
     localStorage.setItem("email", authData.email);
+    localStorage.setItem("username", authData.username);
     localStorage.setItem("authToken", authData.token);
     localStorage.setItem("userRole", authData.role);
     localStorage.setItem("expiration", expirationTime);
@@ -22,11 +24,13 @@ const useAuthStore = create((set) => ({
   logout: (navigate) => {
     set({
       email: null,
+      username: null,
       token: null,
       role: null,
       expiration: null,
     });
     localStorage.removeItem("email");
+    localStorage.removeItem("username");
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("expiration");
