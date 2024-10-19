@@ -1,17 +1,15 @@
+// components/FeedbackAndRate.jsx
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input, Space, Collapse } from "antd";
-import { CiStar } from "react-icons/ci";
-const { Panel } = Collapse;
+import { Table, Button, Modal, Form, Input, Space } from "antd";
 
 const FeedbackAndRate = () => {
-    // State to manage feedback and rating data
     const [feedbacks, setFeedbacks] = useState([
         {
             key: "1",
             name: "John Doe",
             email: "johndoe@example.com",
             phone: "0123456789",
-            feedback: "I want to give feedback about the product.",
+            feedback: "Tôi muốn gửi phản hồi về sản phẩm.",
             rating: 1,
         },
         {
@@ -19,16 +17,15 @@ const FeedbackAndRate = () => {
             name: "Jane Doe",
             email: "janedoe@example.com",
             phone: "0987654321",
-            feedback: "I need to rate the service.",
+            feedback: "Tôi cần đánh giá dịch vụ.",
             rating: 2,
         },
-        // Add more feedback and rating data here
         {
             key: "3",
             name: "Alex Smith",
             email: "alexsmith@example.com",
             phone: "5556667777",
-            feedback: "The product exceeded my expectations.",
+            feedback: "Sản phẩm vượt qua mong đợi của tôi.",
             rating: 3,
         },
         {
@@ -36,7 +33,7 @@ const FeedbackAndRate = () => {
             name: "Emily Johnson",
             email: "emilyjohnson@example.com",
             phone: "3334445555",
-            feedback: "The customer service was very helpful.",
+            feedback: "Dịch vụ chăm sóc khách hàng rất hữu ích.",
             rating: 5,
         },
     ]);
@@ -73,14 +70,12 @@ const FeedbackAndRate = () => {
 
     const onFinish = (values) => {
         if (selectedFeedback) {
-            // Update existing feedback
             setFeedbacks((prev) =>
                 prev.map((feedback) =>
                     feedback.key === selectedFeedback.key ? { ...feedback, ...values } : feedback
                 )
             );
         } else {
-            // Add new feedback
             setFeedbacks((prev) => [
                 ...prev,
                 { key: (prev.length + 1).toString(), ...values },
@@ -91,7 +86,7 @@ const FeedbackAndRate = () => {
 
     const columns = [
         {
-            title: "Name",
+            title: "Tên",
             dataIndex: "name",
         },
         {
@@ -99,25 +94,25 @@ const FeedbackAndRate = () => {
             dataIndex: "email",
         },
         {
-            title: "Phone",
+            title: "Số điện thoại",
             dataIndex: "phone",
         },
         {
-            title: "Feedback",
+            title: "Phản hồi",
             dataIndex: "feedback",
         },
         {
-            title: "Rating",
+            title: "Đánh giá",
             dataIndex: "rating",
-        render: (text) => `${text} ⭐️`,
+            render: (text) => `${text} ⭐️`,
         },
         {
-            title: "Action",
+            title: "Hành động",
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
                     <Button onClick={() => handleDelete(record.key)} danger>
-                        Delete
+                        Xóa
                     </Button>
                 </Space>
             ),
@@ -126,7 +121,7 @@ const FeedbackAndRate = () => {
 
     return (
         <div style={{ padding: "24px", background: "#fff" }}>
-            <h1>Feedback and Rating Management</h1>
+            <h1>Quản lý phản hồi và đánh giá</h1>
             <div
                 style={{
                     display: "flex",
@@ -136,8 +131,8 @@ const FeedbackAndRate = () => {
                 }}
             >
                 <Input.Search
-                    placeholder="Search feedback"
-                    enterButton="Search"
+                    placeholder="Tìm kiếm phản hồi"
+                    enterButton="Tìm kiếm"
                     size="large"
                     style={{ width: "300px" }}
                     onSearch={handleSearch}
@@ -151,13 +146,13 @@ const FeedbackAndRate = () => {
                         setIsModalVisible(true);
                     }}
                 >
-                    Add feedback
+                    Thêm phản hồi
                 </Button>
             </div>
             <Table columns={columns} dataSource={filteredFeedbacks} />
 
             <Modal
-                title={selectedFeedback ? "Update feedback" : "Add new feedback"}
+                title={selectedFeedback ? "Cập nhật phản hồi" : "Thêm phản hồi mới"}
                 visible={isModalVisible}
                 footer={null}
                 onCancel={handleCancel}
@@ -174,43 +169,38 @@ const FeedbackAndRate = () => {
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Name"
+                        label="Tên"
                         name="name"
-                        rules={[{ required: true, message: "Please enter name" }]}
-                    >
+                        rules={[{ required: true, message: "Vui lòng nhập tên" }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, message: "Please enter email" }]}
-                    >
+                        rules={[{ required: true, message: "Vui lòng nhập email" }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Phone"
+                        label="Số điện thoại"
                         name="phone"
-                        rules={[{ required: true, message: "Please enter phone" }]}
-                    >
+                        rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Feedback"
+                        label="Phản hồi"
                         name="feedback"
-                        rules={[{ required: true, message: "Please enter feedback" }]}
-                    >
+                        rules={[{ required: true, message: "Vui lòng nhập phản hồi" }]}>
                         <Input.TextArea rows={4} />
                     </Form.Item>
                     <Form.Item
-                        label="Rating"
+                        label="Đánh giá"
                         name="rating"
-                        rules={[{ required: true, message: "Please enter rating" }]}
-                    >
+                        rules={[{ required: true, message: "Vui lòng nhập đánh giá" }]}>
                         <Input type="number" min={0} max={5} />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            {selectedFeedback ? "Update" : "Add new"}
+                            {selectedFeedback ? "Cập nhật" : "Thêm mới"}
                         </Button>
                     </Form.Item>
                 </Form>

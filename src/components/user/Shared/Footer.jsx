@@ -50,9 +50,9 @@ const Footer = () => {
             </li>
             {/* <li>Quên mật khẩu</li> */}
             <li>
-             <a href="/fish-consignment" style={{ color: "white" }}>
+              <a href="/fish-consignment" style={{ color: "white" }}>
                 Đăng kí ký gửi bán cá
-            </a>
+              </a>
             </li>
             <li>
               <a href="/cart" style={{ color: "white" }}>
@@ -73,32 +73,32 @@ const Footer = () => {
             DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
-       <li>
-       <a href="/terms-of-service" style={{ color: "white" }}>
-            Điều khoản mua hàng
-        </a>
-      </li>
-      <li>
-      <a href="/purchase-guide" style={{ color: "white" }}>
-            Hướng dẫn mua hàng
-      </a>
-      </li>
-      <li>
-      <a href="/payment-methods" style={{ color: "white" }}>
-            Phương thức thanh toán
-       </a>
-       </li>
-      <li>
-       <a href="/privacy-policy" style={{ color: "white" }}>
-            Chính sách bảo mật
-       </a>
-      </li>
-      <li>
-        <a href="/return-policy" style={{ color: "white" }}>
-            Chính sách đổi trả hàng
-       </a>
-      </li>
-      </ul>
+            <li>
+              <a href="/terms-of-service" style={{ color: "white" }}>
+                Điều khoản mua hàng
+              </a>
+            </li>
+            <li>
+              <a href="/purchase-guide" style={{ color: "white" }}>
+                Hướng dẫn mua hàng
+              </a>
+            </li>
+            <li>
+              <a href="/payment-methods" style={{ color: "white" }}>
+                Phương thức thanh toán
+              </a>
+            </li>
+            <li>
+              <a href="/privacy-policy" style={{ color: "white" }}>
+                Chính sách bảo mật
+              </a>
+            </li>
+            <li>
+              <a href="/return-policy" style={{ color: "white" }}>
+                Chính sách đổi trả hàng
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 

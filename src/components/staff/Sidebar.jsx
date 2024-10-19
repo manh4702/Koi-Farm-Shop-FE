@@ -42,27 +42,19 @@ function Sidebar({ setSelectedKey }) {
           padding: "0 0 20px",
         }}
       >
-        Manager
+        Staff
       </p>
 
       <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-        
         <Menu.Item
-          key="2"
-          icon={<UserOutlined />}
-          onClick={() => setSelectedKey("user-management")}
-        >
-          Quản lí khách hàng
-        </Menu.Item>
-        <Menu.Item
-          key="3"
+          key="1"
           icon={<GiCirclingFish />}
           onClick={() => setSelectedKey("fish-info")}
         >
           Quản lí cá
         </Menu.Item>
         <Menu.Item
-          key="4" // Gán key duy nhất
+          key="2" // Gán key duy nhất
           icon={<FileDoneOutlined />} // Icon cho chức năng ký gửi
           onClick={() => setSelectedKey("consignment-management")} // Gán key
         >
@@ -70,47 +62,40 @@ function Sidebar({ setSelectedKey }) {
         </Menu.Item>
         
         <SubMenu
-          key="5"
+          key="3"
           icon={<ShoppingCartOutlined />}
           title="Quản lí đơn hàng"
         >
-          <Menu.Item key="5-1" onClick={() => setSelectedKey("order-list")}>
+          <Menu.Item key="3-1" onClick={() => setSelectedKey("order-list")}>
             Danh sách đơn hàng
           </Menu.Item>
-          <Menu.Item key="5-2" onClick={() => setSelectedKey("order-tracking")}>
+          <Menu.Item key="3-2" onClick={() => setSelectedKey("order-tracking")}>
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
         <Menu.Item
-          key="6"
-          icon={<GrUserManager />}
-          onClick={() => setSelectedKey("staff-management")}
-        >
-          Quản lí nhân viên
-        </Menu.Item>
-        <Menu.Item
-          key="7"
+          key="4"
           icon={<TagsFilled />}
           onClick={() => setSelectedKey("promotion-management")}
         >
           Quản lí khuyến mãi
         </Menu.Item>
         <Menu.Item
-          key="8"
+          key="5"
           icon={<GrBlog />}
           onClick={() => setSelectedKey("blog-management")}
         >
           Quản lý tin tức
         </Menu.Item>
         <Menu.Item
-          key="10"
+          key="6"
           icon={<QuestionCircleOutlined />}
           onClick={() => setSelectedKey("FAQ-management")}
         >
           Quản lí FAQ
         </Menu.Item>
         <Menu.Item
-          key="9"
+          key="7"
           icon={<MdFeedback />}
           onClick={() => setSelectedKey("feedback-management")}
         >

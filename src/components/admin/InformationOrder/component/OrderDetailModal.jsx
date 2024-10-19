@@ -37,7 +37,7 @@ const OrderDetailModal = ({
       <strong>Số điện thoại:</strong> {selectedOrder?.phone}
     </p>
     <p>
-      <strong>Tổng tiền:</strong> ${selectedOrder?.total}
+      <strong>Tổng tiền:</strong> {selectedOrder?.total.toLocaleString()} VND
     </p>
     <h3>
       <strong>Chi tiết sản phẩm:</strong>
@@ -45,7 +45,8 @@ const OrderDetailModal = ({
     <ul>
       {selectedOrder?.products.map((product, index) => (
         <li key={index}>
-          {product.name} - Số lượng: {product.quantity} - Giá: ${product.price}
+          {product.name} - Số lượng: {product.quantity} - Giá:{" "}
+          {product.price.toLocaleString()} VND
         </li>
       ))}
     </ul>

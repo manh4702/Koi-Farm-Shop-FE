@@ -9,8 +9,8 @@ const OrderManagement = () => {
     // Giả lập lấy danh sách đơn hàng từ API
     const fetchOrders = async () => {
       const data = [
-        { id: 1, customer: 'John Doe', status: 'Pending', total: 100 },
-        { id: 2, customer: 'Jane Doe', status: 'Completed', total: 150 },
+        { id: 1, customer: 'John Doe', status: 'Đang chờ xử lý', total: 100000 },
+        { id: 2, customer: 'Jane Doe', status: 'Hoàn thành', total: 150000 },
       ];
       setOrders(data);
     };
@@ -20,35 +20,35 @@ const OrderManagement = () => {
 
   const columns = [
     {
-      title: 'Order ID',
+      title: 'Mã đơn hàng',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Customer',
+      title: 'Khách hàng',
       dataIndex: 'customer',
       key: 'customer',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
-        <Tag color={status === 'Completed' ? 'green' : 'volcano'}>{status}</Tag>
+        <Tag color={status === 'Hoàn thành' ? 'green' : 'volcano'}>{status}</Tag>
       ),
     },
     {
-      title: 'Total',
+      title: 'Tổng tiền (VND)',
       dataIndex: 'total',
       key: 'total',
-      render: (total) => `$${total}`,
+      render: (total) => `${total.toLocaleString()} VND`,
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (text, record) => (
         <Button type="primary" onClick={() => handleOrderDetail(record.id)}>
-          View
+          Xem
         </Button>
       ),
     },
@@ -56,12 +56,12 @@ const OrderManagement = () => {
 
   const handleOrderDetail = (orderId) => {
     // Thực hiện điều hướng hoặc hiển thị chi tiết đơn hàng
-    console.log("View order detail: ", orderId);
+    console.log("Xem chi tiết đơn hàng: ", orderId);
   };
 
   return (
-    <div className="order-management">
-      <h2 className="text-2xl font-bold mb-4">Order Management</h2>
+    <div className="Quản lí đơn hàng">
+      <h2 className="text-2xl font-bold mb-4">Quản lý đơn hàng</h2>
       <Table columns={columns} dataSource={orders} rowKey="id" />
     </div>
   );
