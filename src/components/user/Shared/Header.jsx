@@ -1,7 +1,8 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Badge, Dropdown, Layout, Menu, Space, Avatar } from "antd";
 import {
+  LogoutOutlined,
   PhoneOutlined,
   ShoppingCartOutlined,
   UserOutlined,
@@ -9,12 +10,19 @@ import {
 import LogoKoi from "../../../assets/LogoKoi.png";
 import Search from "./Search";
 import useCartStore from "../../../store/cartStore";
+import useAuthStore from "../../../store/store";
 
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const cartItems = useCartStore((state) => state.items);
+  const { logout, user, initializeAuth } = useAuthStore();
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   const getMenuItemStyle = (path) => {
     return location.pathname === path
@@ -27,13 +35,17 @@ const Header = () => {
     0
   );
 
+  const handleLgout = () => {
+    logout(navigate);
+  };
+
   const userMenu = (
     <Menu>
       <Menu.Item key="profile">
         <Link to="/profile">Thông Tin Cá Nhân</Link>
       </Menu.Item>
-      <Menu.Item key="logout" onClick={() => clearUserAuth()}>
-        Đăng Xuất
+      <Menu.Item key="logout" onClick={handleLgout}>
+        Đăng Xuất <LogoutOutlined style={{ color: "red" }}/>
       </Menu.Item>
     </Menu>
   );
@@ -70,14 +82,14 @@ const Header = () => {
               color: "black",
             }}
           >
-            {/* {username ? (
+            {user ? (
               <Dropdown overlay={userMenu}>
                 <Space>
-                  <Avatar icon={<UserOutlined />} />
-                  {username}
+                  <Avatar icon={<UserOutlined style={{ color: "black" }} />} />
+                  {user.name}
                 </Space>
               </Dropdown>
-            ) : ( */}
+            ) : (
               <>
                 <Menu.Item key="login">
                   <Link to="/login">Đăng Nhập</Link>
@@ -87,7 +99,7 @@ const Header = () => {
                   <Link to="/register">Đăng Ký</Link>
                 </Menu.Item>
               </>
-            {/* )} */}
+            )}
           </Menu>
           <Badge count={cartItemCount} overflowCount={99}>
             <Link to="/cart" style={getMenuItemStyle("/cart")}>

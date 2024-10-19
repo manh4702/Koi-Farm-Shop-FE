@@ -22,7 +22,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         const { token, role } = response.data;
-        localStorage.setItem("authToken", token);
+        // localStorage.setItem("authToken", token);
 
         setAuth({
           username: values.username,
