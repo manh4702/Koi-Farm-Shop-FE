@@ -1,13 +1,31 @@
-// src/user/Pages/About.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import ZaloIcon from "../Shared/ZaloIcon";
 import FBIconts from "../Shared/FacebookIcon";
 import YTIconts from "../Shared/YoutubeIcon";
-
+import { UpCircleOutlined } from "@ant-design/icons";
 
 const AboutPage = () => {
+  // Hiển thị nút cuộn lên đầu trang khi cuộn đến cuối trang
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollToTopButton = document.getElementById("scrollToTop");
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        scrollToTopButton.style.display = "block";
+      } else {
+        scrollToTopButton.style.display = "none";
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Hủy sự kiện khi component bị unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <Header />
@@ -23,16 +41,16 @@ const AboutPage = () => {
             height="500"
             src="https://www.youtube.com/embed/FXBLvGAhQGc"
             title="Koilover Introduction"
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         </div>
 
         {/* Chèn hình ảnh bằng link */}
         <div className="mb-8">
           <img
-            src="https://cdn.tuoitre.vn/thumb_w/1200/2021/2/4/photo-1-1612402298157895451843.jpg" // Thay thế đường dẫn này bằng link ảnh của bạn
+            src="https://cdn.tuoitre.vn/thumb_w/1200/2021/2/4/photo-1-1612402298157895451843.jpg"
             alt="Mô tả ảnh"
             className="w-full h-auto"
           />
@@ -48,7 +66,7 @@ const AboutPage = () => {
         </p>
         <div className="mb-8">
           <img
-            src="https://cdn.tuoitre.vn/thumb_w/1200/2021/2/4/hinh-2-1612402535458654973453.jpg" // Thay thế đường dẫn này bằng link ảnh của bạn
+            src="https://cdn.tuoitre.vn/thumb_w/1200/2021/2/4/hinh-2-1612402535458654973453.jpg"
             alt="Mô tả ảnh"
             className="w-full h-auto"
           />
@@ -56,7 +74,7 @@ const AboutPage = () => {
         <p className="text-lg mt-4">
           Đây là hình ảnh của trang trại và các giống cá của chúng tôi:
         </p>
-        <div class="flex space-x-4">
+        <div className="flex space-x-4">
           <img
             src="https://th.bing.com/th/id/OIP.9AHnAIv0xZcg1JIre_GRxwHaFj?w=310&h=186&c=7&r=0&o=5&pid=1.7"
             alt="Mô tả ảnh 1"
@@ -87,7 +105,6 @@ const AboutPage = () => {
             thuật dưỡng cá có tổng diện tích mặt nước trên 6000m² với trên 160
             hồ cá Koi các loại.
           </li>
-
           <li>
             Đối tác cá: Trên 20 trại cá hàng đầu của Nhật như Narita, Sakai,
             Momotaro, Dainichi, Ogata, Omosako, Isa, Marusei, Marudo... cung cấp
@@ -100,7 +117,6 @@ const AboutPage = () => {
           Hãy đến với FishKoi Store để trải nghiệm sự khác biệt trong thế giới
           của cá Koi.
         </p>
-
         <p className="text-lg mt-4">
           Địa chỉ: Lô E2a-7, Đường D1, Khu Công Nghệ Cao, Long Thạnh Mỹ, Hồ Chí
           Minh.
@@ -110,6 +126,42 @@ const AboutPage = () => {
           Email: cakoistore.com
         </p>
       </div>
+
+      {/* Nút cuộn lên đầu trang */}
+      <div
+        id="scrollToTop"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        style={{
+          position: "fixed",
+          bottom: "270px",
+          right: "20px",
+          width: "50px",
+          height: "50px",
+          backgroundColor: "#f1f1f1",
+          color: "#333",
+          borderRadius: "50%",
+          textAlign: "center",
+          lineHeight: "50px",
+          fontSize: "24px",
+          cursor: "pointer",
+          display: "none",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          transition: "opacity 0.3s, background-color 0.3s, color 0.3s",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "#3B5998"; // Thay đổi màu nền khi hover
+          e.currentTarget.style.color = "#0000ff"; // Thay đổi màu biểu tượng khi hover
+          e.currentTarget.style.transform = "scale(1.1)"; // Phóng to khi hover
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "#f1f1f1"; // Quay lại màu nền ban đầu
+          e.currentTarget.style.color = "#333"; // Quay lại màu biểu tượng ban đầu
+          e.currentTarget.style.transform = "scale(1)"; // Quay lại kích thước ban đầu
+        }}
+      >
+        <UpCircleOutlined style={{ fontSize: "24px" }} />
+      </div>
+
       <ZaloIcon />
       <FBIconts />
       <YTIconts />

@@ -1,7 +1,7 @@
 // src/components/user/pages/ProductPage.jsx
 import React, { useState, useEffect } from "react";
 import { Row, Col, Tooltip, Pagination, Checkbox, Modal, Button } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, UpCircleOutlined } from "@ant-design/icons";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import FishCard from "../Product/FishCard";
@@ -818,8 +818,27 @@ const ProductPage = () => {
   // Cuộn về đầu trang khi thay đổi trang
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentPage]); // Gọi khi currentPage thay đổi
+  }, [currentPage]);
 
+  // Hiển thị nút cuộn lên đầu trang khi cuộn đến cuối trang
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollToTopButton = document.getElementById("scrollToTop");
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        scrollToTopButton.style.display = "block";
+      } else {
+        scrollToTopButton.style.display = "none";
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Hủy sự kiện khi component bị unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  
   return (
     <div
       style={{ minHeight: "100px", display: "flex", flexDirection: "column" }}
@@ -930,6 +949,40 @@ const ProductPage = () => {
             total={fishes.length}
             onChange={handlePageChange}
           />
+        </div>
+        {/* Nút cuộn lên đầu trang */}
+        <div
+          id="scrollToTop"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          style={{
+            position: "fixed",
+            bottom: "270px",
+            right: "20px",
+            width: "50px",
+            height: "50px",
+            backgroundColor: "#f1f1f1",
+            color: "#333",
+            borderRadius: "50%",
+            textAlign: "center",
+            lineHeight: "50px",
+            fontSize: "24px",
+            cursor: "pointer",
+            display: "none",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            transition: "opacity 0.3s, background-color 0.3s, color 0.3s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#3B5998"; // Thay đổi màu nền khi hover
+            e.currentTarget.style.color = "#0000ff"; // Thay đổi màu biểu tượng khi hover
+            e.currentTarget.style.transform = "scale(1.1)"; // Phóng to khi hover
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#f8f8ff"; // Quay lại màu nền ban đầu
+            e.currentTarget.style.color = "#333"; // Quay lại màu biểu tượng ban đầu
+            e.currentTarget.style.transform = "scale(1)"; // Quay lại kích thước ban đầu
+          }}
+        >
+          <UpCircleOutlined style={{ fontSize: "24px" }} /> {/* Sử dụng biểu tượng */}
         </div>
       </main>
       <ZaloIcon />
