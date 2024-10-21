@@ -45,7 +45,9 @@ const Header = () => {
         <Link to="/profile">Thông Tin Cá Nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" onClick={handleLgout}>
-        Đăng Xuất <LogoutOutlined style={{ color: "red" }}/>
+        <div style={{backgroundColor: "red", borderRadius: "5px", padding: "5px", color: "white", textAlign: "center"}}>
+          Đăng Xuất <LogoutOutlined style={{}} />
+        </div>
       </Menu.Item>
     </Menu>
   );

@@ -27,6 +27,7 @@ import PrivacyPolicy from "./components/user/Rules/PrivacyPolicy";
 import ReturnPolicy from "./components/user/Rules/ReturnPolicy";
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -48,11 +49,12 @@ const App = () => {
         {/* Đăng nhập và đăng ký */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ResetPasswordPage />} />
         {/* Dashboard admin và quản lý */}
         <Route
           path="/admin"
           element={
-            <PrivateRoute allowedRoles={["Admin"]}>
+            <PrivateRoute allowedRoles={[1]}>
               <AdminDashboard />
             </PrivateRoute>
           }
@@ -60,7 +62,7 @@ const App = () => {
         <Route
           path="/manager"
           element={
-            <PrivateRoute allowedRoles={["Manager"]}>
+            <PrivateRoute allowedRoles={[2]}>
               <ManagerDashboard />
             </PrivateRoute>
           }
@@ -68,7 +70,7 @@ const App = () => {
         <Route
           path="/staff"
           element={
-            <PrivateRoute allowedRoles={["Staff"]}>
+            <PrivateRoute allowedRoles={[3]}>
               <StaffDashboard />
             </PrivateRoute>
           }

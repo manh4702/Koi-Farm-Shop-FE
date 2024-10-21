@@ -3,12 +3,14 @@ import { create } from "zustand";
 import { decodeToken } from "../services/tokenDecoder";
 
 const useAuthStore = create((set) => ({
+  user: null,
   token: localStorage.getItem("authToken") || null,
   role: localStorage.getItem("userRole") || null,
   expiration: localStorage.getItem("expiration") || null,
   setAuth: (authData) => {
     const expirationTime = Date.now() + 3 * 60 * 60 * 1000;
     set({
+      user: { name: authData.username, role: authData.role },
       token: authData.token,
       role: authData.role,
       expiration: expirationTime,
@@ -19,6 +21,7 @@ const useAuthStore = create((set) => ({
   },
   logout: (navigate) => {
     set({
+      user: null,
       token: null,
       role: null,
       expiration: null,

@@ -109,7 +109,7 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
           </h1>
           <form
             onSubmit={handleSubmit}
-            style={{ width: "400px", marginTop: "20px" }}
+            style={{ width: "350px", marginTop: "20px" }}
           >
             <label style={{ fontSize: "16px" }}>
               Email <span style={{ color: "red" }}>*</span>
