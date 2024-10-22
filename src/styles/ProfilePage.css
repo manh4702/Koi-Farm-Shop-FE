@@ -1,0 +1,88 @@
+.profile-container {
+    display: flex;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.sidebar {
+    width: 250px; /* Set a fixed width */
+    background-color: #f9f9f9; /* Light background color */
+    border-right: 1px solid #ddd; /* Right border for separation */
+    padding: 20px; /* Padding for spacing */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.sidebar h2 {
+    font-size: 24px; /* Larger font size for the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+}
+
+.sidebar li {
+    padding: 10px 15px; /* Padding for each item */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.sidebar li:hover {
+    background-color: #e0e0e0; /* Change background on hover */
+}
+
+.sidebar li::before {
+    content: ''; /* Add an icon or similar */
+    display: inline-block;
+    width: 20px; /* Icon width */
+    height: 20px; /* Icon height */
+    margin-right: 10px; /* Space between icon and text */
+    background-size: contain; /* Ensure the icon fits */
+    background-repeat: no-repeat; /* No repeat */
+}
+
+.profile-details {
+    flex: 2;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.highlight {
+    color: red;
+}
+
+.avatar-section {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.edit-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.upload-info {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
