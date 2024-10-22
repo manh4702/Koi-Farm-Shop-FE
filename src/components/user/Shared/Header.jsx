@@ -1,16 +1,28 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Badge, Layout, Menu, Space } from "antd";
-import { PhoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Badge, Dropdown, Layout, Menu, Space, Avatar } from "antd";
+import {
+  LogoutOutlined,
+  PhoneOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import LogoKoi from "../../../assets/LogoKoi.png";
 import Search from "./Search";
 import useCartStore from "../../../store/cartStore";
+import useAuthStore from "../../../store/store";
 
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const cartItems = useCartStore((state) => state.items);
+  const { logout, user, initializeAuth } = useAuthStore();
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   const getMenuItemStyle = (path) => {
     return location.pathname === path
@@ -21,6 +33,23 @@ const Header = () => {
   const cartItemCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
+  );
+
+  const handleLgout = () => {
+    logout(navigate);
+  };
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile">
+        <Link to="/profile">Thông Tin Cá Nhân</Link>
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={handleLgout}>
+        <div style={{backgroundColor: "red", borderRadius: "5px", padding: "5px", color: "white", textAlign: "center"}}>
+          Đăng Xuất <LogoutOutlined style={{}} />
+        </div>
+      </Menu.Item>
+    </Menu>
   );
 
   return (
@@ -55,13 +84,24 @@ const Header = () => {
               color: "black",
             }}
           >
-            <Menu.Item key="login">
-              <Link to="/login">Đăng Nhập</Link>
-            </Menu.Item>
-            <span>|</span>
-            <Menu.Item key="register">
-              <Link to="/register">Đăng Ký</Link>
-            </Menu.Item>
+            {user ? (
+              <Dropdown overlay={userMenu}>
+                <Space>
+                  <Avatar icon={<UserOutlined style={{ color: "black" }} />} />
+                  {user.name}
+                </Space>
+              </Dropdown>
+            ) : (
+              <>
+                <Menu.Item key="login">
+                  <Link to="/login">Đăng Nhập</Link>
+                </Menu.Item>
+                <span>|</span>
+                <Menu.Item key="register">
+                  <Link to="/register">Đăng Ký</Link>
+                </Menu.Item>
+              </>
+            )}
           </Menu>
           <Badge count={cartItemCount} overflowCount={99}>
             <Link to="/cart" style={getMenuItemStyle("/cart")}>

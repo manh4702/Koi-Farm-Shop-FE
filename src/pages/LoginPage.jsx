@@ -6,6 +6,7 @@ import useAuthStore from "../store/store"; // Zustand store
 import LoginForm from "../components/Login/LoginForm"; // Gọi LoginForm từ components
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
+import CryptoJS from "crypto-js";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
@@ -15,17 +16,20 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/User/Login", {
+      // const hashedPassword = CryptoJS.SHA256(values.password).toString();
+
+      const response = await axios.post("/api/User/login", {
         email: values.email,
         password: values.password,
+        // password: hashedPassword,
       });
 
       if (response.status === 200) {
         const { token, role } = response.data;
-        localStorage.setItem("authToken", token);
+        // localStorage.setItem("authToken", token);
 
         setAuth({
-          username: values.email,
+          username: values.username,
           role: role,
           token: token,
         });
