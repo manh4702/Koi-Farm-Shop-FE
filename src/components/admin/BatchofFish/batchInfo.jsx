@@ -17,6 +17,7 @@ import {
   Menu,
   Select,
   InputNumber,
+  Upload,
 } from "antd";
 import {
   DeleteOutlined,
@@ -46,6 +47,7 @@ const BatchInfo = () => {
   const [editBatch, setEditBatch] = useState(null);
   const [addBatch, setAddBatch] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
   const [form] = Form.useForm();
   console.log("form:", form);
 
@@ -78,7 +80,12 @@ const BatchInfo = () => {
   const handleAdd = () => {
     setAddBatch(null);
     setIsModalVisible(true);
+    setImageFile(null);
     form.resetFields();
+  };
+
+  const handleFileChange = (info) => {
+    setImageFile(info.fileList); // Lưu danh sách các tệp hình ảnh vào state
   };
 
   const handleCancel = () => {
@@ -87,49 +94,82 @@ const BatchInfo = () => {
     form.resetFields();
   };
 
+  // const onFinish = async (values) => {
+  //   try {
+  //     const priceValue = parseFloat(values.price) || 0;
+  //     if (editBatch && editBatch.fishPackageId) {
+  //       // Cập nhật lô cá
+  //       const { fishPackageId } = editBatch;
+  //       const { status } = editBatch;
+
+  //       await updateFishPackage(fishPackageId, {
+  //         fishPackageId: fishPackageId, // Chuyển id vào request payload
+  //         name: values.name,
+  //         age: values.age,
+  //         gender: values.gender,
+  //         size: values.size,
+  //         description: values.description,
+  //         totalPrice: priceValue,
+  //         dailyFood: values.dailyFood,
+  //         imageUrl: values.image,
+  //         numberOfFish: values.numberOfFish,
+  //         status: status,
+  //       });
+  //       message.success("Cập nhật lô cá thành công");
+  //     } else {
+  //       await createFishPackage({
+  //         name: values.name,
+  //         age: values.age,
+  //         gender: values.gender,
+  //         size: values.size,
+  //         description: values.description,
+  //         totalPrice: priceValue,
+  //         dailyFood: values.dailyFood,
+  //         imageFile: values.imageFile,
+  //         imageUrl: values.image,
+  //         numberOfFish: values.quantity,
+  //       });
+  //       message.success("Thêm mới lô cá thành công");
+  //     }
+  //     loadFishPackages(); // Tải lại danh sách sau khi cập nhật thành công
+  //     handleCancel(); // Đóng modal
+  //   } catch (error) {
+  //     console.error("Error updating fish package:", error);
+  //     message.error(
+  //       editBatch ? "Cập nhật lô cá thất bại" : "Thêm mới lô cá thất bại"
+  //     );
+  //   }
+  // };
+
   const onFinish = async (values) => {
     try {
-      const priceValue = parseFloat(values.price) || 0;
-      if (editBatch && editBatch.fishPackageId) {
-        // Cập nhật lô cá
-        const { fishPackageId } = editBatch;
-        const { status } = editBatch;
+      const newData = {
+        name: values.name,
+        age: values.age,
+        gender: values.gender,
+        size: values.size,
+        description: values.description,
+        totalPrice: values.price,
+        dailyFood: values.dailyFood,
+        numberOfFish: values.numberOfFish,
+        imageFiles: imageFile && imageFile.length > 0 ? imageFile : null, // Đảm bảo chứa danh sách file tải lên nếu có
+        imageUrl: values.imageUrl || null, // URL hình ảnh nếu có
+      };
 
-        await updateFishPackage(fishPackageId, {
-          fishPackageId: fishPackageId, // Chuyển id vào request payload
-          name: values.name,
-          age: values.age,
-          gender: values.gender,
-          size: values.size,
-          description: values.description,
-          totalPrice: priceValue,
-          dailyFood: values.dailyFood,
-          imageUrl: values.image,
-          numberOfFish: values.numberOfFish,
-          status: status,
-        });
-        message.success("Cập nhật lô cá thành công");
+      if (editBatch) {
+        // Cập nhật lô cá
+        await updateFishPackage(editBatch.fishPackageId, newData);
+        message.success("Lô cá đã được cập nhật thành công!");
       } else {
-        await createFishPackage({
-          name: values.name,
-          age: values.age,
-          gender: values.gender,
-          size: values.size,
-          description: values.description,
-          totalPrice: priceValue,
-          dailyFood: values.dailyFood,
-          imageUrl: values.image,
-          numberOfFish: values.quantity,
-        });
-        message.success("Thêm mới lô cá thành công");
+        // Tạo mới lô cá
+        await createFishPackage(newData);
+        message.success("Lô cá đã được tạo thành công!");
       }
-      loadFishPackages(); // Tải lại danh sách sau khi cập nhật thành công
-      handleCancel(); // Đóng modal
+
+      loadFishPackages();
+      setIsModalVisible(false);
     } catch (error) {
-      console.error("Error updating fish package:", error);
-      message.error(
-        editBatch ? "Cập nhật lô cá thất bại" : "Thêm mới lô cá thất bại"
-      );
+      message.error("Có lỗi xảy ra khi lưu lô cá.");
     }
   };
 
@@ -333,8 +373,18 @@ const BatchInfo = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Form.Item label="Ảnh" name="image">
+                <Form.Item label="Link Ảnh" name="image">
                   <Input />
+                </Form.Item>
+                <Form.Item label="Ảnh" name="imageFile">
+                  <Upload
+                    fileList={imageFile}
+                    beforeUpload={() => false} // Không tự động upload file
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  >
+                    <Button icon={<PlusOutlined />}>Chọn ảnh</Button>
+                  </Upload>
                 </Form.Item>
                 <Form.Item label="Tuổi" name="age">
                   <InputNumber
@@ -353,7 +403,10 @@ const BatchInfo = () => {
                   />
                 </Form.Item>
                 <Form.Item label="Giới tính" name="gender">
-                  <Input />
+                  <Select>
+                    <Select.Option value="Male">Nam</Select.Option>
+                    <Select.Option value="Female">Nữ</Select.Option>
+                  </Select>
                 </Form.Item>
                 <Form.Item label="Kích thước" name="size">
                   <InputNumber

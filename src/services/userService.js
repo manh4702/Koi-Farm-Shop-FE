@@ -1,14 +1,14 @@
 import axios from "../api/axios"; // Đảm bảo đường dẫn tới file axios
 
 // Hàm lấy dữ liệu người dùng từ API
-export const fetchUsersByRole = async (roleId) => {
+export const fetchUsersByRole = async (roleName) => {
   try {
     const response = await axios.get("/api/User?page=1&pageSize=100");
 
     if (response.data.success) {
       // Lọc chỉ những người dùng có roleId là giá trị được truyền vào
       const filteredUsers = response.data.data.listData.filter(
-        (user) => user.roleId === roleId
+        (user) => user.roleName === roleName
       );
 
 
@@ -17,6 +17,7 @@ export const fetchUsersByRole = async (roleId) => {
       return filteredUsers.map((user, index) => ({
         key: index,
         roleId: user.roleId,
+        roleName: user.roleName,
         userId: user.userId,
         username: user.name,
         fullName: user.name,

@@ -16,12 +16,12 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const hashedPassword = CryptoJS.SHA256(values.password).toString();
+      // const hashedPassword = CryptoJS.SHA256(values.password).toString();
 
       const response = await axios.post("/api/User/login", {
         email: values.email,
-        // password: values.password,
-        password: hashedPassword,
+        password: values.password,
+        // password: hashedPassword,
       });
 
       if (response.status === 200) {
@@ -39,13 +39,13 @@ const LoginPage = () => {
         // navigateBasedOnRole(role);
 
         // Phân quyền dựa trên role
-        if (role === 1) {
+        if (role === "Admin") {
           navigate("/admin"); // Admin
-        } else if (role === 2) {
+        } else if (role === "Manager") {
           navigate("/manager"); // Manager
-        } else if (role === 3) {
+        } else if (role === "Staff") {
           navigate("/staff"); // Staff
-        } else if (role === 4) {
+        } else if (role === "Customer") {
           navigate("/"); // Customer
         } else {
           navigate("/"); // Khách hàng

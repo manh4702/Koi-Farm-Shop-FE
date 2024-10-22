@@ -2,8 +2,12 @@
 import React from "react";
 import { Card, Col, Row, Tabs } from "antd";
 
+const BASE_IMAGE_URL = "http://your-server-domain.com/images/"; // Thay đổi URL cơ sở theo server của bạn
+
 const FishPackageDetail = ({ fishPackage }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
+
+  const imageUrl = `${BASE_IMAGE_URL}${fishPackage.imageUrl}`; // Tạo URL đầy đủ cho ảnh
 
   const tabItems = [
     {
@@ -25,7 +29,7 @@ const FishPackageDetail = ({ fishPackage }) => {
             }}
           >
             <img
-              src={fishPackage.image}
+              src={imageUrl}
               alt="batch"
               style={{
                 width: "20%",
@@ -47,7 +51,7 @@ const FishPackageDetail = ({ fishPackage }) => {
               <Col span={8} style={{ fontWeight: "bold" }}>
                 Giá:
               </Col>
-              <Col span={16}>{fishPackage.price}</Col>
+              <Col span={16}>{fishPackage.totalPrice}</Col>
             </Row>
             <Row>
               <Col span={8} style={{ fontWeight: "bold" }}>
