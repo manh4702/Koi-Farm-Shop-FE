@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-    width: 250px; /* Set a fixed width */
+    width: 15%; /* Set the sidebar to take up the full width */
     background-color: #f9f9f9; /* Light background color */
     border-right: 1px solid #ddd; /* Right border for separation */
     padding: 20px; /* Padding for spacing */
