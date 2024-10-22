@@ -33,6 +33,12 @@ const FishConsignment = () => {
     }
   };
 
+   // Hàm để vô hiệu hóa các ngày trước ngày hôm nay
+   const disabledDate = (current) => {
+    // Không cho phép chọn ngày hôm nay và các ngày trước
+    return current && current < moment().startOf('day');
+  };
+
   const onFinish = (values) => {
     const formPayload = {
       ...values,
@@ -85,31 +91,35 @@ const FishConsignment = () => {
           {purpose === "care" && (
             <>
               <Form.Item
-                name="dateRange"
-                label="Ngày gửi và ngày nhận"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng chọn ngày gửi và ngày nhận",
-                  },
-                ]}
-              >
-                <RangePicker format="DD/MM/YYYY" onChange={calculatePrice} />
+               name="dateRange"
+               label="Ngày gửi và ngày nhận lại cá"
+               rules={[
+             {
+               required: true,
+               message: "Vui lòng chọn ngày gửi và ngày nhận lại cá",
+               },
+            ]}
+             >
+              <RangePicker 
+               format="DD/MM/YYYY" 
+               onChange={calculatePrice} 
+               disabledDate={disabledDate}
+             />
               </Form.Item>
 
               <Form.Item
                 name="fishStatus"
-                label="Tình trạng cá"
+                label="Tình trạng cá hiện tại"
                 rules={[
-                  { required: true, message: "Vui lòng nhập tình trạng cá" },
+                  { required: true, message: "Vui lòng nhập tình trạng cá hiện tại" },
                 ]}
               >
-                <Input.TextArea placeholder="Mô tả tình trạng cá" />
+                <Input.TextArea placeholder="Mô tả tình trạng cá hiện tại" />
               </Form.Item>
 
               <Form.Item
                 name="images"
-                label="Hình ảnh về cá"
+                label="Hình ảnh về cá hiện tại"
                 valuePropName="fileList"
                 getValueFromEvent={(e) =>
                   Array.isArray(e) ? e : e && e.fileList
@@ -117,7 +127,7 @@ const FishConsignment = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng tải lên ít nhất một hình ảnh",
+                    message: "Vui lòng tải lên ít nhất một hình ảnh cá của bạn",
                   },
                 ]}
                 extra="Tải lên hình ảnh về cá của bạn"
@@ -144,7 +154,7 @@ const FishConsignment = () => {
                 <Input placeholder="Liên kết video (YouTube, v.v.)" />
               </Form.Item>
 
-              <Form.Item label="Giá tiền ký gửi (VND)">
+              <Form.Item label="Giá tiền ký gửi cá (VND)">
                 <Input value={price} disabled />
               </Form.Item>
 
@@ -153,8 +163,12 @@ const FishConsignment = () => {
                   Tạo đơn ký gửi
                 </Button>
                 <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
-                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì thêm.
+                 Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
+                 Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
+                 Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
+                 Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
                 </p>
+
               </Form.Item>
             </>
           )}
@@ -260,7 +274,10 @@ const FishConsignment = () => {
                   Tạo đơn ký gửi
                 </Button>
                 <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
-                  Bạn cam kết việc ký gửi cá. Cửa hàng không chịu trách nhiệm gì thêm.
+                 Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
+                 Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
+                 Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
+                 Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
                 </p>
               </Form.Item>
             </>
