@@ -34,7 +34,7 @@ const BatchInfo = () => {
       console.log(data);
       setBatches(data);
     } catch (error) {
-      message.error("Failed to load fish packages.");
+      message.error("Không tải được các lô cá.");
     }
   };
 

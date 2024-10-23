@@ -39,10 +39,14 @@ const Header = () => {
     logout(navigate);
   };
 
+  const handleGoToProfile = () => {
+    navigate("/profile"); // Navigate to the profile page
+  };
+
   const userMenu = (
     <Menu>
-      <Menu.Item key="profile">
-        <Link to="/profile">Thông Tin Cá Nhân</Link>
+      <Menu.Item key="profile" onClick={handleGoToProfile}>
+        Thông Tin Cá Nhân
       </Menu.Item>
       <Menu.Item key="logout" onClick={handleLgout}>
         <div style={{backgroundColor: "red", borderRadius: "5px", padding: "5px", color: "white", textAlign: "center"}}>
@@ -85,7 +89,7 @@ const Header = () => {
             }}
           >
             {user ? (
-              <Dropdown overlay={userMenu}>
+              <Dropdown overlay={userMenu} trigger={['click']}>
                 <Space>
                   <Avatar icon={<UserOutlined style={{ color: "black" }} />} />
                   {user.name}

@@ -1,30 +1,63 @@
-// src/pages/ResetPasswordPage.jsx
-import React, { useState } from "react";
-import { Button, Input, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Input, Form, message } from "antd";
 import axios from "../api/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
 
 const ResetPasswordPage = () => {
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const navigate = useNavigate();
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    // Reset form fields when switching forms
+    form.resetFields();
+  }, [isEmailSent]);
+
+  const [form] = Form.useForm();
+
+  const handleResetPassword = async (values) => {
     setLoading(true);
 
     try {
-      // Make a request to your backend to send the reset password email
-      const response = await axios.post("/api/User/ResetPassword", { email });
+      if (!isEmailSent) {
+        // Make a request to send the reset password email
+        const response = await axios.post("/api/User/forgot-password", {
+          email: values.email,
+        });
 
-      if (response.status === 200) {
-        message.success("Đã gửi email khôi phục mật khẩu!");
+        if (response.status === 200) {
+          message.success("Đã gửi email khôi phục mật khẩu!");
+          setIsEmailSent(true);
+        } else {
+          message.error("Không tìm thấy tài khoản với email này.");
+        }
       } else {
-        message.error("Không tìm thấy tài khoản với email này.");
+        // Make a request to reset the password
+        if (values.newPassword !== values.confirmPassword) {
+          message.error("Mật khẩu xác nhận không khớp.");
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.post("/api/User/reset-password", {
+          token: values.token,
+          newPassword: values.newPassword,
+          confirmPassword: values.confirmPassword,
+        });
+
+        if (response.status === 200) {
+          message.success("Mật khẩu đã được thay đổi thành công!");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        } else {
+          message.error("Có lỗi xảy ra, vui lòng thử lại.");
+        }
       }
     } catch (error) {
-      console.error("Error sending reset password email:", error);
+      console.error("Error processing request:", error);
       message.error("Có lỗi xảy ra, vui lòng thử lại.");
     } finally {
       setLoading(false);
@@ -39,23 +72,77 @@ const ResetPasswordPage = () => {
       >
         <div style={{ maxWidth: "400px", textAlign: "center" }}>
           <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>
-            Quên mật khẩu
+            {isEmailSent ? "Đặt lại mật khẩu" : "Quên mật khẩu"}
           </h1>
           <p style={{ marginBottom: "20px", color: "#555" }}>
-            Vui lòng nhập địa chỉ email của bạn để nhận liên kết khôi phục mật
-            khẩu.
+            {isEmailSent
+              ? "Vui lòng nhập mã token và mật khẩu mới của bạn."
+              : "Vui lòng nhập địa chỉ email của bạn để nhận liên kết khôi phục mật khẩu."}
           </p>
-          <form onSubmit={handleResetPassword}>
-            <div style={{ marginBottom: "16px" }}>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Nhập email"
-                required
-                style={{ height: "40px", borderRadius: "8px" }}
-              />
-            </div>
+          <Form
+            form={form}
+            onFinish={handleResetPassword}
+            layout="vertical"
+            initialValues={{ remember: true }}
+          >
+            {!isEmailSent ? (
+              <Form.Item
+                name="email"
+                rules={[
+                  { required: true, message: "Vui lòng nhập email!" },
+                  { type: "email", message: "Email không hợp lệ!" },
+                ]}
+              >
+                <Input
+                  placeholder="Nhập email"
+                  title="Nhập địa chỉ email của bạn"
+                  style={{ height: "40px", borderRadius: "8px" }}
+                />
+              </Form.Item>
+            ) : (
+              <>
+                <Form.Item
+                  name="token"
+                  rules={[{ required: true, message: "Vui lòng nhập mã token!" }]}
+                >
+                  <Input
+                    placeholder="Nhập mã token"
+                    title="Nhập mã token đã được gửi đến email của bạn"
+                    style={{ height: "40px", borderRadius: "8px" }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="newPassword"
+                  rules={[{ required: true, message: "Vui lòng nhập mật khẩu mới!" }]}
+                >
+                  <Input.Password
+                    placeholder="Nhập mật khẩu mới"
+                    title="Nhập mật khẩu mới của bạn"
+                    style={{ height: "40px", borderRadius: "8px" }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="confirmPassword"
+                  rules={[
+                    { required: true, message: "Vui lòng xác nhận mật khẩu!" },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("newPassword") === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(new Error("Mật khẩu xác nhận không khớp!"));
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    placeholder="Xác nhận mật khẩu mới"
+                    title="Nhập lại mật khẩu mới để xác nhận"
+                    style={{ height: "40px", borderRadius: "8px" }}
+                  />
+                </Form.Item>
+              </>
+            )}
             <Button
               type="primary"
               htmlType="submit"
@@ -68,9 +155,13 @@ const ResetPasswordPage = () => {
                 borderRadius: "8px",
               }}
             >
-              {loading ? "Đang gửi..." : "Gửi yêu cầu khôi phục"}
+              {loading
+                ? "Đang gửi..."
+                : isEmailSent
+                ? "Đổi mật khẩu"
+                : "Gửi yêu cầu khôi phục"}
             </Button>
-          </form>
+          </Form>
           <div style={{ marginTop: "20px" }}>
             <Link
               to="/login"

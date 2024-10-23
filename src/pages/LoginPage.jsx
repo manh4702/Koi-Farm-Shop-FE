@@ -13,10 +13,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // const hashedPassword = CryptoJS.SHA256(values.password).toString();
+      // const hashedPassword = hashPassword(values.password);
 
       const response = await axios.post("/api/User/login", {
         email: values.email,
