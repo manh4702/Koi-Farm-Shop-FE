@@ -1,13 +1,19 @@
 // FishPackageDetail.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Tabs } from "antd";
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { getFishPackages } from "../../../services/fishPackageStore";
 
-const BASE_IMAGE_URL = "http://your-server-domain.com/images/"; // Thay đổi URL cơ sở theo server của bạn
+// const BASE_CLOUDINARY_URL = "https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/";
 
 const FishPackageDetail = ({ fishPackage }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
-
-  const imageUrl = `${BASE_IMAGE_URL}${fishPackage.imageUrl}`; // Tạo URL đầy đủ cho ảnh
+  console.log(fishPackage);
+  // const imageUrl = `${BASE_CLOUDINARY_URL}${fishPackage.imageUrl}`;
+  const imageUrl = `https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/${fishPackage.imageUrl}`;
 
   const tabItems = [
     {
@@ -38,6 +44,7 @@ const FishPackageDetail = ({ fishPackage }) => {
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             />
+            
           </Col>
 
           <Col span={12}>

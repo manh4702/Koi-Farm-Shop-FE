@@ -33,9 +33,10 @@ export const getFishPackages = async () => {
         status: item.status,
       }));
       return formattedData;
-    } else {
-      throw new Error(response.data.message || 'Failed to fetch fish packages');
-    }
+    } 
+    // else {
+    //   throw new Error(response.data.message || 'Failed to fetch fish packages');
+    // }
   } catch (error) {
     console.error('Error fetching fish packages:', error);
     throw error;

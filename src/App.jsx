@@ -28,7 +28,10 @@ import ReturnPolicy from "./components/user/Rules/ReturnPolicy";
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import ProfilePage from "./pages/profilePage";
+import UserProfilePage from "./components/user/pages/UserProfilePage";
+
+//import ProfilePage from "./pages/profilePage";
+
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -76,7 +79,18 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/profile" element={<ProfilePage />} />
+
+        <Route
+          path="/profile"
+          element={
+            // <PrivateRoute allowedRoles={["Customer", "Admin"]}>
+              <UserProfilePage />
+            // </PrivateRoute>
+          }
+        />
+
+        //<Route path="/profile" element={<ProfilePage />} />
+
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
@@ -88,13 +102,15 @@ const App = () => {
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/contact" element={<LienHe />} />
-        {/* Điều hướng sai hoặc không tìm thấy trang */}
+        
         <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/purchase-guide" element={<PurchaseGuide />} />
         <Route path="/payment-methods" element={<PaymentMethods />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/return-policy" element={<ReturnPolicy />} />
+        {/* Thông tin Customers */}
+        
       </Routes>
     </Router>
   );
