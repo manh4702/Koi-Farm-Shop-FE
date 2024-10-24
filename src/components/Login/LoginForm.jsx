@@ -38,18 +38,20 @@ const LoginForm = ({ onFinish, loading }) => {
             có những quyền lợi của mình.
           </h2>
           <Link to="/register">
+          <div style={{ marginTop: "16px" }}></div>
             <button
-              style={{
-                width: "220px",
-                marginTop: "26px",
-                backgroundColor: "red",
-                fontSize: "16px",
-                fontWeight: "bold",
-                color: "white",
-                borderRadius: "8px",
-                border: "none",
-                cursor: "pointer",
-              }}
+                style={{
+                  width: "220px",
+                  marginTop: "44px",
+                  backgroundColor: "red",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "white",
+                  borderRadius: "31px",
+                  height: "31px",
+                  border: "none",
+                  cursor: "pointer",
+                }}
             >
               Đăng ký tài khoản
             </button>
@@ -151,7 +153,7 @@ const LoginForm = ({ onFinish, loading }) => {
                   fontSize: "16px",
                   fontWeight: "bold",
                   color: "white",
-                  borderRadius: "8px",
+                  borderRadius: "31px",
                   height: "31px",
                   border: "none",
                   cursor: "pointer",
