@@ -56,6 +56,21 @@ const Header = () => {
     </Menu>
   );
 
+  const productMenu = (
+    <Menu>
+      <Menu.Item key="fish">
+        <Link to="/products/fish" style={getMenuItemStyle("/products/fish")}>
+          Cá Đơn
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="fish-lot">
+        <Link to="/products/fish-lot" style={getMenuItemStyle("/products/fish-lot")}>
+          Lô Cá
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <AntHeader
       style={{
@@ -153,11 +168,11 @@ const Header = () => {
                 Giới Thiệu
               </Link>
             </Menu.Item>
-            <Menu.Item key="products">
+            <Dropdown overlay={productMenu} trigger={['hover']}>
               <Link to="/products" style={getMenuItemStyle("/products")}>
                 Sản Phẩm
               </Link>
-            </Menu.Item>
+            </Dropdown>
             <Menu.Item key="consignment">
               <Link
                 to="/fish-consignment"
