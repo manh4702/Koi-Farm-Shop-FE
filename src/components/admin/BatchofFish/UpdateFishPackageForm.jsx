@@ -1,6 +1,6 @@
 // UpdateFishPackageForm.jsx
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Select, Upload, Button, message, Modal } from "antd";
+import { Form, Input, InputNumber, Select, Upload, Button, message, Modal, Row, Col } from "antd";
 import { PlusOutlined, SaveOutlined } from "@ant-design/icons";
 import { updateFishPackage } from "../../../services/fishPackageStore";
 
@@ -22,7 +22,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
   const onFinish = async (values) => {
     try {
       // Nếu không có ảnh mới được chọn, sử dụng giá trị từ imageUrl
-      const imageUrlToUpdate = imageFile && imageFile.length > 0 ? null : values.imageUrl;
+      // const imageUrlToUpdate = imageFile && imageFile.length > 0 ? null : values.imageUrl;
 
       const newData = {
         name: values.name,
@@ -33,11 +33,11 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
         totalPrice: values.price,
         dailyFood: values.dailyFood,
         numberOfFish: values.numberOfFish,
-        imageFiles: imageFile && imageFile.length > 0 ? imageFile : null,
-        imageUrl: imageUrlToUpdate, // Sử dụng imageUrl nếu không có tệp ảnh mới
+        imageFiles: imageFile && imageFile.length > 0 ? imageFile : null, // Sử dụng file mới nếu có
         status: values.status,
       };
 
+      // Gọi API updateFishPackage
       await updateFishPackage(fishPackage.fishPackageId, newData);
       message.success("Lô cá đã được cập nhật thành công!");
       onSuccess(); // Notify parent component to refresh the list
@@ -47,6 +47,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
     }
   };
 
+
   return (
     <Modal
       title="Sửa Thông tin Lô Cá"
@@ -55,50 +56,192 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
       onCancel={onCancel}
     >
       <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item label="Tên Lô Cá" name="name" rules={[{ required: true, message: "Vui lòng nhập tên lô cá!" }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="Giá" name="price" rules={[{ required: true, message: "Vui lòng nhập giá!" }]}>
-          <InputNumber min={0} />
-        </Form.Item>
-        <Form.Item label="Ảnh" name="imageUrl">
-          <Upload
-            fileList={imageFile}
-            beforeUpload={() => false}
-            onChange={handleFileChange}
-            accept="image/*"
-          >
-            <Button icon={<PlusOutlined />}>Chọn ảnh</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item label="Tuổi" name="age">
-          <InputNumber min={0} />
-        </Form.Item>
-        <Form.Item label="Giới tính" name="gender">
-          <Select>
-            <Select.Option value="Male">Nam</Select.Option>
-            <Select.Option value="Female">Nữ</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="Kích thước" name="size">
-          <InputNumber min={0} />
-        </Form.Item>
-        <Form.Item label="Thức ăn/ngày" name="dailyFood">
-          <InputNumber min={0} />
-        </Form.Item>
-        <Form.Item label="Số lượng" name="numberOfFish">
-          <InputNumber min={0} />
-        </Form.Item>
-        <Form.Item label="Mô tả" name="description">
+      <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Tên Lô Cá"
+              name="name"
+              rules={[{ required: true, message: "Vui lòng nhập tên lô cá!" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Giá"
+              name="price"
+              rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyDown={(e) => {
+                  if (
+                    !/[0-9]/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Ảnh"
+              name="imageFile"
+            >
+              <Upload
+                fileList={imageFile}
+                beforeUpload={() => false}
+                onChange={handleFileChange}
+                accept="image/*"
+              >
+                <Button icon={<PlusOutlined />}>Chọn ảnh</Button>
+              </Upload>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Tuổi"
+              name="age"
+              rules={[{ required: true, message: "Vui lòng nhập tuổi!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyDown={(e) => {
+                  if (
+                    !/[0-9]/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Giới tính"
+              name="gender"
+              rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
+            >
+              <Select>
+                <Select.Option value="Đực">Đực</Select.Option>
+                <Select.Option value="Cái">Cái</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Kích thước"
+              name="size"
+              rules={[{ required: true, message: "Vui lòng nhập kích thước!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyDown={(e) => {
+                  if (
+                    !/[0-9]/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventPrevent();
+                  }
+                }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Thức ăn/ngày"
+              name="dailyFood"
+              rules={[{ required: true, message: "Vui lòng nhập lượng thức ăn/ngày!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyDown={(e) => {
+                  if (
+                    !/[0-9]/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Số lượng"
+              name="numberOfFish"
+              rules={[{ required: true, message: "Vui lòng nhập số lượng!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyDown={(e) => {
+                  if (
+                    !/[0-9]/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Form.Item
+          label="Mô tả"
+          name="description"
+          rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
+        >
           <Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
         </Form.Item>
-        <Form.Item label="Trạng thái" name="status">
-          <Select>
-            <Select.Option value="Available">Có sẵn</Select.Option>
-            <Select.Option value="Sold">Đã bán</Select.Option>
-            <Select.Option value="Pending">Đang chờ</Select.Option>
-          </Select>
-        </Form.Item>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Trạng thái"
+              name="status"
+              rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}
+            >
+              <Select>
+                <Select.Option value="Available">Có sẵn</Select.Option>
+                <Select.Option value="Sold">Đã bán</Select.Option>
+                <Select.Option value="Pending">Đang chờ</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
         <Form.Item style={{ textAlign: "right" }}>
           <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
             Lưu
