@@ -30,7 +30,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
         gender: values.gender,
         size: values.size,
         description: values.description,
-        totalPrice: values.price,
+        totalPrice: values.totalPrice,
         dailyFood: values.dailyFood,
         numberOfFish: values.numberOfFish,
         imageFiles: imageFile && imageFile.length > 0 ? imageFile : null, // Sử dụng file mới nếu có
@@ -69,7 +69,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
           <Col span={12}>
             <Form.Item
               label="Giá"
-              name="price"
+              name="totalPrice"
               rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
             >
               <InputNumber
@@ -227,21 +227,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
           <Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
         </Form.Item>
 
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Trạng thái"
-              name="status"
-              rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}
-            >
-              <Select>
-                <Select.Option value="Available">Có sẵn</Select.Option>
-                <Select.Option value="Sold">Đã bán</Select.Option>
-                <Select.Option value="Pending">Đang chờ</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+        
         <Form.Item style={{ textAlign: "right" }}>
           <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
             Lưu
