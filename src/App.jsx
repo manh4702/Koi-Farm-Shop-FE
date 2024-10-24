@@ -28,9 +28,9 @@ import ReturnPolicy from "./components/user/Rules/ReturnPolicy";
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import UserProfilePage from "./components/user/pages/UserProfilePage";
+import UserProfilePage from "./components/user/Account/UserProfilePage";
 
-import ProfilePage from "./pages/profilePage";
+// import ProfilePage from "./pages/profilePage";
 
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -89,7 +89,7 @@ const App = () => {
           }
         />
 
-        <Route path="/profile-customer" element={<ProfilePage />} />
+        {/* <Route path="/profile-customer" element={<ProfilePage />} /> */}
 
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
