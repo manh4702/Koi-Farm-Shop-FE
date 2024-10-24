@@ -30,7 +30,7 @@ const LoginPage = () => {
           token: token,
         });
 
-        message.success("Login successful!");
+        message.success("Đăng nhập thành công!");
 
         // navigateBasedOnRole(role);
 
@@ -47,18 +47,18 @@ const LoginPage = () => {
           navigate("/"); // Khách hàng
         }
       } else {
-        message.error("Login failed!");
+        message.error("Đăng nhập thất bại!");
       }
     } catch (error) {
       console.error(error);
-      message.error("An error occurred. Please try again.");
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log("Thất bại:", errorInfo);
   };
 
   return (

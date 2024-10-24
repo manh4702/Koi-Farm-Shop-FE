@@ -56,12 +56,7 @@ const LoginForm = ({ onFinish, loading }) => {
           </Link>
         </div>
 
-        <div
-          style={{
-            maxWidth: "500px",
-            marginLeft: "30px",
-          }}
-        >
+        <div style={{ maxWidth: "500px", marginLeft: "30px" }}>
           <h1
             style={{
               textAlign: "left",
@@ -98,42 +93,42 @@ const LoginForm = ({ onFinish, loading }) => {
             </div>
 
             <div style={{ marginTop: "16px", position: "relative" }}>
-  <label style={{ fontSize: "16px", fontWeight: "bold" }}>
-    Mật khẩu<span style={{ color: "red" }}>*</span>
-  </label>
-  <input
-    type={showPassword ? "text" : "password"}
-    value={password}
-    onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
-    style={{
-      display: "block",
-      width: "100%",
-      height: "35px",
-      marginTop: "8px",
-      border: "1px solid black",
-      borderRadius: "8px",
-      padding: "5px",
-      paddingRight: "60px", // Thêm khoảng cách để đủ chỗ cho icon
-    }}
-    placeholder="Nhập mật khẩu"
-    required
-  />
-  <span
-    onClick={togglePasswordVisibility}
-    title={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(40%)", // Căn giữa theo chiều dọc
-      cursor: "pointer",
-      fontSize: "18px", // Điều chỉnh kích thước icon nếu cần
-      color: "#000", // Thay đổi màu sắc nếu cần
-    }}
-  >
-    {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
-  </span>
-</div>
+              <label style={{ fontSize: "16px", fontWeight: "bold" }}>
+                Mật khẩu<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "35px",
+                  marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  paddingRight: "40px", // Thêm khoảng cách cho icon
+                }}
+                placeholder="Nhập mật khẩu"
+                required
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                title={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(40%)", // Căn giữa theo chiều dọc
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#000",
+                }}
+              >
+                {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
+              </span>
+            </div>
 
             <div style={{ marginTop: "16px" }}>
               <button
