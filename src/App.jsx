@@ -20,13 +20,18 @@ import NewsPage from "./components/user/pages/NewsPage";
 import NewsDetailPage from "./components/user/pages/NewsDetailPage";
 import NotFoundPage from "./components/user/pages/NotFoundPage"; // Trang 404 Not Found
 import LienHe from "./components/user/pages/LienHe";
-import TermsOfService from './components/user/Rules/TermsOfService';
-import PurchaseGuide from './components/user/Rules/PurchaseGuide';
-import PaymentMethods from './components/user/Rules/PaymentMethods';
-import PrivacyPolicy from './components/user/Rules/PrivacyPolicy';
-import ReturnPolicy from './components/user/Rules/ReturnPolicy';
+import TermsOfService from "./components/user/Rules/TermsOfService";
+import PurchaseGuide from "./components/user/Rules/PurchaseGuide";
+import PaymentMethods from "./components/user/Rules/PaymentMethods";
+import PrivacyPolicy from "./components/user/Rules/PrivacyPolicy";
+import ReturnPolicy from "./components/user/Rules/ReturnPolicy";
 import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import UserProfilePage from "./components/user/pages/UserProfilePage";
+
+//import ProfilePage from "./pages/profilePage";
+
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -38,7 +43,7 @@ const App = () => {
     if (token && role && username) {
       setAuth({ username, role, token });
     }
-  },[setAuth]);
+  }, [setAuth]);
 
   return (
     <Router>
@@ -48,6 +53,7 @@ const App = () => {
         {/* Đăng nhập và đăng ký */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ResetPasswordPage />} />
         {/* Dashboard admin và quản lý */}
         <Route
           path="/admin"
@@ -68,11 +74,23 @@ const App = () => {
         <Route
           path="/staff"
           element={
-            // <PrivateRoute allowedRoles={["Manager"]}>
+            <PrivateRoute allowedRoles={["Staff"]}>
               <StaffDashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            // <PrivateRoute allowedRoles={["Customer", "Admin"]}>
+              <UserProfilePage />
             // </PrivateRoute>
           }
         />
+
+        //<Route path="/profile" element={<ProfilePage />} />
+
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductPage />} />
@@ -84,13 +102,15 @@ const App = () => {
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/contact" element={<LienHe />} />
-        {/* Điều hướng sai hoặc không tìm thấy trang */}
+        
         <Route path="*" element={<NotFoundPage />} /> {/* Trang 404 */}
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/purchase-guide" element={<PurchaseGuide />} />
         <Route path="/payment-methods" element={<PaymentMethods />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/return-policy" element={<ReturnPolicy />} />
+        {/* Thông tin Customers */}
+        
       </Routes>
     </Router>
   );

@@ -16,7 +16,7 @@ import PromotionManagement from "../components/admin/InfoPromotion/PromotionMana
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import useAuthStore from "../store/store";
-import BatchInfo from "../components/admin/BatchofFish/batchInfo";
+import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
 
 const { Content, Footer } = Layout;
 

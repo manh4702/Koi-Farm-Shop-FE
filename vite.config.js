@@ -13,7 +13,12 @@ export default defineConfig({
       //   changeOrigin: true,
       //   rewrite: (path) => path.replace(/^\/api/, ''),
       // },
-      '/api': 'http://localhost:5260'
+      '/api': 'http://localhost:5260',
+      '/User': {
+        target: 'http://localhost:5260', // Địa chỉ của backend server
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/User/, '/api/User'), // Đảm bảo đúng đường dẫn API
+      },
     },
   },
   build: {

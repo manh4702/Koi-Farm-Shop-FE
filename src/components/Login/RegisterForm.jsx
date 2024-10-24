@@ -38,7 +38,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
       username,
       password,
       phone,
-      dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
+      // dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
+      dateOfBirth: dateOfBirth ? dateOfBirth.format("YYYY-MM-DD") : null,
     };
 
     onFinish(data); // Truyền dữ liệu đã nhập về `onFinish`
@@ -108,7 +109,7 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
           </h1>
           <form
             onSubmit={handleSubmit}
-            style={{ width: "400px", marginTop: "20px" }}
+            style={{ width: "350px", marginTop: "20px" }}
           >
             <label style={{ fontSize: "16px" }}>
               Email <span style={{ color: "red" }}>*</span>
@@ -201,6 +202,7 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
                 border: "1px solid black",
                 borderRadius: "8px",
               }}
+              disabledDate={(current) => current && current > moment().endOf("day")}
             />
 
             <Checkbox
@@ -215,13 +217,15 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               type="primary"
               htmlType="submit"
               loading={loading}
+              disabled={!agreeTerms}
               style={{
                 width: "220px",
-                backgroundColor: "red",
+                backgroundColor: agreeTerms ? "red" : "gray",
                 fontSize: "16px",
                 fontWeight: "bold",
                 color: "white",
                 borderRadius: "8px",
+                cursor: agreeTerms ? "pointer" : "not-allowed",
                 // marginTop: "20px",
               }}
             >
