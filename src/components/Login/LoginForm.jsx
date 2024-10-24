@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, Row, Col } from "antd";
-import { SiGoogle } from "react-icons/si";
 import { Link } from "react-router-dom";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
+const LoginForm = ({ onFinish, loading }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Gọi hàm onFinish với dữ liệu email và password
     onFinish({ email, password });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -34,7 +38,7 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
             có những quyền lợi của mình.
           </h2>
           <Link to="/register">
-            <Button
+            <button
               style={{
                 width: "220px",
                 marginTop: "26px",
@@ -43,26 +47,21 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
                 fontWeight: "bold",
                 color: "white",
                 borderRadius: "8px",
+                border: "none",
+                cursor: "pointer",
               }}
             >
               Đăng ký tài khoản
-            </Button>
+            </button>
           </Link>
         </div>
 
-        <div
-          style={{
-            maxWidth: "500px",
-            marginLeft: "30px",
-          }}
-        >
+        <div style={{ maxWidth: "500px", marginLeft: "30px" }}>
           <h1
             style={{
               textAlign: "left",
               fontWeight: "bold",
               fontSize: "20px",
-              // padding: "5px",
-              borderRadius: "8px",
             }}
           >
             Đăng nhập
@@ -93,43 +92,46 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
               />
             </div>
 
-            <div style={{ marginTop: "14px" }}>
+            <div style={{ marginTop: "16px", position: "relative" }}>
               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
                 Mật khẩu<span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
                 style={{
                   display: "block",
                   width: "100%",
                   height: "35px",
-                  marginTop: "4px",
+                  marginTop: "8px",
                   border: "1px solid black",
                   borderRadius: "8px",
                   padding: "5px",
+                  paddingRight: "40px", // Thêm khoảng cách cho icon
                 }}
                 placeholder="Nhập mật khẩu"
                 required
               />
-            </div>
-
-            <div style={{ marginTop: 0, textAlign: "left" }}>
-              <Link
-                to="/forgot-password"
-                style={{ color: "black", textDecoration: "none" }}
-                onMouseEnter={(e) =>
-                  (e.target.style.textDecoration = "underline")
-                }
-                onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
+              <span
+                onClick={togglePasswordVisibility}
+                title={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(40%)", // Căn giữa theo chiều dọc
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#000",
+                }}
               >
-                Quên mật khẩu?
-              </Link>
+                {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
+              </span>
             </div>
-
-            <div style={{ marginTop: 0 }}>
+            <div style={{ marginTop: "16px" }}>
               <button
+                type="submit"
                 style={{
                   width: "220px",
                   marginTop: "24px",
@@ -139,6 +141,8 @@ const LoginForm = ({ onFinish, onFinishFailed, loading }) => {
                   color: "white",
                   borderRadius: "8px",
                   height: "31px",
+                  border: "none",
+                  cursor: "pointer",
                 }}
                 disabled={loading}
               >

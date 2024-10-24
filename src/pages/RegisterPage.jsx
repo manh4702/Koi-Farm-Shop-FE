@@ -36,7 +36,7 @@ const RegisterPage = () => {
         message.error("Đăng ký thất bại, vui lòng thử lại.");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Lỗi trong quá trình đăng ký:", error);
       message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     } finally {
       setLoading(false);
@@ -44,7 +44,7 @@ const RegisterPage = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log("Thất bại:", errorInfo);
   };
 
   return (

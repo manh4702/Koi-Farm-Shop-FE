@@ -7,13 +7,13 @@ const DashboardContent = () => {
     <div className="p-4">
       <Row gutter={16}>
         <Col span={8}>
-          <CardInfo title="Total Users" content="100 Users" />
+          <CardInfo title="Tổng số khách hàng" content="100 Khách" />
         </Col>
         <Col span={8}>
-          <CardInfo title="Active Sessions" content="25 Active" />
+          <CardInfo title="Lượt hoạt động" content="25 lượt" />
         </Col>
         <Col span={8}>
-          <CardInfo title="Server Status" content="Running" />
+          <CardInfo title="Trạng thái Server" content="Đang chạy" />
         </Col>
       </Row>
     </div>

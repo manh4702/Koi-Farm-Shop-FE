@@ -163,10 +163,10 @@ const FishConsignment = () => {
                   Tạo đơn ký gửi
                 </Button>
                 <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
-                 Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
-                 Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
-                 Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
-                 Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
+                 *Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
+                 *Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
+                 *Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
+                 *Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
                 </p>
 
               </Form.Item>
@@ -274,10 +274,10 @@ const FishConsignment = () => {
                   Tạo đơn ký gửi
                 </Button>
                 <p style={{ marginTop: "16px", color: "red", fontWeight: "bold" }}>
-                 Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
-                 Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
-                 Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
-                 Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
+                 *Bạn cam kết việc ký gửi cá, cửa hàng không chịu trách nhiệm gì thêm.<br />
+                 *Cá sẽ được đảm bảo chăm sóc đúng cách của shop.<br />
+                 *Mọi thắc mắc có thể liên hệ với shop để được giải đáp.<br />
+                 *Cảm ơn bạn đã sử dụng dịch vụ ký gửi của shop :3.
                 </p>
               </Form.Item>
             </>
