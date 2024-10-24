@@ -47,8 +47,8 @@ const StaffManagement = () => {
       setLoading(true);
       // const timestamp = new Date().getTime();
       // const staffData = await fetchUsersByRole([2, 3]); // Lấy danh sách nhân viên có roleId = 3
-      const managerData = await fetchUsersByRole(2);
-      const staffData = await fetchUsersByRole(3);
+      const managerData = await fetchUsersByRole("Manager");
+      const staffData = await fetchUsersByRole("Staff");
       console.log("staff:", staffData, "manager:", managerData);
       setStaff(staffData);
       setManager(managerData);

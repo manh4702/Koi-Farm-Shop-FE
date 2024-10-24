@@ -41,7 +41,7 @@ const LoginForm = ({ onFinish, loading }) => {
             <button
               style={{
                 width: "220px",
-                marginTop: "28px",
+                marginTop: "26px",
                 backgroundColor: "red",
                 fontSize: "16px",
                 fontWeight: "bold",
@@ -82,7 +82,7 @@ const LoginForm = ({ onFinish, loading }) => {
                   display: "block",
                   width: "100%",
                   height: "35px",
-                  marginTop: "8px",
+                  marginTop: "4px",
                   border: "1px solid black",
                   borderRadius: "8px",
                   padding: "5px",
@@ -129,7 +129,6 @@ const LoginForm = ({ onFinish, loading }) => {
                 {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
               </span>
             </div>
-
             <div style={{ marginTop: "16px" }}>
               <button
                 type="submit"

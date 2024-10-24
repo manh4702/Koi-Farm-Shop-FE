@@ -6,6 +6,7 @@ import backgroundImage from "../assets/login.png";
 import RegisterForm from "../components/Login/RegisterForm";
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
+import CryptoJS from "crypto-js";
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
@@ -17,10 +18,13 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/User", {
+      const hashedPassword = CryptoJS.SHA256(values.password).toString();
+
+      const response = await axios.post("/User/createAccount", {
         name: values.username,       // Sử dụng "username" để map với "name" trên API
         email: values.email,
-        password: values.password,
+        // password: values.password,
+        password: hashedPassword,
         phone: values.phone,
         dateOfBirth: `${values.dateOfBirth}T00:00:00.000Z`,  // Định dạng ngày sinh
       });

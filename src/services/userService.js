@@ -1,14 +1,14 @@
 import axios from "../api/axios"; // Đảm bảo đường dẫn tới file axios
 
 // Hàm lấy dữ liệu người dùng từ API
-export const fetchUsersByRole = async (roleId) => {
+export const fetchUsersByRole = async (roleName) => {
   try {
     const response = await axios.get("/api/User?page=1&pageSize=100");
 
     if (response.data.success) {
       // Lọc chỉ những người dùng có roleId là giá trị được truyền vào
       const filteredUsers = response.data.data.listData.filter(
-        (user) => user.roleId === roleId
+        (user) => user.roleName === roleName
       );
 
 
@@ -17,6 +17,7 @@ export const fetchUsersByRole = async (roleId) => {
       return filteredUsers.map((user, index) => ({
         key: index,
         roleId: user.roleId,
+        roleName: user.roleName,
         userId: user.userId,
         username: user.name,
         fullName: user.name,
@@ -38,7 +39,7 @@ export const fetchUsersByRole = async (roleId) => {
 
 export const createStaff = async (staffData) => {
   try {
-    const response = await axios.post("/api/User/CreateStaff", staffData);
+    const response = await axios.post("/api/User/createStaff", staffData);
     if (response.data.success) {
       return response.data; // Trả về dữ liệu nếu thêm thành công
     } else {
@@ -51,7 +52,7 @@ export const createStaff = async (staffData) => {
 
 export const createManager = async (managerData) => {
   try {
-    const response = await axios.post("/api/User/CreateManager", managerData);
+    const response = await axios.post("/api/User/createManager", managerData);
     if (response.data.success) {
       return response.data; // Trả về dữ liệu nếu thêm thành công
     } else {
@@ -78,7 +79,7 @@ export const updateUser = async (userId, updatedData) => {
 
 export const deleteStaff = async (userId) => {
   try {
-    const response = await axios.delete(`/api/User/${userId}`);
+    const response = await axios.delete(`/api/User/deleteHard/${userId}`);
     if (response.data.success) {
       return response.data; // Trả về dữ liệu nếu xóa thành công
     } else {
