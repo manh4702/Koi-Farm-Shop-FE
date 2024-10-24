@@ -47,27 +47,20 @@ export const updateFishPackage = async (fishPackageId, updatedData) => {
   try {
     const formData = new FormData();
     
-    // Append từng field vào formData (chấp nhận giá trị rỗng)
     formData.append("Name", updatedData.name || "");
-    formData.append("Age", updatedData.age !== undefined ? updatedData.age : "");
+    formData.append("Age", updatedData.age?.toString() || "");
     formData.append("Gender", updatedData.gender || "");
-    formData.append("Size", updatedData.size !== undefined ? updatedData.size : "");
+    formData.append("Size", updatedData.size?.toString() || "");
     formData.append("Description", updatedData.description || "");
-    formData.append("TotalPrice", updatedData.totalPrice !== undefined ? updatedData.totalPrice : "");
-    formData.append("DailyFood", updatedData.dailyFood !== undefined ? updatedData.dailyFood : "");
-    formData.append("NumberOfFish", updatedData.numberOfFish !== undefined ? updatedData.numberOfFish : "");
+    formData.append("TotalPrice", updatedData.totalPrice?.toString() || "");
+    formData.append("DailyFood", updatedData.dailyFood?.toString() || "");
+    formData.append("NumberOfFish", updatedData.numberOfFish?.toString() || "");
+    formData.append("Status", updatedData.status || "");
 
-    // Kiểm tra nếu có file ảnh mới, thêm vào formData
     if (updatedData.imageFiles && updatedData.imageFiles.length > 0) {
-      updatedData.imageFiles.forEach((file) => {
-        formData.append("ImageFile", file.originFileObj);
-      });
-    } else {
-      // Nếu không có file ảnh mới, thêm giá trị rỗng
-      formData.append("ImageFile", "");
+      formData.append("ImageFile", updatedData.imageFiles[0].originFileObj);
     }
 
-    // Gửi request API để cập nhật lô cá
     const response = await axios.put(`/api/FishPackage/${fishPackageId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });

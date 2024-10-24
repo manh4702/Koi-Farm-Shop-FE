@@ -11,9 +11,10 @@ import { getFishPackages } from "../../../services/fishPackageStore";
 
 const FishPackageDetail = ({ fishPackage }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
-  console.log(fishPackage);
   // const imageUrl = `${BASE_CLOUDINARY_URL}${fishPackage.imageUrl}`;
   // const imageUrl = `https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/${fishPackage.imageUrl}`;
+
+  const statusText = fishPackage.status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
 
   const tabItems = [
     {
@@ -97,7 +98,7 @@ const FishPackageDetail = ({ fishPackage }) => {
               <Col span={8} style={{ fontWeight: "bold" }}>
                 Trạng thái:
               </Col>
-              <Col span={16}>{fishPackage.status}</Col>
+              <Col span={16}>{statusText}</Col>
             </Row>
           </Col>
 

@@ -61,6 +61,9 @@ const BatchInfo = () => {
           await deleteFishPackage(fishPackageId);
           loadFishPackages();
           message.success("Lô cá đã được xóa thành công");
+          if (selectedBatch && selectedBatch.fishPackageId === fishPackageId) {
+            setSelectedBatch(null);
+          }
         } catch (error) {
           message.error("Xóa lô cá thất bại");
         }
@@ -130,6 +133,9 @@ const BatchInfo = () => {
                 {
                   title: "Trạng thái",
                   dataIndex: "status",
+                  render: (status) => {
+                    return status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
+                  },
                 },
                 {
                   title: <SettingOutlined />,
