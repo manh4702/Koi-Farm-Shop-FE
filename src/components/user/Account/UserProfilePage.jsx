@@ -259,34 +259,44 @@ const UserProfilePage = () => {
               label="Họ và Tên"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input style={{ width: "25rem", border: "1px solid black" }} />
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
               rules={[{ required: true, type: "email" }]}
             >
-              <Input />
+              <Input style={{ width: "25rem", border: "1px solid black" }} />
             </Form.Item>
             <Form.Item
               name="phone"
               label="Số Điện Thoại"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input style={{ width: "25rem", border: "1px solid black" }} />
             </Form.Item>
             <Form.Item name="dateOfBirth" label="Ngày Sinh">
-              <DatePicker style={{ width: "100%" }} />
+              <DatePicker
+                style={{ width: "25rem", border: "1px solid black" }}
+              />
             </Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              style={{ marginRight: "10px" }}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                float: "left",
+              }}
             >
-              Cập Nhật
-            </Button>
-            <Button onClick={() => setIsEditing(false)}>Hủy</Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                style={{ marginRight: "10px", backgroundColor: "green" }}
+              >
+                Cập Nhật
+              </Button>
+              <Button onClick={() => setIsEditing(false)}>Hủy</Button>
+            </div>
           </Form>
         </Card>
       )}
@@ -346,53 +356,95 @@ const UserProfilePage = () => {
         Bảo mật
       </h2>
       {/* <Checkbox style={{ marginBottom: "20px" }}>Thay Đổi Mật Khẩu</Checkbox> */}
-      <Form layout="vertical" onFinish={handlePasswordUpdate}>
-        <Form.Item
-          name="currentPassword"
-          label="Mật Khẩu Hiện Tại"
-          rules={[
-            { required: true, message: "Vui lòng nhập mật khẩu hiện tại!" },
-          ]}
+      <Card
+        title="Cập Nhật Mật Khẩu"
+        style={{
+          marginBottom: "20px",
+          border: "2px solid gray",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          backgroundColor: "gray",
+        }}
+        headStyle={{
+          backgroundColor: "gray",
+          color: "white",
+          fontWeight: "bold",
+        }}
+        bodyStyle={{
+          backgroundColor: "#ffffff",
+        }}
+      >
+        <Form
+          layout="vertical"
+          onFinish={handlePasswordUpdate}
+          style={{ width: "100%" }}
         >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="newPassword"
-          label="Mật Khẩu Mới"
-          rules={[{ required: true, message: "Vui lòng nhập mật khẩu mới!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="confirmPassword"
-          label="Xác Nhận Mật Khẩu Mới"
-          rules={[
-            { required: true, message: "Vui lòng xác nhận mật khẩu mới!" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("newPassword") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("Mật khẩu xác nhận không khớp!")
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Cập Nhật Mật Khẩu
-        </Button>
-      </Form>
+          <Form.Item
+            name="currentPassword"
+            label="Mật Khẩu Hiện Tại"
+            rules={[
+              { required: true, message: "Vui lòng nhập mật khẩu hiện tại!" },
+            ]}
+          >
+            <Input.Password
+              style={{ width: "25rem", border: "1px solid black" }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="newPassword"
+            label="Mật Khẩu Mới"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu mới!" }]}
+          >
+            <Input.Password
+              style={{ width: "25rem", border: "1px solid black" }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirmPassword"
+            label="Xác Nhận Mật Khẩu Mới"
+            rules={[
+              { required: true, message: "Vui lòng xác nhận mật khẩu mới!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("newPassword") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Mật khẩu xác nhận không khớp!")
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              style={{ width: "25rem", border: "1px solid black" }}
+            />
+          </Form.Item>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              float: "left",
+            }}
+          >
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{ backgroundColor: "green", borderColor: "green" }}
+            >
+              Cập Nhật Mật Khẩu
+            </Button>
+          </div>
+        </Form>
+      </Card>
     </div>
   );
 
   return (
     <>
       <Header />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", margin: "0 200px" }}>
         <div
           style={{
             width: "25%",
