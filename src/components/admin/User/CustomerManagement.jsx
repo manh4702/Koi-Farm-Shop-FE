@@ -50,7 +50,7 @@ const CustomerManagement = () => {
   const loadCustomers = async () => {
     try {
       setLoading(true);
-      const customersData = await fetchUsersByRole(4); // Lấy danh sách khách hàng có roleId = 2
+      const customersData = await fetchUsersByRole("Customer"); // Lấy danh sách khách hàng có roleId = 2
       setCustomers(customersData);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu khách hàng");

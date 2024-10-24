@@ -6,31 +6,36 @@ import useAuthStore from "../store/store"; // Zustand store
 import LoginForm from "../components/Login/LoginForm"; // Gọi LoginForm từ components
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
+import CryptoJS from "crypto-js";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/User/Login", {
+      // const hashedPassword = hashPassword(values.password);
+
+      const response = await axios.post("/api/User/login", {
         email: values.email,
         password: values.password,
+        // password: hashedPassword,
       });
 
       if (response.status === 200) {
         const { token, role } = response.data;
-        localStorage.setItem("authToken", token);
+        // localStorage.setItem("authToken", token);
 
         setAuth({
-          username: values.email,
+          username: values.username,
           role: role,
           token: token,
         });
 
-        message.success("Login successful!");
+        message.success("Đăng nhập thành công!");
 
         // navigateBasedOnRole(role);
 
@@ -47,18 +52,18 @@ const LoginPage = () => {
           navigate("/"); // Khách hàng
         }
       } else {
-        message.error("Login failed!");
+        message.error("Đăng nhập thất bại!");
       }
     } catch (error) {
       console.error(error);
-      message.error("An error occurred. Please try again.");
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log("Thất bại:", errorInfo);
   };
 
   return (

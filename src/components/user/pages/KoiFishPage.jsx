@@ -345,82 +345,16 @@ const fishes = [
     rating: 5,
     video: "https://youtu.be/8_8uHDO679Y",
   },
-  {
-    id: 16,
-    name: "Lô Koi Sanke & Showa",
-    description:
-      "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
-    price: "3,500,000 VND",
-    image:
-      "https://th.bing.com/th/id/OIP.9wxu3jj4OLWUS8AfTCpPwQHaEK?w=301&h=180&c=7&r=0&o=5&pid=1.7",
-    isLot: true, // Đây là lô cá
-    year: 2021,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
-    quantity: 5,
-    fishes: [
-      { name: "Sanke", quantity: 3 },
-      { name: "Showa", quantity: 2 },
-    ],
-    video: "https://www.youtube.com/watch?v=showa_video_link",
-    rating: 4,
-  },
-  {
-    id: 17,
-    name: "Lô cá Gosanke Premium",
-    description:
-      "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
-    price: "5,000,000 VND",
-    image:
-      "https://cdn11.bigcommerce.com/s-upcqwyrrdy/images/stencil/1280x1280/products/12349/31213/japanese-premium-gosanke-8-10inch-koi-4pack-1000__59378.1680885854.jpg?c=1",
-    isLot: true, // Đây là lô cá
-    year: 2019,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
-    quantity: 3,
-    fishes: [
-      { name: "Kohaku", quantity: 1 },
-      { name: "Sanke", quantity: 1 },
-      { name: "Showa", quantity: 1 },
-    ],
-    rating: 3,
-  },
-  {
-    id: 18,
-    name: "Lô Koi Butterfly",
-    description:
-      "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
-    price: "2,800,000 VND",
-    image:
-      "https://cdn11.bigcommerce.com/s-kkon4imfg5/images/stencil/1280x1280/products/405/667/KOI_BUTTERFLY_6_-8___59746.1522374966.jpg?c=2",
-    isLot: true, // Đây là lô cá
-    year: 2019,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 150, // Lượng thức ăn/ngày (gram)
-    quantity: 4,
-    fishes: [
-      { name: "Butterfly Kohaku", quantity: 1 },
-      { name: "Butterfly Showa", quantity: 1 },
-      { name: "Butterfly Sanke", quantity: 1 },
-      { name: "Butterfly Goshiki", quantity: 1 },
-    ],
-    rating: 2,
-  },
   // Danh sách cá Koi mà bạn đã cung cấp...
 ];
 
 const ITEMS_PER_PAGE = 12;
 
-const ProductPage = () => {
+const KoiFishPage = () => {
+  const [hoveredFishId, setHoveredFishId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFishes, setSelectedFishes] = useState([]);
-
+  
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentFishes = fishes.slice(startIndex, endIndex);
@@ -820,8 +754,11 @@ const ProductPage = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollToTopButton = document.getElementById("scrollToTop");
-      scrollToTopButton.style.display =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight ? "block" : "none";
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        scrollToTopButton.style.display = "block";
+      } else {
+        scrollToTopButton.style.display = "none";
+      }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -832,7 +769,7 @@ const ProductPage = () => {
       <Header />
       <main style={{ flexGrow: 1, maxWidth: "100%", margin: "0 190px", padding: "32px 16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "1.875rem", fontWeight: "bold" }}>Các loại Cá Koi và Lô cá</h1>
+          <h1 style={{ fontSize: "1.875rem", fontWeight: "bold" }}>Các loại Cá Koi</h1>
           {selectedFishes.length === 2 && (
             <Button type="primary" onClick={showCompareModal} style={{ marginLeft: "auto", color: "white", backgroundColor: "red" }}>
               So sánh {selectedFishes.length} cá đã chọn
@@ -842,12 +779,10 @@ const ProductPage = () => {
 
         <Row gutter={[16, 16]}>
           {currentFishes.map((fish) => (
-            <Col key={fish.id} xs={24} sm={12} md={6} style={{ position: "relative" }}>
+            <Col key={fish.id} xs={24} sm={12} md={6} onMouseEnter={() => setHoveredFishId(fish.id)} onMouseLeave={() => setHoveredFishId(null)} style={{ position: "relative" }}>
               <FishCard fish={fish} />
               <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "4px", position: "absolute", top: "10px", right: "39px", backgroundColor: "InactiveCaption" }}>
-                <Checkbox checked={selectedFishes.includes(fish)} onChange={() => handleSelectFish(fish.id)}>
-                  So sánh
-                </Checkbox>
+                <Checkbox checked={selectedFishes.includes(fish)} onChange={() => handleSelectFish(fish.id)}>So sánh</Checkbox>
               </div>
             </Col>
           ))}
@@ -870,4 +805,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default KoiFishPage;
