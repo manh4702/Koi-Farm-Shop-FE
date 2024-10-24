@@ -56,12 +56,7 @@ const LoginForm = ({ onFinish, loading }) => {
           </Link>
         </div>
 
-        <div
-          style={{
-            maxWidth: "500px",
-            marginLeft: "30px",
-          }}
-        >
+        <div style={{ maxWidth: "500px", marginLeft: "30px" }}>
           <h1
             style={{
               textAlign: "left",
@@ -113,7 +108,7 @@ const LoginForm = ({ onFinish, loading }) => {
                   border: "1px solid black",
                   borderRadius: "8px",
                   padding: "5px",
-                  paddingRight: "60px", // Thêm khoảng cách để đủ chỗ cho icon
+                  paddingRight: "40px", // Thêm khoảng cách cho icon
                 }}
                 placeholder="Nhập mật khẩu"
                 required
@@ -127,24 +122,12 @@ const LoginForm = ({ onFinish, loading }) => {
                   top: "50%",
                   transform: "translateY(40%)", // Căn giữa theo chiều dọc
                   cursor: "pointer",
-                  fontSize: "18px", // Điều chỉnh kích thước icon nếu cần
-                  color: "#000", // Thay đổi màu sắc nếu cần
+                  fontSize: "18px",
+                  color: "#000",
                 }}
               >
                 {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
               </span>
-            </div>
-            <div style={{ marginTop: 0, textAlign: "left" }}>
-              <Link
-                to="/forgot-password"
-                style={{ color: "black", textDecoration: "none" }}
-                onMouseEnter={(e) =>
-                  (e.target.style.textDecoration = "underline")
-                }
-                onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
-              >
-                Quên mật khẩu?
-              </Link>
             </div>
             <div style={{ marginTop: "16px" }}>
               <button
