@@ -129,6 +129,18 @@ const LoginForm = ({ onFinish, loading }) => {
                 {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
               </span>
             </div>
+            <div style={{ marginTop: "10px", textAlign: "right" }}>
+              <Link
+                to="/forgot-password"
+                style={{ color: "black", textDecoration: "none" }}
+                onMouseEnter={(e) =>
+                  (e.target.style.textDecoration = "underline")
+                }
+                onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
+              >
+                Quên mật khẩu?
+              </Link>
+            </div>
             <div style={{ marginTop: "16px" }}>
               <button
                 type="submit"

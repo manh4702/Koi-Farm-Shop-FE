@@ -13,7 +13,7 @@ const FishPackageDetail = ({ fishPackage }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
   console.log(fishPackage);
   // const imageUrl = `${BASE_CLOUDINARY_URL}${fishPackage.imageUrl}`;
-  const imageUrl = `https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/${fishPackage.imageUrl}`;
+  // const imageUrl = `https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/${fishPackage.imageUrl}`;
 
   const tabItems = [
     {
@@ -35,7 +35,7 @@ const FishPackageDetail = ({ fishPackage }) => {
             }}
           >
             <img
-              src={imageUrl}
+              src={fishPackage.imageUrl}
               alt="batch"
               style={{
                 width: "20%",
@@ -58,7 +58,7 @@ const FishPackageDetail = ({ fishPackage }) => {
               <Col span={8} style={{ fontWeight: "bold" }}>
                 Giá:
               </Col>
-              <Col span={16}>{fishPackage.totalPrice}</Col>
+              <Col span={16}>{fishPackage.price}</Col>
             </Row>
             <Row>
               <Col span={8} style={{ fontWeight: "bold" }}>
