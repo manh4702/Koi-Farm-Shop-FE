@@ -89,7 +89,7 @@ const App = () => {
           }
         />
 
-        //<Route path="/profile" element={<ProfilePage />} />
+        {/* <Route path="/profile" element={<ProfilePage />} /> */}
 
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />

@@ -97,45 +97,44 @@ const LoginForm = ({ onFinish, loading }) => {
               />
             </div>
 
-// <<<<<<< Vuong
             <div style={{ marginTop: "16px", position: "relative" }}>
-  <label style={{ fontSize: "16px", fontWeight: "bold" }}>
-    Mật khẩu<span style={{ color: "red" }}>*</span>
-  </label>
-  <input
-    type={showPassword ? "text" : "password"}
-    value={password}
-    onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
-    style={{
-      display: "block",
-      width: "100%",
-      height: "35px",
-      marginTop: "8px",
-      border: "1px solid black",
-      borderRadius: "8px",
-      padding: "5px",
-      paddingRight: "60px", // Thêm khoảng cách để đủ chỗ cho icon
-    }}
-    placeholder="Nhập mật khẩu"
-    required
-  />
-  <span
-    onClick={togglePasswordVisibility}
-    title={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(40%)", // Căn giữa theo chiều dọc
-      cursor: "pointer",
-      fontSize: "18px", // Điều chỉnh kích thước icon nếu cần
-      color: "#000", // Thay đổi màu sắc nếu cần
-    }}
-  >
-    {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
-  </span>
-</div>
- <div style={{ marginTop: 0, textAlign: "left" }}>
+              <label style={{ fontSize: "16px", fontWeight: "bold" }}>
+                Mật khẩu<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "35px",
+                  marginTop: "8px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  paddingRight: "60px", // Thêm khoảng cách để đủ chỗ cho icon
+                }}
+                placeholder="Nhập mật khẩu"
+                required
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                title={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(40%)", // Căn giữa theo chiều dọc
+                  cursor: "pointer",
+                  fontSize: "18px", // Điều chỉnh kích thước icon nếu cần
+                  color: "#000", // Thay đổi màu sắc nếu cần
+                }}
+              >
+                {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
+              </span>
+            </div>
+            <div style={{ marginTop: 0, textAlign: "left" }}>
               <Link
                 to="/forgot-password"
                 style={{ color: "black", textDecoration: "none" }}
@@ -157,60 +156,11 @@ const LoginForm = ({ onFinish, loading }) => {
                   fontSize: "16px",
                   fontWeight: "bold",
                   color: "white",
-// =======
-//             <div style={{ marginTop: "14px" }}>
-//               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
-//                 Mật khẩu<span style={{ color: "red" }}>*</span>
-//               </label>
-//               <input
-//                 type="password"
-//                 value={password}
-//                 onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
-//                 style={{
-//                   display: "block",
-//                   width: "100%",
-//                   height: "35px",
-//                   marginTop: "4px",
-//                   border: "1px solid black",
-// >>>>>>> DEV_V1
                   borderRadius: "8px",
                   height: "31px",
                   border: "none",
                   cursor: "pointer",
                 }}
-// <<<<<<< Vuong
-// =======
-//                 placeholder="Nhập mật khẩu"
-//                 required
-//               />
-//             </div>
-
-//             <div style={{ marginTop: 0, textAlign: "left" }}>
-//               <Link
-//                 to="/forgot-password"
-//                 style={{ color: "black", textDecoration: "none" }}
-//                 onMouseEnter={(e) =>
-//                   (e.target.style.textDecoration = "underline")
-//                 }
-//                 onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
-//               >
-//                 Quên mật khẩu?
-//               </Link>
-//             </div>
-
-//             <div style={{ marginTop: 0 }}>
-//               <button
-//                 style={{
-//                   width: "220px",
-//                   marginTop: "24px",
-//                   backgroundColor: "red",
-//                   fontSize: "16px",
-//                   fontWeight: "bold",
-//                   color: "white",
-//                   borderRadius: "8px",
-//                   height: "31px",
-//                 }}
-// >>>>>>> DEV_V1
                 disabled={loading}
               >
                 {loading ? "Đang đăng nhập..." : "Đăng nhập"}
