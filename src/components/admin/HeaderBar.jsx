@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dropdown, Menu, Avatar } from 'antd';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, CheckCircleOutlined  } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { removeAuthToken, removeUserRole } from '../../services/auth';
 import useAuthStore from '../../store/store';
@@ -39,7 +39,7 @@ const HeaderBar = () => {
     <div className="flex justify-end items-center p-4 bg-white shadow-sm">
       <Dropdown overlay={menu} placement="bottomRight">
         <div className="flex items-center cursor-pointer">
-          <Avatar size="large" src={avatarUrl} icon={<UserOutlined />} />
+          <Avatar size="large" src={avatarUrl} icon={<CheckCircleOutlined />} />
           <span className="ml-2">{username}</span>
         </div>
       </Dropdown>
