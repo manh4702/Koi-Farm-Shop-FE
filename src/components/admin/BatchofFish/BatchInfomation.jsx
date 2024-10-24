@@ -40,6 +40,7 @@ const BatchInfo = () => {
 
   const handleAdd = () => {
     setIsCreateModalVisible(true);
+    loadFishPackages();
   };
 
   const handleEdit = (batch) => {

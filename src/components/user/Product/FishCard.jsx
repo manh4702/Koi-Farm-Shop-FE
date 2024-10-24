@@ -55,11 +55,29 @@ const FishCard = ({ fish }) => {
       >
         {fish.name}
       </h3>
-      <p style={{ marginBottom: "0.5rem", height: "80px", width: "100%" }}>
+      <p
+        style={{
+          marginBottom: "0.5rem",
+          height: "80px",
+          width: "100%",
+          // display: "-webkit-box",
+          // WebkitLineClamp: 2,
+          // WebkitBoxOrient: "vertical",
+          // overflow: "hidden",
+          // // textOverflow: "ellipsis"
+        }}
+      >
         {fish.description}
       </p>
-      <p style={{ marginBottom: "0.5rem", display: "flex", alignItems: "center" }}>
-        Đánh giá: {Array.from({ length: fish.rating }, (_, index) => (
+      <p
+        style={{
+          marginBottom: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        Đánh giá:{" "}
+        {Array.from({ length: fish.rating }, (_, index) => (
           <span key={index}>⭐️</span>
         ))}
       </p>

@@ -30,7 +30,7 @@ import useAuthStore from "./store/store";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import UserProfilePage from "./components/user/pages/UserProfilePage";
 
-//import ProfilePage from "./pages/profilePage";
+import ProfilePage from "./pages/profilePage";
 
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -89,7 +89,7 @@ const App = () => {
           }
         />
 
-        {/* <Route path="/profile" element={<ProfilePage />} /> */}
+        <Route path="/profile-customer" element={<ProfilePage />} />
 
         {/* Trang thông tin và sản phẩm */}
         <Route path="/about" element={<AboutPage />} />
