@@ -7,7 +7,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-// import LogoKoi from "../../../assets/LogoKoi.png";
+import LogoKoi from "../../../assets/LogoKoi.png";
 import Search from "./Search";
 import useCartStore from "../../../store/cartStore";
 import useAuthStore from "../../../store/store";
