@@ -62,6 +62,13 @@ function Sidebar({ setSelectedKey }) {
           Quản lí cá
         </Menu.Item>
         <Menu.Item
+          key="11"
+          icon={<GiCirclingFish />}
+          onClick={() => setSelectedKey("batch-info")}
+        >
+          Quản lí lô cá
+        </Menu.Item>
+        <Menu.Item
           key="4" // Gán key duy nhất
           icon={<FileDoneOutlined />} // Icon cho chức năng ký gửi
           onClick={() => setSelectedKey("consignment-management")} // Gán key
