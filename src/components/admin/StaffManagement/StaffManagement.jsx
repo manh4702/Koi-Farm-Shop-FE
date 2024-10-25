@@ -166,7 +166,7 @@ const StaffManagement = () => {
   const columns = [
     {
       title: "Họ và Tên",
-      dataIndex: "fullName",
+      dataIndex: "userName",
     },
     {
       title: "Số Điện Thoại",
@@ -180,10 +180,10 @@ const StaffManagement = () => {
       title: "Chức vụ",
       dataIndex: "position",
       render: (_, record) => {
-        if (record.roleId === 2) {
-          return "Manager";
-        } else if (record.roleId === 3) {
-          return "Staff";
+        if (record.roleName === "Manager") {
+          return "Quản lý";
+        } else if (record.roleName === "Staff") {
+          return "Nhân viên";
         } else {
           return "Unknown";
         }

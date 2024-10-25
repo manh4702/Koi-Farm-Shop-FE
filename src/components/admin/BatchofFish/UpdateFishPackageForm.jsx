@@ -6,6 +6,7 @@ import { updateFishPackage } from "../../../services/fishPackageStore";
 
 const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) => {
   const [form] = Form.useForm();
+  console.log(fishPackage, form);
   const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
         dailyFood: values.dailyFood,
         numberOfFish: values.numberOfFish,
         imageFiles: imageFile && imageFile.length > 0 ? imageFile : null, // Sử dụng file mới nếu có
-        status: values.status,
+        status: fishPackage.status,
       };
 
       // Gọi API updateFishPackage

@@ -16,10 +16,10 @@ export const fetchUsersByRole = async (roleName) => {
       // Map lại dữ liệu từ API vào định dạng mà bảng của bạn yêu cầu
       return filteredUsers.map((user, index) => ({
         key: index,
-        roleId: user.roleId,
+        // roleId: user.roleId,
         roleName: user.roleName,
         userId: user.userId,
-        username: user.name,
+        userName: user.name,
         fullName: user.name,
         dob: user.dateOfBirth.split("T")[0],
         phone: user.phone,
@@ -30,7 +30,7 @@ export const fetchUsersByRole = async (roleName) => {
         feedback: [], // API hiện không trả về phản hồi, có thể cập nhật sau
       }));
     } else {
-      throw new Error("Không thể tải dữ liệu người dùng");
+      // throw new Error("Không thể tải dữ liệu người dùng");
     }
   } catch (error) {
     throw error; // Bạn có thể tuỳ chỉnh thêm việc bắt lỗi ở đây

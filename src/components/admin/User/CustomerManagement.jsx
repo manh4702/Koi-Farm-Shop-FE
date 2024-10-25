@@ -79,6 +79,7 @@ const CustomerManagement = () => {
     setIsModalVisible(false);
     setEditCustomer(null);
     form.resetFields();
+    // document.activeElement.blur();
   };
 
   const onFinish = async (values) => {
@@ -132,10 +133,10 @@ const CustomerManagement = () => {
   };
 
   const columns = [
-    {
-      title: "Tên Tài Khoản",
-      dataIndex: "username",
-    },
+    // {
+    //   title: "Tên Tài Khoản",
+    //   dataIndex: "username",
+    // },
     {
       title: "Họ và Tên",
       dataIndex: "fullName",
@@ -173,7 +174,6 @@ const CustomerManagement = () => {
       ),
     },
     {
-      // title: "Hành Động",
       title: <SettingOutlined />,
       key: "action",
       render: (_, record, index) => {
@@ -193,13 +193,6 @@ const CustomerManagement = () => {
             >
               Xem
             </Menu.Item>
-            {/* <Menu.Item
-              key="delete"
-              icon={<DeleteOutlined />}
-              onClick={() => handleDelete(record.userId)}
-            >
-              Xóa
-            </Menu.Item> */}
           </Menu>
         );
 
@@ -239,6 +232,7 @@ const CustomerManagement = () => {
           visible={isModalVisible}
           footer={null}
           onCancel={handleCancel}
+          destroyOnClose={true}
         >
           <Form layout="vertical" form={form} onFinish={onFinish}>
             <Row gutter={16}>
@@ -311,26 +305,6 @@ const CustomerManagement = () => {
                 <SaveOutlined />
                 Lưu
               </Button>
-              {/* <Popconfirm
-                  title="Bạn có chắc chắn muốn xóa khách hàng này không?"
-                  onConfirm={handleDelete}
-                  okText="Có"
-                  cancelText="Không"
-                >
-                  <Button
-                    type="primary"
-                    ghost
-                    style={{
-                      marginTop: "10px",
-                      color: "white",
-                      backgroundColor: "red",
-                      border: "1px solid red",
-                    }}
-                  >
-                    <DeleteOutlined />
-                    Xóa
-                  </Button>
-                </Popconfirm> */}
             </Form.Item>
           </Form>
         </Modal>
