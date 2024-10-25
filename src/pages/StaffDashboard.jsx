@@ -15,6 +15,8 @@ import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
+import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
+import CustomerManagementFS from "../components/admin/User/forStaff";
 
 const { Content, Footer } = Layout;
 
@@ -33,8 +35,8 @@ const AdminDashboard = () => {
         return <OrderList />;
       case "order-tracking":
         return <OrderTracking />;
-      // case "staff-management":
-      //   return <StaffManagement />;
+      case "customer-management":
+        return <CustomerManagementFS />;
       case "blog-management":
         return <BlogManagement />;
       case "FAQ-management":
@@ -45,6 +47,8 @@ const AdminDashboard = () => {
         return <PromotionManagement />;
       case "consignment-management":
         return <ConsignmentManagement />;
+        case "batch-info":
+        return <BatchInfo />;
       default:
         return <DashboardContent />;
     }
@@ -59,7 +63,7 @@ const AdminDashboard = () => {
         <HeaderBar />
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Admin</Breadcrumb.Item>
+            <Breadcrumb.Item>Staff</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
                 <Breadcrumb.Item>Quản lí đơn hàng</Breadcrumb.Item>
