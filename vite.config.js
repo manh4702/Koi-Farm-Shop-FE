@@ -13,9 +13,9 @@ export default defineConfig({
       //   changeOrigin: true,
       //   rewrite: (path) => path.replace(/^\/api/, ''),
       // },
-      '/api': 'http://localhost:5260',
+      '/api': 'https://koivn-erehdwgwbkega8gk.southeastasia-01.azurewebsites.net/',
       '/User': {
-        target: 'http://localhost:5260', // Địa chỉ của backend server
+        target: 'https://koivn-erehdwgwbkega8gk.southeastasia-01.azurewebsites.net/', // Địa chỉ của backend server
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/User/, '/api/User'), // Đảm bảo đúng đường dẫn API
       },

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, DatePicker } from "antd";
-import { FontColorsOutlined } from "@ant-design/icons";
+import React, {useState, useEffect} from "react";
+import {Form, Input, Button, Checkbox, DatePicker} from "antd";
+import {FontColorsOutlined} from "@ant-design/icons";
 import moment from "moment";
 
-const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
+const RegisterForm = ({onFinish, onFinishFailed, loading}) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,11 +11,32 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
   const [phone, setPhone] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [canAgreeTerms, setCanAgreeTerms] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+
+  // Validate fields to enable the agreeTerms checkbox
+  useEffect(() => {
+    setCanAgreeTerms(
+      email !== "" &&
+      username !== "" &&
+      password !== "" &&
+      confirmPassword !== "" &&
+      phone !== "" &&
+      dateOfBirth !== null &&
+      password === confirmPassword
+    );
+  }, [email, username, password, confirmPassword, phone, dateOfBirth]);
+
+  useEffect(() => {
+    if (password !== confirmPassword) {
+      setPasswordError("Mật khẩu không khớp!");
+    } else {
+      setPasswordError("");
+    }
+  }, [password, confirmPassword]);
 
   const handlePhoneChange = (e) => {
     const value = e.target.value;
-
-    // Chỉ cho phép nhập số và giới hạn độ dài là 10 ký tự
     if (/^\d*$/.test(value)) {
       setPhone(value);
     }
@@ -33,6 +54,11 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
       return;
     }
 
+    if (passwordError) {
+      message.error(passwordError);
+      return;
+    }
+
     const data = {
       email,
       username,
@@ -46,10 +72,10 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "50px" }}>
-      <div style={{ display: "flex", gap: "50px", maxWidth: "1200px" }}>
-        <div style={{ maxWidth: "400px" }}>
-          <h1 style={{ fontSize: "22px", fontWeight: "bold", color: "#333" }}>
+    <div style={{display: "flex", justifyContent: "center", padding: "50px"}}>
+      <div style={{display: "flex", gap: "50px", maxWidth: "1200px"}}>
+        <div style={{maxWidth: "400px"}}>
+          <h1 style={{fontSize: "22px", fontWeight: "bold", color: "#333"}}>
             Điều khoản sử dụng
           </h1>
           <div
@@ -109,10 +135,10 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
           </h1>
           <form
             onSubmit={handleSubmit}
-            style={{ width: "350px", marginTop: "20px" }}
+            style={{width: "350px", marginTop: "20px"}}
           >
-            <label style={{ fontSize: "16px" }}>
-              Email <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Email <span style={{color: "red"}}>*</span>
             </label>
             <Input
               type="email"
@@ -127,8 +153,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               }}
             />
 
-            <label style={{ fontSize: "16px" }}>
-              Họ và tên <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Họ và tên <span style={{color: "red"}}>*</span>
             </label>
             <Input
               value={username}
@@ -142,8 +168,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               }}
             />
 
-            <label style={{ fontSize: "16px" }}>
-              Mật khẩu <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Mật khẩu <span style={{color: "red"}}>*</span>
             </label>
             <Input.Password
               value={password}
@@ -157,8 +183,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               }}
             />
 
-            <label style={{ fontSize: "16px" }}>
-              Nhập lại mật khẩu <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Nhập lại mật khẩu <span style={{color: "red"}}>*</span>
             </label>
             <Input.Password
               value={confirmPassword}
@@ -171,9 +197,12 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
                 borderRadius: "8px",
               }}
             />
+            {passwordError && (
+              <p style={{ color: "red", margin: "-8px 5px 0", fontSize:"14px" }}>{passwordError}</p>
+            )}
 
-            <label style={{ fontSize: "16px" }}>
-              Số điện thoại <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Số điện thoại <span style={{color: "red"}}>*</span>
             </label>
             <Input
               value={phone}
@@ -188,11 +217,12 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
               }}
             />
 
-            <label style={{ fontSize: "16px" }}>
-              Ngày sinh <span style={{ color: "red" }}>*</span>
+            <label style={{fontSize: "16px"}}>
+              Ngày sinh <span style={{color: "red"}}>*</span>
             </label>
             <DatePicker
-              value={dateOfBirth ? moment(dateOfBirth) : null} // Hiển thị giá trị đã chọn
+              // value={dateOfBirth ? moment(dateOfBirth) : null} // Hiển thị giá trị đã chọn
+              value={dateOfBirth}
               onChange={(date) => setDateOfBirth(date)} // Cập nhật giá trị dateOfBirth
               format="DD-MM-YYYY" // Định dạng hiển thị
               placeholder="Chọn ngày sinh"
@@ -208,7 +238,8 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
             <Checkbox
               checked={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
-              style={{ marginBottom: "20px" }}
+              disabled={!canAgreeTerms}
+              style={{marginBottom: "20px"}}
             >
               Tôi đồng ý với các điều khoản của shop.
             </Checkbox>
@@ -233,7 +264,7 @@ const RegisterForm = ({ onFinish, onFinishFailed, loading }) => {
             </Button>
           </form>
 
-          <div style={{ marginTop: "20px" }}>
+          <div style={{marginTop: "20px"}}>
             <p style={{}}>
               Bạn đã có tài khoản?{" "}
               <a
