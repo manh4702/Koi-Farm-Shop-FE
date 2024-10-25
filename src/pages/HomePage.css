@@ -1,0 +1,100 @@
+.scroll-container {
+  display: flex;
+  overflow-x: auto; /* Cho phép cuộn ngang */
+ 
+  padding: 0px 0; /* Thêm khoảng cách trên và dưới */
+  scrollbar-width: thin; /* Đặt độ dày thanh cuộn cho Firefox */
+  scrollbar-color: #007bff #f1f1f1; /* Màu sắc thanh cuộn cho Firefox */
+  gap: 20px; /* Khoảng cách giữa các cá thể */
+  scroll-behavior: smooth; /* Hiệu ứng cuộn mượt mà */
+  flex-wrap: nowrap; /* Thẻ cá dính lại với nhau */
+  position: relative; /* Thêm thuộc tính này */
+  justify-content: center; /* Căn giữa các phần tử trong container */
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 10px; /* Chiều cao thanh cuộn */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #007bff; /* Màu sắc thanh cuộn */
+  border-radius: 10px; /* Bo tròn các góc */
+  transition: background 0.3s; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #0056b3; /* Màu sắc khi hover */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền cho thanh cuộn */
+}
+
+.scroll-container .arrow {
+  position: absolute; /* Đặt vị trí tuyệt đối */
+  top: 50%; /* Căng giữa theo chiều dọc */
+  transform: translateY(-50%); /* Căng giữa chính xác */
+  /* Thêm các thuộc tính khác nếu cần */
+}
+
+.fish-card {
+  border: 1px solid #e0e0e0; /* Đường viền cho cá thể */
+  border-radius: 10px; /* Bo tròn các góc */
+  padding: 10px; /* Tăng padding cho cá thể */
+  width: 200px; /* Đặt chiều rộng cố định */
+  background-color: #fff; /* Màu nền cho cá thể */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho cá thể */
+  display: flex; /* Sử dụng Flexbox */
+  flex-direction: column; /* Căn giữa theo chiều dọc */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  transition: transform 0.2s; /* Hiệu ứng chuyển động khi hover */
+  margin: 100px; /* Thêm khoảng cách giữa các thẻ cá */
+}
+
+.fish-card:hover {
+  transform: scale(1.05); /* Phóng to khi hover */
+}
+
+.fish-card img {
+  max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng cá thể */
+  height: auto; /* Giữ tỷ lệ hình ảnh */
+  border-radius: 8px; /* Bo tròn hình ảnh */
+  margin-bottom: 12px; /* Thêm khoảng cách giữa hình ảnh và tên */
+}
+
+.fish-card h3 {
+  margin: 5px 0; /* Xóa khoảng cách mặc định */
+  font-size: 16px; /* Đặt kích thước chữ cho tên */
+  text-align: center; /* Căn giữa tên */
+  color: #333; /* Màu chữ */
+}
+
+.flex-justify-between {
+  display: flex;
+  justify-content: space-between; /* Căn giữa các phần tử với khoảng cách đều */
+  margin-top: 1rem; /* Tương đương với mt-4 (4 * 0.25rem = 1rem) */
+}
+
+/* Thêm lớp mới cho thẻ cá */
+.new-fish-card {
+  border: 1px solid #e0e0e0; /* Đường viền cho cá thể mới */
+  border-radius: 10px; /* Bo tròn các góc */
+  padding: 10px; /* Tăng padding cho cá thể mới */
+  width: 200px; /* Đặt chiều rộng cố định */
+  background-color: #fff; /* Màu nền cho cá thể mới */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho cá thể mới */
+  display: flex; /* Sử dụng Flexbox */
+  flex-direction: column; /* Căn giữa theo chiều d��c */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  transition: transform 0.1s; /* Hiệu ứng chuyển động khi hover */
+  margin: 10px; /* Thêm khoảng cách giữa các thẻ cá mới */
+}
+
+/* Căn giữa thẻ cá mới trong container */
+.scroll-container {
+  display: flex;
+  justify-content: center; /* Căn giữa các phần tử trong container */
+  /* ... existing styles ... */
+}

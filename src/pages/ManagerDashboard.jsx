@@ -15,6 +15,7 @@ import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
+import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
 
 const { Content, Footer } = Layout;
 
@@ -45,6 +46,8 @@ const AdminDashboard = () => {
         return <PromotionManagement />;
       case "consignment-management":
         return <ConsignmentManagement />;
+      case "batch-info":
+        return <BatchInfo />;
       default:
         return <DashboardContent />;
     }
@@ -59,7 +62,7 @@ const AdminDashboard = () => {
         <HeaderBar />
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Admin</Breadcrumb.Item>
+            <Breadcrumb.Item>Manager</Breadcrumb.Item>
             {(selectedKey === "order-list" ||
               selectedKey === "order-tracking") && (
                 <Breadcrumb.Item>Quản lí đơn hàng</Breadcrumb.Item>
@@ -81,7 +84,7 @@ const AdminDashboard = () => {
           {renderContent()}
         </Content>
         <Footer style={{ textAlign: "center", padding: "15px 0" }}>
-          Admin Dashboard ©2024
+          Manager Dashboard ©2024
         </Footer>
       </Layout>
     </Layout>

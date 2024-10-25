@@ -1,0 +1,68 @@
+/* Đặt font chữ cho toàn bộ trang */
+body {
+    font-family: 'Arial', sans-serif; /* Chọn font chữ dễ đọc */
+    line-height: 1.6; /* Tăng khoảng cách giữa các dòng */
+    margin: 0; /* Xóa khoảng cách mặc định */
+    padding: 0; /* Xóa padding mặc định */
+    background-color: #f4f4f4; /* Màu nền nhẹ nhàng */
+    font-size: 18px; /* Tăng cỡ chữ */
+}
+
+/* Căn giữa nội dung */
+.container {
+    max-width: 800px; /* Đặt chiều rộng tối đa cho container */
+    margin: 0 auto; /* Căn giữa container */
+    padding: 20px; /* Thêm padding cho container */
+    background-color: #fff; /* Màu nền trắng cho nội dung */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho container */
+    font-size: 18px; /* Tăng cỡ chữ */
+}
+
+/* Định dạng tiêu đề */
+h1, h2, h3 {
+    color: #333; /* Màu chữ tối */
+    margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+    font-size: 240px; /* Tăng cỡ chữ cho tiêu đề */
+    font-weight: bold; /* Làm nổi bật tiêu đề */
+}
+
+/* Định dạng đoạn văn */
+p {
+    color: #666; /* Màu chữ nhạt hơn */
+    margin-bottom: 15px; /* Khoảng cách dưới đoạn văn */
+    font-size: 18px; /* Tăng cỡ chữ */
+}
+
+/* Định dạng liên kết */
+a {
+    color: #007BFF; /* Màu chữ cho liên kết */
+    text-decoration: none; /* Xóa gạch chân */
+    font-size: 18px; /* Tăng cỡ chữ */
+}
+
+a:hover {
+    text-decoration: underline; /* Thêm gạch chân khi hover */
+}
+
+/* Định dạng cho cột bên phải */
+.right-column {
+    background-color: #fff; /* Màu nền trắng cho cột bên phải */
+    padding: 20px; /* Thêm padding cho cột */
+    border-radius: 8px; /* Bo góc cho cột */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho cột */
+    font-size: 18px; /* Tăng cỡ chữ */
+}
+
+/* Định dạng cho các tiêu đề trong cột bên phải */
+.right-column h4 {
+    color: #333; /* Màu chữ tối cho tiêu đề */
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+    font-size: 20px; /* Tăng cỡ chữ cho tiêu đề */
+    font-weight: bold; /* Làm nổi bật tiêu đề */
+}
+
+/* Định dạng cho các sản phẩm nổi bật */
+.product-card {
+    margin-bottom: 20px; /* Khoảng cách giữa các sản phẩm */
+    font-size: 18px; /* Tăng cỡ chữ */
+}

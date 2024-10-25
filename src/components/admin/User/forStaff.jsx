@@ -38,7 +38,7 @@ import useAuth from "../../../hooks/useAuth";
 
 const { TabPane } = Tabs;
 
-const CustomerManagement = () => {
+const CustomerManagementFS = () => {
   useAuth();
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -69,11 +69,7 @@ const CustomerManagement = () => {
     setSelectedCustomer(customer);
   };
 
-  const handleEdit = (customer) => {
-    setEditCustomer(customer);
-    form.setFieldsValue({ ...customer, dob: moment(customer.dob) });
-    setIsModalVisible(true);
-  };
+  
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -82,24 +78,7 @@ const CustomerManagement = () => {
     // document.activeElement.blur();
   };
 
-  const onFinish = async (values) => {
-    const updatedData = {
-      name: values.fullName,
-      email: values.email,
-      phone: values.phone,
-      dateOfBirth: values.dob.format("YYYY-MM-DD"),
-      password: values.password ? values.password : "",
-    };
-
-    try {
-      await updateUser(editCustomer.userId, updatedData);
-      message.success("Cập nhật thông tin khách hàng thành công");
-      handleCancel();
-      loadCustomers();
-    } catch (error) {
-      message.error("Lỗi khi cập nhật thông tin khách hàng");
-    }
-  };
+  
 
   // const handleDelete = async (userId) => {
   //   Modal.confirm({
@@ -117,20 +96,7 @@ const CustomerManagement = () => {
   //   });
   // };
 
-  const handleStatusToggle = async (userId, currentStatus) => {
-    try {
-      if (currentStatus === "Disable") {
-        await restoreUser(userId);
-        message.success("Đã kích hoạt người dùng thành công");
-      } else {
-        await deleteUser(userId);
-        message.success("Đã vô hiệu hóa người dùng thành công");
-      }
-      loadCustomers();
-    } catch (error) {
-      message.error("Lỗi khi thay đổi trạng thái người dùng");
-    }
-  };
+ 
 
   const columns = [
     // {
@@ -179,13 +145,7 @@ const CustomerManagement = () => {
       render: (_, record, index) => {
         const menu = (
           <Menu>
-            <Menu.Item
-              key="edit"
-              icon={<EditOutlined />}
-              onClick={() => handleEdit(record)}
-            >
-              Sửa
-            </Menu.Item>
+            
             <Menu.Item
               key="view"
               icon={<EyeOutlined />}
@@ -378,4 +338,4 @@ const CustomerManagement = () => {
   );
 };
 
-export default CustomerManagement;
+export default CustomerManagementFS;
