@@ -2,12 +2,7 @@ import React from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
-  
-  UserOutlined,
-  
   ShoppingCartOutlined,
-  QuestionCircleOutlined,
-  TagsFilled,
   FileDoneOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
@@ -44,7 +39,7 @@ function Sidebar({ setSelectedKey }) {
       >
         Staff
       </p>
-
+        
       <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
         <Menu.Item
           key="1"
@@ -53,6 +48,24 @@ function Sidebar({ setSelectedKey }) {
         >
           Quản lí cá
         </Menu.Item>
+
+        <Menu.Item
+          key="11"
+          icon={<GiCirclingFish />}
+          onClick={() => setSelectedKey("batch-info")}
+        >
+          Quản lí lô cá
+        </Menu.Item>
+
+        <Menu.Item
+          key="12"
+          icon={<GrUserManager />}
+          onClick={() => setSelectedKey("customer-management")}
+        >
+          Thông tin khách hàng
+
+        </Menu.Item>
+
         <Menu.Item
           key="2" // Gán key duy nhất
           icon={<FileDoneOutlined />} // Icon cho chức năng ký gửi
@@ -73,34 +86,6 @@ function Sidebar({ setSelectedKey }) {
             Theo dõi trạng thái đơn hàng
           </Menu.Item>
         </SubMenu>
-        <Menu.Item
-          key="4"
-          icon={<TagsFilled />}
-          onClick={() => setSelectedKey("promotion-management")}
-        >
-          Quản lí khuyến mãi
-        </Menu.Item>
-        <Menu.Item
-          key="5"
-          icon={<GrBlog />}
-          onClick={() => setSelectedKey("blog-management")}
-        >
-          Quản lý tin tức
-        </Menu.Item>
-        <Menu.Item
-          key="6"
-          icon={<QuestionCircleOutlined />}
-          onClick={() => setSelectedKey("FAQ-management")}
-        >
-          Quản lí FAQ
-        </Menu.Item>
-        <Menu.Item
-          key="7"
-          icon={<MdFeedback />}
-          onClick={() => setSelectedKey("feedback-management")}
-        >
-          Quản lí Đánh giá
-        </Menu.Item>
         
       </Menu>
     </div>
