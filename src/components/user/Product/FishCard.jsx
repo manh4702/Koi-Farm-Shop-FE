@@ -10,7 +10,7 @@ const FishCard = ({ fish }) => {
   const addItem = useCartStore((state) => state.addItem);
 
   const handleViewDetails = () => {
-    navigate(`/products/${fish.id}`);
+    navigate(`/products/${fish.fishPackageId}`);
   };
 
   const handleAddToCart = (e) => {
@@ -23,10 +23,10 @@ const FishCard = ({ fish }) => {
     <Card
       hoverable
       cover={
-        <div style={{ height: "300px" }}>
+        <div style={{height: "300px"}}>
           <img
             alt={fish.name}
-            src={fish.image}
+            src={fish.imageUrl}
             style={{
               // height: "450px",
               height: "100%",
@@ -60,11 +60,11 @@ const FishCard = ({ fish }) => {
           marginBottom: "0.5rem",
           height: "80px",
           width: "100%",
-          // display: "-webkit-box",
-          // WebkitLineClamp: 2,
-          // WebkitBoxOrient: "vertical",
-          // overflow: "hidden",
-          // // textOverflow: "ellipsis"
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          textOverflow: "ellipsis"
         }}
       >
         {fish.description}
@@ -76,27 +76,45 @@ const FishCard = ({ fish }) => {
           alignItems: "center",
         }}
       >
-        Đánh giá:{" "}
-        {Array.from({ length: fish.rating }, (_, index) => (
-          <span key={index}>⭐️</span>
-        ))}
+        Tuổi: {fish.age} tuổi
       </p>
+      <p
+        style={{
+          marginBottom: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        Kích thước: {fish.size} cm
+      </p>
+      {/*<p*/}
+      {/*  style={{*/}
+      {/*    marginBottom: "0.5rem",*/}
+      {/*    display: "flex",*/}
+      {/*    alignItems: "center",*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Đánh giá:{" "}*/}
+      {/*  {Array.from({ length: fish.rating }, (_, index) => (*/}
+      {/*    <span key={index}>⭐️</span>*/}
+      {/*  ))}*/}
+      {/*</p>*/}
 
       {fish.isLot ? (
-        <div style={{ height: "200px" }}>
+        <div style={{height: "200px"}}>
           <p>
             <strong>Năm sinh:</strong> {fish.birthYear}
           </p>
           <p>
             <strong>Số lượng:</strong> {fish.quantity} con
           </p>
-          <div style={{ marginBottom: "0.5rem" }}>
-            Các loại cá trong lô: <br />
+          <div style={{marginBottom: "0.5rem"}}>
+            Các loại cá trong lô: <br/>
             {fish.fishes.map((type, index) => (
               <Tag
                 key={index}
                 color="gold"
-                style={{ margin: "0.25rem 0.25rem 0.25rem 0" }}
+                style={{margin: "0.25rem 0.25rem 0.25rem 0"}}
               >
                 {type.name} ({type.quantity} con)
               </Tag>
@@ -115,7 +133,7 @@ const FishCard = ({ fish }) => {
       >
         {fish.price}
       </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
         <Button
           type="primary"
           style={{
@@ -150,7 +168,7 @@ const FishCard = ({ fish }) => {
           }}
           onClick={handleAddToCart}
         >
-          <ShoppingCartOutlined /> Thêm vào giỏ hàng
+          <ShoppingCartOutlined/> Thêm vào giỏ hàng
         </Button>
       </div>
     </Card>
