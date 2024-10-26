@@ -17,3 +17,17 @@ export const getFishPackages = async (page = 1, pageSize = 12) => {
     throw error;
   }
 };
+
+export const getFishPackageById = async (id) => {
+  try {
+    const response = await axios.get(`/api/FishPackage/${id}`);
+    if (response.data.success) {
+      return response.data.data;
+    } else {
+      throw new Error(response.data.message || "Failed to fetch fish package");
+    }
+  } catch (error) {
+    console.error("Error fetching fish package:", error);
+    throw error;
+  }
+};

@@ -8,7 +8,7 @@ import FishCard from "../Product/FishCard";
 import ZaloIcon from "../Shared/ZaloIcon";
 import YTIconts from "../Shared/YoutubeIcon";
 import FBIconts from "../Shared/FacebookIcon";
-import {getFishPackages} from "../../../services/fishPackageService.js";
+import {getFishPackages} from "../../../services/fishPackageService";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -449,7 +449,7 @@ const FishLotPage = () => {
         </div>
 
         <Row gutter={[16, 16]}>
-          {currentFishLots.map((fish) => (
+          {fishLots.map((fish) => (
             <Col key={fish.id} xs={24} sm={12} md={6} onMouseEnter={() => setHoveredFishId(fish.id)} onMouseLeave={() => setHoveredFishId(null)} style={{ position: "relative" }}>
               <FishCard fish={fish} />
               <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "4px", position: "absolute", top: "10px", right: "39px", backgroundColor: "InactiveCaption" }}>

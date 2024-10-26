@@ -64,7 +64,8 @@ const Header = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="fish-lot">
-        <Link to="/products/fish-lot" style={getMenuItemStyle("/products/fish-lot")}>
+        {/*<Link to="/products/fish-lot" style={getMenuItemStyle("/products/fish-lot")}>*/}
+        <Link to="/products/fish-packages" style={getMenuItemStyle("/products/fish-packages")}>
           Lô Cá
         </Link>
       </Menu.Item>
