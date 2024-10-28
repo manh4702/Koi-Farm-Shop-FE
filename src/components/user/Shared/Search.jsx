@@ -25,47 +25,27 @@
 
 // src / user / Shared / Search.jsx;
 import React from "react";
-import { Input, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 const Search = () => {
   return (
-    <div
-      style={{
-        marginTop: "10px",
-        textAlign: "center",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Input
+    <div className="flex items-center justify-center mt-2.5">
+      <input
+        type="text"
         placeholder="Tìm kiếm sản phẩm..."
-        style={{
-          width: "350px",
-          height: "40px",
-          padding: "0 12px",
-          borderRadius: "50px 0 0 50px",
-          border: "1px solid red",
-          fontSize: "16px",
-          outline: "none",
-          borderRight: "none",
-        }}
+        className="w-88 h-10 pl-3 pr-3 rounded-l-full border border-red-500 border-r-0 text-base outline-none focus:outline-none"
+        style={{ borderRadius: "50px 0 0 50px", fontSize: "16px" }}  // Tailwind không hỗ trợ borderRadius với giá trị không đối xứng, do đó bạn phải dùng inline style hoặc CSS custom
       />
-      <Button
-        type="primary"
-        icon={<SearchOutlined />}
-        style={{
-          height: "40px",
-          width: "50px",
-          borderRadius: "0 50px 50px 0",
-          fontSize: "16px",
-          backgroundColor: "red",
-          border: "none",
-        }}
-      />
+      <button
+        type="button"
+        className="flex items-center justify-center h-10 w-12 rounded-r-full bg-red-500 text-white text-base border-0 hover:bg-red-500"
+        style={{ borderRadius: "0 50px 50px 0", fontSize: "16px" }}  // Tương tự như input, borderRadius đặc biệt phải dùng inline style hoặc CSS custom
+      >
+        <SearchOutlined style={{ color: 'white' }} />
+      </button>
     </div>
   );
 };
 
 export default Search;
+
