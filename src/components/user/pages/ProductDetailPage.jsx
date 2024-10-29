@@ -40,9 +40,10 @@ const ProductDetailPage = () => {
   };
 
   // Hàm xử lý khi nhấn "Mua ngay"
-  const handleBuyNow = () => {
+  const handleBuyNow = (e) => {
+    e.stopPropagation();
     addItem(fish); // Thêm sản phẩm vào giỏ hàng
-    navigate("/checkout"); // Điều hướng đến trang thanh toán
+    navigate("/cart"); // Chuyển đến trang giỏ hàng
   };
 
   return (
