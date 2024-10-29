@@ -28,17 +28,13 @@ const LoginPage = () => {
       if (response.status === 200) {
         const {token, role} = response.data;
         // localStorage.setItem("authToken", token);
-
         setAuth({
           username: values.username,
           role: role,
           token: token,
         });
-
         message.success("Đăng nhập thành công!");
-
         // navigateBasedOnRole(role);
-
         // Phân quyền dựa trên role
         if (role === "Admin") {
           navigate("/admin"); // Admin

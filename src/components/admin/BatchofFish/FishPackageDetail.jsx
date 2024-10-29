@@ -5,14 +5,11 @@ import { Cloudinary } from "@cloudinary/url-gen/index";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
 import { auto } from "@cloudinary/url-gen/actions/resize";
-import { getFishPackages } from "../../../services/fishPackageStore";
+import { getFishPackages } from "../../../services/fishPackageService.js";
 
-// const BASE_CLOUDINARY_URL = "https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/";
 
 const FishPackageDetail = ({ fishPackage }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
-  // const imageUrl = `${BASE_CLOUDINARY_URL}${fishPackage.imageUrl}`;
-  // const imageUrl = `https://res.cloudinary.com/dmefon9dj/image/upload/v1729605123/${fishPackage.imageUrl}`;
 
   const statusText = fishPackage.status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
 
