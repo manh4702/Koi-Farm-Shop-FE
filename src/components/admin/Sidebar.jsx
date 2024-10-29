@@ -63,7 +63,9 @@ function Sidebar({ setSelectedKey }) {
         <Menu.Item
           key="3"
           icon={<GiCirclingFish />}
-          onClick={() => setSelectedKey("fish-info")}
+          // onClick={() => setSelectedKey("fish-info")}
+          onClick={() => setSelectedKey("cate-info")}
+          
         >
           Thông tin cá
         </Menu.Item>

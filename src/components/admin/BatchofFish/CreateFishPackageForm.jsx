@@ -13,42 +13,70 @@ import {
   Col,
 } from "antd";
 import { PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { createFishPackage } from "../../../services/fishPackageStore";
+import { createFishPackage } from "../../../services/fishPackageService.js";
+import {FiUpload} from "react-icons/fi";
 
 const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
   const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
   const [imageFile, setImageFile] = useState(null);
+  const [hasImage, setHasImage] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // const handleFileChange = (info) => {
+  //   setImageFile(info.fileList); // Update the list of selected files
+  //   setHasImage(FileList.length > 0)
+  // };
+
   const handleFileChange = (info) => {
-    setImageFile(info.fileList); // Update the list of selected files
+    let newFileList = [...info.fileList];
+    newFileList = newFileList.slice(-1);
+    setFileList(newFileList);
   };
 
+  const beforeUpload = (file) => {
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      message.error('Bạn chỉ có thể tải file ảnh lên!');
+      return false;
+    }
+    return false; // Prevent automatic upload
+  };
+  
   const onFinish = async (values) => {
     if (submitting) return;
     setSubmitting(true);
 
     try {
-      const newData = {
-        name: values.name,
-        age: values.age,
-        gender: values.gender,
-        size: values.size,
-        description: values.description,
-        totalPrice: values.price,
-        dailyFood: values.dailyFood,
-        // imageFiles: imageFile && imageFile.length > 0 ? imageFile : null,
-        imageFile: [],
-        numberOfFish: values.numberOfFish,
-        // imageUrl: values.imageUrl || null,
-      };
+      const formData = new FormData();
 
-      await createFishPackage(newData);
-      message.success("Lô cá đã được tạo thành công!");
-      onSuccess(); // Notify parent component to refresh the list
-      form.resetFields();
-      setImageFile(null);
-      onCancel();
+      // Append form values
+      formData.append("Name", values.name);
+      formData.append("Age", values.age?.toString());
+      formData.append("Gender", values.gender);
+      formData.append("Size", values.size?.toString());
+      formData.append("Description", values.description);
+      formData.append("TotalPrice", values.totalPrice?.toString());
+      formData.append("DailyFood", values.dailyFood?.toString());
+      formData.append("NumberOfFish", values.numberOfFish?.toString());
+
+      // Append the image file if it exists
+      if (fileList[0]?.originFileObj) {
+        formData.append("ImageUrl", fileList[0].originFileObj);
+      }
+
+      // Call createFishPackage with the prepared FormData
+      const response = await createFishPackage(formData);
+
+      if (response.success) {
+        message.success("Lô cá đã được tạo thành công!");
+        form.resetFields();
+        setFileList([]);
+        onSuccess();
+        onCancel();
+      } else {
+        throw new Error(response.message || "Có lỗi xảy ra");
+      }
     } catch (error) {
       message.error("Có lỗi xảy ra khi tạo lô cá.");
     } finally {
@@ -59,7 +87,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
   return (
     <Modal
       title="Thêm mới Lô Cá"
-      visible={visible}
+      open={visible}
       footer={null}
       onCancel={onCancel}
     >
@@ -77,7 +105,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
           <Col span={12}>
             <Form.Item
               label="Giá"
-              name="price"
+              name="totalPrice"
               rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
             >
               <InputNumber
@@ -104,15 +132,23 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
             <Form.Item
               label="Ảnh"
               name="imageFile"
+              valuePropName="fileList"
+              getValueFromEvent={({ fileList }) => fileList}
               rules={[{ required: true, message: "Vui lòng chọn ảnh!" }]}
             >
               <Upload
-                fileList={imageFile}
-                beforeUpload={() => false}
+                listType="picture-card"
+                beforeUpload={beforeUpload}
+                maxCount={1}
                 onChange={handleFileChange}
                 accept="image/*"
               >
-                <Button icon={<PlusOutlined />}>Chọn ảnh</Button>
+                {fileList.length === 0 && (
+                  <div className="flex flex-col items-center">
+                    <FiUpload style={{ color: 'royalblue', fontSize: 20 }} />
+                    <div style={{ marginTop: 8 }}>Tải ảnh lên</div>
+                  </div>
+                )}
               </Upload>
             </Form.Item>
           </Col>
@@ -120,7 +156,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
             <Form.Item
               label="Tuổi"
               name="age"
-              rules={[{ required: true, message: "Vui lòng nhập tuổi!" }]}
+              rules={[{required: true, message: "Vui lòng nhập tuổi!" }]}
             >
               <InputNumber
                 min={0}

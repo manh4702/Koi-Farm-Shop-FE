@@ -34,6 +34,7 @@ import ProfilePage from "./pages/profilePage";
 import KoiFishPage from "./components/user/pages/KoiFishPage";
 import FishLotPage from "./components/user/pages/FishLotPage";
 import FishPackagePage from "./components/user/pages/FishPackagePage.jsx";
+import FishInfo from "./components/admin/InformationFish/FishInfo.jsx";
 
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);

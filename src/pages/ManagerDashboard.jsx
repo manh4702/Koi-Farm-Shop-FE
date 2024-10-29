@@ -5,7 +5,7 @@ import HeaderBar from "../components/manager/HeaderBar";
 import DashboardContent from "../components/manager/DashboardContent";
 import Sider from "antd/es/layout/Sider";
 import { Route, Routes } from "react-router-dom";
-import FishInfo from "../components/admin/InformationFish/FishInfo";
+import FishInfo1 from "../components/admin/InformationFish/FishInfo1.jsx";
 import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       case "user-management":
         return <CustomerManagement />;
       case "fish-info":
-        return <FishInfo />;
+        return <FishInfo1 />;
       case "order-list":
         return <OrderList />;
       case "order-tracking":

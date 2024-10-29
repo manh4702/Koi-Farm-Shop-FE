@@ -34,7 +34,7 @@ import {
   deleteFishPackage,
   getFishPackages,
   updateFishPackage,
-} from "../../../services/fishPackageStore";
+} from "../../../services/fishPackageService.js";
 import TextArea from "antd/es/input/TextArea";
 import FishPackageDetail from "./FishPackageDetail";
 
