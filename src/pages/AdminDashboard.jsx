@@ -5,7 +5,7 @@ import HeaderBar from "../components/admin/HeaderBar";
 import DashboardContent from "../components/admin/DashboardContent";
 import Sider from "antd/es/layout/Sider";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import FishInfo from "../components/admin/InformationFish/FishInfo";
+import FishInfo1 from "../components/admin/InformationFish/FishInfo1.jsx";
 import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
@@ -17,25 +17,13 @@ import ConsignmentManagement from "../components/admin/FishConsignment/Consignme
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import useAuthStore from "../store/store";
 import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
+import FishInfo from "../components/admin/InformationFish/FishInfo.jsx";
+import CategoryInfo from "../components/admin/InformationFish/CategoryInfo.jsx";
 
 const { Content, Footer } = Layout;
 
 const AdminDashboard = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
-  // const token = useAuthStore((state) => state.token);
-  // const expiration = useAuthStore((state) => state.expiration);
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const checkTokenExpiration = () => {
-  //     if (!token || Date.now() > expiration) {
-  //       message.error("Session expired, please login again.");
-  //       navigate("/login"); // Redirect to login page
-  //     }
-  //   };
-
-  //   checkTokenExpiration();
-  // }, [token, expiration, navigate]);
 
   const renderContent = () => {
     switch (selectedKey) {
@@ -43,6 +31,8 @@ const AdminDashboard = () => {
         return <DashboardContent />;
       case "user-management":
         return <CustomerManagement />;
+      case "cate-info":
+        return <CategoryInfo />;
       case "fish-info":
         return <FishInfo />;
       case "order-list":

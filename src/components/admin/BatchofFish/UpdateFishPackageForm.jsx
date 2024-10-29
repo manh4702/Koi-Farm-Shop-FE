@@ -1,81 +1,113 @@
 // UpdateFishPackageForm.jsx
-import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Select, Upload, Button, message, Modal, Row, Col } from "antd";
-import { PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { updateFishPackage } from "../../../services/fishPackageStore";
+import React, {useEffect, useState} from "react";
+import {Form, Input, InputNumber, Select, Upload, Button, message, Modal, Row, Col} from "antd";
+import {PlusOutlined, SaveOutlined} from "@ant-design/icons";
+import {useFishPackageStore} from "../../../store/fishPackageStore.js";
+import {FiUpload} from "react-icons/fi";
 
-const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) => {
+const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
   const [form] = Form.useForm();
-  console.log(fishPackage, form);
-  const [imageFile, setImageFile] = useState(null);
+  const {updateFishPackage} = useFishPackageStore();
+  const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
     if (fishPackage) {
       form.setFieldsValue(fishPackage);
-      setImageFile(null); // Reset the image file state
+      // Nếu có ảnh cũ, hiển thị nó
+      if (fishPackage.imageUrl) {
+        setFileList([
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: fishPackage.imageUrl,
+          },
+        ]);
+      } else {
+        setFileList([]);
+      }
     }
   }, [fishPackage, form]);
 
-  const handleFileChange = (info) => {
-    setImageFile(info.fileList); // Update the list of selected files
+  const handleFileChange = ({file, fileList}) => {
+    setFileList(fileList);
+  };
+
+  const onRemove = () => {
+    setFileList([]); // Xóa file khỏi fileList
+    return true; // Cho phép xóa
+  };
+
+  const beforeUpload = (file) => {
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      message.error('Bạn chỉ có thể tải file ảnh lên!');
+    }
+    return false;
   };
 
   const onFinish = async (values) => {
     try {
-      // Nếu không có ảnh mới được chọn, sử dụng giá trị từ imageUrl
-      // const imageUrlToUpdate = imageFile && imageFile.length > 0 ? null : values.imageUrl;
+      const formData = new FormData();
 
-      const newData = {
-        name: values.name,
-        age: values.age,
-        gender: values.gender,
-        size: values.size,
-        description: values.description,
-        totalPrice: values.totalPrice,
-        dailyFood: values.dailyFood,
-        numberOfFish: values.numberOfFish,
-        imageFiles: imageFile && imageFile.length > 0 ? imageFile : null, // Sử dụng file mới nếu có
-        status: fishPackage.status,
-      };
+      // Append basic fields
+      formData.append("Name", values.name);
+      formData.append("Age", values.age);
+      formData.append("Gender", values.gender);
+      formData.append("Size", values.size);
+      formData.append("Description", values.description);
+      formData.append("TotalPrice", values.totalPrice);
+      formData.append("DailyFood", values.dailyFood);
+      formData.append("NumberOfFish", values.numberOfFish);
 
-      // Gọi API updateFishPackage
-      await updateFishPackage(fishPackage.fishPackageId, newData);
+      // Handle image
+      if (fileList.length > 0) {
+        const file = fileList[0];
+        if (file.originFileObj) {
+          formData.append("ImageUrl", file.originFileObj);
+        } else if (file.url) {
+          formData.append("ImageUrl", file.url);
+        }
+      } else {
+        formData.append("ImageUrl", ""); // Gửi chuỗi rỗng khi không có ảnh
+      }
+
+      await updateFishPackage(fishPackage.fishPackageId, formData);
       message.success("Lô cá đã được cập nhật thành công!");
-      onSuccess(); // Notify parent component to refresh the list
-      onCancel(); // Đóng popup sau khi cập nhật thành công
+      onSuccess();
+      onCancel();
     } catch (error) {
       message.error("Có lỗi xảy ra khi cập nhật lô cá.");
     }
   };
 
-
   return (
     <Modal
       title="Sửa Thông tin Lô Cá"
-      visible={visible}
+      open={visible}
       footer={null}
       onCancel={onCancel}
     >
       <Form form={form} layout="vertical" onFinish={onFinish}>
-      <Row gutter={16}>
+        <Row gutter={16}>
           <Col span={12}>
             <Form.Item
               label="Tên Lô Cá"
               name="name"
-              rules={[{ required: true, message: "Vui lòng nhập tên lô cá!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập tên lô cá!"}]}
             >
-              <Input />
+              <Input/>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Giá"
               name="totalPrice"
-              rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập giá!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyDown={(e) => {
                   if (
                     !/[0-9]/.test(e.key) &&
@@ -96,27 +128,42 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
           <Col span={12}>
             <Form.Item
               label="Ảnh"
-              name="imageFile"
+              name="imageUrl"
+
             >
-              <Upload
-                fileList={imageFile}
-                beforeUpload={() => false}
-                onChange={handleFileChange}
-                accept="image/*"
-              >
-                <Button icon={<PlusOutlined />}>Chọn ảnh</Button>
-              </Upload>
+              <div style={{border: "1px solid #d9d9d9", borderRadius: 4, padding: 8, width: "100%", textAlign: "center"}}>
+                <Upload
+                  fileList={fileList}
+                  beforeUpload={beforeUpload}
+                  onChange={handleFileChange}
+                  onRemove={onRemove}
+                  accept="image/*"
+                  listType="picture"
+                  maxCount={1}
+                  showUploadList={{
+                    showPreviewIcon: true,
+                    showRemoveIcon: true,
+                  }}
+                >
+                  {fileList.length < 1 && (
+                    <div className="flex flex-col items-center">
+                      <FiUpload style={{color: 'royalblue', fontSize: 20}}/>
+                      <div style={{marginTop: 8}}>Tải ảnh lên</div>
+                    </div>
+                  )}
+                </Upload>
+              </div>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Tuổi"
               name="age"
-              rules={[{ required: true, message: "Vui lòng nhập tuổi!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập tuổi!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyDown={(e) => {
                   if (
                     !/[0-9]/.test(e.key) &&
@@ -138,7 +185,7 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
             <Form.Item
               label="Giới tính"
               name="gender"
-              rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
+              // rules={[{required: true, message: "Vui lòng chọn giới tính!"}]}
             >
               <Select>
                 <Select.Option value="Đực">Đực</Select.Option>
@@ -150,11 +197,11 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
             <Form.Item
               label="Kích thước"
               name="size"
-              rules={[{ required: true, message: "Vui lòng nhập kích thước!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập kích thước!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyDown={(e) => {
                   if (
                     !/[0-9]/.test(e.key) &&
@@ -176,11 +223,11 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
             <Form.Item
               label="Thức ăn/ngày"
               name="dailyFood"
-              rules={[{ required: true, message: "Vui lòng nhập lượng thức ăn/ngày!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập lượng thức ăn/ngày!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyDown={(e) => {
                   if (
                     !/[0-9]/.test(e.key) &&
@@ -199,11 +246,11 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
             <Form.Item
               label="Số lượng"
               name="numberOfFish"
-              rules={[{ required: true, message: "Vui lòng nhập số lượng!" }]}
+              // rules={[{required: true, message: "Vui lòng nhập số lượng!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyDown={(e) => {
                   if (
                     !/[0-9]/.test(e.key) &&
@@ -223,14 +270,13 @@ const UpdateFishPackageForm = ({ visible, onCancel, fishPackage, onSuccess }) =>
         <Form.Item
           label="Mô tả"
           name="description"
-          rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
+          // rules={[{required: true, message: "Vui lòng nhập mô tả!"}]}
         >
-          <Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
+          <Input.TextArea autoSize={{minRows: 3, maxRows: 5}}/>
         </Form.Item>
 
-        
-        <Form.Item style={{ textAlign: "right" }}>
-          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+        <Form.Item style={{textAlign: "right"}}>
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined/>}>
             Lưu
           </Button>
         </Form.Item>
