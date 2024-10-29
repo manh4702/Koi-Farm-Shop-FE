@@ -10,7 +10,17 @@ const FishCard = ({ fish }) => {
   const addItem = useCartStore((state) => state.addItem);
 
   const handleViewDetails = () => {
-    navigate(`/products/${fish.fishPackageId}`);
+    if (fish.fishPackageId || fish.isLot) {
+      navigate(`/products/fish-packages/${fish.fishPackageId || fish.id}`);
+    } else {
+      navigate(`/products/fish/${fish.id || fish.fishId}`);
+    }
+  };
+
+  const handleBuyNow = (e) => {
+    e.stopPropagation();
+    addItem(fish); // Thêm sản phẩm vào giỏ hàng
+    navigate("/cart"); // Chuyển đến trang giỏ hàng
   };
 
   const handleAddToCart = (e) => {
@@ -87,18 +97,6 @@ const FishCard = ({ fish }) => {
       >
         Kích thước: {fish.size} cm
       </p>
-      {/*<p*/}
-      {/*  style={{*/}
-      {/*    marginBottom: "0.5rem",*/}
-      {/*    display: "flex",*/}
-      {/*    alignItems: "center",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Đánh giá:{" "}*/}
-      {/*  {Array.from({ length: fish.rating }, (_, index) => (*/}
-      {/*    <span key={index}>⭐️</span>*/}
-      {/*  ))}*/}
-      {/*</p>*/}
 
       {fish.isLot ? (
         <div style={{height: "200px"}}>
@@ -143,7 +141,7 @@ const FishCard = ({ fish }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          // onClick={handleAddToCart}
+          onClick={handleBuyNow}
         >
           Mua ngay
         </Button>

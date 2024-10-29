@@ -29,8 +29,12 @@ import PrivateRoute from "./routes/PrivateRoute";
 import useAuthStore from "./store/store";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import UserProfilePage from "./components/user/Account/UserProfilePage";
+
+import ProfilePage from "./pages/profilePage";
 import KoiFishPage from "./components/user/pages/KoiFishPage";
+import FishLotPage from "./components/user/pages/FishLotPage";
 import FishPackagePage from "./components/user/pages/FishPackagePage.jsx";
+import FishInfo from "./components/admin/InformationFish/FishInfo.jsx";
 import FishDetailPage from "./components/user/pages/FishDetailPage.jsx";
 
 const App = () => {
