@@ -1,5 +1,29 @@
-import { size } from "lodash";
+import {size} from "lodash";
 import axios from "../api/axios";
+
+const buildFormData = (data) => {
+  const formData = new FormData();
+
+  formData.append("Name", data.name || "");
+  formData.append("Age", data.age?.toString() || "");
+  formData.append("Gender", data.gender || "");
+  formData.append("Size", data.size?.toString() || "");
+  formData.append("Description", data.description || "");
+  formData.append("TotalPrice", data.totalPrice?.toString() || "");
+  formData.append("DailyFood", data.dailyFood?.toString() || "");
+  formData.append("NumberOfFish", data.numberOfFish?.toString() || "");
+  formData.append("Status", data.status || "");
+
+  if (data.imageFiles && data.imageFiles.length > 0) {
+    data.imageFiles.forEach((file) => {
+      formData.append("ImageFile", file);
+    });
+  } else {
+    formData.append("ImageFile", ""); // Append empty field if no file is provided
+  }
+
+  return formData;
+};
 
 // Function to fetch fish packages with pagination
 export const getFishPackages = async () => {
@@ -33,7 +57,7 @@ export const getFishPackages = async () => {
         status: item.status,
       }));
       return formattedData;
-    } 
+    }
     // else {
     //   throw new Error(response.data.message || 'Failed to fetch fish packages');
     // }
@@ -45,24 +69,25 @@ export const getFishPackages = async () => {
 
 export const updateFishPackage = async (fishPackageId, updatedData) => {
   try {
-    const formData = new FormData();
-    
-    formData.append("Name", updatedData.name || "");
-    formData.append("Age", updatedData.age?.toString() || "");
-    formData.append("Gender", updatedData.gender || "");
-    formData.append("Size", updatedData.size?.toString() || "");
-    formData.append("Description", updatedData.description || "");
-    formData.append("TotalPrice", updatedData.totalPrice?.toString() || "");
-    formData.append("DailyFood", updatedData.dailyFood?.toString() || "");
-    formData.append("NumberOfFish", updatedData.numberOfFish?.toString() || "");
-    formData.append("Status", updatedData.status || "");
+    // const formData = new FormData();
+    //
+    // formData.append("Name", updatedData.name || "");
+    // formData.append("Age", updatedData.age?.toString() || "");
+    // formData.append("Gender", updatedData.gender || "");
+    // formData.append("Size", updatedData.size?.toString() || "");
+    // formData.append("Description", updatedData.description || "");
+    // formData.append("TotalPrice", updatedData.totalPrice?.toString() || "");
+    // formData.append("DailyFood", updatedData.dailyFood?.toString() || "");
+    // formData.append("NumberOfFish", updatedData.numberOfFish?.toString() || "");
+    // formData.append("Status", updatedData.status || "");
 
-    if (updatedData.imageFiles && updatedData.imageFiles.length > 0) {
-      formData.append("ImageFile", updatedData.imageFiles[0].originFileObj);
-    }
+    // if (updatedData.imageFiles && updatedData.imageFiles.length > 0) {
+    //   formData.append("ImageFile", updatedData.imageFiles[0].originFileObj);
+    // }
+    const formData = buildFormData(updatedData);
 
     const response = await axios.put(`/api/FishPackage/${fishPackageId}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {"Content-Type": "multipart/form-data"},
     });
 
     return response.data;
@@ -72,35 +97,12 @@ export const updateFishPackage = async (fishPackageId, updatedData) => {
   }
 };
 
-
-
-
 export const createFishPackage = async (newData) => {
   try {
-    const formData = new FormData();
-    
-    // Append từng field vào formData (chấp nhận giá trị rỗng)
-    formData.append("Name", newData.name || "");
-    formData.append("Age", newData.age !== undefined ? newData.age : "");
-    formData.append("Gender", newData.gender || "");
-    formData.append("Size", newData.size !== undefined ? newData.size : "");
-    formData.append("Description", newData.description || "");
-    formData.append("TotalPrice", newData.totalPrice !== undefined ? newData.totalPrice : "");
-    formData.append("DailyFood", newData.dailyFood !== undefined ? newData.dailyFood : "");
-    formData.append("NumberOfFish", newData.numberOfFish !== undefined ? newData.numberOfFish : "");
-    formData.append("ImageURL", newData.imageUrl || "");
-
-    // Thêm file ảnh vào formData nếu có
-    if (newData.imageFiles && newData.imageFiles.length > 0) {
-      newData.imageFiles.forEach((file) => {
-        formData.append("ImageFile", file.originFileObj);
-      });
-    } else {
-      formData.append("ImageFile", ""); // Thêm trường ImageFile rỗng nếu không có file
-    }
+    const formData = buildFormData(newData);
 
     const response = await axios.post('/api/FishPackage', formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {"Content-Type": "multipart/form-data"},
     });
 
     return response.data;

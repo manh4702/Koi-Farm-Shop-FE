@@ -37,9 +37,10 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
         description: values.description,
         totalPrice: values.price,
         dailyFood: values.dailyFood,
+        // imageFiles: imageFile && imageFile.length > 0 ? imageFile : null,
+        imageFile: [],
         numberOfFish: values.numberOfFish,
-        imageFiles: imageFile && imageFile.length > 0 ? imageFile : null,
-        imageUrl: values.imageUrl || null,
+        // imageUrl: values.imageUrl || null,
       };
 
       await createFishPackage(newData);
@@ -148,8 +149,8 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
             >
               <Select>
-                <Select.Option value="Male">Đực</Select.Option>
-                <Select.Option value="Female">Cái</Select.Option>
+                <Select.Option value="Đực">Đực</Select.Option>
+                <Select.Option value="Cái">Cái</Select.Option>
               </Select>
             </Form.Item>
           </Col>

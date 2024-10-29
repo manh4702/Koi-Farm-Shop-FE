@@ -33,6 +33,7 @@ import UserProfilePage from "./components/user/Account/UserProfilePage";
 import ProfilePage from "./pages/profilePage";
 import KoiFishPage from "./components/user/pages/KoiFishPage";
 import FishLotPage from "./components/user/pages/FishLotPage";
+import FishPackagePage from "./components/user/pages/FishPackagePage.jsx";
 
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -99,6 +100,7 @@ const App = () => {
         <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/products/fish" element={<KoiFishPage />} />
         <Route path="/products/fish-lot" element={<FishLotPage />} />
+        <Route path="/products/fish-packages" element={<FishPackagePage />} />
         {/* Trang giỏ hàng và ký gửi cá */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/fish-consignment" element={<FishConsignment />} />

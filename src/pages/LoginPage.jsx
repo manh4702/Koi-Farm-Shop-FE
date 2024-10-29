@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { message } from "antd";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {message} from "antd";
+import {Navigate, useNavigate} from "react-router-dom";
 import axios from "../api/axios";
 import useAuthStore from "../store/store"; // Zustand store
 import LoginForm from "../components/Login/LoginForm"; // Gọi LoginForm từ components
@@ -26,7 +26,7 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        const { token, role } = response.data;
+        const {token, role} = response.data;
         // localStorage.setItem("authToken", token);
 
         setAuth({
@@ -51,12 +51,27 @@ const LoginPage = () => {
         } else {
           navigate("/"); // Khách hàng
         }
-      } else {
-        message.error("Đăng nhập thất bại!");
       }
+      // else {
+      //   message.error(response.data.message()||"Đăng nhập thất bại!");
+      // }
     } catch (error) {
       console.error(error);
-      message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      if (error.response && error.response.data && error.response.data.message) {
+        switch (error.response.data.message) {
+          case "Email Not Found":
+            message.error("Email không tìm thấy");
+            break;
+          case "Invalid password.":
+            message.error("Sai mật khẩu, vui lòng nhập lại");
+            break;
+          default:
+            message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+            break;
+        }
+      } else {
+        message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      }
     } finally {
       setLoading(false);
     }
@@ -68,13 +83,13 @@ const LoginPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header/>
       <LoginForm
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         loading={loading}
       />
-      <Footer />
+      <Footer/>
     </div>
   );
 };
