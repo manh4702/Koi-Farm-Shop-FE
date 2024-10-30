@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import axios from "../api/axios.jsx";
+import {Link} from "react-router-dom";
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
 import ZaloIcon from "../components/user/Shared/ZaloIcon";
 import FBIconts from "../components/user/Shared/FacebookIcon";
 import YTIconts from "../components/user/Shared/YoutubeIcon";
-import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import {GrCaretPrevious, GrCaretNext} from "react-icons/gr";
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import './HomePage.css';
 
 const latestNews = [
@@ -33,12 +33,12 @@ const HomePage = () => {
       setLoading(true);
       try {
         // Gọi API cho cá lẻ
-        const fishResponse = await axios.get("http://localhost:5260/api/Fish");
+        const fishResponse = await axios.get("/api/Fish");
         setFeaturedFishes(fishResponse.data);
 
         // Gọi API cho lô cá
-        const packageResponse = await axios.get("http://localhost:5260/api/FishPackage?page=1&pageSize=10");
-        setFishPackages(packageResponse.data);
+        const packageResponse = await axios.get("/api/FishPackage?page=1&pageSize=10");
+        setFishPackages(packageResponse.data.data.listData || []);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
       } finally {
@@ -67,14 +67,14 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header />
+      <Header/>
       <main className="container mx-auto my-4">
         <section className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Tin tức mới nhất</h2>
           <div className="grid grid-cols-3 gap-4 mb-4">
             {latestNews.map((news) => (
               <div key={news.id} className="border p-4">
-                <img src={news.image} alt={news.title} className="mb-4 w-full h-80" />
+                <img src={news.image} alt={news.title} className="mb-4 w-full h-80"/>
                 <h3 className="text-xl font-semibold">{news.title}</h3>
                 <p className="text-gray-500 text-sm">{news.date}</p>
                 <p className="text-gray-700">{news.description}</p>
@@ -94,21 +94,39 @@ const HomePage = () => {
 
         <section className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            {fishPackages.map((fishPackage) => (
-              <div key={fishPackage.id} className="border p-4">
-                <img src={fishPackage.image} alt={fishPackage.name} className="mb-4 w-full h-80" />
-                <h3 className="text-xl font-semibold">{fishPackage.name}</h3>
-                <p className="text-red-500 font-bold">{fishPackage.price}</p>
-                <p className="text-gray-700">{fishPackage.description}</p>
-                <Link
-                  to={`/products/${fishPackage.id}`}
-                  className="text-blue-500 hover:underline mt-2 inline-block"
-                >
-                  Xem chi tiết
-                </Link>
-              </div>
-            ))}
+          <div className="flex items-center">
+            <button
+              onClick={handlePrevPage}
+              disabled={currentPage === 0}
+              className="text-blue-500 hover:underline mr-4"
+            >
+              <GrCaretPrevious className="text-2xl"/>
+            </button>
+            <div className="flex overflow-hidden">
+              {/*<div className="grid grid-cols-3 gap-4 mb-4">*/}
+              {fishPackages.map((fishPackage) => (
+                <div key={fishPackage.id} className="border p-4 mx-4 rounded-lg shadow-md" style={{width: "260px"}}>
+                  <img src={fishPackage.imageUrl} alt={fishPackage.name}
+                       className="mb-4 w-full h-80 rounded-lg"/>
+                  <h3 className="text-xl font-semibold">{fishPackage.name}</h3>
+                  <p className="text-red-500 font-bold">{fishPackage.price}</p>
+                  <p className="text-gray-700">{fishPackage.description}</p>
+                  <Link
+                    to={`/products/${fishPackage.id}`}
+                    className="text-blue-500 hover:underline mt-2 inline-block"
+                  >
+                    Xem chi tiết
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handleNextPage}
+              disabled={(currentPage + 1) * itemsPerPage >= fishPackages.length}
+              className="text-blue-500 hover:underline ml-4"
+            >
+              <GrCaretNext className="text-2xl"/>
+            </button>
           </div>
         </section>
 
@@ -121,7 +139,7 @@ const HomePage = () => {
                   <CSSTransition key={fish.id} timeout={300} classNames="fade">
                     <div className="fish-card mr-4">
                       <img
-                        src={fish.image}
+                        src={fish.imageUrl}
                         alt={fish.name}
                         className="mb-4 w-full h-auto"
                       />
@@ -145,13 +163,16 @@ const HomePage = () => {
               <span className="text-blue-500">Đang tải...</span>
             ) : (
               <>
-                <button onClick={handlePrevPage} disabled={currentPage === 0} className="flex items-center text-blue-500 hover:underline">
-                  <GrCaretPrevious className="mr-2" />
+                <button onClick={handlePrevPage} disabled={currentPage === 0}
+                        className="flex items-center text-blue-500 hover:underline">
+                  <GrCaretPrevious className="mr-2"/>
                   Trang trước
                 </button>
-                <button onClick={handleNextPage} disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length} className="flex items-center text-blue-500 hover:underline">
+                <button onClick={handleNextPage}
+                        disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}
+                        className="flex items-center text-blue-500 hover:underline">
                   Trang sau
-                  <GrCaretNext className="ml-2" />
+                  <GrCaretNext className="ml-2"/>
                 </button>
               </>
             )}
@@ -159,10 +180,10 @@ const HomePage = () => {
         </section>
       </main>
 
-      <ZaloIcon />
-      <FBIconts />
-      <YTIconts />
-      <Footer />
+      <ZaloIcon/>
+      <FBIconts/>
+      <YTIconts/>
+      <Footer/>
     </div>
   );
 };
