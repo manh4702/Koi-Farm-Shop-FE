@@ -10,14 +10,12 @@ export const fetchFishes = async () => {
     throw error;
   }
 };
-export const getFishById = async (id, fishId) => {
+export const getFishById = async (fishId) => {
   try {
-    const response = await axios.get(`/api/Fish/${id}`, {
-      params: { fishId }
-    });
+    const response = await axios.get(`/api/Fish/${fishId}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching fish by id (${id}):`, error);
+    console.error(`Error fetching fish by id (${fishId}):`, error);
     throw error;
   }
 };

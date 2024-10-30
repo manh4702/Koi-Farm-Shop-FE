@@ -9,6 +9,7 @@ import YTIconts from "../components/user/Shared/YoutubeIcon";
 import {GrCaretPrevious, GrCaretNext} from "react-icons/gr";
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import './HomePage.css';
+import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
 
 const latestNews = [
   {
@@ -39,6 +40,7 @@ const HomePage = () => {
   const [fishPackages, setFishPackages] = useState([]); // State cho lô cá từ API
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4;
 
   useEffect(() => {
@@ -51,7 +53,9 @@ const HomePage = () => {
 
         // Gọi API cho lô cá
         const packageResponse = await axios.get("/api/FishPackage?page=1&pageSize=10");
-        setFishPackages(packageResponse.data.data.listData || []);
+        const sortedPackages = packageResponse.data.data.listData || [];
+        sortedPackages.sort((a, b) => b.fishPackageId - a.fishPackageId);
+        setFishPackages(sortedPackages)
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
       } finally {
@@ -77,6 +81,21 @@ const HomePage = () => {
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
+  const handlePrevIndex = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + itemsPerPage) % fishPackages.length);
+  };
+
+  const handleNextIndex = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - itemsPerPage + fishPackages.length) % fishPackages.length);
+  };
+
+  const displayedPackages = fishPackages.slice(currentIndex, currentIndex + itemsPerPage);
+
+  const wrappedPackages = [
+    ...fishPackages.slice(currentIndex),
+    ...fishPackages.slice(0, Math.max(0, (currentIndex + itemsPerPage) - fishPackages.length))
+  ];
 
   return (
     <div>
@@ -106,40 +125,44 @@ const HomePage = () => {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
-          <div className="flex items-center">
-            <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 0}
-              className="text-blue-500 hover:underline mr-4"
-            >
-              <GrCaretPrevious className="text-2xl"/>
-            </button>
-            <div className="flex overflow-hidden">
-              {/*<div className="grid grid-cols-3 gap-4 mb-4">*/}
-              {fishPackages.map((fishPackage) => (
-                <div key={fishPackage.id} className="border p-4 mx-4 rounded-lg shadow-md" style={{width: "260px"}}>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
+            <div>
+              <button
+                onClick={handlePrevIndex}
+                disabled={currentIndex === 0}
+                className="text-blue-500 hover:underline mr-0"
+              >
+                <LeftCircleOutlined className="text-2xl text-red-500"/>
+              </button>
+              <button
+                onClick={handleNextIndex}
+                disabled={(currentIndex + 1) * itemsPerPage >= fishPackages.length}
+                className="text-blue-500 hover:underline ml-4"
+              >
+                <RightCircleOutlined className="text-2xl text-red-500"/>
+              </button>
+            </div>
+          </div>
+          <div className="flex overflow-x-auto">
+              {wrappedPackages.slice(0, itemsPerPage).map((fishPackage) => (
+                <div key={fishPackage.fishPackageId} className="border p-4 mx-4 rounded-lg shadow-md bg-gray-300"
+                     style={{width: "275px", height: '515px'}}>
                   <img src={fishPackage.imageUrl} alt={fishPackage.name}
                        className="mb-4 w-full h-80 rounded-lg"/>
-                  <h3 className="text-xl font-semibold">{fishPackage.name}</h3>
-                  <p className="text-red-500 font-bold">{fishPackage.price}</p>
-                  <p className="text-gray-700">{fishPackage.description}</p>
+                  <div className="flex-grow">
+                    <h3 className="text-xl font-semibold">{fishPackage.name}</h3>
+                    <p className="text-red-500 font-bold">{fishPackage.price}</p>
+                    <p className="text-gray-700 line-clamp-3">{fishPackage.description}</p>
+                  </div>
                   <Link
-                    to={`/products/${fishPackage.id}`}
-                    className="text-blue-500 hover:underline mt-2 inline-block"
+                    to={`/products/fish-packages/${fishPackage.fishPackageId}`}
+                    className="text-red-500 hover:underline mt-2"
                   >
                     Xem chi tiết
                   </Link>
                 </div>
               ))}
-            </div>
-            <button
-              onClick={handleNextPage}
-              disabled={(currentPage + 1) * itemsPerPage >= fishPackages.length}
-              className="text-blue-500 hover:underline ml-4"
-            >
-              <GrCaretNext className="text-2xl"/>
-            </button>
           </div>
         </section>
 
