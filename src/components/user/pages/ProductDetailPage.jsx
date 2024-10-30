@@ -81,7 +81,7 @@ const ProductDetailPage = () => {
             //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             // }}
           >
-            <Transformation quality="auto" fetchFormat="auto" />
+            <Transformation quality="auto" fetchFormat="auto"/>
           </Image>
           {fish.images && fish.images.length > 0 && (
             <div style={{display: "flex", gap: "8px", marginTop: "16px"}}>
@@ -117,67 +117,6 @@ const ProductDetailPage = () => {
           >
             Giá bán: {fish.price}
           </p>
-          <p style={{marginBottom: "24px"}}>{fish.description}</p>
-
-          <div>
-            {/* Hiển thị thông tin chung cho cả cá thể và lô cá */}
-            {!fish.isLot ? (
-              <>
-                <p>
-                  <strong>Giới tính:</strong> {fish.gender}
-                </p>
-                <p>
-                  <strong>Kích thước:</strong> {fish.size}
-                </p>
-                <p>
-                  <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
-                </p>
-              </>
-            ) : (
-              <>
-                {fish.gender && (
-                  <p>
-                    <strong>Giới tính:</strong> {fish.gender}
-                  </p>
-                )}
-                {fish.size && (
-                  <p>
-                    <strong>Kích thước:</strong> {fish.size}
-                  </p>
-                )}
-                <p>
-                  <strong>Số lượng cá trong lô:</strong> {fish.quantity}
-                </p>
-                <h3>Chi tiết các loại cá trong lô:</h3>
-                <ul>
-                  {fish.fishes.map((item, index) => (
-                    <li key={index}>
-                      {item.name} - {item.quantity} con
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            <p>
-              <strong>Tuổi:</strong> {fish.age} năm
-            </p>
-            <p>
-              <strong>Nguồn gốc:</strong> {fish.origin}
-            </p>
-            <p>
-              <strong>Giống:</strong> {fish.breed}
-            </p>
-            <p>
-              <strong>Lượng thức ăn/ngày:</strong> {fish.foodPerDay} gram
-            </p>
-            <p>
-              <strong>Năm sinh:</strong> {fish.year}
-            </p>
-            <p>
-              <strong>Đánh giá:</strong> <Rate allowHalf defaultValue={fish.rating}/>
-            </p>
-          </div>
-
           {/* Nút thêm vào giỏ hàng */}
           <Button
             type="primary"
@@ -220,6 +159,52 @@ const ProductDetailPage = () => {
           >
             <ShoppingCartOutlined/> Thêm vào giỏ hàng
           </Button>
+          <div>
+            {fish.gender && (
+              <p>
+                <strong>Giới tính:</strong> {fish.gender}
+              </p>
+            )}
+            {fish.size && (
+              <p>
+                <strong>Kích thước:</strong> {fish.size}
+              </p>
+            )}
+            {fish.screeningRate && (
+              <p>
+                <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
+              </p>
+            )}
+            {fish.numberOfFish && (
+              <p>
+                <strong>Số lượng cá trong lô:</strong> {fish.numberOfFish}
+              </p>
+            )}
+            <p>
+              <strong>Tuổi:</strong> {fish.age} năm
+            </p>
+            {fish.origin && (
+              <p>
+                <strong>Nguồn gốc:</strong> {fish.origin}
+              </p>
+            )}
+            {fish.breed && (
+              <p>
+                <strong>Giống:</strong> {fish.breed}
+              </p>
+            )}
+            <p>
+              <strong>Lượng thức ăn/ngày:</strong> {fish.dailyFood} gram
+            </p>
+            {fish.rating && (
+              <p>
+                <strong>Đánh giá:</strong> <Rate allowHalf defaultValue={fish.rating}/>
+              </p>
+            )}
+            <p style={{marginTop: "24px"}}>{fish.description}</p>
+
+          </div>
+
 
           {/* Kiểm tra nếu có video giới thiệu */}
           {fish.video && (
