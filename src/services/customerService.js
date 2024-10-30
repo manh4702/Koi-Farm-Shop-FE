@@ -25,7 +25,6 @@ export const updateUserProfile = async (profileData) => {
       throw new Error("Failed to update user profile");
     }
   } catch (error) {
-    console.error("Error updating user profile:", error);
     throw error;
   }
 };
