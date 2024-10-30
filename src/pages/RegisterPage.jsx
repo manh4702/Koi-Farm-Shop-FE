@@ -18,13 +18,13 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const hashedPassword = CryptoJS.SHA256(values.password).toString();
+      // const hashedPassword = CryptoJS.SHA256(values.password).toString();
 
       const response = await axios.post("/User/createAccount", {
         name: values.username,       // Sử dụng "username" để map với "name" trên API
         email: values.email,
-        // password: values.password,
-        password: hashedPassword,
+        password: values.password,
+        // password: hashedPassword,
         phone: values.phone,
         dateOfBirth: `${values.dateOfBirth}T00:00:00.000Z`,  // Định dạng ngày sinh
       });
@@ -36,8 +36,15 @@ const RegisterPage = () => {
         message.error("Đăng ký thất bại, vui lòng thử lại.");
       }
     } catch (error) {
-      console.error("Lỗi trong quá trình đăng ký:", error);
-      message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      if (
+        error.response &&
+        error.response.status === 404 &&
+        error.response.data === "User with this phone already exists."
+      ) {
+        message.error("Người dùng với số điện thoại này đã tồn tại.");
+      } else {
+        message.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      }
     } finally {
       setLoading(false);
     }
