@@ -17,12 +17,13 @@ const KoiFishPage = () => {
   const [hoveredFishId, setHoveredFishId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFishes, setSelectedFishes] = useState([]);
-  const { fishes, loadFishes, loading, error} = useFishStore();
+  const { fishes, loadFishes, loading, error } = useFishStore();
 
+  // Load fish data from API when component mounts
   useEffect(() => {
-    loadFishes(); // Load fishes on mount
+    loadFishes();
   }, [loadFishes]);
-  
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentFishes = fishes.slice(startIndex, endIndex);
