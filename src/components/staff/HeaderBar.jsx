@@ -2,14 +2,20 @@ import React from 'react';
 import { Button, Dropdown, Menu, Avatar } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import {removeAuthToken, removeUserRole} from "../../services/auth.js";
+import useAuthStore from "../../store/store.js";
 
 const HeaderBar = () => {
   const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
   const [username, setUsername] = React.useState('Staff'); // Lấy tên đăng nhập từ state hoặc localStorage
   const [avatarUrl, setAvatarUrl] = React.useState('https://img.icons8.com/?size=48&id=22119&format=png'); // Lấy URL ảnh đại diện từ state hoặc localStorage
 
   const handleLogout = () => {
-    navigate('/login');
+    removeAuthToken();
+    removeUserRole();
+    logout();
+    navigate('/');
   };
 
   const menu = (

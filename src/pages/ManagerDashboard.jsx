@@ -16,6 +16,8 @@ import PromotionManagement from "../components/admin/InfoPromotion/PromotionMana
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
+import CategoryInfo from "../components/admin/InformationFish/CategoryInfo.jsx";
+import FishInfo from "../components/admin/InformationFish/FishInfo.jsx";
 
 const { Content, Footer } = Layout;
 
@@ -28,8 +30,10 @@ const AdminDashboard = () => {
         return <DashboardContent />;
       case "user-management":
         return <CustomerManagement />;
+      case "cate-info":
+        return <CategoryInfo />;
       case "fish-info":
-        return <FishInfo1 />;
+        return <FishInfo />;
       case "order-list":
         return <OrderList />;
       case "order-tracking":
