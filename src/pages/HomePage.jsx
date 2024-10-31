@@ -11,13 +11,29 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import './HomePage.css';
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
 
-const latestNews = [{
-  id: 1,
-  title: "Cách chăm sóc cá Koi vào mùa đông",
-  date: "2024-01-15",
-  description: "Hướng dẫn cách chăm sóc cá Koi trong điều kiện lạnh giá, đảm bảo sức khỏe và màu sắc của cá.",
-  image: "https://media.istockphoto.com/id/1450062580/es/foto/manojo-de-la-variedad-nishikigoi-koi-la-colorida-carpa-de-amur-nadando-activamente-en-el.webp?b=1&s=170667a&w=0&k=20&c=AhBHEuN0ozjvdXYZ4Ffd0xJca-Kb9igVSEWM41teMCc=",
-}, // ... các tin tức khác
+
+const latestNews = [
+  {
+    id: 1,
+    title: "Cách chăm sóc cá Koi vào mùa đông",
+    date: "2024-01-15",
+    description: "Hướng dẫn cách chăm sóc cá Koi trong điều kiện lạnh giá, đảm bảo sức khỏe và màu sắc của cá.",
+    image: "https://media.istockphoto.com/id/1450062580/es/foto/manojo-de-la-variedad-nishikigoi-koi-la-colorida-carpa-de-amur-nadando-activamente-en-el.webp?b=1&s=170667a&w=0&k=20&c=AhBHEuN0ozjvdXYZ4Ffd0xJca-Kb9igVSEWM41teMCc=",
+  },
+  {
+    id: 2,
+    title: "Xu hướng nuôi c Koi 2024",
+    date: "2024-01-10",
+    description: "Cập nhật những xu hướng mới nhất trong việc nuôi và chăm sóc cá Koi trong năm 2024.",
+    image: "https://img.freepik.com/free-photo/beautiful-exotic-colorful-fish_23-2150737617.jpg",
+  },
+  {
+    id: 3,
+    title: "Sự kiện hội chợ cá Koi quốc tế",
+    date: "2024-01-05",
+    description: "Thông tin về hội chợ cá Koi quốc tế diễn ra tại Nhật Bản với sự tham gia của nhiều chuyên gia.",
+    image: "https://images.unsplash.com/photo-1526317405575-b992efc46796?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGtvaXxlbnwwfHwwfHx8MA%3D%3D",
+  },
 ];
 
 const HomePage = () => {
