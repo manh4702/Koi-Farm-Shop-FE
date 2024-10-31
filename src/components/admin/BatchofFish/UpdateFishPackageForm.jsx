@@ -9,7 +9,8 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
   const [form] = Form.useForm();
   const {updateFishPackage} = useFishPackageStore();
   const [fileList, setFileList] = useState([]);
-
+  const [isNameChanged, setIsNameChanged] = useState(false);
+  
   useEffect(() => {
     if (fishPackage) {
       form.setFieldsValue(fishPackage);
@@ -51,7 +52,7 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
       const formData = new FormData();
 
       // Append basic fields
-      formData.append("Name", values.name);
+      formData.append("Name", isNameChanged ? values.name : "");
       formData.append("Age", values.age);
       formData.append("Gender", values.gender);
       formData.append("Size", values.size);
@@ -81,6 +82,14 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
     }
   };
 
+  const handleNameChange = (e) => {
+    if (e.target.value !== fishPackage.name) {
+      setIsNameChanged(true);
+    } else {
+      setIsNameChanged(false);
+    }
+  };
+
   return (
     <Modal
       title="Sửa Thông tin Lô Cá"
@@ -96,7 +105,7 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               name="name"
               // rules={[{required: true, message: "Vui lòng nhập tên lô cá!"}]}
             >
-              <Input/>
+              <Input onChange={handleNameChange} />
             </Form.Item>
           </Col>
           <Col span={12}>

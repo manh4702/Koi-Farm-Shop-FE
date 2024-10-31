@@ -10,19 +10,17 @@ import FishInfo from "./FishInfo.jsx";
 const CategoryPage = () => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [hasImage, setHasImage] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [form] = Form.useForm();
   const [selectedCategory, setSelectedCategory] = useState(null);
-  
-
-  // Destructure store properties and set a default for `categories` to be an empty array.
   const {categories = [], fetchCategories, addCategory, updateCategory, removeCategory, loading} = useCategoryStore();
 
   useEffect(() => {
-    fetchCategories(1, 10); // Fetch first page with 10 items
+    fetchCategories(1, 10);
   }, []);
 
   const showModal = () => {
@@ -54,6 +52,7 @@ const CategoryPage = () => {
 
   const handleOk = async () => {
     try {
+      setConfirmLoading(true);
       const values = await form.validateFields();
       const {name, description, originCountry, imageUrl} = values;
 
@@ -72,7 +71,6 @@ const CategoryPage = () => {
       };
 
       if (isEdit) {
-        // Nếu không có ảnh mới, gửi ảnh cũ
         if (!imageFile && imageUrl && imageUrl[0]) {
           categoryData.imageUrl = imageUrl[0].url;
         }
@@ -98,7 +96,7 @@ const CategoryPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await removeCategory(id); // Calls the `removeCategory` method in Zustand
+      await removeCategory(id); 
       message.success('Xóa danh mục thành công');
     } catch (error) {
       message.error('Xóa danh mục thất bại');
@@ -144,7 +142,7 @@ const CategoryPage = () => {
   const paginationConfig = {
     current: currentPage,
     pageSize: pageSize,
-    total: categories.length * pageSize, // Assuming there's logic elsewhere to know total records
+    total: categories.length * pageSize,
     onChange: (page, pageSize) => {
       setCurrentPage(page);
       setPageSize(pageSize);
@@ -166,9 +164,6 @@ const CategoryPage = () => {
         rowKey="categoryId"
         loading={loading}
         pagination={paginationConfig}
-        // onRow={(record) => ({
-        //   onClick: () => handRowClick(record),
-        // })}
       />
 
       <Modal
@@ -176,6 +171,9 @@ const CategoryPage = () => {
         open={isModalVisible}
         onOk={handleOk}
         onCancel={() => setIsModalVisible(false)}
+        okText={isEdit ? 'Cập nhật' : 'Thêm'}
+        cancelText={"Hủy"}
+        confirmLoading={confirmLoading}
       >
         <Form form={form} layout="vertical">
           <Form.Item name="id" hidden>
