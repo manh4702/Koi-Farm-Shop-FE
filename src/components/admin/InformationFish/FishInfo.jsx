@@ -37,37 +37,6 @@ const FishInfo = (categoryId) => {
   const [editFish, setEditFish] = useState(null);
   const [addFish, setAddFish] = useState(null);
 
-  const mockFishes = [
-    {
-      key: '1',
-      name: 'Cá Koi Nhật Bản',
-      origin: 'Nhật Bản',
-      gender: 'Đực',
-      age: 2,
-      size: 45,
-      breed: 'Kohaku',
-      foodQuantity: 5,
-      screeningRate: '90%',
-      image: 'https://example.com/image1.jpg',
-      description: 'Cá Koi Nhật Bản với màu sắc đẹp và khỏe mạnh',
-      secondaryImages: ['https://example.com/image2.jpg', 'https://example.com/image3.jpg'],
-    },
-    {
-      key: '2',
-      name: 'Cá Koi Việt Nam',
-      origin: 'Việt Nam',
-      gender: 'Cái',
-      age: 1,
-      size: 30,
-      breed: 'Showa',
-      foodQuantity: 4,
-      screeningRate: '80%',
-      image: 'https://example.com/image4.jpg',
-      description: 'Cá Koi Việt Nam khỏe mạnh và đẹp mắt',
-      secondaryImages: ['https://example.com/image5.jpg', 'https://example.com/image6.jpg'],
-    },
-  ];
-
   useEffect(() => {
     if (categoryId) {
       // Sử dụng dữ liệu giả thay vì fetch từ server
