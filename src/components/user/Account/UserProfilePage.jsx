@@ -37,16 +37,39 @@ const UserProfilePage = () => {
     fetchUserProfile();
   }, [form]);
 
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const profileData = await getUserProfile();
+  //     setUserProfile(profileData);
+  //     form.setFieldsValue({
+  //       ...profileData,
+  //       dateOfBirth: profileData.dateOfBirth
+  //         ? moment(profileData.dateOfBirth)
+  //         : null,
+  //     });
+  //   } catch (error) {
+  //     message.error("Có lỗi xảy ra, vui lòng thử lại.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    // Only set form values once userProfile is fetched and non-null
+    if (userProfile) {
+      form.setFieldsValue({
+        ...userProfile,
+        dateOfBirth: userProfile.dateOfBirth
+          ? moment(userProfile.dateOfBirth)
+          : null,
+      });
+    }
+  }, [userProfile, form]); // form instance and userProfile as dependencies
+
   const fetchUserProfile = async () => {
     try {
       const profileData = await getUserProfile();
       setUserProfile(profileData);
-      form.setFieldsValue({
-        ...profileData,
-        dateOfBirth: profileData.dateOfBirth
-          ? moment(profileData.dateOfBirth)
-          : null,
-      });
     } catch (error) {
       message.error("Có lỗi xảy ra, vui lòng thử lại.");
     } finally {
@@ -184,13 +207,15 @@ const UserProfilePage = () => {
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
             backgroundColor: "gray",
           }}
-          headStyle={{
-            backgroundColor: "gray",
-            color: "white",
-            fontWeight: "bold",
-          }}
-          bodyStyle={{
-            backgroundColor: "#ffffff",
+          styles={{
+            header: {
+              backgroundColor: "gray",
+              color: "white",
+              fontWeight: "bold",
+            },
+            body: {
+              backgroundColor: "#ffffff",
+            },
           }}
         >
           <Descriptions column={1}>
@@ -244,13 +269,15 @@ const UserProfilePage = () => {
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
             backgroundColor: "gray",
           }}
-          headStyle={{
-            backgroundColor: "gray",
-            color: "white",
-            fontWeight: "bold",
-          }}
-          bodyStyle={{
-            backgroundColor: "#ffffff",
+          styles={{
+            header: {
+              backgroundColor: "gray",
+              color: "white",
+              fontWeight: "bold",
+            },
+            body: {
+              backgroundColor: "#ffffff",
+            },
           }}
         >
           <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
