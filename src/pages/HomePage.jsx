@@ -136,6 +136,49 @@ const HomePage = () => {
       </section>
 
       <section className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Cá Koi nổi bật</h2>
+        <div className="scroll-container">
+          <TransitionGroup>
+            <div className="flex overflow-x-auto">
+              {displayedFishes.map((fish) => (<CSSTransition key={fish.id} timeout={300} classNames="fade">
+                <div className="fish-card mr-4">
+                  <img
+                    src={fish.imageUrl}
+                    alt={fish.name}
+                    className="mb-4 w-full h-auto"
+                  />
+                  <h3 className="text-xl font-semibold">{fish.name}</h3>
+                  <p className="text-red-500 font-bold">{fish.price}</p>
+                  <p className="text-gray-700">{fish.description}</p>
+                  <Link
+                    to={`/products/${fish.id}`}
+                    className="text-blue-500 hover:underline mt-2 inline-block"
+                  >
+                    Xem chi tiết
+                  </Link>
+                </div>
+              </CSSTransition>))}
+            </div>
+          </TransitionGroup>
+        </div>
+        <div className="flex justify-between mt-4">
+          {loading ? (<span className="text-blue-500">Đang tải...</span>) : (<>
+            <button onClick={handlePrevPage} disabled={currentPage === 0}
+                    className="flex items-center text-blue-500 hover:underline">
+              <GrCaretPrevious className="mr-2"/>
+              Trang trước
+            </button>
+            <button onClick={handleNextPage}
+                    disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}
+                    className="flex items-center text-blue-500 hover:underline">
+              Trang sau
+              <GrCaretNext className="ml-2"/>
+            </button>
+          </>)}
+        </div>
+      </section>
+      
+      <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
           <div>
@@ -187,48 +230,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Cá Koi nổi bật</h2>
-        <div className="scroll-container">
-          <TransitionGroup>
-            <div className="flex overflow-x-auto">
-              {displayedFishes.map((fish) => (<CSSTransition key={fish.id} timeout={300} classNames="fade">
-                <div className="fish-card mr-4">
-                  <img
-                    src={fish.imageUrl}
-                    alt={fish.name}
-                    className="mb-4 w-full h-auto"
-                  />
-                  <h3 className="text-xl font-semibold">{fish.name}</h3>
-                  <p className="text-red-500 font-bold">{fish.price}</p>
-                  <p className="text-gray-700">{fish.description}</p>
-                  <Link
-                    to={`/products/${fish.id}`}
-                    className="text-blue-500 hover:underline mt-2 inline-block"
-                  >
-                    Xem chi tiết
-                  </Link>
-                </div>
-              </CSSTransition>))}
-            </div>
-          </TransitionGroup>
-        </div>
-        <div className="flex justify-between mt-4">
-          {loading ? (<span className="text-blue-500">Đang tải...</span>) : (<>
-            <button onClick={handlePrevPage} disabled={currentPage === 0}
-                    className="flex items-center text-blue-500 hover:underline">
-              <GrCaretPrevious className="mr-2"/>
-              Trang trước
-            </button>
-            <button onClick={handleNextPage}
-                    disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}
-                    className="flex items-center text-blue-500 hover:underline">
-              Trang sau
-              <GrCaretNext className="ml-2"/>
-            </button>
-          </>)}
-        </div>
-      </section>
+     
     </main>
 
     <ZaloIcon/>
