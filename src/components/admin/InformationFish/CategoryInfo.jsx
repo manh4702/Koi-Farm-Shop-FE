@@ -173,7 +173,6 @@ const CategoryPage = () => {
         onCancel={() => setIsModalVisible(false)}
         okText={isEdit ? 'Cập nhật' : 'Thêm'}
         cancelText={"Hủy"}
-        // confirmLoading={confirmLoading}
       >
         <Form form={form} layout="vertical">
           <Form.Item name="id" hidden>
