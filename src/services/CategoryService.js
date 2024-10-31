@@ -45,9 +45,16 @@ export const updateCategory = async (id, categoryData) => {
     formData.append('Description', categoryData.description);
     formData.append('OriginCountry', categoryData.originCountry);
 
-    // Attach the image file if it exists
-    if (categoryData.imageUrl) {
+    // // Attach the image file if it exists
+    // if (categoryData.imageUrl) {
+    //   formData.append('ImageUrl', categoryData.imageUrl, categoryData.imageUrl.name);
+    // }
+    // Check if imageUrl is a File or Blob, otherwise handle it as a URL
+    if (categoryData.imageUrl instanceof File || categoryData.imageUrl instanceof Blob) {
       formData.append('ImageUrl', categoryData.imageUrl, categoryData.imageUrl.name);
+    } else if (typeof categoryData.imageUrl === 'string') {
+      // Append URL as a simple string if it exists and is not a Blob or File
+      formData.append('ImageUrlUrl', categoryData.imageUrl);  // Add a field for URL string (modify API if needed)
     }
 
     const response = await axios.put(`/api/Category/${id}`, formData, {
