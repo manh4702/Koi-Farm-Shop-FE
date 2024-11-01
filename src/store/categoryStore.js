@@ -2,6 +2,11 @@
 import { create } from 'zustand';
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../services/CategoryService.js';
 
+const setCategoriesToSessionStorage = (categories) => {
+  const simplifiedCategories = categories.map(({ categoryId, name }) => ({ categoryId, name }));
+  sessionStorage.setItem('categories', JSON.stringify(simplifiedCategories));
+};
+
 const useCategoryStore = create((set) => ({
   categories: [],
   loading: false,
@@ -12,6 +17,7 @@ const useCategoryStore = create((set) => ({
     try {
       const data = await getCategories(page, pageSize);
       set({ categories: Array.isArray(data) ? data : [], loading: false });
+      setCategoriesToSessionStorage(data);
     } catch (error) {
       set({ error: error.message, loading: false });
     }
