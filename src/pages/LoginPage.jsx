@@ -38,12 +38,12 @@ const LoginPage = () => {
             });
             message.success("Đăng nhập thành công!");
 
-            if (userId) {
-              const cartResponse = await axios.get(`/api/Cart/User/${userId}`);
-              if (cartResponse.data.success) {
-                setCartItems(cartResponse.data.data.cartItems); // Cập nhật giỏ hàng
-              }
-            }
+            // if (userId) {
+            //   const cartResponse = await axios.get(`/api/Cart/User/${userId}`);
+            //   if (cartResponse.data.success) {
+            //     setCartItems(cartResponse.data.data.cartItems); // Cập nhật giỏ hàng
+            //   }
+            // }
 
 
             // try {
