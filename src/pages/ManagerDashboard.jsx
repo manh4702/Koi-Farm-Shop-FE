@@ -5,7 +5,7 @@ import HeaderBar from "../components/manager/HeaderBar";
 import DashboardContent from "../components/manager/DashboardContent";
 import Sider from "antd/es/layout/Sider";
 import { Route, Routes } from "react-router-dom";
-import FishInfo from "../components/admin/InformationFish/FishInfo";
+import FishInfo1 from "../components/admin/InformationFish/FishInfo1.jsx";
 import OrderList from "../components/admin/InformationOrder/OrderList";
 import OrderTracking from "../components/admin/InformationOrder/OrderTracking";
 import CustomerManagement from "../components/admin/User/CustomerManagement";
@@ -16,6 +16,8 @@ import PromotionManagement from "../components/admin/InfoPromotion/PromotionMana
 import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
+import CategoryInfo from "../components/admin/InformationFish/CategoryInfo.jsx";
+import FishInfo from "../components/admin/InformationFish/FishInfo.jsx";
 
 const { Content, Footer } = Layout;
 
@@ -28,6 +30,8 @@ const AdminDashboard = () => {
         return <DashboardContent />;
       case "user-management":
         return <CustomerManagement />;
+      case "cate-info":
+        return <CategoryInfo />;
       case "fish-info":
         return <FishInfo />;
       case "order-list":

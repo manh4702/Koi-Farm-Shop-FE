@@ -9,15 +9,21 @@ import {
   SettingOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import {
-  getFishPackages,
-  deleteFishPackage,
-} from "../../../services/fishPackageStore";
+// import {
+//   getFishPackages,
+//   deleteFishPackage,
+// } from "../../../services/fishPackageService.js";
+import { useFishPackageStore } from "../../../store/fishPackageStore.js";
 import CreateFishPackageForm from "./CreateFishPackageForm";
 import UpdateFishPackageForm from "./UpdateFishPackageForm";
 import FishPackageDetail from "./FishPackageDetail";
 
 const BatchInfo = () => {
+  const {
+    fishPackages,
+    fetchFishPackages,
+    deleteFishPackage,
+  } = useFishPackageStore();
   const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
@@ -25,22 +31,15 @@ const BatchInfo = () => {
   const [editBatch, setEditBatch] = useState(null);
 
   useEffect(() => {
-    loadFishPackages();
-  }, []);
+    fetchFishPackages();
+  }, [fetchFishPackages]);
 
-  const loadFishPackages = async () => {
-    try {
-      const data = await getFishPackages();
-      console.log(data);
-      setBatches(data);
-    } catch (error) {
-      // message.error("Không tải được các lô cá.");
-    }
-  };
+  useEffect(() => {
+    setBatches(fishPackages); // Ensure state is updated on fishPackages change
+  }, [fishPackages]);
 
   const handleAdd = () => {
     setIsCreateModalVisible(true);
-    loadFishPackages();
   };
 
   const handleEdit = (batch) => {
@@ -59,7 +58,7 @@ const BatchInfo = () => {
       onOk: async () => {
         try {
           await deleteFishPackage(fishPackageId);
-          loadFishPackages();
+          fetchFishPackages();
           message.success("Lô cá đã được xóa thành công");
           if (selectedBatch && selectedBatch.fishPackageId === fishPackageId) {
             setSelectedBatch(null);
@@ -89,19 +88,19 @@ const BatchInfo = () => {
           </div>
           <div style={{ maxHeight: "800px" }}>
             <Table
-              dataSource={batches}
+              dataSource={fishPackages}
               columns={[
-                //   {
-                //     title: "Ảnh",
-                //     dataIndex: "image",
-                //     render: (image) => (
-                //       <img
-                //         src={image}
-                //         alt="batch"
-                //         style={{ width: "100px", height: "100px" }}
-                //       />
-                //     ),
-                //   },
+                  {
+                    title: "Ảnh",
+                    dataIndex: "imageUrl",
+                    render: (image) => (
+                      <img
+                        src={image}
+                        alt="batch"
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    ),
+                  },
                 {
                   title: "Tên Lô Cá",
                   dataIndex: "name",
@@ -186,14 +185,14 @@ const BatchInfo = () => {
         <CreateFishPackageForm
           visible={isCreateModalVisible}
           onCancel={() => setIsCreateModalVisible(false)}
-          onSuccess={loadFishPackages}
+          onSuccess={fetchFishPackages}
         />
 
         <UpdateFishPackageForm
           visible={isUpdateModalVisible}
           onCancel={() => setIsUpdateModalVisible(false)}
           fishPackage={editBatch}
-          onSuccess={loadFishPackages}
+          onSuccess={fetchFishPackages}
         />
 
         {selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}

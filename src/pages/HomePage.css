@@ -98,3 +98,58 @@
   justify-content: center; /* Căn giữa các phần tử trong container */
   /* ... existing styles ... */
 }
+
+
+.fade-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scroll-container {
+  overflow-x: auto;
+  display: flex;
+}
+
+.carousel-container {
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-slider {
+  display: flex;
+  flex-direction: row; /* Ensure horizontal layout */
+  white-space: nowrap;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  display: inline-block; /* Keep items in a single row */
+}

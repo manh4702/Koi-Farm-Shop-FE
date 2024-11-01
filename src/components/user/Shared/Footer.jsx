@@ -29,15 +29,17 @@ const Footer = () => {
             GIỚI THIỆU CHUNG
           </h3>
           <img
-            src="/src/assets/logoKoi.png"
-            alt="KoiFishLogo"
-            style={{
-              width: "70%",
-              height: "70%",
-              marginBottom: "1rem",
-              marginLeft: "-37px",
-            }}
+           src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
+           alt="Cá Koi Store"
+           style={{
+            width: "70%",
+            height: "50%",
+            marginBottom: "1rem",
+            marginLeft: "-45px",
+          }}
+            className="h-[150px] object-contain"
           />
+
         </div>
 
         <div>

@@ -4,7 +4,10 @@ import axios from 'axios';
 const instance = axios.create({
   // baseURL: 'http://localhost:5260/api', // Đường dẫn tương đối để proxy chuyển tiếp yêu cầu
   baseURL: '/',
-  timeout: 5000, // Thời gian chờ
+  timeout: 6000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
 });
 
 instance.interceptors.request.use(

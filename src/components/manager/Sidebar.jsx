@@ -54,13 +54,18 @@ function Sidebar({ setSelectedKey }) {
         >
           Quản lí khách hàng
         </Menu.Item>
-        <Menu.Item
+        <SubMenu
           key="3"
           icon={<GiCirclingFish />}
-          onClick={() => setSelectedKey("fish-info")}
+          title="Quản lý cá đơn"
         >
-          Quản lí cá
-        </Menu.Item>
+          <Menu.Item key="3-1" onClick={() => setSelectedKey("cate-info")}>
+            Phân loại cá
+          </Menu.Item>
+          <Menu.Item key="3-2" onClick={() => setSelectedKey("fish-info")}>
+            Thông tin cá đơn
+          </Menu.Item>
+        </SubMenu>
         <Menu.Item
           key="11"
           icon={<GiCirclingFish />}

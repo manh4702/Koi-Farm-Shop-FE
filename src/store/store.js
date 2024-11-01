@@ -7,6 +7,8 @@ const useAuthStore = create((set) => ({
   token: localStorage.getItem("authToken") || null,
   role: localStorage.getItem("userRole") || null,
   expiration: localStorage.getItem("expiration") || null,
+  userId: sessionStorage.getItem("userId") || null,
+  cartItems: [],
   setAuth: (authData) => {
     const expirationTime = Date.now() + 3 * 60 * 60 * 1000;
     set({
@@ -14,21 +16,27 @@ const useAuthStore = create((set) => ({
       token: authData.token,
       role: authData.role,
       expiration: expirationTime,
+      userId: authData.userId,
     });
     localStorage.setItem("authToken", authData.token);
     localStorage.setItem("userRole", authData.role);
     localStorage.setItem("expiration", expirationTime);
+    sessionStorage.setItem("userId", authData.userId);
   },
+  setCartItems: (cartItems) => set({ cartItems }),
   logout: (navigate) => {
     set({
       user: null,
       token: null,
       role: null,
       expiration: null,
+      userId: null,
+      cartItems: [],
     });
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("expiration");
+    sessionStorage.removeItem("userId");
     if (navigate) {
       navigate("/login");
     }
@@ -39,6 +47,7 @@ const useAuthStore = create((set) => ({
       const decodedUser = decodeToken(token);
       if (decodedUser) {
         set({ user: decodedUser, token });
+        sessionStorage.setItem("userId", decodedUser.userId);
       }
     }
   },

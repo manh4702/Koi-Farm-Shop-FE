@@ -1,6 +1,23 @@
-.container {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
+.scroll-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 0;
+}
+
+.fish-card {
+  display: inline-block;
+  vertical-align: top;
+  transition: transform 0.3s ease;
+}
+
+.fish-card:hover {
+  transform: scale(1.05);
+}
+
+.carousel-container {
+  overflow: hidden;
+}
+
+.carousel-slider {
+  display: flex;
+}

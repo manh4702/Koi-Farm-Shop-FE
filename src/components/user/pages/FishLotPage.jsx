@@ -8,89 +8,30 @@ import FishCard from "../Product/FishCard";
 import ZaloIcon from "../Shared/ZaloIcon";
 import YTIconts from "../Shared/YoutubeIcon";
 import FBIconts from "../Shared/FacebookIcon";
-
-const fishLots = [
-  {
-    id: 16,
-    name: "Lô Koi Sanke & Showa",
-    description:
-      "Bộ sưu tập 5 con cá Koi gồm 3 Sanke và 2 Showa, đều sinh năm 2021. Lý tưởng cho việc bắt đầu một hồ Koi đa dạng.",
-    price: "3,500,000 VND",
-    image:
-      "https://th.bing.com/th/id/OIP.9wxu3jj4OLWUS8AfTCpPwQHaEK?w=301&h=180&c=7&r=0&o=5&pid=1.7",
-    isLot: true, // Đây là lô cá
-    year: 2021,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
-    quantity: 5,
-    fishes: [
-      { name: "Sanke", quantity: 3 },
-      { name: "Showa", quantity: 2 },
-    ],
-    video: "https://www.youtube.com/watch?v=showa_video_link",
-    rating: 4,
-  },
-  {
-    id: 17,
-    name: "Lô cá Gosanke Premium",
-    description:
-      "Bộ 3 cá Koi cao cấp gồm Kohaku, Sanke, và Showa, sinh năm 2020. Đây là bộ sưu tập hoàn hảo cho những người yêu thích Gosanke.",
-    price: "5,000,000 VND",
-    image:
-      "https://cdn11.bigcommerce.com/s-upcqwyrrdy/images/stencil/1280x1280/products/12349/31213/japanese-premium-gosanke-8-10inch-koi-4pack-1000__59378.1680885854.jpg?c=1",
-    isLot: true, // Đây là lô cá
-    year: 2019,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 100, // Lượng thức ăn/ngày (gram)
-    quantity: 3,
-    fishes: [
-      { name: "Kohaku", quantity: 1 },
-      { name: "Sanke", quantity: 1 },
-      { name: "Showa", quantity: 1 },
-    ],
-    rating: 3,
-  },
-  {
-    id: 18,
-    name: "Lô Koi Butterfly",
-    description:
-      "Bộ sưu tập 4 con cá Koi Butterfly đẹp mắt, sinh năm 2022. Bao gồm các giống Koi có vây dài và đuôi bướm đặc trưng.",
-    price: "2,800,000 VND",
-    image:
-      "https://cdn11.bigcommerce.com/s-kkon4imfg5/images/stencil/1280x1280/products/405/667/KOI_BUTTERFLY_6_-8___59746.1522374966.jpg?c=2",
-    isLot: true, // Đây là lô cá
-    year: 2019,
-    origin: "Nhật Bản",
-    seller: "On Koi Farm",
-    age: 2, // Tuổi (năm)
-    foodPerDay: 150, // Lượng thức ăn/ngày (gram)
-    quantity: 4,
-    fishes: [
-      { name: "Butterfly Kohaku", quantity: 1 },
-      { name: "Butterfly Showa", quantity: 1 },
-      { name: "Butterfly Sanke", quantity: 1 },
-      { name: "Butterfly Goshiki", quantity: 1 },
-    ],
-    rating: 2,
-  },
-  // Thêm cá khác ...
-  // Danh sách lô cá mà bạn đã cung cấp...
-];
+import {getFishPackages} from "../../../services/fishPackageService";
 
 const ITEMS_PER_PAGE = 12;
 
 const FishLotPage = () => {
   const [hoveredFishId, setHoveredFishId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [fishLots, setFishLots] = useState([]);
   const [selectedFishes, setSelectedFishes] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentFishLots = fishLots.slice(startIndex, endIndex);
+
+  const fetchFishPackages = async () => {
+    try {
+      const data = await getFishPackages(currentPage, ITEMS_PER_PAGE);
+      setFishLots(data);
+      setTotalRecords(data.length); // Update the total records if available from API
+    } catch (error) {
+      console.error("Failed to fetch fish packages:", error);
+    }
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -508,7 +449,7 @@ const FishLotPage = () => {
         </div>
 
         <Row gutter={[16, 16]}>
-          {currentFishLots.map((fish) => (
+          {fishLots.map((fish) => (
             <Col key={fish.id} xs={24} sm={12} md={6} onMouseEnter={() => setHoveredFishId(fish.id)} onMouseLeave={() => setHoveredFishId(null)} style={{ position: "relative" }}>
               <FishCard fish={fish} />
               <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "4px", position: "absolute", top: "10px", right: "39px", backgroundColor: "InactiveCaption" }}>

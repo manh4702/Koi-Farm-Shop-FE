@@ -4,9 +4,11 @@ import { DeleteOutlined } from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+import useAuthStore from "../../../store/store.js";
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity } = useCartStore();
+  const { cartItems, setCartItems } = useAuthStore();
 
   const columns = [
     {
@@ -16,9 +18,9 @@ const CartPage = () => {
       render: (text, record) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            src={record.image}
+            src={record.imageUrl}
             alt={text}
-            style={{ width: 50, marginRight: 10 }}
+            style={{ width: 100, marginRight: 10, borderRadius: "10px" }}
           />
           {text}
         </div>
@@ -26,7 +28,7 @@ const CartPage = () => {
     },
     {
       title: "Giá",
-      dataIndex: "price",
+      dataIndex: "totalPrice",
       key: "price",
     },
     {
@@ -42,8 +44,8 @@ const CartPage = () => {
     },
     {
       title: "Tổng",
-      key: "total",
-      render: (_, record) => (record.price * record.quantity).toFixed(2),
+      key: "price",
+      render: (_, record) => (record.totalPrice * record.quantity).toFixed(2),
     },
     {
       title: "Hành động",
@@ -52,8 +54,8 @@ const CartPage = () => {
         <Button
           type="text"
           icon={<DeleteOutlined />}
-          onClick={() => {
-            removeItem(record.id);
+          onClick={async () => {
+            await removeItem(record.id);
             message.success("Đã xóa sản phẩm khỏi giỏ hàng");
           }}
         />
@@ -62,7 +64,7 @@ const CartPage = () => {
   ];
 
   const total = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.totalPrice * item.quantity,
     0
   );
 
