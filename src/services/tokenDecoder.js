@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 export const decodeToken = (token) => {
   try {
     const decoded = jwtDecode(token);
-    // console.log("Decoded token:", decoded);
+    console.log("Decoded token:", decoded);
     return {
       name: decoded[
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"

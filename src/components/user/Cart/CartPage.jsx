@@ -4,9 +4,11 @@ import { DeleteOutlined } from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+import useAuthStore from "../../../store/store.js";
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity } = useCartStore();
+  const { cartItems, setCartItems } = useAuthStore();
 
   const columns = [
     {
@@ -52,8 +54,8 @@ const CartPage = () => {
         <Button
           type="text"
           icon={<DeleteOutlined />}
-          onClick={() => {
-            removeItem(record.id);
+          onClick={async () => {
+            await removeItem(record.id);
             message.success("Đã xóa sản phẩm khỏi giỏ hàng");
           }}
         />
