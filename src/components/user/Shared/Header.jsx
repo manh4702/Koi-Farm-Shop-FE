@@ -383,13 +383,14 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-[150px]">
+        <div className="flex justify-between items-center h-[120px]">
           <Link to="/">
-            <img
-              src={LogoKoi}
-              alt="Cá Koi Store"
-              className="h-[200px] object-contain"
-            />
+           <img
+           src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
+           alt="Cá Koi Store"
+            className="h-[150px] object-contain"
+          />
+
           </Link>
 
           <div className="flex-1 mx-8">
