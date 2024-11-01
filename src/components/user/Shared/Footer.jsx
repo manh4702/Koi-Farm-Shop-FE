@@ -25,25 +25,26 @@ const Footer = () => {
             flexDirection: "column",
           }}
         >
-          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem", color: "Red" }}>
             GIỚI THIỆU CHUNG
           </h3>
           <img
-           src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
-           alt="Cá Koi Store"
-           style={{
-            width: "70%",
-            height: "50%",
-            marginBottom: "1rem",
-            marginLeft: "-45px",
-          }}
-            className="h-[150px] object-contain"
-          />
-
+  src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
+  alt="Cá Koi Store"
+  style={{
+    width: "150px", 
+    height: "150px",
+    marginBottom: "1rem",
+    marginLeft: "10px",
+    borderRadius: "50%", 
+    objectFit: "cover", 
+  }}
+  className="h-[150px] object-contain"
+/>
         </div>
 
         <div>
-          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem", color: "Red" }}>
             THÔNG TIN TÀI KHOẢN
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
@@ -71,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <h3 style={{ fontWeight: "bold", marginBottom: "1rem" }}>
+          <h3 style={{ fontWeight: "bold", marginBottom: "1rem", color: "Red" }}>
             DÀNH CHO NHỮNG NGƯỜI YÊU THÍCH KOI
           </h3>
           <ul style={{ listStyleType: "disc", paddingLeft: "1rem" }}>
@@ -116,7 +117,7 @@ const Footer = () => {
           }}
         >
           <div>
-            <h3 style={{ fontWeight: "bold" }}>BẢN ĐỒ & BẢN QUYỀN</h3>
+            <h3 style={{ fontWeight: "bold", color: "Red" }}>BẢN ĐỒ & BẢN QUYỀN</h3>
 
             <p>
               Địa chỉ xem cá Koi: Lô E2a-7, Đường D1, Khu Công Nghệ Cao, Long
