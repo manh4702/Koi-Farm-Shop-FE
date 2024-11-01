@@ -1,13 +1,17 @@
 // src/components/user/Product/FishCard.jsx
 import React from "react";
 import { Card, Button, Tag, message } from "antd";
-import { useNavigate } from "react-router-dom";
+import {Await, useNavigate} from "react-router-dom";
 import { ShoppingCartOutlined, DollarOutlined } from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 
 const FishCard = ({ fish }) => {
   const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
+
+  const getUserCartId = () => {
+    return sessionStorage.getItem("userCartId");
+  };
 
   const handleViewDetails = () => {
     if (fish.fishPackageId || fish.isLot) {
@@ -17,15 +21,17 @@ const FishCard = ({ fish }) => {
     }
   };
 
-  const handleBuyNow = (e) => {
+  const handleBuyNow = async (e) => {
     e.stopPropagation();
-    addItem(fish); // Thêm sản phẩm vào giỏ hàng
+    const userCartId = getUserCartId();
+    await addItem(fish, userCartId);
     navigate("/cart"); // Chuyển đến trang giỏ hàng
   };
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.stopPropagation();
-    addItem(fish);
+    const userCartId = getUserCartId();
+    await addItem(fish, userCartId);
     message.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
