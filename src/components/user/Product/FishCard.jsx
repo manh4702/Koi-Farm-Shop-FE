@@ -24,7 +24,11 @@ const FishCard = ({ fish }) => {
   const handleBuyNow = async (e) => {
     e.stopPropagation();
     const userCartId = getUserCartId();
+    console.log("Retrieved userCartId:", userCartId);
     await addItem(fish, userCartId);
+    if (userCartId) {
+      await addItem(fish, userCartId);
+    }
     navigate("/cart"); // Chuyển đến trang giỏ hàng
   };
 
@@ -32,7 +36,6 @@ const FishCard = ({ fish }) => {
     e.stopPropagation();
     const userCartId = getUserCartId();
     await addItem(fish, userCartId);
-    message.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   return (
@@ -44,7 +47,6 @@ const FishCard = ({ fish }) => {
             alt={fish.name}
             src={fish.imageUrl}
             style={{
-              // height: "450px",
               height: "100%",
               objectFit: "contain",
               width: "100%",
