@@ -4,13 +4,14 @@ import {DeleteOutlined} from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
+import {useNavigate} from "react-router-dom";
 import useAuthStore from "../../../store/store.js";
 
 const CartPage = () => {
   const { removeItem, updateQuantity} = useCartStore();
   // const { cartItems } = useAuthStore();
   const items = useCartStore(state => state.items);
-
+  const navigate = useNavigate();
   const columns = [
     {
       title: "Sản phẩm",
@@ -76,7 +77,13 @@ const CartPage = () => {
     (sum, item) => sum + (item.totalPricePerItem || 0) * item.quantity,
     0
   );
-
+  const handleCheckout = () => {
+    if (items.length === 0) {
+      message.warning("Giỏ hàng trống, không thể thanh toán");
+      return;
+    }
+    navigate("/checkout", { state: { cartItems: items } }); // Chuyển hướng đến CheckoutPage và truyền dữ liệu giỏ hàng
+  };
   return (
     <>
       <Header/>
