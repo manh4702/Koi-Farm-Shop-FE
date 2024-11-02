@@ -71,7 +71,7 @@ const HomePage = () => {
         // Gọi API cho lô cá
         const packageResponse = await axios.get("/api/FishPackage?page=1&pageSize=10");
         // const sortedPackages = packageResponse.data.data.listData || [];
-        const sortedPackages = packageResponse.data.data.listData.slice(0, 10);
+        const sortedPackages = packageResponse.data.data.listData.slice(0, 5);
         sortedPackages.sort((a, b) => b.fishPackageId - a.fishPackageId);
         setFishPackages(sortedPackages)
       } catch (error) {
@@ -138,22 +138,22 @@ const HomePage = () => {
       <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
-          <div>
-            <button
-              onClick={handlePrevIndex}
-              // disabled={currentIndex === 0}
-              className="text-blue-500 hover:underline"
-            >
-              <LeftCircleOutlined className="text-2xl text-red-500 mr-2"/>
-            </button>
-            <button
-              onClick={handleNextIndex}
-              disabled={(currentIndex + 1) * itemsPerPage >= fishPackages.length}
-              className="text-blue-500 hover:underline"
-            >
-              <RightCircleOutlined className="text-2xl text-red-500"/>
-            </button>
-          </div>
+          {/*<div>*/}
+          {/*  <button*/}
+          {/*    onClick={handlePrevIndex}*/}
+          {/*    // disabled={currentIndex === 0}*/}
+          {/*    className="text-blue-500 hover:underline"*/}
+          {/*  >*/}
+          {/*    <LeftCircleOutlined className="text-2xl text-red-500 mr-2"/>*/}
+          {/*  </button>*/}
+          {/*  <button*/}
+          {/*    onClick={handleNextIndex}*/}
+          {/*    disabled={(currentIndex + 1) * itemsPerPage >= fishPackages.length}*/}
+          {/*    className="text-blue-500 hover:underline"*/}
+          {/*  >*/}
+          {/*    <RightCircleOutlined className="text-2xl text-red-500"/>*/}
+          {/*  </button>*/}
+          {/*</div>*/}
         </div>
         
 
@@ -188,12 +188,12 @@ const HomePage = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Cá Koi nổi bật</h2>
+        <h2 className="text-2xl font-bold mb-1">Cá Koi nổi bật</h2>
         <div className="scroll-container">
           <TransitionGroup>
             <div className="flex overflow-x-auto">
               {displayedFishes.map((fish) => (<CSSTransition key={fish.id} timeout={300} classNames="fade">
-                <div className="fish-card mr-4">
+                <div className="fish-card mr-4"  style={{ maxWidth: "275px", minWidth: "275px", height: "515px" }}>
                   <img
                     src={fish.imageUrl}
                     alt={fish.name}

@@ -1,6 +1,7 @@
 // src/store/store.js
-import { create } from "zustand";
-import { decodeToken } from "../services/tokenDecoder";
+import {create} from "zustand";
+import {decodeToken} from "../services/tokenDecoder";
+import useCartStore from "./cartStore.js";
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -12,7 +13,7 @@ const useAuthStore = create((set) => ({
   setAuth: (authData) => {
     const expirationTime = Date.now() + 3 * 60 * 60 * 1000;
     set({
-      user: { name: authData.username, role: authData.role },
+      user: {name: authData.username, role: authData.role},
       token: authData.token,
       role: authData.role,
       expiration: expirationTime,
@@ -23,16 +24,20 @@ const useAuthStore = create((set) => ({
     localStorage.setItem("expiration", expirationTime);
     sessionStorage.setItem("userId", authData.userId);
   },
-  setCartItems: (cartItems) => set({ cartItems }),
+  setCartItems: (cartItems) => set({cartItems}),
   logout: (navigate) => {
+    const {clearCart} = useCartStore.getState();
+    clearCart();
+
     set({
       user: null,
       token: null,
       role: null,
       expiration: null,
       userId: null,
-      cartItems: [],
+      // cartItems: [],
     });
+
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("expiration");
@@ -46,7 +51,7 @@ const useAuthStore = create((set) => ({
     if (token) {
       const decodedUser = decodeToken(token);
       if (decodedUser) {
-        set({ user: decodedUser, token });
+        set({user: decodedUser, token});
         sessionStorage.setItem("userId", decodedUser.userId);
       }
     }

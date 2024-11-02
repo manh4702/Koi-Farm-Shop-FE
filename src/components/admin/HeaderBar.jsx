@@ -4,13 +4,14 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { removeAuthToken, removeUserRole } from '../../services/auth';
 import useAuthStore from '../../store/store';
+import useCartStore from "../../store/cartStore.js";
 
 const HeaderBar = () => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
   const [username, setUsername] = React.useState('Admin'); // Lấy tên đăng nhập từ state hoặc localStorage
   const [avatarUrl, setAvatarUrl] = React.useState('https://img.icons8.com/?size=80&id=110480&format=png'); // Lấy URL ảnh đại diện từ state hoặc localStorage
-
+  
   const handleLogout = () => {
     removeAuthToken();
     removeUserRole();
