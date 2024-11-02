@@ -52,7 +52,7 @@ const CategoryPage = () => {
 
   const handleOk = async () => {
     try {
-      setConfirmLoading(true);
+      // setConfirmLoading(true);
       const values = await form.validateFields();
       const {name, description, originCountry, imageUrl} = values;
 
@@ -173,7 +173,6 @@ const CategoryPage = () => {
         onCancel={() => setIsModalVisible(false)}
         okText={isEdit ? 'Cập nhật' : 'Thêm'}
         cancelText={"Hủy"}
-        confirmLoading={confirmLoading}
       >
         <Form form={form} layout="vertical">
           <Form.Item name="id" hidden>

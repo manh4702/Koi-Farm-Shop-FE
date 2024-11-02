@@ -178,7 +178,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
         </Row>
 
         <Row gutter={16}>
-          <Col span={12}>
+          {/* <Col span={12}>
             <Form.Item
               label="Giới tính"
               name="gender"
@@ -189,7 +189,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
                 <Select.Option value="Cái">Cái</Select.Option>
               </Select>
             </Form.Item>
-          </Col>
+          </Col> */}
           <Col span={12}>
             <Form.Item
               label="Kích thước"
