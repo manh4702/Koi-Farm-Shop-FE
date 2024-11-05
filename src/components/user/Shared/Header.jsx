@@ -154,12 +154,18 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-[120px]">
+        <div className="flex justify-between items-center h-[140px]">
           <Link to="/">
            <img
            src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
            alt="Cá Koi Store"
             className="h-[150px] object-contain"
+           style={{
+             width: "80%",
+             aspectRatio: "3/3",
+             objectFit: "contain",
+             mixBlendMode: "darken",
+           }}
           />
 
           </Link>
