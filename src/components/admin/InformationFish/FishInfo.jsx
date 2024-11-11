@@ -160,7 +160,7 @@ const FishInfo = (categoryId) => {
     {
       title: "Giá (VND)",
       dataIndex: "price",
-      render: (price) => price.toLocaleString("vi-VN"), // Định dạng giá
+      render: (price) => price.toLocaleString("vi-VN"),
       sorter: (a, b) => a.price - b.price,
     },
     {
@@ -257,11 +257,6 @@ const FishInfo = (categoryId) => {
       <Menu.Item key="reset" onClick={resetFilters}>
         <Button type="default">Reset</Button>
       </Menu.Item>
-      {/*<Menu.Item key="apply">*/}
-      {/*  <Button type="primary" onClick={applyFilters}>*/}
-      {/*    Áp dụng*/}
-      {/*  </Button>*/}
-      {/*</Menu.Item>*/}
     </Menu>
   );
 
@@ -287,7 +282,7 @@ const FishInfo = (categoryId) => {
           {/*<Table columns={columns} dataSource={fishes} pagination={false} scroll={{y: 325}}/>*/}
         </Col>
         <Col span={24}>
-          <Table columns={columns} dataSource={filteredFishes} pagination={false} scroll={{y: 325}}/>
+          <Table columns={columns} dataSource={filteredFishes} pagination={false} scroll={{y: 425}}/>
         </Col>
 
         {isModalVisible && (
@@ -314,22 +309,6 @@ const FishInfo = (categoryId) => {
                   <PlusSquareOutlined/> Upload
                 </Upload>
               </Form.Item>
-
-              {/*<Form.Item label="Thêm ảnh phụ (không bắt buộc)" name="secondaryImages">*/}
-              {/*  <Upload*/}
-              {/*    listType="picture-card"*/}
-              {/*    multiple*/}
-              {/*    beforeUpload={() => false}*/}
-              {/*    onChange={({fileList}) => {*/}
-              {/*      const secondaryImages = fileList.map((file) => file.thumbUrl);*/}
-              {/*      editFish ? setEditFish({...editFish, secondaryImages}) : setAddFish({...addFish, secondaryImages});*/}
-              {/*    }}*/}
-              {/*  >*/}
-              {/*    <PlusSquareOutlined/> Upload*/}
-              {/*  </Upload>*/}
-              {/*  <Input placeholder="Hoặc nhập URL các ảnh phụ, phân cách bằng dấu phẩy"/>*/}
-              {/*</Form.Item>*/}
-
 
               <Row gutter={16}>
                 <Col span={12}>

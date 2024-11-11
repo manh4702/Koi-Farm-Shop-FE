@@ -142,7 +142,7 @@ const HomePage = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-bold">Cá Koi nổi bật</h2>
+        <h2 className="text-2xl font-bold mb-1">Cá Koi nổi bật</h2>
         <div className="scroll-container">
           <TransitionGroup>
             <div className="flex overflow-x-auto">

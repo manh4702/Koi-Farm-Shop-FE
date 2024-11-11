@@ -4,7 +4,7 @@ import axios from 'axios';
 const instance = axios.create({
   // baseURL: 'http://localhost:5260/api', // Đường dẫn tương đối để proxy chuyển tiếp yêu cầu
   baseURL: '/',
-  timeout: 6000,
+  // timeout: 6000,
   headers: {
     'Content-Type': 'application/json',
   }

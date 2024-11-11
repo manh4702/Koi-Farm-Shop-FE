@@ -1,22 +1,19 @@
 // BatchInfo.jsx
 import React, { useEffect, useState } from "react";
-import { Table, Button, message, Modal, Space, Dropdown, Menu, Row, Col } from "antd";
+import {Table, Button, message, Modal, Space, Dropdown, Menu, Row, Col, Checkbox} from "antd";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
   SettingOutlined,
-  MoreOutlined,
+  MoreOutlined, FilterOutlined,
 } from "@ant-design/icons";
-// import {
-//   getFishPackages,
-//   deleteFishPackage,
-// } from "../../../services/fishPackageService.js";
 import { useFishPackageStore } from "../../../store/fishPackageStore.js";
 import CreateFishPackageForm from "./CreateFishPackageForm";
 import UpdateFishPackageForm from "./UpdateFishPackageForm";
 import FishPackageDetail from "./FishPackageDetail";
+import SubMenu from "antd/es/menu/SubMenu.js";
 
 const BatchInfo = () => {
   const {
@@ -29,6 +26,10 @@ const BatchInfo = () => {
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const [editBatch, setEditBatch] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [visibleFilters, setVisibleFilters] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+
 
   useEffect(() => {
     fetchFishPackages();
@@ -70,6 +71,57 @@ const BatchInfo = () => {
     });
   };
 
+  const menu = (
+    <Menu>
+      <SubMenu key="status" title="Trạng thái">
+        <Menu.Item key="available">
+          <Checkbox
+            checked={selectedStatus === "AVAILABLE"}
+            onChange={() => setSelectedStatus(selectedStatus === "AVAILABLE" ? null : "AVAILABLE")}
+          >
+            Có sẵn
+          </Checkbox>
+        </Menu.Item>
+        <Menu.Item key="sold">
+          <Checkbox
+            checked={selectedStatus === "SOLD"}
+            onChange={() => setSelectedStatus(selectedStatus === "SOLD" ? null : "SOLD")}
+          >
+            Đã bán
+          </Checkbox>
+        </Menu.Item>
+      </SubMenu>
+      <SubMenu key="size" title="Kích thước">
+        {Array.from(new Set(batches.map((batch) => batch.size))).map((size) => (
+          <Menu.Item key={size}>
+            <Checkbox
+              checked={selectedSize === size}
+              onChange={() => setSelectedSize(selectedSize === size ? null : size)}
+            >
+              {size} cm
+            </Checkbox>
+          </Menu.Item>
+        ))}
+      </SubMenu>
+      <Menu.Item key="reset" onClick={() => resetFilters()}>
+        <Button type="default">Reset</Button>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const resetFilters = () => {
+    setSelectedStatus(null);
+    setSelectedSize(null);
+  };
+
+  const filteredBatches = batches.filter((batch) => {
+    return (
+      (selectedStatus === null || batch.status === selectedStatus) &&
+      (selectedSize === null || batch.size === selectedSize)
+    );
+  });
+
+
   return (
     <div style={{ padding: "24px", background: "#fff" }}>
       <Row gutter={[16, 16]}>
@@ -85,6 +137,15 @@ const BatchInfo = () => {
             <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
               Thêm mới lô cá
             </Button>
+            <Dropdown overlay={menu} trigger={['click']} open={visibleFilters} onVisibleChange={setVisibleFilters}>
+              <Button
+                type="default"
+                icon={<FilterOutlined />}
+                style={{ marginLeft: "10px" }}
+              >
+                Bộ lọc
+              </Button>
+            </Dropdown>
           </div>
           <div style={{ maxHeight: "800px" }}>
             <Table
@@ -108,26 +169,36 @@ const BatchInfo = () => {
                 {
                   title: "Giá",
                   dataIndex: "price",
+                  sorter: (a, b) => a.price - b.price,
                 },
                 {
                   title: "Tuổi",
                   dataIndex: "age",
+                  sorter: (a, b) => a.age - b.age,
                 },
                 {
                   title: "Kích thước (cm)",
                   dataIndex: "size",
+                  sorter: (a, b) => a.size - b.size,
                 },
                 {
                   title: "Giới tính",
                   dataIndex: "gender",
+                  filters: [
+                    { text: "Đực", value: "Đực" },
+                    { text: "Cái", value: "Cái" },
+                  ],
+                  onFilter: (value, record) => record.gender === value,
                 },
                 {
                   title: "Thức ăn/ngày (gram)",
                   dataIndex: "dailyFood",
+                  sorter: (a, b) => a.dailyFood - b.dailyFood,
                 },
                 {
                   title: "Số lượng",
                   dataIndex: "numberOfFish",
+                  sorter: (a, b) => a.numberOfFish - b.numberOfFish,
                 },
                 {
                   title: "Trạng thái",

@@ -42,17 +42,7 @@ const LoginPage = () => {
             message.success("Đăng nhập thành công!");
 
             await useCartStore.getState().fetchCart(decodedUser.userId);
-            // try {
-            //   const {data} = await axios.get(`/api/Cart/User/${userId}`);
-            //  
-            //   if (data.success) {
-            //     useCartStore.getState().setCartItems(data.data.cartItems);
-            //     useCartStore.getState().setUserCartId(data.data.userCartId);
-            //     console.log("cartItems", data.data.cartItems);
-            //   }
-            // } catch (cartError) {
-            //   console.error("Lỗi khi lấy giỏ hàng:", cartError);
-            // }
+            
 
             // navigateBasedOnRole(role);
             // Phân quyền dựa trên role
