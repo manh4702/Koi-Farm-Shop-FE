@@ -160,6 +160,12 @@ const Header = () => {
            src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
            alt="Cá Koi Store"
             className="h-[150px] object-contain"
+           style={{
+             width: "80%",
+             aspectRatio: "3/3",
+             objectFit: "contain",
+             mixBlendMode: "darken",
+           }}
           />
 
           </Link>

@@ -9,6 +9,12 @@ import useCartStore from "../../../store/cartStore";
 import {getFishById} from "../../../services/fishService.js";
 import {Transformation} from "cloudinary-react"; // Store quản lý giỏ hàng
 
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
+};
 
 const FishDetailPage = () => {
   const {id} = useParams();
@@ -144,7 +150,7 @@ const FishDetailPage = () => {
             <p
               style={{fontSize: "1.5rem", color: "#c0392b", fontWeight: "bold"}}
             >
-              Giá bán: {fish.price}
+              Giá bán: {formatCurrency(fish.price)}
             </p>
             {/* Nút thêm vào giỏ hàng */}
             <Button

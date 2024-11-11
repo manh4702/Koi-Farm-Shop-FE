@@ -1,6 +1,9 @@
 import {create} from "zustand";
 import axios from "../api/axios.jsx";
 import {message} from "antd";
+import useAuthStore from "@/store/store.js";
+
+const getUserId = () => useAuthStore.getState().userId;
 
 const useCartStore = create((set, get) => ({
   items: JSON.parse(sessionStorage.getItem("cartItems") || "[]"),
@@ -17,7 +20,7 @@ const useCartStore = create((set, get) => ({
   },
   clearCart: () => {
     sessionStorage.removeItem("cartItems");
-    sessionStorage.removeItem("userCartId");
+    // sessionStorage.removeItem("userCartId");
     set({ items: [], userCartId: null });
   },
 
@@ -29,13 +32,14 @@ const useCartStore = create((set, get) => ({
         get().setUserCartId(response.data.data.userCartId);
       }
     } catch (error) {
-      console.error("Error fetching cart:", error);
-      message.error("Failed to load cart data");
+      // console.error("Error fetching cart:", error);
+      // message.error("Failed to load cart data");
     }
   },
 
-  addItem: async (item, userCartId) => {
-    const userCartIdParsed = parseInt(userCartId, 10);
+  addItem: async (item) => {
+    const userId = getUserId();
+    const userCartIdParsed = parseInt(get().userCartId, 10);
     if (!Number.isInteger(userCartIdParsed)) {
       message.error("Mã giỏ hàng không hợp lệ. Vui lòng đăng nhập lại.");
       return;
@@ -52,8 +56,7 @@ const useCartStore = create((set, get) => ({
     try {
       const response = await axios.post(apiEndpoint, apiBody);
       if (response.status === 200 || response.status === 201) {
-        const newItems = [...get().items, {...item, quantity: 1}];
-        await get().fetchCart(userCartId); // Update sessionStorage
+        await get().fetchCart(userId); // Update sessionStorage
         message.success("Sản phẩm đã được thêm vào giỏ hàng.");
       }
     } catch (error) {
@@ -75,9 +78,14 @@ const useCartStore = create((set, get) => ({
     try {
       const response = await axios.delete(`/api/CartItem/${id}`);
       if (response.status === 200) {
-        set((state) => ({
-          items: state.items.filter((item) => item.cartItemId !== id),
-        }));
+        set((state) => {
+          const updatedItems = state.items.filter((item) => item.cartItemId !== id);
+
+          sessionStorage.setItem("cartItems", JSON.stringify(updatedItems));
+
+          return { items: updatedItems };
+        });
+
         message.success("Đã xóa sản phẩm khỏi giỏ hàng");
       } else {
         message.error("Không thể xóa sản phẩm khỏi giỏ hàng");
