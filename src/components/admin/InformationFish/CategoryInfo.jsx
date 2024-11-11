@@ -14,7 +14,7 @@ const CategoryPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [hasImage, setHasImage] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [form] = Form.useForm();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const {categories = [], fetchCategories, addCategory, updateCategory, removeCategory, loading} = useCategoryStore();
@@ -30,21 +30,12 @@ const CategoryPage = () => {
   };
 
   const handleEdit = (record) => {
-    const fileList = record.imageUrl ? [
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: record.imageUrl,
-      }
-    ] : [];
 
     form.setFieldsValue({
       id: record.categoryId,
       name: record.name,
       description: record.description,
       originCountry: record.originCountry,
-      imageUrl: fileList,
     });
     setIsModalVisible(true);
     setIsEdit(true);
@@ -56,31 +47,16 @@ const CategoryPage = () => {
       const values = await form.validateFields();
       const {name, description, originCountry, imageUrl} = values;
 
-      let imageFile = null;
-      if (imageUrl && imageUrl.length > 0) {
-        if (imageUrl[0].originFileObj) {
-          imageFile = imageUrl[0].originFileObj;
-        }
-      }
-
       const categoryData = {
         name,
         description,
         originCountry,
-        imageUrl: imageFile || (isEdit && imageUrl[0]?.url ? imageUrl[0].url : null),
       };
 
       if (isEdit) {
-        if (!imageFile && imageUrl && imageUrl[0]) {
-          categoryData.imageUrl = imageUrl[0].url;
-        }
         await updateCategory(form.getFieldValue('id'), categoryData);
         message.success('Cập nhật danh mục thành công');
       } else {
-        if (!imageFile) {
-          message.error('Vui lòng tải lên một hình ảnh!');
-          return;
-        }
         await addCategory(categoryData);
         message.success('Tạo danh mục thành công');
       }
@@ -105,21 +81,6 @@ const CategoryPage = () => {
     await fetchCategories(1, 10);
   };
   const columns = [
-    {
-      title: 'Ảnh',
-      dataIndex: 'imageUrl',
-      key: 'imageUrl',
-      width: 100,
-      render: (imageUrl) => (
-        <Image
-          width={100}
-          style={{borderRadius: '10px'}}
-          src={imageUrl}
-          alt="Category Image"
-          placeholder={<div>Loading...</div>}
-        />
-      ),
-    },
     {title: 'Tên', dataIndex: 'name', key: 'name', width: 150},
     {title: 'Mô tả', dataIndex: 'description', key: 'description', width: 800},
     {title: 'Quốc gia xuất xứ', dataIndex: 'originCountry', key: 'originCountry', width: 150},
@@ -198,36 +159,6 @@ const CategoryPage = () => {
             rules={[{required: true, message: 'Please input the origin country!'}]}
           >
             <Input/>
-          </Form.Item>
-          <Form.Item
-            name="imageUrl"
-            label="Ảnh"
-            rules={[{required: true, message: 'Please upload an image!'}]}
-            valuePropName="fileList"
-            getValueFromEvent={(e) => {
-              if (Array.isArray(e)) {
-                return e;
-              }
-              return e?.fileList;
-            }}
-          >
-            <Upload
-              listType="picture-card"
-              beforeUpload={() => false} // Prevent auto upload
-              maxCount={1} // Only allow one file
-              accept="image/*" // Only accept image files
-              onRemove={(file) => {
-                form.setFieldsValue({imageUrl: []});
-                setHasImage(false);
-              }}
-            >
-              {(!hasImage || !form.getFieldValue('imageUrl')?.length) && (
-                <div className="flex flex-col items-center">
-                  <FiUpload style={{color: 'royalblue', fontSize: 20}}/>
-                  <div style={{marginTop: 8}}>Tải ảnh lên</div>
-                </div>
-              )}
-            </Upload>
           </Form.Item>
         </Form>
       </Modal>

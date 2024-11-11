@@ -7,6 +7,13 @@ import Footer from "../Shared/Footer";
 import {useNavigate} from "react-router-dom";
 import useAuthStore from "../../../store/store.js";
 
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
+};
+
 const CartPage = () => {
   const { removeItem, updateQuantity} = useCartStore();
   // const { cartItems } = useAuthStore();
@@ -17,12 +24,6 @@ const CartPage = () => {
       title: "Sản phẩm",
       dataIndex: "fishName",
       key: "fishName",
-      // render: (text, record) => (
-      //   <div style={{ display: "flex", alignItems: "center" }}>
-      //     <img src={record.imageUrl || "placeholder.png"} alt={text} style={{ width: 100, marginRight: 10, borderRadius: "10px" }} />
-      //     {text}
-      //   </div>
-      // ),
       render: (text, record) => (
         <div style={{display: "flex", alignItems: "center"}}>
           <img src={record.fishImage || record.packageImage || "placeholder.png"} alt={text || record.packageName}
@@ -35,7 +36,7 @@ const CartPage = () => {
       title: "Giá",
       dataIndex: "totalPricePerItem",
       key: "price",
-      render: text => text ? `${parseInt(text).toLocaleString('vi-VN')} VND` : "Đang cập nhật",
+      render: text => text ? formatCurrency(parseInt(text)) : "Đang cập nhật",
     },
     {
       title: "Số lượng",
@@ -54,7 +55,7 @@ const CartPage = () => {
       render: (_, record) => {
         const price = record.totalPricePerItem || 0;
         const total = price * record.quantity;
-        return `${total.toLocaleString('vi-VN')} VND`;
+        return formatCurrency(total);
       },
     },
     {
@@ -91,8 +92,8 @@ const CartPage = () => {
         <h1>Giỏ hàng</h1>
         <Table columns={columns} dataSource={items} rowKey="cartItemId"/>
         <div style={{textAlign: "right", marginTop: 20}}>
-          <h2>Tổng cộng: {total.toLocaleString('vi-VN')} VND</h2>
-          <Button type="primary" size="large" style={{marginTop: 10}}>
+          <h2>Tổng cộng: {formatCurrency(total)}</h2>
+          <Button type="primary" size="large" style={{marginTop: 10}} onClick={() => handleCheckout()}>
             Thanh toán
           </Button>
         </div>

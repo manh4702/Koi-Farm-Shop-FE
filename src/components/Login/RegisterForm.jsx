@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {Form, Input, Button, Checkbox, DatePicker} from "antd";
+import {Form, Input, Button, Checkbox, DatePicker, ConfigProvider} from "antd";
 import {FontColorsOutlined} from "@ant-design/icons";
 import moment from "moment";
+import "moment/locale/vi";
+import viVN from "antd/lib/locale/vi_VN";
+
+moment.locale("vi");
 
 const RegisterForm = ({onFinish, onFinishFailed, loading}) => {
   const [email, setEmail] = useState("");
@@ -198,7 +202,7 @@ const RegisterForm = ({onFinish, onFinishFailed, loading}) => {
               }}
             />
             {passwordError && (
-              <p style={{ color: "red", margin: "-8px 5px 0", fontSize:"14px" }}>{passwordError}</p>
+              <p style={{color: "red", margin: "-8px 5px 0", fontSize: "14px"}}>{passwordError}</p>
             )}
 
             <label style={{fontSize: "16px"}}>
@@ -220,20 +224,21 @@ const RegisterForm = ({onFinish, onFinishFailed, loading}) => {
             <label style={{fontSize: "16px"}}>
               Ngày sinh <span style={{color: "red"}}>*</span>
             </label>
-            <DatePicker
-              // value={dateOfBirth ? moment(dateOfBirth) : null} // Hiển thị giá trị đã chọn
-              value={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)} // Cập nhật giá trị dateOfBirth
-              format="DD-MM-YYYY" // Định dạng hiển thị
-              placeholder="Chọn ngày sinh"
-              style={{
-                width: "100%",
-                marginBottom: "10px",
-                border: "1px solid black",
-                borderRadius: "8px",
-              }}
-              disabledDate={(current) => current && current > moment().endOf("day")}
-            />
+            <ConfigProvider locale={viVN}>
+              <DatePicker
+                value={dateOfBirth}
+                onChange={(date) => setDateOfBirth(date)}
+                format="DD-MM-YYYY" 
+                placeholder="Chọn ngày sinh"
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                }}
+                disabledDate={(current) => current && current > moment().endOf("day")}
+              />
+            </ConfigProvider>
 
             <Checkbox
               checked={agreeTerms}

@@ -5,6 +5,13 @@ import {Await, useNavigate} from "react-router-dom";
 import { ShoppingCartOutlined, DollarOutlined } from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
+};
+
 const FishCard = ({ fish }) => {
   const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
@@ -137,7 +144,7 @@ const FishCard = ({ fish }) => {
           marginBottom: "1rem",
         }}
       >
-        {fish.price}
+        {formatCurrency(fish.price)}
       </p>
       <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
         <Button
