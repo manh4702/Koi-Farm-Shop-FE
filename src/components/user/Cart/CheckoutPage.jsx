@@ -12,14 +12,15 @@ const {Title, Text} = Typography;
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const [paymentMethod, setPaymentMethod] = useState('bankTransfer');
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [form] = Form.useForm();
   const cartItems = useCartStore((state) => state.items);
   const placeOrder = useOrderStore((state) => state.placeOrder);
   const [loading, setLoading] = useState(false);
   const [qrCode, setQrCode] = useState(null);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  console.log("Cart Items in CheckoutPage:", cartItems);
+  // console.log("Cart Items in CheckoutPage:", cartItems);
 
   const handlePaymentMethodChange = e => {
     setPaymentMethod(e.target.value);
@@ -35,6 +36,17 @@ const CheckoutPage = () => {
       });
     }
   }, []);
+
+  // Kiểm tra điều kiện hợp lệ của form
+  useEffect(() => {
+    const checkFormValidity = async () => {
+      const values = await form.getFieldsValue();
+      const isAddressFilled = values.address && values.city;
+      setIsFormValid(isAddressFilled && paymentMethod); // Kiểm tra nếu có địa chỉ và phương thức thanh toán
+    };
+
+    checkFormValidity();
+  }, [paymentMethod, form]);
 
   const handleFormSubmit = async (values) => {
     if (!cartItems || cartItems.length === 0) {
@@ -64,16 +76,49 @@ const CheckoutPage = () => {
       };
 
       // await placeOrder(orderData);
-      const result = await placeOrder(orderData);
+      const orderResult = await placeOrder(orderData);
       useCartStore.getState().clearCart();
 
-      if (paymentMethod === 'ZaloPay') {
-        navigate('/payment-gateway', {state: {cartItems, customerInfo: values}});
+      if (paymentMethod === 'ZaloPay' && orderResult.success) {
+        try {
+
+          await new Promise(resolve => setTimeout(resolve, 2000));
+
+          const orderId = orderResult.data.orderId;
+          const totalPrice = orderResult.data.totalPrice;
+          // Gọi API thanh toán với orderId
+          const paymentResponse = await fetch(`/api/Payment/create-payment/${orderId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount: calculateTotalPrice(cartItems),
+              description: 'Thanh toán đơn hàng',
+              item: 'Sản phẩm trong giỏ hàng'
+            }),
+          });
+
+          const paymentData = await paymentResponse.json();
+
+          // Chuyển hướng đến URL thanh toán
+          if (paymentData.order_url) {
+            window.location.href = paymentData.order_url;
+          } else {
+            throw new Error('Không nhận được URL thanh toán');
+          }
+        } catch (error) {
+          Modal.error({
+            title: 'Lỗi thanh toán',
+            content: 'Không thể khởi tạo thanh toán ZaloPay. Vui lòng thử lại sau.',
+          });
+        }
       } else {
         Modal.success({
-          title: 'Thanh toán thành công',
+          title: 'Đặt hàng thành công',
           content: 'Cảm ơn bạn đã mua hàng! Đơn hàng của bạn đã được xác nhận.',
         });
+        navigate('/'); // hoặc trang xác nhận đơn hàng
       }
     } catch (error) {
       Modal.error({
@@ -120,7 +165,7 @@ const CheckoutPage = () => {
       currency: 'VND',
     }).format(value);
   };
-  
+
   return (
     <>
       <Header/>
@@ -150,7 +195,23 @@ const CheckoutPage = () => {
               {/*  <TextArea rows={2} placeholder="Ghi chú về đơn hàng (tuỳ chọn)"/>*/}
               {/*</Form.Item>*/}
               <Form.Item>
-                <Button type="primary" htmlType="submit" block style={{fontSize: '16px'}} loading={loading}>ĐẶT HÀNG</Button>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  style={{
+                    fontSize: '18px',
+                    height: '40px',
+                    width: '50%',
+                    color: isFormValid ? 'white' : 'black', // Chữ trắng khi hợp lệ, chữ đen khi chưa hợp lệ
+                    backgroundColor: isFormValid ? 'red' : 'gray', // Màu đỏ khi hợp lệ, xám khi chưa hợp lệ
+                    borderColor: isFormValid ? 'red' : 'gray', // Cùng màu với background
+                  }}
+                  loading={loading}
+                  disabled={!isFormValid}
+                >
+                  ĐẶT HÀNG
+                </Button>
               </Form.Item>
             </Form>
           </Col>

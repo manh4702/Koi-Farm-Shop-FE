@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Table,
   Button,
@@ -16,7 +16,7 @@ import {
   Dropdown,
   Menu,
   DatePicker,
-  Switch,
+  Switch, Tag, Divider, Descriptions, Avatar,
 } from "antd";
 import {
   DeleteOutlined,
@@ -36,7 +36,7 @@ import {
 import moment from "moment";
 import useAuth from "../../../hooks/useAuth";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const CustomerManagement = () => {
   useAuth();
@@ -71,7 +71,7 @@ const CustomerManagement = () => {
 
   const handleEdit = (customer) => {
     setEditCustomer(customer);
-    form.setFieldsValue({ ...customer, dob: moment(customer.dob) });
+    form.setFieldsValue({...customer, dob: moment(customer.dob)});
     setIsModalVisible(true);
   };
 
@@ -100,22 +100,6 @@ const CustomerManagement = () => {
       message.error("Lỗi khi cập nhật thông tin khách hàng");
     }
   };
-
-  // const handleDelete = async (userId) => {
-  //   Modal.confirm({
-  //     title: "Xác nhận xoá",
-  //     content: "Bạn có chắc chắn muốn xóa khách hàng này?",
-  //     onOk: async () => {
-  //       try {
-  //         await deleteUser(userId);
-  //         message.success("Đã xóa khách hàng thành công");
-  //         loadCustomers(); // Tải lại danh sách sau khi xóa thành công
-  //       } catch (error) {
-  //         message.error("Lỗi khi xóa khách hàng");
-  //       }
-  //     },
-  //   });
-  // };
 
   const handleStatusToggle = async (userId, currentStatus) => {
     try {
@@ -153,10 +137,10 @@ const CustomerManagement = () => {
       title: "Địa Chỉ",
       dataIndex: "address",
     },
-    {
-      title: "Điểm tích luỹ",
-      dataIndex: "points",
-    },
+    // {
+    //   title: "Điểm tích luỹ",
+    //   dataIndex: "points",
+    // },
     {
       title: "Trạng Thái",
       dataIndex: "status",
@@ -174,21 +158,21 @@ const CustomerManagement = () => {
       ),
     },
     {
-      title: <SettingOutlined />,
+      title: <SettingOutlined/>,
       key: "action",
       render: (_, record, index) => {
         const menu = (
           <Menu>
             <Menu.Item
               key="edit"
-              icon={<EditOutlined />}
+              icon={<EditOutlined/>}
               onClick={() => handleEdit(record)}
             >
               Sửa
             </Menu.Item>
             <Menu.Item
               key="view"
-              icon={<EyeOutlined />}
+              icon={<EyeOutlined/>}
               onClick={() => handleView(record)}
             >
               Xem
@@ -199,8 +183,8 @@ const CustomerManagement = () => {
         return (
           <Space size="middle">
             <Dropdown overlay={menu} placement="bottomLeft">
-              <Button type="ghost" style={{ paddingLeft: 0 }}>
-                <MoreOutlined />
+              <Button type="ghost" style={{paddingLeft: 0}}>
+                <MoreOutlined/>
               </Button>
             </Dropdown>
           </Space>
@@ -210,17 +194,17 @@ const CustomerManagement = () => {
   ];
 
   return (
-    <div style={{ padding: "24px", background: "#fff" }}>
+    <div style={{padding: "24px", background: "#fff"}}>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <h1>Quản Lý Khách Hàng</h1>
-          <div style={{ maxHeight: "400px" }}>
+          <div style={{maxHeight: "400px"}}>
             <Table
               columns={columns}
               dataSource={customers}
               rowKey="userId"
               pagination={10}
-              scroll={{ y: 325 }}
+              scroll={{y: 325}}
               loading={loading}
             />
           </div>
@@ -241,22 +225,22 @@ const CustomerManagement = () => {
                   label="Họ và Tên"
                   name="fullName"
                   rules={[
-                    { required: true, message: "Vui lòng nhập họ và tên" },
+                    {required: true, message: "Vui lòng nhập họ và tên"},
                   ]}
                 >
-                  <Input />
+                  <Input/>
                 </Form.Item>
                 <Form.Item
                   label="Ngày Tháng Năm Sinh"
                   name="dob"
                   rules={[
-                    { required: true, message: "Vui lòng chọn ngày sinh" },
+                    {required: true, message: "Vui lòng chọn ngày sinh"},
                   ]}
                 >
-                  <DatePicker style={{ width: "100%" }} />
+                  <DatePicker style={{width: "100%"}}/>
                 </Form.Item>
                 <Form.Item label="Password" name="password">
-                  <Input.Password />
+                  <Input.Password/>
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -292,17 +276,17 @@ const CustomerManagement = () => {
                     },
                   ]}
                 >
-                  <Input />
+                  <Input/>
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item style={{ textAlign: "right" }}>
+            <Form.Item style={{textAlign: "right"}}>
               <Button
                 type="primary"
                 htmlType="submit"
-                style={{ marginRight: "10px", marginTop: "10px" }}
+                style={{marginRight: "10px", marginTop: "10px"}}
               >
-                <SaveOutlined />
+                <SaveOutlined/>
                 Lưu
               </Button>
             </Form.Item>
@@ -311,67 +295,169 @@ const CustomerManagement = () => {
         {/* )} */}
 
         {selectedCustomer && (
-          <Col span={24}>
-            <Card title={`Thông tin chi tiết của ${selectedCustomer.fullName}`}>
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="Hồ Sơ Khách Hàng" key="1">
-                  <h3
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      margin: "-10px 0 10px 0",
-                    }}
-                  >
-                    Thông Tin
-                  </h3>
+          <Modal
+            title={`Chi tiết của ${selectedCustomer.fullName}`}
+            visible={!!selectedCustomer}
+            onCancel={() => setSelectedCustomer(null)}
+            footer={null}
+            width={800}
+          >
+            <div style={{padding: "20px"}}>
+              {/* Phần Avatar hoặc hình đại diện */}
+              <div style={{textAlign: "center", marginBottom: "24px"}}>
+                <Avatar
+                  size={120}
+                  src={selectedCustomer.avatar}
+                  style={{
+                    backgroundColor: '#87d068',
+                    fontSize: '36px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {selectedCustomer.fullName?.charAt(0)}
+                </Avatar>
+              </div>
 
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <p>
-                        <strong>Họ và Tên:</strong> {selectedCustomer.fullName}
+              <Divider orientation="left">Thông tin cơ bản</Divider>
+
+              <Descriptions
+                bordered
+                column={{xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1}}
+              >
+                <Descriptions.Item label="Họ và tên" span={2}>
+                  <strong>{selectedCustomer.fullName}</strong>
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Email">
+                  {selectedCustomer.email}
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Số điện thoại">
+                  {selectedCustomer.phone}
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Trạng thái">
+                  <Tag color={selectedCustomer.status === "Active" ? "green" : "red"}>
+                    {selectedCustomer.status === "Active" ? "Đang hoạt động" : "Đã vô hiệu hóa"}
+                  </Tag>
+                </Descriptions.Item>
+                <Descriptions.Item label="Ngày sinh">
+                  {moment(selectedCustomer.dob).format('DD/MM/YYYY')}
+                </Descriptions.Item>
+              </Descriptions>
+
+              {/*<Divider orientation="left">Thông tin chi tiết</Divider>*/}
+              
+              {/*<Descriptions*/}
+              {/*  bordered*/}
+              {/*  column={{xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1}}*/}
+              {/*>*/}
+              {/*  */}
+              
+              {/*  <Descriptions.Item label="Địa chỉ" span={2}>*/}
+              {/*    {selectedCustomer.address || "Chưa cập nhật"}*/}
+              {/*  </Descriptions.Item>*/}
+              {/*</Descriptions>*/}
+              <Divider orientation="left">Danh sách địa chỉ</Divider>
+              <Row gutter={[16, 16]}>
+                {selectedCustomer.addresses.map((address, index) => (
+                  <Col xs={24} sm={12} key={address.addressId}>
+                    <Card
+                      size="small"
+                      title={`Địa chỉ ${index + 1}`}
+                      style={{
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                      }}
+                    >
+                      <p><strong>Đường:</strong> {address.street}</p>
+                      <p><strong>Quận/Huyện:</strong> {address.district}</p>
+                      <p><strong>Thành phố:</strong> {address.city}</p>
+                      <Divider style={{margin: '8px 0'}}/>
+                      <p style={{
+                        margin: 0,
+                        color: '#1890ff',
+                        fontSize: '13px'
+                      }}>
+                        Địa chỉ đầy đủ: {`${address.street}, ${address.district}, ${address.city}`}
                       </p>
-                      <p>
-                        <strong>Ngày Sinh:</strong> {selectedCustomer.dob}
-                      </p>
-                      <p>
-                        <strong>Số Điện Thoại:</strong> {selectedCustomer.phone}
-                      </p>
-                    </Col>
-                    <Col span={12}>
-                      <p>
-                        <strong>Email:</strong> {selectedCustomer.email}
-                      </p>
-                      <p>
-                        <strong>Địa Chỉ:</strong> {selectedCustomer.address}
-                      </p>
-                      <p>
-                        <strong>Tích Điểm:</strong> {selectedCustomer.points}
-                      </p>
-                    </Col>
-                  </Row>
-                </TabPane>
-                <TabPane tab="Lịch Sử Đơn Hàng" key="2">
-                  <Table
-                    columns={[
-                      { title: "Mã Đơn", dataIndex: "orderId" },
-                      { title: "Ngày", dataIndex: "date" },
-                      { title: "Tổng", dataIndex: "total" },
-                    ]}
-                    dataSource={selectedCustomer.orders}
-                    pagination={false}
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+              <Divider orientation="left">Lịch sử đơn hàng</Divider>
+
+              <Table
+                dataSource={selectedCustomer.orders}
+                columns={[
+                  {
+                    title: "Mã đơn hàng",
+                    dataIndex: "orderId",
+                    key: "orderId",
+                  },
+                  {
+                    title: "Ngày đặt",
+                    dataIndex: "date",
+                    key: "date",
+                    render: (date) => moment(date).format('DD/MM/YYYY HH:mm'),
+                  },
+                  {
+                    title: "Tổng tiền",
+                    dataIndex: "total",
+                    key: "total",
+                    render: (total) => new Intl.NumberFormat('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND'
+                    }).format(total),
+                  },
+                  {
+                    title: "Trạng thái",
+                    dataIndex: "status",
+                    key: "status",
+                    render: (status) => (
+                      <Tag color={
+                        status === 'COMPLETED' ? 'green' :
+                          status === 'PENDING' ? 'gold' :
+                            status === 'CANCELLED' ? 'red' : 'blue'
+                      }>
+                        {status === 'COMPLETED' ? 'Hoàn thành' :
+                          status === 'PENDING' ? 'Đang xử lý' :
+                            status === 'CANCELLED' ? 'Đã hủy' : 'Đang giao'}
+                      </Tag>
+                    ),
+                  }
+                ]}
+                pagination={false}
+                scroll={{y: 240}}
+              />
+
+              {selectedCustomer.feedback && selectedCustomer.feedback.length > 0 && (
+                <>
+                  <Divider orientation="left">Đánh giá & Phản hồi</Divider>
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={selectedCustomer.feedback}
+                    renderItem={item => (
+                      <List.Item>
+                        <List.Item.Meta
+                          avatar={<Avatar src={item.avatar}/>}
+                          title={
+                            <Space>
+                              <Rate disabled defaultValue={item.rating}/>
+                              <span>{moment(item.date).format('DD/MM/YYYY')}</span>
+                            </Space>
+                          }
+                          description={item.comment}
+                        />
+                      </List.Item>
+                    )}
                   />
-                </TabPane>
-                <TabPane tab="Đánh Giá & Phản Hồi" key="3">
-                  {selectedCustomer.feedback.map((item, index) => (
-                    <div key={index}>
-                      <Rate disabled value={item.rating} />
-                      <p>{item.comment}</p>
-                    </div>
-                  ))}
-                </TabPane>
-              </Tabs>
-            </Card>
-          </Col>
+                </>
+              )}
+            </div>
+          </Modal>
         )}
       </Row>
     </div>

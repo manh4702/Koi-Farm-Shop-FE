@@ -157,48 +157,6 @@ const FishDetailPage = () => {
             >
               Giá bán: {formatCurrency(fish.price)}
             </p>
-            {/*/!* Nút thêm vào giỏ hàng *!/*/}
-            {/*<Button*/}
-            {/*  type="primary"*/}
-            {/*  style={{*/}
-            {/*    backgroundColor: "red",*/}
-            {/*    width: "50%",*/}
-            {/*    display: "flex",*/}
-            {/*    justifyContent: "center",*/}
-            {/*    alignItems: "center",*/}
-            {/*    marginTop: "20px",*/}
-            {/*    marginBottom: "10px",*/}
-            {/*  }}*/}
-            {/*  onClick={handleBuyNow}*/}
-            {/*>*/}
-            {/*  <DollarOutlined/> Mua ngay*/}
-            {/*</Button>*/}
-
-            {/*/!* Nút mua ngay *!/*/}
-            {/*<Button*/}
-            {/*  type="default"*/}
-            {/*  style={{*/}
-            {/*    width: "50%",*/}
-            {/*    display: "flex",*/}
-            {/*    justifyContent: "center",*/}
-            {/*    alignItems: "center",*/}
-            {/*    transition: "border 0.3s",*/}
-            {/*    border: "2px solid black",*/}
-            {/*    color: "black",*/}
-            {/*    marginBottom: "30px",*/}
-            {/*  }}*/}
-            {/*  onMouseEnter={(e) => {*/}
-            {/*    e.currentTarget.style.border = "2px solid red";*/}
-            {/*    e.currentTarget.style.color = "red";*/}
-            {/*  }}*/}
-            {/*  onMouseLeave={(e) => {*/}
-            {/*    e.currentTarget.style.border = "2px solid black";*/}
-            {/*    e.currentTarget.style.color = "black";*/}
-            {/*  }}*/}
-            {/*  onClick={handleAddToCart}*/}
-            {/*>*/}
-            {/*  <ShoppingCartOutlined/> Thêm vào giỏ hàng*/}
-            {/*</Button>*/}
             {fish.productStatus === "SOLDOUT" ? (
               <p style={{
                 backgroundColor: "red",

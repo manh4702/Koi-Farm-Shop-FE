@@ -25,8 +25,17 @@ export const fetchUsersByRole = async (roleName) => {
         phone: user.phone,
         email: user.email,
         status: user.status ,
-        address: "Unknown", // API hiện không trả về địa chỉ, có thể cập nhật nếu cần
-        points: 0, // API hiện không trả về điểm, có thể cập nhật sau
+        addresses: user.addresses || [],
+        address: user.addresses && user.addresses.length > 0
+          ? `${user.addresses[0].street}, ${user.addresses[0].district}, ${user.addresses[0].city}`
+          : "Chưa cập nhật",
+        points: 0,
+        orders: (user.orders || []).map(order => ({
+          orderId: order.orderId,
+          date: order.orderDate,
+          total: order.totalPrice,
+          status: order.status
+        })),
         feedback: [], // API hiện không trả về phản hồi, có thể cập nhật sau
       }));
     } else {
