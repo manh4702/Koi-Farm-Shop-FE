@@ -15,7 +15,7 @@ import {
   Menu,
   Select,
   InputNumber,
-  Upload, Checkbox,
+  Upload, Checkbox, Divider, Descriptions, Tag, Image,
 } from "antd";
 import {
   DeleteOutlined,
@@ -40,6 +40,7 @@ const FishInfo = (categoryId) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [visibleFilters, setVisibleFilters] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
 
   const {fishes, loadFishes, createFish, removeFish, loading} = useFishStore();
   const {fetchCategories} = useCategoryStore();
@@ -69,6 +70,7 @@ const FishInfo = (categoryId) => {
   };
 
   const onFinish = async (values) => {
+    setLoadingButton(true);
     const newFish = {
       ...values,
       image: values.image?.file,
@@ -84,6 +86,8 @@ const FishInfo = (categoryId) => {
       handleCancel();
     } catch (error) {
       message.error("Đã xảy ra lỗi khi thêm cá. Vui lòng thử lại!");
+    } finally {
+      setLoadingButton(false);
     }
   };
 
@@ -97,17 +101,12 @@ const FishInfo = (categoryId) => {
     }
   };
 
-  // const handleFilterCancel = () => {
-  //   setIsFilterModalVisible(false);
-  // };
-  //
-  // const handleCategoryFilterChange = (value) => {
-  //   setSelectedCategory(value);
-  // };
-  //
-  // const handleStatusFilterChange = (value) => {
-  //   setSelectedStatus(value);
-  // };
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
+  };
 
   const resetFilters = () => {
     setSelectedCategory(null);
@@ -160,24 +159,31 @@ const FishInfo = (categoryId) => {
     {
       title: "Giá (VND)",
       dataIndex: "price",
-      render: (price) => price.toLocaleString("vi-VN"),
+      render: (price) => formatCurrency(price),
       sorter: (a, b) => a.price - b.price,
     },
     {
       title: "Lượng thức ăn/ngày (gram)",
       dataIndex: "dailyFood",
+      width: 150,
       sorter: (a, b) => a.dailyFood - b.dailyFood,
     },
+    // {
+    //   title: "Số lượng trong kho",
+    //   dataIndex: "quantityInStock",
+    //   width: 150,
+    //   sorter: (a, b) => a.quantityInStock - b.quantityInStock,
+    // },
     {
-      title: "Số lượng trong kho",
-      dataIndex: "quantityInStock",
-      sorter: (a, b) => a.quantityInStock - b.quantityInStock,
+      title: "Tình trạng cá",
+      dataIndex: "status",
+      render: (status) => (status === "GOOD" ? "Khoẻ mạnh" : "Sắp chết"), // Giả sử 0 là có sẵn, 1 là hết hàng
     },
     {
       title: "Trạng thái",
-      dataIndex: "status",
-      render: (status) => (status === 0 ? "Có sẵn" : "Hết hàng"), // Giả sử 0 là có sẵn, 1 là hết hàng
-      sorter: (a, b) => a.status - b.status,
+      dataIndex: "productStatus",
+      render: (productStatus) => (productStatus === "AVAILABLE" ? "Có sẵn" : "Hết hàng"), // Giả sử 0 là có sẵn, 1 là hết hàng
+      sorter: (a, b) => a.productStatus === "AVAILABLE" ? -1 : 1,
     },
     {
       title: <SettingOutlined/>,
@@ -272,8 +278,8 @@ const FishInfo = (categoryId) => {
             <Dropdown overlay={menu} trigger={['click']} open={visibleFilters} onVisibleChange={setVisibleFilters}>
               <Button
                 type="default"
-                icon={<FilterOutlined />}
-                style={{ marginLeft: "10px" }}
+                icon={<FilterOutlined/>}
+                style={{marginLeft: "10px"}}
               >
                 Bộ lọc
               </Button>
@@ -282,7 +288,12 @@ const FishInfo = (categoryId) => {
           {/*<Table columns={columns} dataSource={fishes} pagination={false} scroll={{y: 325}}/>*/}
         </Col>
         <Col span={24}>
-          <Table columns={columns} dataSource={filteredFishes} pagination={false} scroll={{y: 425}}/>
+          <Table
+            columns={columns}
+            dataSource={filteredFishes}
+            pagination={false}
+            // scroll={{y: 425}}
+          />
         </Col>
 
         {isModalVisible && (
@@ -297,20 +308,21 @@ const FishInfo = (categoryId) => {
               initialValues={editFish}
               onFinish={onFinish}
             >
-              <Form.Item
-                label="Thêm ảnh cá"
-                name="image"
-                rules={[{required: true, message: "Vui lòng thêm ảnh của cá"}]}
-              >
-                <Upload
-                  listType="picture-card"
-                  beforeUpload={() => false}
-                >
-                  <PlusSquareOutlined/> Upload
-                </Upload>
-              </Form.Item>
-
               <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Thêm ảnh cá"
+                    name="image"
+                    rules={[{required: true, message: "Vui lòng thêm ảnh của cá"}]}
+                  >
+                    <Upload
+                      listType="picture-card"
+                      beforeUpload={() => false}
+                    >
+                      <PlusSquareOutlined/> Upload
+                    </Upload>
+                  </Form.Item>
+                </Col>
                 <Col span={12}>
                   <Form.Item label="Tên cá" name="name" rules={[{required: true, message: "Vui lòng nhập tên cá"}]}>
                     <Input/>
@@ -325,48 +337,117 @@ const FishInfo = (categoryId) => {
                       ))}
                     </Select>
                   </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={12}>
                   <Form.Item
                     label="Giới tính"
                     name="gender"
-                    rules={[{required: true, message: "Vui lòng nhập giới tính của cá"}]}>
-                    <Select>
+                    rules={[{required: true, message: "Vui lòng nhập giới tính của cá"}]}
+                  >
+                    <Select placeholder="Chọn giới tính">
                       <Select.Option value="1">Đực</Select.Option>
                       <Select.Option value="0">Cái</Select.Option>
                     </Select>
                   </Form.Item>
+                </Col>
+                <Col span={12}>
                   <Form.Item
                     label="Tuổi (năm)"
                     name="age"
-                    rules={[{required: true, message: "Vui lòng nhập tuổi của cá"}]}>
-                    <InputNumber min={0}/>
+                    rules={[{required: true, message: "Vui lòng nhập tuổi của cá"}]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col span={8}>
+                  <Form.Item
+                    label="Số lượng trong kho"
+                    name="quantityInStock"
+                    initialValue={1}
+                    rules={[{required: true, message: "Vui lòng nhập số lượng có sẵn của cá"}]}
+                  >
+                    <InputNumber min={1} max={1} disabled style={{width: "100%"}}/>
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label="Kích thước (cm)"
+                    name="size"
+                    rules={[{required: true, message: "Vui lòng nhập kích thước của cá"}]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label="Giá (VND)"
+                    name="price"
+                    rules={[{required: true, message: "Vui lòng nhập giá của cá"}]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                      parser={(value) => value.replace(/\./g, "")}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col span={12}>
+                  <Form.Item
+                    label="Lượng thức ăn/ngày (gram)"
+                    name="dailyFood"
+                    rules={[{required: true, message: "Vui lòng nhập lượng thức ăn của cá"}]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="Kích thước (cm)" name="size"
-                             rules={[{required: true, message: "Vui lòng nhập kích thước của cá"}]}>
-                    <Input/>
-                  </Form.Item>
-                  <Form.Item label="Giá (VND)" name="price"
-                             rules={[{required: true, message: "Vui lòng nhập giá của cá"}]}>
-                    <InputNumber min={0}/>
-                  </Form.Item>
-                  <Form.Item label="Lượng thức ăn/ngày (gram)" name="dailyFood"
-                             rules={[{required: true, message: "Vui lòng nhập lượng thức ăn của cá"}]}>
-                    <InputNumber min={0}/>
-                  </Form.Item>
-                  <Form.Item label="Số lượng trong kho" name="quantityInStock"
-                             rules={[{required: true, message: "Vui lòng nhập số lượng có sẵn của cá"}]}>
-                    <InputNumber min={0}/>
-                  </Form.Item>
-                  <Form.Item label="Trạng thái" name="status"
-                             rules={[{required: true, message: "Vui lòng nhập trạng thái của cá"}]}>
-                    <Select>
+                  <Form.Item
+                    label="Trạng thái"
+                    name="productStatus"
+                    rules={[{required: true, message: "Vui lòng nhập trạng thái của cá"}]}
+                  >
+                    <Select placeholder="Chọn trạng thái">
                       <Select.Option value={0}>Có sẵn</Select.Option>
                       <Select.Option value={1}>Hết hàng</Select.Option>
                     </Select>
                   </Form.Item>
                 </Col>
               </Row>
+
               <Form.Item
                 label="Mô tả"
                 name="description"
@@ -375,7 +456,7 @@ const FishInfo = (categoryId) => {
                 <Input.TextArea rows={3} placeholder="Nhập mô tả về cá"/>
               </Form.Item>
               <Form.Item style={{textAlign: "right"}}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loadingButton}>
                   <SaveOutlined/> {editFish ? "Lưu" : "Thêm mới"}
                 </Button>
               </Form.Item>
@@ -385,36 +466,129 @@ const FishInfo = (categoryId) => {
 
         {
           selectedFish && (
-            <Col span={24}>
-              <Card title={`Chi tiết của ${selectedFish.name}`}>
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab="Thông tin Cá" key="1">
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <img src={selectedFish.imageUrl} alt="fish"
-                             style={{width: "60%", height: "auto", marginBottom: "20px", borderRadius: "10px"}}/>
-                      </Col>
-                      <Col span={8}>
-                        <p><strong>Tên:</strong> {selectedFish.name}</p>
-                        <p><strong>Loại cá:</strong> {selectedFish.categoryName}</p>
-                        <p><strong>Giới tính:</strong> {selectedFish.gender === 1 ? "Đực" : "Cái"}</p>
-                        <p><strong>Tuổi (năm):</strong> {selectedFish.age}</p>
-                      </Col>
-                      <Col span={8}>
-                        <p><strong>Kích thước (cm):</strong> {selectedFish.size}</p>
-                        <p><strong>Giá (VND):</strong> {selectedFish.price.toLocaleString("vi-VN")}</p>
-                        <p><strong>Lượng thức ăn/ngày (gram):</strong> {selectedFish.dailyFood}</p>
-                        <p><strong>Số lượng trong kho:</strong> {selectedFish.quantityInStock}</p>
-                        <p><strong>Trạng thái:</strong> {selectedFish.status === 0 ? "Có sẵn" : "Hết hàng"}</p>
-                      </Col>
-                      <Col span={24}>
-                        <p><strong>Mô tả:</strong> {selectedFish.description}</p>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                </Tabs>
-              </Card>
-            </Col>
+            <Modal
+              title={`Chi tiết của ${selectedFish.name}`}
+              visible={!!selectedFish}
+              onCancel={() => setSelectedFish(null)}
+              footer={null}
+              width={800}
+            >
+              <div style={{padding: "20px"}}>
+                {/* Phần hình ảnh */}
+                <div style={{textAlign: "center", marginBottom: "24px"}}>
+                  <Image
+                    src={selectedFish.imageUrl}
+                    alt={selectedFish.name}
+                    style={{
+                      maxWidth: "300px",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    }}
+                  />
+                </div>
+
+                <Divider orientation="left">Thông tin cơ bản</Divider>
+
+                <Descriptions
+                  bordered
+                  column={{xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1}}
+                >
+                  <Descriptions.Item label="Tên cá" span={2}>
+                    <strong>{selectedFish.name}</strong>
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Giá">
+                    <span style={{color: "#f50"}}>
+                      {formatCurrency(selectedFish.price)}
+                    </span>
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Trạng thái">
+                    <Tag color={selectedFish.productStatus === "AVAILABLE" ? "green" : "red"}>
+                      {selectedFish.productStatus === "AVAILABLE" ? "Có sẵn" : "Hết hàng"}
+                    </Tag>
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Loại cá">
+                    {selectedFish.categoryName}
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Thức ăn/ngày">
+                    {selectedFish.dailyFood} gram
+                  </Descriptions.Item>
+                </Descriptions>
+
+                <Divider orientation="left">Thông số chi tiết</Divider>
+
+                <Descriptions
+                  bordered
+                  column={{xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1}}
+                >
+                  <Descriptions.Item label="Tuổi">
+                    {selectedFish.age} năm
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Kích thước">
+                    {selectedFish.size} cm
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="Giới tính">
+                    {selectedFish.gender === 1 ? "Đực" : "Cái"}
+                  </Descriptions.Item>
+                </Descriptions>
+
+                <Divider orientation="left">Mô tả chi tiết</Divider>
+
+                <div
+                  style={{
+                    padding: "16px",
+                    background: "#f5f5f5",
+                    borderRadius: "8px",
+                    marginBottom: "24px",
+                    minHeight: "100px",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {selectedFish.description || "Không có mô tả"}
+                </div>
+              </div>
+            </Modal>
+            // <Col span={24}>
+            //   <Modal
+            //     title={`Chi tiết của ${selectedFish.name}`}
+            //     visible={!!selectedFish}
+            //     onCancel={() => setSelectedFish(null)} // Đóng modal khi bấm nút Đóng
+            //     footer={null}
+            //     width={1000}
+            //   >
+            //     <Tabs defaultActiveKey="1">
+            //       <TabPane tab="Thông tin Cá" key="1">
+            //         <Row gutter={16}>
+            //           <Col span={8}>
+            //             <img src={selectedFish.imageUrl} alt="fish"
+            //                  style={{width: "60%", height: "auto", marginBottom: "20px", borderRadius: "10px"}}/>
+            //           </Col>
+            //           <Col span={8}>
+            //             <p><strong>Tên:</strong> {selectedFish.name}</p>
+            //             <p><strong>Loại cá:</strong> {selectedFish.categoryName}</p>
+            //             <p><strong>Giới tính:</strong> {selectedFish.gender === 1 ? "Đực" : "Cái"}</p>
+            //             <p><strong>Tuổi (năm):</strong> {selectedFish.age}</p>
+            //           </Col>
+            //           <Col span={8}>
+            //             <p><strong>Kích thước (cm):</strong> {selectedFish.size}</p>
+            //             <p><strong>Giá (VND):</strong> {formatCurrency(selectedFish.price)}</p>
+            //             <p><strong>Lượng thức ăn/ngày (gram):</strong> {selectedFish.dailyFood}</p>
+            //             {/*<p><strong>Số lượng trong kho:</strong> {selectedFish.quantityInStock}</p>*/}
+            //             <p><strong>Trạng thái:</strong> {selectedFish.status === 0 ? "Có sẵn" : "Hết hàng"}</p>
+            //           </Col>
+            //           <Col span={24}>
+            //             <p><strong>Mô tả:</strong> {selectedFish.description}</p>
+            //           </Col>
+            //         </Row>
+            //       </TabPane>
+            //     </Tabs>
+            //   </Modal>
+            // </Col>
           )
         }
       </Row>

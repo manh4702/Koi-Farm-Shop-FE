@@ -144,9 +144,10 @@ const HomePage = () => {
       <section className="mb-8">
         <h2 className="text-2xl font-bold">Cá Koi nổi bật</h2>
         <div className="scroll-container">
-          <TransitionGroup>
-            <div className="flex overflow-x-auto">
-              {displayedFishes.map((fish) => (<CSSTransition key={fish.id} timeout={300} classNames="fade">
+          {/*<TransitionGroup>*/}
+          <div className="flex overflow-x-auto">
+            {displayedFishes.map((fish) => (
+              <CSSTransition key={fish.id} timeout={300} classNames="fade" >
                 <div className="fish-card mr-4" style={{maxWidth: "275px", minWidth: "275px", height: "515px"}}>
                   <img
                     src={fish.imageUrl}
@@ -157,31 +158,31 @@ const HomePage = () => {
                   <p className="text-red-500 font-bold">{formatCurrency(fish.price)}</p>
                   <p className="text-gray-700 line-clamp-3">{fish.description}</p>
                   <Link
-                    to={`/products/${fish.id}`}
+                    to={`/products/fish/${fish.id || fish.fishId}`}
                     className="text-blue-500 hover:underline mt-2 inline-block"
                   >
                     Xem chi tiết
                   </Link>
                 </div>
               </CSSTransition>))}
-            </div>
-          </TransitionGroup>
+          </div>
+          {/*</TransitionGroup>*/}
         </div>
-        <div className="flex justify-between mt-4">
-          {loading ? (<span className="text-blue-500">Đang tải...</span>) : (<>
-            <button onClick={handlePrevPage} disabled={currentPage === 0}
-                    className="flex items-center text-blue-500 hover:underline">
-              <GrCaretPrevious className="mr-2"/>
-              Trang trước
-            </button>
-            <button onClick={handleNextPage}
-                    disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}
-                    className="flex items-center text-blue-500 hover:underline">
-              Trang sau
-              <GrCaretNext className="ml-2"/>
-            </button>
-          </>)}
-        </div>
+        {/*<div className="flex justify-between mt-4">*/}
+        {/*  {loading ? (<span className="text-blue-500">Đang tải...</span>) : (<>*/}
+        {/*    <button onClick={handlePrevPage} disabled={currentPage === 0}*/}
+        {/*            className="flex items-center text-blue-500 hover:underline">*/}
+        {/*      <GrCaretPrevious className="mr-2"/>*/}
+        {/*      Trang trước*/}
+        {/*    </button>*/}
+        {/*    <button onClick={handleNextPage}*/}
+        {/*            disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}*/}
+        {/*            className="flex items-center text-blue-500 hover:underline">*/}
+        {/*      Trang sau*/}
+        {/*      <GrCaretNext className="ml-2"/>*/}
+        {/*    </button>*/}
+        {/*  </>)}*/}
+        {/*</div>*/}
       </section>
 
       <section className="mb-8">
@@ -226,7 +227,7 @@ const HomePage = () => {
                   <p className="text-red-500 font-bold">{formatCurrency(fishPackage.price)}</p>
                   <p className="text-gray-700 line-clamp-3">{fishPackage.description}</p>
                 </div>
-                <Link to={`/products/fish-packages/${fishPackage.fishPackageId}`}
+                <Link to={`/products/fish-packages/${fish.fishPackageId || fish.id}`}
                       className="text-red-500 hover:underline mt-2">
                   Xem chi tiết
                 </Link>

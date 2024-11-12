@@ -80,9 +80,14 @@ const FishDetailPage = () => {
     navigate("/cart"); // Chuyển đến trang giỏ hàng
   };
 
+  const handleContact = () => {
+    message.info("Vui lòng liên hệ với chúng tôi để biết thêm thông tin.");
+    // You can navigate to a contact page or open a contact form here if needed.
+  };
+
   return (
     <>
-      <Header />
+      <Header/>
       <div
         style={{minHeight: "100vh", display: "flex", flexDirection: "column"}}
       >
@@ -152,48 +157,104 @@ const FishDetailPage = () => {
             >
               Giá bán: {formatCurrency(fish.price)}
             </p>
-            {/* Nút thêm vào giỏ hàng */}
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "red",
-                width: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px",
-                marginBottom: "10px",
-              }}
-              onClick={handleBuyNow}
-            >
-              <DollarOutlined/> Mua ngay
-            </Button>
+            {/*/!* Nút thêm vào giỏ hàng *!/*/}
+            {/*<Button*/}
+            {/*  type="primary"*/}
+            {/*  style={{*/}
+            {/*    backgroundColor: "red",*/}
+            {/*    width: "50%",*/}
+            {/*    display: "flex",*/}
+            {/*    justifyContent: "center",*/}
+            {/*    alignItems: "center",*/}
+            {/*    marginTop: "20px",*/}
+            {/*    marginBottom: "10px",*/}
+            {/*  }}*/}
+            {/*  onClick={handleBuyNow}*/}
+            {/*>*/}
+            {/*  <DollarOutlined/> Mua ngay*/}
+            {/*</Button>*/}
 
-            {/* Nút mua ngay */}
-            <Button
-              type="default"
-              style={{
+            {/*/!* Nút mua ngay *!/*/}
+            {/*<Button*/}
+            {/*  type="default"*/}
+            {/*  style={{*/}
+            {/*    width: "50%",*/}
+            {/*    display: "flex",*/}
+            {/*    justifyContent: "center",*/}
+            {/*    alignItems: "center",*/}
+            {/*    transition: "border 0.3s",*/}
+            {/*    border: "2px solid black",*/}
+            {/*    color: "black",*/}
+            {/*    marginBottom: "30px",*/}
+            {/*  }}*/}
+            {/*  onMouseEnter={(e) => {*/}
+            {/*    e.currentTarget.style.border = "2px solid red";*/}
+            {/*    e.currentTarget.style.color = "red";*/}
+            {/*  }}*/}
+            {/*  onMouseLeave={(e) => {*/}
+            {/*    e.currentTarget.style.border = "2px solid black";*/}
+            {/*    e.currentTarget.style.color = "black";*/}
+            {/*  }}*/}
+            {/*  onClick={handleAddToCart}*/}
+            {/*>*/}
+            {/*  <ShoppingCartOutlined/> Thêm vào giỏ hàng*/}
+            {/*</Button>*/}
+            {fish.productStatus === "SOLDOUT" ? (
+              <p style={{
+                backgroundColor: "red",
+                padding: "5px",
+                margin: "10px 0",
                 width: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                transition: "border 0.3s",
-                border: "2px solid black",
-                color: "black",
-                marginBottom: "30px",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.border = "2px solid red";
-                e.currentTarget.style.color = "red";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.border = "2px solid black";
-                e.currentTarget.style.color = "black";
-              }}
-              onClick={handleAddToCart}
-            >
-              <ShoppingCartOutlined/> Thêm vào giỏ hàng
-            </Button>
+                textAlign: "center",
+                color: "white",
+                fontWeight: "bold",
+                borderRadius: "10px",
+                fontSize: "20px"
+              }}>Liên hệ</p>
+            ) : (
+              <>
+                <Button
+                  type="primary"
+                  style={{
+                    backgroundColor: "red",
+                    width: "50%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                  onClick={handleBuyNow}
+                >
+                  <DollarOutlined/> Mua ngay
+                </Button>
+
+                <Button
+                  type="default"
+                  style={{
+                    width: "50%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transition: "border 0.3s",
+                    border: "2px solid black",
+                    color: "black",
+                    marginBottom: "30px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.border = "2px solid red";
+                    e.currentTarget.style.color = "red";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.border = "2px solid black";
+                    e.currentTarget.style.color = "black";
+                  }}
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCartOutlined/> Thêm vào giỏ hàng
+                </Button>
+              </>
+            )}
 
 
             <div>
@@ -220,9 +281,11 @@ const FishDetailPage = () => {
               <p>
                 <strong>Tuổi:</strong> {fish.age} năm
               </p>
-              <p>
-                <strong>Nguồn gốc:</strong> {fish.origin}
-              </p>
+              {fish.origin && (
+                <p>
+                  <strong>Nguồn gốc:</strong> {fish.origin}
+                </p>
+              )}
               <p>
                 <strong>Giống:</strong> {fish.categoryName}
               </p>

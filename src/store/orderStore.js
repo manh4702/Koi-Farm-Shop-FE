@@ -14,8 +14,10 @@ const useOrderStore = create((set) => ({
             customer: order.userName,
             status: order.status,
             total: order.totalPrice,
+            date: order.orderDate,
+            paymentMethod: order.paymentMethod,
             address: `${order.address.street}, ${order.address.city}, ${order.address.district}`,
-            phone: 'Unknown', // Assuming phone is not provided
+            phone: order.phone, // Assuming phone is not provided
             products: order.items.map(item => ({
               name: item.fishName,
               quantity: item.quantity,
@@ -79,6 +81,7 @@ const useOrderStore = create((set) => ({
       // Add order data to formData
       formData.append('UserId', userId);
       formData.append('IsSent', orderData.isSent);
+      formData.append('PaymentMethod', orderData.paymentMethod);
       formData.append('CreateAddressDTO.Street', orderData.address);
       formData.append('CreateAddressDTO.City', orderData.city);
       formData.append('CreateAddressDTO.District', orderData.district);
