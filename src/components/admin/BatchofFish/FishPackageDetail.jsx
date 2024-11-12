@@ -70,7 +70,7 @@ const FishPackageDetail = ({ fishPackage }) => {
             </Descriptions.Item>
 
             <Descriptions.Item label="Trạng thái">
-              {getStatusTag(fishPackage.status)}
+              {getStatusTag(fishPackage.productStatus)}
             </Descriptions.Item>
 
             <Descriptions.Item label="Số lượng">
@@ -82,24 +82,24 @@ const FishPackageDetail = ({ fishPackage }) => {
             </Descriptions.Item>
           </Descriptions>
 
-          <Divider orientation="left">Thông số chi tiết</Divider>
-
-          <Descriptions
-            bordered
-            column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
-          >
-            <Descriptions.Item label="Tuổi">
-              {fishPackage.age} năm
-            </Descriptions.Item>
-
-            <Descriptions.Item label="Kích thước">
-              {fishPackage.size} cm
-            </Descriptions.Item>
-
-            {/*<Descriptions.Item label="Giới tính">*/}
-            {/*  {fishPackage.gender}*/}
-            {/*</Descriptions.Item>*/}
-          </Descriptions>
+          {/*<Divider orientation="left">Thông số chi tiết</Divider>*/}
+          
+          {/*<Descriptions*/}
+          {/*  bordered*/}
+          {/*  column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}*/}
+          {/*>*/}
+          {/*  <Descriptions.Item label="Tuổi">*/}
+          {/*    {fishPackage.age} năm*/}
+          {/*  </Descriptions.Item>*/}
+          
+          {/*  <Descriptions.Item label="Kích thước">*/}
+          {/*    {fishPackage.size} cm*/}
+          {/*  </Descriptions.Item>*/}
+          
+          {/*  /!*<Descriptions.Item label="Giới tính">*!/*/}
+          {/*  /!*  {fishPackage.gender}*!/*/}
+          {/*  /!*</Descriptions.Item>*!/*/}
+          {/*</Descriptions>*/}
 
           <Divider orientation="left">Mô tả chi tiết</Divider>
 

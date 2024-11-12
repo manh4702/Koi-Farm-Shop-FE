@@ -50,16 +50,16 @@ export const configureAntDesign = () => {
     }
     
     /* Change button color to red */
-    .ant-btn-primary {
-      background-color: red !important; /* Button background color */
-      border-color: red !important; /* Button border color */
-    }
+    // .ant-btn-primary {
+    //   background-color: red !important; /* Button background color */
+    //   border-color: red !important; /* Button border color */
+    // }
 
-    .ant-btn-primary:hover,
-    .ant-btn-primary:focus {
-      background-color: darkred !important; /* Darker shade on hover */
-      border-color: darkred !important; /* Darker border on hover */
-    }
+    // .ant-btn-primary:hover,
+    // .ant-btn-primary:focus {
+    //   background-color: darkred !important; /* Darker shade on hover */
+    //   border-color: darkred !important; /* Darker border on hover */
+    // }
   `;
   document.head.appendChild(styleElement);
 };
