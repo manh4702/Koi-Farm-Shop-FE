@@ -54,13 +54,13 @@ const FishCard = ({fish}) => {
     <Card
       hoverable
       cover={
-        <div style={{height: "300px"}}>
+        <div style={{height: "300px", overflow: "hidden", borderRadius: "8px 8px 0 0"}}>
           <img
             alt={fish.name}
             src={fish.imageUrl}
             style={{
               height: "100%",
-              objectFit: "contain",
+              objectFit: "cover",
               width: "100%",
             }}
           />
@@ -154,7 +154,7 @@ const FishCard = ({fish}) => {
       {/*<div style={{display: "flex", flexDirection: "column", gap: "10px"}}>*/}
       {/*  {renderActionButtons()}*/}
       {/*</div>*/}
-      {fish.productStatus === "AVAILABLE" ?  (
+      {fish.productStatus === "AVAILABLE" ? (
         <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
           <Button
             type="primary"
@@ -193,7 +193,7 @@ const FishCard = ({fish}) => {
             <ShoppingCartOutlined/> Thêm vào giỏ hàng
           </Button>
         </div>
-      ): (
+      ) : (
         <p style={{
           backgroundColor: "red",
           padding: "5px",
