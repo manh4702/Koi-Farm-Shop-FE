@@ -68,7 +68,7 @@ const FishPackagePage = () => {
           padding: "32px 16px",
         }}
       >
-        {/* <div
+        <div
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -77,18 +77,7 @@ const FishPackagePage = () => {
           }}
         >
           <h1 style={{fontSize: "1.875rem", fontWeight: "bold"}}>Fish Packages</h1>
-          {selectedFishes.length === 2 && (
-            // <Button
-            //   type="primary" */}
-            {/* //   style={{ */}
-            {/* //     marginLeft: "auto",
-            //     color: "white",
-            //     backgroundColor: "red",
-            //   }}
-            // > */}
-              {/* So sánh {selectedFishes.length} cá đã chọn
-            </Button>
-          )}
+          
         </div>
 
         {loading ? (
@@ -107,24 +96,6 @@ const FishPackagePage = () => {
                   style={{position: "relative"}}
                 >
                   <FishCard fish={fish}/>
-                  <div
-                    style={{
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                      padding: "4px",
-                      position: "absolute",
-                      top: "10px",
-                      right: "39px",
-                      backgroundColor: "InactiveCaption",
-                    }}
-                  >
-                    <Checkbox
-                      checked={selectedFishes.includes(fish)}
-                      onChange={() => handleSelectFish(fish.id)}
-                    >
-                      So sánh
-                    </Checkbox>
-                  </div>
                 </Col>
               ))}
             </Row>
@@ -167,7 +138,7 @@ const FishPackagePage = () => {
               <UpCircleOutlined/>
             </div>
           </>
-        )} */}
+        )}
       </main>
       <ZaloIcon/>
       <YTIconts/>

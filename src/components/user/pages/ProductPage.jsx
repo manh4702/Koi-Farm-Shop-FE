@@ -176,19 +176,6 @@ const ProductPage = () => {
           {currentFishes.map((fish) => (
             <Col key={fish.id} xs={24} sm={12} md={6} style={{position: "relative"}}>
               <FishCard fish={fish}/>
-              <div style={{
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "4px",
-                position: "absolute",
-                top: "10px",
-                right: "39px",
-                backgroundColor: "InactiveCaption"
-              }}>
-                {/* <Checkbox checked={selectedFishes.includes(fish)} onChange={() => handleSelectFish(fish.id)}>
-                  So sánh
-                </Checkbox> */}
-              </div>
             </Col>
           ))}
         </Row>
