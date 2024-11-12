@@ -30,7 +30,7 @@ import {
 import {useFishStore} from "../../../store/fishStore.js";
 import useCategoryStore from "../../../store/categoryStore.js";
 import SubMenu from "antd/es/menu/SubMenu.js";
-
+import axios from "../../../api/axios.jsx";
 const {TabPane} = Tabs;
 
 const FishInfo = (categoryId) => {
@@ -42,7 +42,7 @@ const FishInfo = (categoryId) => {
   const [visibleFilters, setVisibleFilters] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
 
-  const {fishes, loadFishes, createFish, removeFish, loading} = useFishStore();
+  const {fishes, loadFishes, createFish, updateFish, removeFish, loading} = useFishStore();
   const {fetchCategories} = useCategoryStore();
 
   useEffect(() => {
@@ -71,25 +71,31 @@ const FishInfo = (categoryId) => {
 
   const onFinish = async (values) => {
     setLoadingButton(true);
-    const newFish = {
+
+    const formData  = {
       ...values,
       image: values.image?.file,
     };
     try {
       if (editFish) {
+        // Update the fish if it is being edited
+        await updateFish(editFish.fishId, formData);
         message.success("Cập nhật cá thành công!");
       } else {
-        await createFish(newFish);
-        loadFishes();
+        // Add new fish
+        await createFish(formData);
         message.success("Thêm mới cá thành công!");
       }
+      loadFishes();
       handleCancel();
     } catch (error) {
       message.error("Đã xảy ra lỗi khi thêm cá. Vui lòng thử lại!");
     } finally {
       setLoadingButton(false);
+
     }
   };
+  
 
   const handleDelete = async (fishId) => {
     try {
@@ -113,10 +119,10 @@ const FishInfo = (categoryId) => {
     setSelectedStatus(null);
   };
 
-  const applyFilters = () => {
-    setIsFilterModalVisible(false);
-    loadFishes();
-  };
+  // const applyFilters = () => {
+  //   setIsFilterModalVisible(false);
+  //   loadFishes();
+  // };
 
   const filteredFishes = fishes.filter((fish) => {
     return (
