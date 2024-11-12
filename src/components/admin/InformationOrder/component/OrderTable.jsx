@@ -18,9 +18,53 @@ const OrderTable = ({orders, showModal, handleCancelOrder, handleDeleteOrder}) =
       currency: "VND",
     }).format(value);
   };
-  
+
+  const maskPhoneNumber = (phone) => {
+    return phone.replace(/^(\d{7})(\d{3})$/, "*******$2");
+  };
+
+  const downloadOrderForm = (order) => {
+    const customerInfo = `
+    Tên khách hàng: ${order.customer}
+    Địa chỉ: ${order.address}
+    Số điện thoại: ${maskPhoneNumber(order.phone)}
+  `;
+
+    const orderDetails = order.products.map(
+      (product) => `${product.name} - Số lượng: ${product.quantity} - Giá: ${formatCurrency(product.price)}`
+    ).join("\n");
+
+    const formContent = `
+    --- Thông tin khách hàng ---
+    ${customerInfo}
+
+    --- Thông tin đơn hàng ---
+    ${orderDetails}
+
+    Tổng tiền: ${formatCurrency(order.total)}
+  `;
+
+    // Format the date as "YYYYMMDD" (or any preferred format)
+    const orderDate = new Date(order.date).toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).replace(/\//g, "-");
+    // e.g., "2023-11-12"
+
+    // Set the file name as "Order_<customer name>_<order date>.txt"
+    const fileName = `Order_${order.customer}_${orderDate}.txt`;
+
+    const blob = new Blob([formContent], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  };
+
+
   const columns = [
-    {title: "Mã đơn hàng", dataIndex: "id", key: "id"},
+    {title: "Mã đơn hàng", dataIndex: "id", key: "id", width: 85},
     {title: "Khách hàng", dataIndex: "customer", key: "customer"},
     {title: "Địa chỉ", dataIndex: "address", key: "address"},
     {title: "Số điện thoại", dataIndex: "phone", key: "phone"},
@@ -37,11 +81,51 @@ const OrderTable = ({orders, showModal, handleCancelOrder, handleDeleteOrder}) =
           <ul>
             {products.map((product, index) => (
               <li key={index}>
-                {product.name} - Số lượng: {product.quantity} - Giá:{" "}
+                <strong>{product.name}</strong> - Số lượng: {product.quantity} - Giá:{" "}
                 {formatCurrency(product.price)}
               </li>
             ))}
           </ul>
+        );
+      },
+    },
+    {
+      title: "Ngày đặt hàng",
+      dataIndex: "date",
+      key: "date",
+      render: (date) => new Date(date).toLocaleDateString("vi-VN"),
+    },
+    {
+      title: "Phương thức thanh toán",
+      dataIndex: "paymentMethod",
+      key: "paymentMethod",
+      render: (paymentMethod) => {
+        let displayMethod = paymentMethod; // Default to showing the actual value
+        let color = "default";
+        // Customize the display of specific payment methods
+        if (paymentMethod === "ZALOPAY") {
+          displayMethod = "ZaloPay";
+          color = "blue";
+        } else if (paymentMethod === "CASH") {
+          displayMethod = "Thanh toán khi nhận hàng (COD)";
+          color = "green";
+        }
+
+        return (
+          <Tag
+            color={color}
+            style={{
+              width: "120px",
+              textAlign: "center",
+              fontSize: "12px",
+              padding: "2px 6px",
+              whiteSpace: "normal",
+              display: "inline-block",
+              wordWrap: "break-word",
+            }}
+          >
+            {displayMethod}
+          </Tag>
         );
       },
     },
@@ -81,7 +165,7 @@ const OrderTable = ({orders, showModal, handleCancelOrder, handleDeleteOrder}) =
             <Tooltip title="In Bill">
               <Button
                 icon={<PrinterOutlined />}
-                onClick={() => console.log(`In hóa đơn cho đơn hàng ${record.id}`)}
+                onClick={() => downloadOrderForm(record)}
                 style={{ color: "blue", border: '1px solid blue' }}
               />
             </Tooltip>

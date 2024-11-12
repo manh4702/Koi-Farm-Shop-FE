@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, Button, Row, Col, List, Card, Radio, Modal, Divider, Select, Typography} from 'antd';
+import {Form, Input, Button, Row, Col, List, Card, Radio, Modal, Divider, Select, Typography, QRCode} from 'antd';
 import {useLocation, useNavigate} from 'react-router-dom';
 import Header from '../Shared/Header';
 import Footer from '../Shared/Footer';
@@ -17,6 +17,7 @@ const CheckoutPage = () => {
   const cartItems = useCartStore((state) => state.items);
   const placeOrder = useOrderStore((state) => state.placeOrder);
   const [loading, setLoading] = useState(false);
+  const [qrCode, setQrCode] = useState(null);
 
   console.log("Cart Items in CheckoutPage:", cartItems);
 
@@ -58,21 +59,22 @@ const CheckoutPage = () => {
           id: item.id,
           quantity: item.quantity,
           price: item.totalPricePerItem
-        }))
+        })),
+        paymentMethod: paymentMethod,
       };
 
       // await placeOrder(orderData);
       const result = await placeOrder(orderData);
       useCartStore.getState().clearCart();
 
-      // if (paymentMethod === 'onlinePayment') {
-      //   navigate('/payment-gateway', {state: {cartItems, customerInfo: values}});
-      // } else {
-      //   Modal.success({
-      //     title: 'Thanh toán thành công',
-      //     content: 'Cảm ơn bạn đã mua hàng! Đơn hàng của bạn đã được xác nhận.',
-      //   });
-      // }
+      if (paymentMethod === 'ZaloPay') {
+        navigate('/payment-gateway', {state: {cartItems, customerInfo: values}});
+      } else {
+        Modal.success({
+          title: 'Thanh toán thành công',
+          content: 'Cảm ơn bạn đã mua hàng! Đơn hàng của bạn đã được xác nhận.',
+        });
+      }
     } catch (error) {
       Modal.error({
         title: 'Thanh toán thất bại',
@@ -80,6 +82,32 @@ const CheckoutPage = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Function to call the Zalopay API to generate a QR code
+  const createPayment = async (orderId) => {
+    const amount = calculateTotalPrice(cartItems); // Use the total price of the cart
+    const requestBody = {
+      amount: amount,
+      description: 'Thanh toán đơn hàng',
+      item: 'Sản phẩm trong giỏ hàng'
+    };
+
+    try {
+      const response = await fetch(`/api/Payment/createPayment/${orderId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      return data; // Assuming the response contains qrCodeUrl
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      return null;
     }
   };
 
@@ -163,9 +191,9 @@ const CheckoutPage = () => {
             <Title level={4} style={{marginBottom: '10px'}}>Thanh toán</Title>
             <Card bordered={false}>
               <Radio.Group onChange={handlePaymentMethodChange} value={paymentMethod} style={{width: '100%'}}>
-                <Radio value="onlinePayment" style={{display: 'block', padding: '8px 0'}}><CreditCardOutlined/> Thanh
+                <Radio value="ZaloPay" style={{display: 'block', padding: '8px 0'}}><CreditCardOutlined/> Thanh
                   toán online</Radio>
-                <Radio value="cod" style={{display: 'block', padding: '8px 0'}}><DollarCircleOutlined/> Thanh toán khi
+                <Radio value="CASH" style={{display: 'block', padding: '8px 0'}}><DollarCircleOutlined/> Thanh toán khi
                   nhận hàng (COD)</Radio>
               </Radio.Group>
             </Card>

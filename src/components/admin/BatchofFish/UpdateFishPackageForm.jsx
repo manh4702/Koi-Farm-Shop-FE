@@ -117,15 +117,11 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               <InputNumber
                 min={0}
                 style={{width: "100%"}}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                parser={(value) => value.replace(/\./g, "")}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -173,15 +169,9 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               <InputNumber
                 min={0}
                 style={{width: "100%"}}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -211,15 +201,9 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               <InputNumber
                 min={0}
                 style={{width: "100%"}}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventPrevent();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -237,15 +221,9 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               <InputNumber
                 min={0}
                 style={{width: "100%"}}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -260,15 +238,9 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
               <InputNumber
                 min={0}
                 style={{width: "100%"}}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />

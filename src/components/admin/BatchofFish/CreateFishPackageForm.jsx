@@ -111,15 +111,11 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               <InputNumber
                 min={0}
                 style={{ width: "100%" }}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                parser={(value) => value.replace(/\./g, "")}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -161,15 +157,24 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               <InputNumber
                 min={0}
                 style={{ width: "100%" }}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Kích thước"
+              name="size"
+              rules={[{ required: true, message: "Vui lòng nhập kích thước!" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -190,29 +195,6 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               </Select>
             </Form.Item>
           </Col> */}
-          <Col span={12}>
-            <Form.Item
-              label="Kích thước"
-              name="size"
-              rules={[{ required: true, message: "Vui lòng nhập kích thước!" }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: "100%" }}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
-              />
-            </Form.Item>
-          </Col>
         </Row>
 
         <Row gutter={16}>
@@ -225,15 +207,9 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               <InputNumber
                 min={0}
                 style={{ width: "100%" }}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
@@ -248,15 +224,9 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               <InputNumber
                 min={0}
                 style={{ width: "100%" }}
-                onKeyDown={(e) => {
-                  if (
-                    !/[0-9]/.test(e.key) &&
-                    e.key !== "Backspace" &&
-                    e.key !== "Delete" &&
-                    e.key !== "ArrowLeft" &&
-                    e.key !== "ArrowRight"
-                  ) {
-                    e.preventDefault();
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
                   }
                 }}
               />
