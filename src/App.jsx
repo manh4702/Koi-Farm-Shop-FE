@@ -32,6 +32,7 @@ import UserProfilePage from "./components/user/Account/UserProfilePage";
 import KoiFishPage from "./components/user/pages/KoiFishPage";
 import FishPackagePage from "./components/user/pages/FishPackagePage.jsx";
 import FishDetailPage from "./components/user/pages/FishDetailPage.jsx";
+import CheckoutPage from "@/components/user/Cart/CheckoutPage.jsx";
 
 const App = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -102,6 +103,7 @@ const App = () => {
 
         {/* Trang giỏ hàng và ký gửi cá */}
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/fish-consignment" element={<FishConsignment />} />
         {/* Tin tức và chi tiết tin tức */}
         <Route path="/news" element={<NewsPage />} />

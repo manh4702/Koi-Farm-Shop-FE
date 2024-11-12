@@ -1,6 +1,6 @@
 import React from "react";
-import { Menu } from "antd";
-import { Link } from "react-router-dom";
+import {Menu} from "antd";
+import {Link} from "react-router-dom";
 import {
   DashboardOutlined,
   UserOutlined,
@@ -11,16 +11,17 @@ import {
   FileDoneOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/logo.jpg";
-import { MdFeedback } from "react-icons/md";
-import { GiCirclingFish } from "react-icons/gi";
-import { GrUserManager } from "react-icons/gr";
-import { GrBlog } from "react-icons/gr";
-const { SubMenu } = Menu;
+import {MdFeedback} from "react-icons/md";
+import {GiCirclingFish} from "react-icons/gi";
+import {GrUserManager} from "react-icons/gr";
+import {GrBlog} from "react-icons/gr";
 
-function Sidebar({ setSelectedKey }) {
+const {SubMenu} = Menu;
+
+function Sidebar({setSelectedKey}) {
   return (
-    <div className="logo" style={{ height: "100%" }}>
-      <div style={{ textAlign: "center", padding: "20px 0 0" }}>
+    <div className="logo" style={{height: "100%"}}>
+      <div style={{textAlign: "center", padding: "20px 0 0"}}>
         <img
           src={Logo}
           alt="Logo"
@@ -48,21 +49,21 @@ function Sidebar({ setSelectedKey }) {
       <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
         <Menu.Item
           key="1"
-          icon={<DashboardOutlined />}
+          icon={<DashboardOutlined/>}
           onClick={() => setSelectedKey("dashboard")}
         >
           Dashboard
         </Menu.Item>
         <Menu.Item
           key="2"
-          icon={<UserOutlined />}
+          icon={<UserOutlined/>}
           onClick={() => setSelectedKey("user-management")}
         >
           Quản lí khách hàng
         </Menu.Item>
         <SubMenu
           key="3"
-          icon={<GiCirclingFish />}
+          icon={<GiCirclingFish/>}
           title="Quản lý cá đơn"
         >
           <Menu.Item key="3-1" onClick={() => setSelectedKey("cate-info")}>
@@ -74,69 +75,72 @@ function Sidebar({ setSelectedKey }) {
         </SubMenu>
         <Menu.Item
           key="11"
-          icon={<GiCirclingFish />}
+          icon={<GiCirclingFish/>}
           onClick={() => setSelectedKey("batch-info")}
         >
           Thông tin lô cá
         </Menu.Item>
         <Menu.Item
           key="4" // Gán key duy nhất
-          icon={<FileDoneOutlined />} // Icon cho chức năng ký gửi
+          icon={<FileDoneOutlined/>} // Icon cho chức năng ký gửi
           onClick={() => setSelectedKey("consignment-management")} // Gán key
         >
           Quản lý Ký gửi
         </Menu.Item>
         {/* SubMenu for Order Management */}
-        <SubMenu
+        {/*<SubMenu*/}
+        {/*  key="5"*/}
+        {/*  icon={<ShoppingCartOutlined />}*/}
+        {/*  title="Quản lí đơn hàng"*/}
+        {/*>*/}
+        <Menu.Item
           key="5"
-          icon={<ShoppingCartOutlined />}
-          title="Quản lí đơn hàng"
-        >
-          <Menu.Item key="5-1" onClick={() => setSelectedKey("order-list")}>
-            Danh sách đơn hàng
-          </Menu.Item>
-          <Menu.Item key="5-2" onClick={() => setSelectedKey("order-tracking")}>
-            Theo dõi trạng thái đơn hàng
-          </Menu.Item>
-        </SubMenu>
+          icon={<ShoppingCartOutlined/>}
+          onClick={() => setSelectedKey("order-list")}>
+          Quản lí đơn hàng
+        </Menu.Item>
+        {/*  <Menu.Item key="5-2" onClick={() => setSelectedKey("order-tracking")}>*/}
+        {/*    Theo dõi trạng thái đơn hàng*/}
+        {/*  </Menu.Item>*/}
+        {/*</SubMenu>*/}
         <Menu.Item
           key="6"
-          icon={<GrUserManager />}
+          icon={<GrUserManager/>}
           onClick={() => setSelectedKey("staff-management")}
         >
           Quản lí nhân viên
         </Menu.Item>
         <Menu.Item
           key="7"
-          icon={<TagsFilled />}
+          icon={<TagsFilled/>}
           onClick={() => setSelectedKey("promotion-management")}
         >
           Quản lí khuyến mãi
         </Menu.Item>
         <Menu.Item
           key="8"
-          icon={<GrBlog />}
+          icon={<GrBlog/>}
           onClick={() => setSelectedKey("blog-management")}
         >
           Quản lý tin tức
         </Menu.Item>
         <Menu.Item
           key="10"
-          icon={<QuestionCircleOutlined />}
+          icon={<QuestionCircleOutlined/>}
           onClick={() => setSelectedKey("FAQ-management")}
         >
           FAQ
         </Menu.Item>
         <Menu.Item
           key="9"
-          icon={<MdFeedback />}
+          icon={<MdFeedback/>}
           onClick={() => setSelectedKey("feedback-management")}
         >
           Đánh giá
         </Menu.Item>
         <Menu.Item
           key=""
-          icon={<SettingOutlined />}
+          icon={<SettingOutlined/>}
           onClick={() => setSelectedKey("settings")}
         >
           Settings

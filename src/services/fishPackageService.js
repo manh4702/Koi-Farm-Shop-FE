@@ -45,7 +45,7 @@ export const getFishPackages = async () => {
       gender: item.gender,
       dailyFood: item.dailyFood,
       numberOfFish: item.numberOfFish,
-      status: item.status,
+      productStatus: item.productStatus,
     }));
 
     return fishPackages;

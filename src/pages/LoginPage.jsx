@@ -3,6 +3,7 @@ import {message} from "antd";
 import {Navigate, useNavigate} from "react-router-dom";
 import axios from "../api/axios";
 import useAuthStore from "../store/store"; // Zustand store
+import useCartStore from "../store/cartStore.js";
 import LoginForm from "../components/Login/LoginForm"; // Gọi LoginForm từ components
 import Header from "../components/user/Shared/Header";
 import Footer from "../components/user/Shared/Footer";
@@ -13,12 +14,14 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
-  const setCartItems = useAuthStore((state) => state.setCartItems);
+  const { fetchCart } = useCartStore();
+  // const setCartItems = useAuthStore((state) => state.setCartItems);
+  const setCartItems = useCartStore((state) => state.setCartItems); // Lấy setCartItems từ useCartStore
+  const setUserCartId = useCartStore((state) => state.setUserCartId);
 
   const onFinish = async (values) => {
       setLoading(true);
       try {
-
         const response = await axios.post("/api/User/login", {
           email: values.email,
           password: values.password,
@@ -38,22 +41,8 @@ const LoginPage = () => {
             });
             message.success("Đăng nhập thành công!");
 
-            // if (userId) {
-            //   const cartResponse = await axios.get(`/api/Cart/User/${userId}`);
-            //   if (cartResponse.data.success) {
-            //     setCartItems(cartResponse.data.data.cartItems); // Cập nhật giỏ hàng
-            //   }
-            // }
-
-
-            // try {
-            //   const cartResponse = await axios.get(`/api/Cart/User/${userId}`);
-            //   if (cartResponse.data.success) {
-            //     setCartItems(cartResponse.data.data.cartItems); // Cập nhật giỏ hàng
-            //   }
-            // } catch (cartError) {
-            //   console.error("Lỗi khi lấy giỏ hàng:", cartError);
-            // }
+            await useCartStore.getState().fetchCart(decodedUser.userId);
+            
 
             // navigateBasedOnRole(role);
             // Phân quyền dựa trên role

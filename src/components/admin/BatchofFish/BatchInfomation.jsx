@@ -1,22 +1,19 @@
 // BatchInfo.jsx
 import React, { useEffect, useState } from "react";
-import { Table, Button, message, Modal, Space, Dropdown, Menu, Row, Col } from "antd";
+import {Table, Button, message, Modal, Space, Dropdown, Menu, Row, Col, Checkbox} from "antd";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
   SettingOutlined,
-  MoreOutlined,
+  MoreOutlined, FilterOutlined,
 } from "@ant-design/icons";
-// import {
-//   getFishPackages,
-//   deleteFishPackage,
-// } from "../../../services/fishPackageService.js";
 import { useFishPackageStore } from "../../../store/fishPackageStore.js";
 import CreateFishPackageForm from "./CreateFishPackageForm";
 import UpdateFishPackageForm from "./UpdateFishPackageForm";
 import FishPackageDetail from "./FishPackageDetail";
+import SubMenu from "antd/es/menu/SubMenu.js";
 
 const BatchInfo = () => {
   const {
@@ -29,6 +26,10 @@ const BatchInfo = () => {
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const [editBatch, setEditBatch] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [visibleFilters, setVisibleFilters] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+
 
   useEffect(() => {
     fetchFishPackages();
@@ -48,7 +49,14 @@ const BatchInfo = () => {
   };
 
   const handleView = (batch) => {
-    setSelectedBatch(batch);
+    setSelectedBatch(batch); // Lưu lô cá đã chọn
+    setIsDetailModalVisible(true); // Mở Modal hiển thị chi tiết
+  };
+
+  const [isDetailModalVisible, setIsDetailModalVisible] = useState(false); // Trạng thái mở/đóng Modal
+
+  const handleCancelDetailModal = () => {
+    setIsDetailModalVisible(false); // Đóng Modal khi hủy
   };
 
   const handleDelete = async (fishPackageId) => {
@@ -70,6 +78,57 @@ const BatchInfo = () => {
     });
   };
 
+  const menu = (
+    <Menu>
+      <SubMenu key="status" title="Trạng thái">
+        <Menu.Item key="available">
+          <Checkbox
+            checked={selectedStatus === "AVAILABLE"}
+            onChange={() => setSelectedStatus(selectedStatus === "AVAILABLE" ? null : "AVAILABLE")}
+          >
+            Có sẵn
+          </Checkbox>
+        </Menu.Item>
+        <Menu.Item key="sold">
+          <Checkbox
+            checked={selectedStatus === "SOLD"}
+            onChange={() => setSelectedStatus(selectedStatus === "SOLD" ? null : "SOLD")}
+          >
+            Đã bán
+          </Checkbox>
+        </Menu.Item>
+      </SubMenu>
+      <SubMenu key="size" title="Kích thước">
+        {Array.from(new Set(batches.map((batch) => batch.size))).map((size) => (
+          <Menu.Item key={size}>
+            <Checkbox
+              checked={selectedSize === size}
+              onChange={() => setSelectedSize(selectedSize === size ? null : size)}
+            >
+              {size} cm
+            </Checkbox>
+          </Menu.Item>
+        ))}
+      </SubMenu>
+      <Menu.Item key="reset" onClick={() => resetFilters()}>
+        <Button type="default">Reset</Button>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const resetFilters = () => {
+    setSelectedStatus(null);
+    setSelectedSize(null);
+  };
+
+  const filteredBatches = batches.filter((batch) => {
+    return (
+      (selectedStatus === null || batch.status === selectedStatus) &&
+      (selectedSize === null || batch.size === selectedSize)
+    );
+  });
+
+
   return (
     <div style={{ padding: "24px", background: "#fff" }}>
       <Row gutter={[16, 16]}>
@@ -85,6 +144,15 @@ const BatchInfo = () => {
             <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
               Thêm mới lô cá
             </Button>
+            <Dropdown overlay={menu} trigger={['click']} open={visibleFilters} onVisibleChange={setVisibleFilters}>
+              <Button
+                type="default"
+                icon={<FilterOutlined />}
+                style={{ marginLeft: "10px" }}
+              >
+                Bộ lọc
+              </Button>
+            </Dropdown>
           </div>
           <div style={{ maxHeight: "800px" }}>
             <Table
@@ -97,7 +165,7 @@ const BatchInfo = () => {
                       <img
                         src={image}
                         alt="batch"
-                        style={{ width: "100px", height: "100px" }}
+                        style={{ width: "100px", height: "100px", borderRadius: "10px" }}
                       />
                     ),
                   },
@@ -108,32 +176,32 @@ const BatchInfo = () => {
                 {
                   title: "Giá",
                   dataIndex: "price",
-                },
-                {
-                  title: "Tuổi",
-                  dataIndex: "age",
-                },
-                {
-                  title: "Kích thước (cm)",
-                  dataIndex: "size",
-                },
-                {
-                  title: "Giới tính",
-                  dataIndex: "gender",
+                  sorter: (a, b) => a.price - b.price,
                 },
                 {
                   title: "Thức ăn/ngày (gram)",
                   dataIndex: "dailyFood",
+                  sorter: (a, b) => a.dailyFood - b.dailyFood,
                 },
                 {
                   title: "Số lượng",
                   dataIndex: "numberOfFish",
+                  sorter: (a, b) => a.numberOfFish - b.numberOfFish,
                 },
                 {
                   title: "Trạng thái",
-                  dataIndex: "status",
-                  render: (status) => {
-                    return status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
+                  dataIndex: "productStatus",
+                  render: (productStatus) => {
+                    switch (productStatus) {
+                      case "AVAILABLE":
+                        return "Có sẵn";
+                      case "UNAVAILABLE":
+                        return "Không có sẵn";
+                      case "SOLDOUT":
+                        return "Đã bán hết";
+                      default:
+                        return "Không xác định";
+                    }
                   },
                 },
                 {
@@ -195,7 +263,17 @@ const BatchInfo = () => {
           onSuccess={fetchFishPackages}
         />
 
-        {selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}
+        <Modal
+          title={`Chi tiết của ${selectedBatch?.name}`}
+          open={isDetailModalVisible}
+          onCancel={handleCancelDetailModal}
+          footer={null}
+          width={800}
+        >
+          {selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}
+        </Modal>
+
+        {/*{selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}*/}
       </Row>
     </div>
   );
