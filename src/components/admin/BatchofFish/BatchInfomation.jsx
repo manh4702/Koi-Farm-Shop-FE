@@ -49,7 +49,14 @@ const BatchInfo = () => {
   };
 
   const handleView = (batch) => {
-    setSelectedBatch(batch);
+    setSelectedBatch(batch); // Lưu lô cá đã chọn
+    setIsDetailModalVisible(true); // Mở Modal hiển thị chi tiết
+  };
+
+  const [isDetailModalVisible, setIsDetailModalVisible] = useState(false); // Trạng thái mở/đóng Modal
+
+  const handleCancelDetailModal = () => {
+    setIsDetailModalVisible(false); // Đóng Modal khi hủy
   };
 
   const handleDelete = async (fishPackageId) => {
@@ -158,7 +165,7 @@ const BatchInfo = () => {
                       <img
                         src={image}
                         alt="batch"
-                        style={{ width: "100px", height: "100px" }}
+                        style={{ width: "100px", height: "100px", borderRadius: "10px" }}
                       />
                     ),
                   },
@@ -181,15 +188,15 @@ const BatchInfo = () => {
                   dataIndex: "size",
                   sorter: (a, b) => a.size - b.size,
                 },
-                {
-                  title: "Giới tính",
-                  dataIndex: "gender",
-                  filters: [
-                    { text: "Đực", value: "Đực" },
-                    { text: "Cái", value: "Cái" },
-                  ],
-                  onFilter: (value, record) => record.gender === value,
-                },
+                // {
+                //   title: "Giới tính",
+                //   dataIndex: "gender",
+                //   filters: [
+                //     { text: "Đực", value: "Đực" },
+                //     { text: "Cái", value: "Cái" },
+                //   ],
+                //   onFilter: (value, record) => record.gender === value,
+                // },
                 {
                   title: "Thức ăn/ngày (gram)",
                   dataIndex: "dailyFood",
@@ -266,7 +273,17 @@ const BatchInfo = () => {
           onSuccess={fetchFishPackages}
         />
 
-        {selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}
+        <Modal
+          title={`Chi tiết của ${selectedBatch?.name}`}
+          open={isDetailModalVisible}
+          onCancel={handleCancelDetailModal}
+          footer={null}
+          width={800}
+        >
+          {selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}
+        </Modal>
+
+        {/*{selectedBatch && <FishPackageDetail fishPackage={selectedBatch} />}*/}
       </Row>
     </div>
   );

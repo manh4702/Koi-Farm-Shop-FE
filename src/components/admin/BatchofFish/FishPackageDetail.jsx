@@ -1,6 +1,6 @@
 // FishPackageDetail.js
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Tabs } from "antd";
+import {Card, Col, Descriptions, Divider, Image, Modal, Row, Tabs, Tag} from "antd";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
@@ -13,127 +13,114 @@ const FishPackageDetail = ({ fishPackage }) => {
 
   const statusText = fishPackage.status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
 
+  const formatCurrency = (value) => {
+    // Loại bỏ "VND" từ chuỗi nếu có
+    const numericValue = typeof value === 'string'
+      ? parseInt(value.replace(/[^\d]/g, ''))
+      : value;
+
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(numericValue);
+  };
+
+  const getStatusTag = (status) => {
+    return status === "AVAILABLE" ? (
+      <Tag color="green">Có sẵn</Tag>
+    ) : (
+      <Tag color="red">Đã bán</Tag>
+    );
+  };
+
+
   const tabItems = [
     {
       key: "1",
       label: "Thông tin Lô Cá",
       children: (
-        <Row
-          gutter={[16, 16]}
-          style={{
-            marginTop: "10px",
-          }}
-        >
-          <Col
-            span={24}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <img
+        <div style={{ padding: "20px" }}>
+          {/* Phần hình ảnh */}
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <Image
               src={fishPackage.imageUrl}
-              alt="batch"
+              alt={fishPackage.name}
               style={{
-                width: "20%",
-                height: "auto",
-                borderRadius: "10px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                maxWidth: "300px",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
               }}
             />
-            
-          </Col>
+          </div>
 
-          <Col span={12}>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Tên:
-              </Col>
-              <Col span={16}>{fishPackage.name}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Giá:
-              </Col>
-              <Col span={16}>{fishPackage.price}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Tuổi (năm):
-              </Col>
-              <Col span={16}>{fishPackage.age}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Kích thước (cm):
-              </Col>
-              <Col span={16}>{fishPackage.size}</Col>
-            </Row>
-          </Col>
+          <Divider orientation="left">Thông tin cơ bản</Divider>
 
-          <Col span={12}>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Giới tính:
-              </Col>
-              <Col span={16}>{fishPackage.gender}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Thức ăn/ngày (gram):
-              </Col>
-              <Col span={16}>{fishPackage.dailyFood}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Số lượng:
-              </Col>
-              <Col span={16}>{fishPackage.numberOfFish}</Col>
-            </Row>
-            <Row>
-              <Col span={8} style={{ fontWeight: "bold" }}>
-                Trạng thái:
-              </Col>
-              <Col span={16}>{statusText}</Col>
-            </Row>
-          </Col>
+          <Descriptions
+            bordered
+            column={{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }}
+          >
+            <Descriptions.Item label="Tên lô cá" span={2}>
+              <strong>{fishPackage.name}</strong>
+            </Descriptions.Item>
 
-          {/* Mô tả với giới hạn dòng */}
-          <Col span={24} style={{ marginTop: "20px" }}>
-            <div
-              style={{
-                fontWeight: "bold",
-                marginBottom: "8px",
-              }}
-            >
-              Mô tả:
-            </div>
-            <div
-              style={{
-                maxHeight: "5em", // Giới hạn tối đa 5 dòng
-                minHeight: "3em", // Giới hạn tối thiểu 3 dòng
-                overflowY: "auto",
-                padding: "10px",
-                backgroundColor: "#f5f5f5",
-                borderRadius: "5px",
-                border: "1px solid #d9d9d9",
-                lineHeight: "1.5em",
-              }}
-            >
-              {fishPackage.description}
-            </div>
-          </Col>
-        </Row>
+            <Descriptions.Item label="Giá">
+              <span style={{ color: "#f50" }}>
+                {formatCurrency(fishPackage.price)}
+              </span>
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Trạng thái">
+              {getStatusTag(fishPackage.status)}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Số lượng">
+              {fishPackage.numberOfFish} con
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Thức ăn/ngày">
+              {fishPackage.dailyFood} gram
+            </Descriptions.Item>
+          </Descriptions>
+
+          <Divider orientation="left">Thông số chi tiết</Divider>
+
+          <Descriptions
+            bordered
+            column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
+          >
+            <Descriptions.Item label="Tuổi">
+              {fishPackage.age} năm
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Kích thước">
+              {fishPackage.size} cm
+            </Descriptions.Item>
+
+            {/*<Descriptions.Item label="Giới tính">*/}
+            {/*  {fishPackage.gender}*/}
+            {/*</Descriptions.Item>*/}
+          </Descriptions>
+
+          <Divider orientation="left">Mô tả chi tiết</Divider>
+
+          <div
+            style={{
+              padding: "16px",
+              background: "#f5f5f5",
+              borderRadius: "8px",
+              marginBottom: "24px",
+              minHeight: "100px",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {fishPackage.description || "Không có mô tả"}
+          </div>
+        </div>
       ),
     },
   ];
-
-  return (
-    <Card title={`Chi tiết của ${fishPackage.name}`}>
-      <Tabs defaultActiveKey="1" items={tabItems} />
-    </Card>
-  );
+  
+  return <Tabs defaultActiveKey="1" items={tabItems} />;
 };
 
 export default FishPackageDetail;
