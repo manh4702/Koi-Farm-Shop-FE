@@ -30,7 +30,7 @@ import {
 import {useFishStore} from "../../../store/fishStore.js";
 import useCategoryStore from "../../../store/categoryStore.js";
 import SubMenu from "antd/es/menu/SubMenu.js";
-import axios from "../../../api/axios.jsx";
+
 const {TabPane} = Tabs;
 
 const FishInfo = (categoryId) => {
@@ -72,9 +72,14 @@ const FishInfo = (categoryId) => {
   const onFinish = async (values) => {
     setLoadingButton(true);
 
-    const formData  = {
+    const formData = {
       ...values,
       image: values.image?.file,
+      productStatus: editFish ? values.productStatus : "",
+      age: parseInt(values.age),
+      size: parseFloat(values.size),
+      price: parseFloat(values.price),
+      dailyFood: parseFloat(values.dailyFood),
     };
     try {
       if (editFish) {
@@ -95,7 +100,7 @@ const FishInfo = (categoryId) => {
 
     }
   };
-  
+
 
   const handleDelete = async (fishId) => {
     try {
@@ -118,11 +123,6 @@ const FishInfo = (categoryId) => {
     setSelectedCategory(null);
     setSelectedStatus(null);
   };
-
-  // const applyFilters = () => {
-  //   setIsFilterModalVisible(false);
-  //   loadFishes();
-  // };
 
   const filteredFishes = fishes.filter((fish) => {
     return (
@@ -150,7 +150,7 @@ const FishInfo = (categoryId) => {
     {
       title: "Giới tính",
       dataIndex: "gender",
-      render: (gender) => (gender === 1 ? "Đực" : "Cái"), // Giả sử 1 là Đực, 0 là Cái
+      render: (gender) => (gender === "Male" ? "Đực" : "Cái"), // Giả sử 1 là Đực, 0 là Cái
     },
     {
       title: "Kích thước (cm)",
@@ -174,12 +174,6 @@ const FishInfo = (categoryId) => {
       width: 150,
       sorter: (a, b) => a.dailyFood - b.dailyFood,
     },
-    // {
-    //   title: "Số lượng trong kho",
-    //   dataIndex: "quantityInStock",
-    //   width: 150,
-    //   sorter: (a, b) => a.quantityInStock - b.quantityInStock,
-    // },
     {
       title: "Tình trạng cá",
       dataIndex: "status",
@@ -311,7 +305,13 @@ const FishInfo = (categoryId) => {
           >
             <Form
               layout="vertical"
-              initialValues={editFish}
+              // initialValues={editFish}
+              initialValues={{
+                ...editFish,
+                gender: editFish?.gender?.toString(), // Chuyển đổi sang string
+                categoryId: editFish?.categoryId?.toString(), // Chuyển đổi sang string
+                productStatus: editFish?.productStatus || 'AVAILABLE'
+              }}
               onFinish={onFinish}
             >
               <Row gutter={16}>
@@ -319,7 +319,6 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Thêm ảnh cá"
                     name="image"
-                    rules={[{required: true, message: "Vui lòng thêm ảnh của cá"}]}
                   >
                     <Upload
                       listType="picture-card"
@@ -330,84 +329,15 @@ const FishInfo = (categoryId) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="Tên cá" name="name" rules={[{required: true, message: "Vui lòng nhập tên cá"}]}>
+                  <Form.Item
+                    label="Tên cá"
+                    name="name"
+                  >
                     <Input/>
                   </Form.Item>
-                  <Form.Item label="Loại cá" name="categoryId"
-                             rules={[{required: true, message: "Vui lòng chọn loại cá"}]}>
-                    <Select>
-                      {JSON.parse(sessionStorage.getItem("categories"))?.map(category => (
-                        <Select.Option key={category.categoryId} value={category.categoryId}>
-                          {category.name}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item
-                    label="Giới tính"
-                    name="gender"
-                    rules={[{required: true, message: "Vui lòng nhập giới tính của cá"}]}
-                  >
-                    <Select placeholder="Chọn giới tính">
-                      <Select.Option value="1">Đực</Select.Option>
-                      <Select.Option value="0">Cái</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    label="Tuổi (năm)"
-                    name="age"
-                    rules={[{required: true, message: "Vui lòng nhập tuổi của cá"}]}
-                  >
-                    <InputNumber
-                      min={0}
-                      style={{width: "100%"}}
-                      onKeyPress={(event) => {
-                        if (!/[0-9]/.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col span={8}>
-                  <Form.Item
-                    label="Số lượng trong kho"
-                    name="quantityInStock"
-                    initialValue={1}
-                    rules={[{required: true, message: "Vui lòng nhập số lượng có sẵn của cá"}]}
-                  >
-                    <InputNumber min={1} max={1} disabled style={{width: "100%"}}/>
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label="Kích thước (cm)"
-                    name="size"
-                    rules={[{required: true, message: "Vui lòng nhập kích thước của cá"}]}
-                  >
-                    <InputNumber
-                      min={0}
-                      style={{width: "100%"}}
-                      onKeyPress={(event) => {
-                        if (!/[0-9]/.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
                   <Form.Item
                     label="Giá (VND)"
                     name="price"
-                    rules={[{required: true, message: "Vui lòng nhập giá của cá"}]}
                   >
                     <InputNumber
                       min={0}
@@ -421,13 +351,42 @@ const FishInfo = (categoryId) => {
                       }}
                     />
                   </Form.Item>
+
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item
+                    label="Giới tính"
+                    name="gender"
+                  >
+                    <Select placeholder="Chọn giới tính">
+                      <Select.Option value="0">Đực</Select.Option>
+                      <Select.Option value="1">Cái</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label="Tuổi (năm)"
+                    name="age"
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
                 </Col>
 
-                <Col span={12}>
+                <Col span={8}>
                   <Form.Item
-                    label="Lượng thức ăn/ngày (gram)"
-                    name="dailyFood"
-                    rules={[{required: true, message: "Vui lòng nhập lượng thức ăn của cá"}]}
+                    label="Kích thước (cm)"
+                    name="size"
                   >
                     <InputNumber
                       min={0}
@@ -441,17 +400,57 @@ const FishInfo = (categoryId) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    label="Trạng thái"
-                    name="productStatus"
-                    rules={[{required: true, message: "Vui lòng nhập trạng thái của cá"}]}
-                  >
-                    <Select placeholder="Chọn trạng thái">
-                      <Select.Option value={0}>Có sẵn</Select.Option>
-                      <Select.Option value={1}>Hết hàng</Select.Option>
+                  <Form.Item label="Loại cá" name="categoryId">
+                    <Select>
+                      {JSON.parse(sessionStorage.getItem("categories"))?.map(category => (
+                        <Select.Option key={category.categoryId} value={category.categoryId}>
+                          {category.name}
+                        </Select.Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Lượng thức ăn/ngày (gram)"
+                    name="dailyFood"
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{width: "100%"}}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                {editFish && (
+                  <Col span={12}>
+                    <Form.Item
+                      label="Trạng thái"
+                      name="productStatus"
+                    >
+                      <Select>
+                        <Select.Option value="AVAILABLE">Có sẵn</Select.Option>
+                        <Select.Option value="UNAVAILABLE">Hết hàng</Select.Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
+                {/*<Col span={12}>*/}
+                {/*  <Form.Item*/}
+                {/*    label="Trạng thái"*/}
+                {/*    name="productStatus"*/}
+                {/*    initialValue={editFish?.productStatus || 'AVAILABLE'}*/}
+                {/*  >*/}
+                {/*    <Select placeholder="Chọn trạng thái">*/}
+                {/*      <Select.Option value="AVAILABLE">Có sẵn</Select.Option>*/}
+                {/*      <Select.Option value="UNAVAILABLE">Hết hàng</Select.Option>*/}
+                {/*    </Select>*/}
+                {/*  </Form.Item>*/}
+                {/*</Col>*/}
               </Row>
 
               <Form.Item
@@ -559,42 +558,6 @@ const FishInfo = (categoryId) => {
                 </div>
               </div>
             </Modal>
-            // <Col span={24}>
-            //   <Modal
-            //     title={`Chi tiết của ${selectedFish.name}`}
-            //     visible={!!selectedFish}
-            //     onCancel={() => setSelectedFish(null)} // Đóng modal khi bấm nút Đóng
-            //     footer={null}
-            //     width={1000}
-            //   >
-            //     <Tabs defaultActiveKey="1">
-            //       <TabPane tab="Thông tin Cá" key="1">
-            //         <Row gutter={16}>
-            //           <Col span={8}>
-            //             <img src={selectedFish.imageUrl} alt="fish"
-            //                  style={{width: "60%", height: "auto", marginBottom: "20px", borderRadius: "10px"}}/>
-            //           </Col>
-            //           <Col span={8}>
-            //             <p><strong>Tên:</strong> {selectedFish.name}</p>
-            //             <p><strong>Loại cá:</strong> {selectedFish.categoryName}</p>
-            //             <p><strong>Giới tính:</strong> {selectedFish.gender === 1 ? "Đực" : "Cái"}</p>
-            //             <p><strong>Tuổi (năm):</strong> {selectedFish.age}</p>
-            //           </Col>
-            //           <Col span={8}>
-            //             <p><strong>Kích thước (cm):</strong> {selectedFish.size}</p>
-            //             <p><strong>Giá (VND):</strong> {formatCurrency(selectedFish.price)}</p>
-            //             <p><strong>Lượng thức ăn/ngày (gram):</strong> {selectedFish.dailyFood}</p>
-            //             {/*<p><strong>Số lượng trong kho:</strong> {selectedFish.quantityInStock}</p>*/}
-            //             <p><strong>Trạng thái:</strong> {selectedFish.status === 0 ? "Có sẵn" : "Hết hàng"}</p>
-            //           </Col>
-            //           <Col span={24}>
-            //             <p><strong>Mô tả:</strong> {selectedFish.description}</p>
-            //           </Col>
-            //         </Row>
-            //       </TabPane>
-            //     </Tabs>
-            //   </Modal>
-            // </Col>
           )
         }
       </Row>

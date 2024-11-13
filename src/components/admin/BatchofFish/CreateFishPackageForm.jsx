@@ -1,5 +1,5 @@
 // CreateFishPackageForm.jsx
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Form,
   Input,
@@ -12,11 +12,11 @@ import {
   Row,
   Col,
 } from "antd";
-import { PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { createFishPackage } from "../../../services/fishPackageService.js";
+import {PlusOutlined, SaveOutlined} from "@ant-design/icons";
+import {createFishPackage} from "../../../services/fishPackageService.js";
 import {FiUpload} from "react-icons/fi";
 
-const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
+const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [imageFile, setImageFile] = useState(null);
@@ -42,7 +42,7 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
     }
     return false; // Prevent automatic upload
   };
-  
+
   const onFinish = async (values) => {
     if (submitting) return;
     setSubmitting(true);
@@ -97,20 +97,20 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
             <Form.Item
               label="Tên Lô Cá"
               name="name"
-              rules={[{ required: true, message: "Vui lòng nhập tên lô cá!" }]}
+              rules={[{required: true, message: "Vui lòng nhập tên lô cá!"}]}
             >
-              <Input />
+              <Input/>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Giá"
               name="totalPrice"
-              rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
+              rules={[{required: true, message: "Vui lòng nhập giá!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                 parser={(value) => value.replace(/\./g, "")}
                 onKeyPress={(event) => {
@@ -129,8 +129,8 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               label="Ảnh"
               name="imageFile"
               valuePropName="fileList"
-              getValueFromEvent={({ fileList }) => fileList}
-              rules={[{ required: true, message: "Vui lòng chọn ảnh!" }]}
+              getValueFromEvent={({fileList}) => fileList}
+              rules={[{required: true, message: "Vui lòng chọn ảnh!"}]}
             >
               <Upload
                 listType="picture-card"
@@ -141,8 +141,8 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
               >
                 {fileList.length === 0 && (
                   <div className="flex flex-col items-center">
-                    <FiUpload style={{ color: 'royalblue', fontSize: 20 }} />
-                    <div style={{ marginTop: 8 }}>Tải ảnh lên</div>
+                    <FiUpload style={{color: 'royalblue', fontSize: 20}}/>
+                    <div style={{marginTop: 8}}>Tải ảnh lên</div>
                   </div>
                 )}
               </Upload>
@@ -150,63 +150,13 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              label="Tuổi"
-              name="age"
-              rules={[{required: true, message: "Vui lòng nhập tuổi!" }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: "100%" }}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-              />
-            </Form.Item>
-            <Form.Item
-              label="Kích thước"
-              name="size"
-              rules={[{ required: true, message: "Vui lòng nhập kích thước!" }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: "100%" }}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          {/* <Col span={12}>
-            <Form.Item
-              label="Giới tính"
-              name="gender"
-              rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
-            >
-              <Select>
-                <Select.Option value="Đực">Đực</Select.Option>
-                <Select.Option value="Cái">Cái</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col> */}
-        </Row>
-
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
               label="Thức ăn/ngày"
               name="dailyFood"
-              rules={[{ required: true, message: "Vui lòng nhập lượng thức ăn/ngày!" }]}
+              rules={[{required: true, message: "Vui lòng nhập lượng thức ăn/ngày!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
                     event.preventDefault();
@@ -214,16 +164,14 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
                 }}
               />
             </Form.Item>
-          </Col>
-          <Col span={12}>
             <Form.Item
               label="Số lượng"
               name="numberOfFish"
-              rules={[{ required: true, message: "Vui lòng nhập số lượng!" }]}
+              rules={[{required: true, message: "Vui lòng nhập số lượng!"}]}
             >
               <InputNumber
                 min={0}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
                     event.preventDefault();
@@ -237,16 +185,16 @@ const CreateFishPackageForm = ({ visible, onCancel, onSuccess }) => {
         <Form.Item
           label="Mô tả"
           name="description"
-          rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
+          rules={[{required: true, message: "Vui lòng nhập mô tả!"}]}
         >
-          <Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
+          <Input.TextArea autoSize={{minRows: 3, maxRows: 5}}/>
         </Form.Item>
 
-        <Form.Item style={{ textAlign: "right" }}>
+        <Form.Item style={{textAlign: "right"}}>
           <Button
             type="primary"
             htmlType="submit"
-            icon={<SaveOutlined />}
+            icon={<SaveOutlined/>}
             loading={submitting}
           >
             Thêm mới

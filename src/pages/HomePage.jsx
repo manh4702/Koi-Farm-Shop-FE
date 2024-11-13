@@ -12,10 +12,15 @@ import './HomePage.css';
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
 
 const formatCurrency = (value) => {
+  // Loại bỏ "VND" từ chuỗi nếu có
+  const numericValue = typeof value === 'string'
+    ? parseInt(value.replace(/[^\d]/g, ''))
+    : value;
+
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
-  }).format(value);
+  }).format(numericValue);
 };
 
 const latestNews = [
@@ -159,7 +164,7 @@ const HomePage = () => {
                   <p className="text-gray-700 line-clamp-3">{fish.description}</p>
                   <Link
                     to={`/products/fish/${fish.id || fish.fishId}`}
-                    className="text-blue-500 hover:underline mt-2 inline-block"
+                    className="text-red-500 hover:underline mt-2 inline-block"
                   >
                     Xem chi tiết
                   </Link>
@@ -168,45 +173,13 @@ const HomePage = () => {
           </div>
           {/*</TransitionGroup>*/}
         </div>
-        {/*<div className="flex justify-between mt-4">*/}
-        {/*  {loading ? (<span className="text-blue-500">Đang tải...</span>) : (<>*/}
-        {/*    <button onClick={handlePrevPage} disabled={currentPage === 0}*/}
-        {/*            className="flex items-center text-blue-500 hover:underline">*/}
-        {/*      <GrCaretPrevious className="mr-2"/>*/}
-        {/*      Trang trước*/}
-        {/*    </button>*/}
-        {/*    <button onClick={handleNextPage}*/}
-        {/*            disabled={(currentPage + 1) * itemsPerPage >= featuredFishes.length}*/}
-        {/*            className="flex items-center text-blue-500 hover:underline">*/}
-        {/*      Trang sau*/}
-        {/*      <GrCaretNext className="ml-2"/>*/}
-        {/*    </button>*/}
-        {/*  </>)}*/}
-        {/*</div>*/}
+        
       </section>
 
       <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold mb-4">Lô cá nổi bật</h2>
-          {/*<div>*/}
-          {/*  <button*/}
-          {/*    onClick={handlePrevIndex}*/}
-          {/*    // disabled={currentIndex === 0}*/}
-          {/*    className="text-blue-500 hover:underline"*/}
-          {/*  >*/}
-          {/*    <LeftCircleOutlined className="text-2xl text-red-500 mr-2"/>*/}
-          {/*  </button>*/}
-          {/*  <button*/}
-          {/*    onClick={handleNextIndex}*/}
-          {/*    disabled={(currentIndex + 1) * itemsPerPage >= fishPackages.length}*/}
-          {/*    className="text-blue-500 hover:underline"*/}
-          {/*  >*/}
-          {/*    <RightCircleOutlined className="text-2xl text-red-500"/>*/}
-          {/*  </button>*/}
-          {/*</div>*/}
         </div>
-
-
         <div className="carousel-container">
           <div
             className="carousel-slider"
@@ -224,10 +197,10 @@ const HomePage = () => {
                 <img src={fishPackage.imageUrl} alt={fishPackage.name} className="mb-4 w-full h-80 rounded-lg"/>
                 <div className="flex-grow">
                   <h3 className="text-xl font-semibold">{fishPackage.name}</h3>
-                  <p className="text-red-500 font-bold">{formatCurrency(fishPackage.price)}</p>
+                  <p className="text-red-500 font-bold">{formatCurrency(fishPackage.totalPrice)}</p>
                   <p className="text-gray-700 line-clamp-3">{fishPackage.description}</p>
                 </div>
-                <Link to={`/products/fish-packages/${fish.fishPackageId || fish.id}`}
+                <Link to={`/products/fish-packages/${fishPackage.fishPackageId || fishPackage.id}`}
                       className="text-red-500 hover:underline mt-2">
                   Xem chi tiết
                 </Link>

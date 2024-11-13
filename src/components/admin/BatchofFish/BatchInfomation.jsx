@@ -179,25 +179,6 @@ const BatchInfo = () => {
                   sorter: (a, b) => a.price - b.price,
                 },
                 {
-                  title: "Tuổi",
-                  dataIndex: "age",
-                  sorter: (a, b) => a.age - b.age,
-                },
-                {
-                  title: "Kích thước (cm)",
-                  dataIndex: "size",
-                  sorter: (a, b) => a.size - b.size,
-                },
-                // {
-                //   title: "Giới tính",
-                //   dataIndex: "gender",
-                //   filters: [
-                //     { text: "Đực", value: "Đực" },
-                //     { text: "Cái", value: "Cái" },
-                //   ],
-                //   onFilter: (value, record) => record.gender === value,
-                // },
-                {
                   title: "Thức ăn/ngày (gram)",
                   dataIndex: "dailyFood",
                   sorter: (a, b) => a.dailyFood - b.dailyFood,
@@ -209,9 +190,18 @@ const BatchInfo = () => {
                 },
                 {
                   title: "Trạng thái",
-                  dataIndex: "status",
-                  render: (status) => {
-                    return status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
+                  dataIndex: "productStatus",
+                  render: (productStatus) => {
+                    switch (productStatus) {
+                      case "AVAILABLE":
+                        return "Có sẵn";
+                      case "UNAVAILABLE":
+                        return "Không có sẵn";
+                      case "SOLDOUT":
+                        return "Đã bán hết";
+                      default:
+                        return "Không xác định";
+                    }
                   },
                 },
                 {
