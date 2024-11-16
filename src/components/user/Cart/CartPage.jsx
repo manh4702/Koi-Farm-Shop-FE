@@ -93,7 +93,7 @@ const CartPage = () => {
         <Table columns={columns} dataSource={items} rowKey="cartItemId"/>
         <div style={{textAlign: "right", marginTop: 20}}>
           <h2>Tổng cộng: {formatCurrency(total)}</h2>
-          <Button type="primary" size="large" style={{marginTop: 10}} onClick={() => handleCheckout()}>
+          <Button type="primary" size="large" style={{marginTop: 10, backgroundColor: "#FF0000", color: "white"}} onClick={() => handleCheckout()}>
             Thanh toán
           </Button>
         </div>

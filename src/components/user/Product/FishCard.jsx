@@ -99,24 +99,24 @@ const FishCard = ({fish}) => {
       >
         {fish.description}
       </p>
-      <p
-        style={{
-          marginBottom: "0.5rem",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        Tuổi: {fish.age} tuổi
-      </p>
-      <p
-        style={{
-          marginBottom: "0.5rem",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        Kích thước: {fish.size} cm
-      </p>
+      {/*<p*/}
+      {/*  style={{*/}
+      {/*    marginBottom: "0.5rem",*/}
+      {/*    display: "flex",*/}
+      {/*    alignItems: "center",*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Tuổi: {fish.age} tuổi*/}
+      {/*</p>*/}
+      {/*<p*/}
+      {/*  style={{*/}
+      {/*    marginBottom: "0.5rem",*/}
+      {/*    display: "flex",*/}
+      {/*    alignItems: "center",*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Kích thước: {fish.size} cm*/}
+      {/*</p>*/}
 
       {fish.isLot ? (
         <div style={{height: "200px"}}>

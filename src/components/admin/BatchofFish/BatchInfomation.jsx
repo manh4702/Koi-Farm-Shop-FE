@@ -78,6 +78,18 @@ const BatchInfo = () => {
     });
   };
 
+  const formatCurrency = (value) => {
+    // Loại bỏ "VND" từ chuỗi nếu có
+    const numericValue = typeof value === 'string'
+      ? parseInt(value.replace(/[^\d]/g, ''))
+      : value;
+
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(numericValue);
+  };
+
   const menu = (
     <Menu>
       <SubMenu key="status" title="Trạng thái">
@@ -176,6 +188,7 @@ const BatchInfo = () => {
                 {
                   title: "Giá",
                   dataIndex: "price",
+                  render: (price) => formatCurrency(price),
                   sorter: (a, b) => a.price - b.price,
                 },
                 {
