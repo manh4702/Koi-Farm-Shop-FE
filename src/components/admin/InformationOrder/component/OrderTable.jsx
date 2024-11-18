@@ -190,13 +190,13 @@ const OrderTable = ({orders, showModal, handleCancelOrder, handleDeleteOrder}) =
                   </Tooltip>
                 </>
               )}
-              <Tooltip title="Xóa đơn hàng">
-                <Button
-                  icon={<DeleteOutlined />}
-                  onClick={() => handleDeleteOrder(record.id)}
-                  style={{ color: "red", border: "1px solid red" }}
-                />
-              </Tooltip>
+              {/*<Tooltip title="Xóa đơn hàng">*/}
+              {/*  <Button*/}
+              {/*    icon={<DeleteOutlined />}*/}
+              {/*    onClick={() => handleDeleteOrder(record.id)}*/}
+              {/*    style={{ color: "red", border: "1px solid red" }}*/}
+              {/*  />*/}
+              {/*</Tooltip>*/}
             </>
           )}
         </div>

@@ -319,6 +319,9 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Thêm ảnh cá"
                     name="image"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng chọn ảnh cá' }
+                    ] : []}
                   >
                     <Upload
                       listType="picture-card"
@@ -332,12 +335,18 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Tên cá"
                     name="name"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng nhập tên cá' }
+                    ] : []}
                   >
                     <Input/>
                   </Form.Item>
                   <Form.Item
                     label="Giá (VND)"
                     name="price"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng nhập giá' }
+                    ] : []}
                   >
                     <InputNumber
                       min={0}
@@ -359,6 +368,9 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Giới tính"
                     name="gender"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng chọn giới tính' }
+                    ] : []}
                   >
                     <Select placeholder="Chọn giới tính">
                       <Select.Option value="0">Đực</Select.Option>
@@ -370,6 +382,9 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Tuổi (năm)"
                     name="age"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng nhập tuổi' }
+                    ] : []}
                   >
                     <InputNumber
                       min={0}
@@ -387,6 +402,9 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Kích thước (cm)"
                     name="size"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng nhập kích thước' }
+                    ] : []}
                   >
                     <InputNumber
                       min={0}
@@ -400,7 +418,13 @@ const FishInfo = (categoryId) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="Loại cá" name="categoryId">
+                  <Form.Item 
+                    label="Loại cá" 
+                    name="categoryId"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vui lòng chọn loại cá' }
+                    ] : []}
+                  >
                     <Select>
                       {JSON.parse(sessionStorage.getItem("categories"))?.map(category => (
                         <Select.Option key={category.categoryId} value={category.categoryId}>
@@ -414,6 +438,9 @@ const FishInfo = (categoryId) => {
                   <Form.Item
                     label="Lượng thức ăn/ngày (gram)"
                     name="dailyFood"
+                    rules={!editFish ? [
+                      { required: true, message: 'Vuiź nhập lượng thức ăn/ngày' }
+                    ] : []}
                   >
                     <InputNumber
                       min={0}
@@ -456,7 +483,9 @@ const FishInfo = (categoryId) => {
               <Form.Item
                 label="Mô tả"
                 name="description"
-                rules={[{required: true, message: "Vui lòng nhập mô tả về cá"}]}
+                rules={!editFish ? [
+                  { required: true, message: 'Vui lòng nhập mô tả' }
+                ] : []}
               >
                 <Input.TextArea rows={3} placeholder="Nhập mô tả về cá"/>
               </Form.Item>

@@ -206,9 +206,11 @@ const ProductDetailPage = () => {
                 <strong>Số lượng cá trong lô:</strong> {fish.numberOfFish}
               </p>
             )}
-            <p>
-              <strong>Tuổi:</strong> {fish.age} năm
-            </p>
+            {fish.age && (
+              <p>
+                <strong>Tuổi:</strong> {fish.age} năm
+              </p>
+            )}
             {fish.origin && (
               <p>
                 <strong>Nguồn gốc:</strong> {fish.origin}

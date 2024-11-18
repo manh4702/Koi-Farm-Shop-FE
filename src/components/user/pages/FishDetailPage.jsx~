@@ -109,7 +109,6 @@ const FishDetailPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
             maxWidth: '600px',
-            height: 'auto',
             backgroundColor: '#f5f5f5',
             borderRadius: '8px',
             padding: '20px',
