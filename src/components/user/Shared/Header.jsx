@@ -35,9 +35,11 @@ const Header = () => {
     color: isActive(path) ? "red" : "black",
   });
 
-  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItemCount = cartItems
+  .filter((item) => item.cartItemStatus === "PENDING_FOR_ORDER")
+  .reduce((total, item) => total + item.quantity, 0);
   // const cartItemCount = useCartStore(state => state.items.length);
-  
+
   const handleLogout = () => {
     logout(navigate);
   };
@@ -125,7 +127,7 @@ const Header = () => {
   return (
     <AntHeader className="h-[200px] bg-white border-b border-gray-200">
       {/* Top Bar */}
-      <div style={{ marginTop: "5px" }} className="max-w-7xl mx-auto px-4">
+      <div style={{marginTop: "5px"}} className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-bold text-red-600">
             <PhoneOutlined/> 036988088 - 0907832421
@@ -156,17 +158,17 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-[140px]">
           <Link to="/">
-           <img
-           src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
-           alt="Cá Koi Store"
-            className="h-[150px] object-contain"
-           style={{
-             width: "80%",
-             aspectRatio: "3/3",
-             objectFit: "contain",
-             mixBlendMode: "darken",
-           }}
-          />
+            <img
+              src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
+              alt="Cá Koi Store"
+              className="h-[150px] object-contain"
+              style={{
+                width: "80%",
+                aspectRatio: "3/3",
+                objectFit: "contain",
+                mixBlendMode: "darken",
+              }}
+            />
 
           </Link>
 

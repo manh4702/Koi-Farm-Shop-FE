@@ -14,7 +14,8 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [form] = Form.useForm();
-  const cartItems = useCartStore((state) => state.items);
+  const cartItems = useCartStore(state => state.items)
+  .filter(item => item.cartItemStatus === "PENDING_FOR_ORDER");
   const placeOrder = useOrderStore((state) => state.placeOrder);
   const [loading, setLoading] = useState(false);
   const [qrCode, setQrCode] = useState(null);
@@ -77,7 +78,6 @@ const CheckoutPage = () => {
 
       // await placeOrder(orderData);
       const orderResult = await placeOrder(orderData);
-      useCartStore.getState().clearCart();
 
       if (paymentMethod === 'ZaloPay' && orderResult.success) {
         try {
@@ -118,8 +118,10 @@ const CheckoutPage = () => {
           title: 'Đặt hàng thành công',
           content: 'Cảm ơn bạn đã mua hàng! Đơn hàng của bạn đã được xác nhận.',
         });
-        navigate('/'); // hoặc trang xác nhận đơn hàng
+        useCartStore.getState().clearCart();
+        navigate('/products');
       }
+      
     } catch (error) {
       Modal.error({
         title: 'Thanh toán thất bại',
