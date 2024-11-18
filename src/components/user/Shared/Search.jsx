@@ -50,7 +50,7 @@
 // export default Search;
 import React, { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import axios from "axios";
+import axios from "../../../api/axios.jsx";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -65,7 +65,7 @@ const Search = () => {
     setIsSearched(true); // Đánh dấu là người dùng đã tìm kiếm
     try {
       const response = await axios.get(
-        `http://localhost:5260/api/FishPackage?page=1&pageSize=10&search=${query}`,
+        `/api/FishPackage?page=1&pageSize=10&search=${query}`,
         {
           headers: {
             accept: "*/*",
