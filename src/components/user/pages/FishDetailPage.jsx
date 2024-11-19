@@ -127,31 +127,6 @@ const FishDetailPage = () => {
               }}
             />
           </div>
-          {/*<div style={{*/}
-          {/*  flex: 1,*/}
-          {/*  display: 'flex',*/}
-          {/*  justifyContent: 'center',*/}
-          {/*  alignItems: 'center',*/}
-          {/*  maxWidth: '600px',*/}
-          {/*  backgroundColor: '#f5f5f5',*/}
-          {/*  borderRadius: '8px',*/}
-          {/*  overflow: 'hidden'*/}
-          {/*}}>*/}
-          {/*  <Image*/}
-          {/*    src={fish.imageUrl}*/}
-          {/*    alt={fish.name}*/}
-          {/*    style={{*/}
-          {/*      maxWidth: '100%',*/}
-          {/*      maxHeight: '100%',*/}
-          {/*      objectFit: 'cover', // Đảm bảo hình ảnh hiển thị đầy đủ và giữ tỷ lệ*/}
-          {/*      borderRadius: '8px',*/}
-          {/*      boxShadow: '0 4px 8px rgba(0,0,0,0.2)'*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    <Transformation quality="auto" fetchFormat="auto"/>*/}
-          {/*    /!*preview={true}*!/*/}
-          {/*  </Image>*/}
-          {/*</div>*/}
 
           <div style={{flex: 1}}>
             <h1
@@ -224,41 +199,39 @@ const FishDetailPage = () => {
                 </Button>
               </>
             )}
-<div>
-  <p>
-    <strong>Tên cá:</strong> {fish.name}
-  </p>
-  <p>
-    <strong>ID cá:</strong> {fish.fishId}
-  </p>
-  <p>
-    <strong>Tuổi:</strong> {fish.age} năm
-  </p>
-  <p>
-    <strong>Giới tính:</strong> {fish.gender === "Male" ? "Đực" : "Cái"}
-  </p>
-  <p>
-    <strong>Kích thước:</strong> {fish.size} cm
-  </p>
-  <p>
-    <strong>Mô tả:</strong> {fish.description}
-  </p>
-  <p>
-    <strong>Loại cá:</strong> {fish.categoryName}
-  </p>
-  <p>
-    <strong>Lượng thức ăn mỗi ngày:</strong> {fish.dailyFood} gram
-  </p>
-  <p>
-    <strong>Giá:</strong> {formatCurrency(fish.price)}
-  </p>
-  <p>
-    <strong>Tình trạng:</strong> {fish.status === "GOOD" ? "Tốt" : "Không tốt"}
-  </p>
-  <p>
-    <strong>Trạng thái sản phẩm:</strong> {fish.productStatus === "AVAILABLE" ? "Còn hàng" : "Hết hàng"}
-  </p>
-</div>
+            <div>
+              {/*<p>*/}
+              {/*  <strong>Tên cá:</strong> {fish.name}*/}
+              {/*</p>*/}
+              {/*<p>*/}
+              {/*  <strong>ID cá:</strong> {fish.fishId}*/}
+              {/*</p>*/}
+              <p>
+                <strong>Tuổi:</strong> {fish.age} tháng
+              </p>
+              <p>
+                <strong>Giới tính:</strong> {fish.gender === "Male" ? "Đực" : "Cái"}
+              </p>
+              <p>
+                <strong>Kích thước:</strong> {fish.size} cm
+              </p>
+
+              <p>
+                <strong>Loại cá:</strong> {fish.categoryName}
+              </p>
+              <p>
+                <strong>Lượng thức ăn mỗi ngày:</strong> {fish.dailyFood} gram
+              </p>
+              <p>
+                <strong>Tình trạng:</strong> {fish.status === "GOOD" ? "Khoẻ mạnh" : "Không tốt"}
+              </p>
+              <p>
+                <strong>Trạng thái sản phẩm:</strong> {fish.productStatus === "AVAILABLE" ? "Còn hàng" : "Hết hàng"}
+              </p>
+              <p>
+                {fish.description}
+              </p>
+            </div>
             {/* Kiểm tra nếu có video giới thiệu */}
             {fish.video && (
               <>

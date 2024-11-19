@@ -143,7 +143,7 @@ const FishInfo = (categoryId) => {
       sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
     },
     {
-      title: "Tuổi (tháng)",
+      title: "Tuổi (năm)",
       dataIndex: "age",
       sorter: (a, b) => a.age - b.age,
     },
@@ -380,7 +380,7 @@ const FishInfo = (categoryId) => {
                 </Col>
                 <Col span={8}>
                   <Form.Item
-                    label="Tuổi (tháng)"
+                    label="Tuổi (năm)"
                     name="age"
                     rules={!editFish ? [
                       { required: true, message: 'Vui lòng nhập tuổi' }
