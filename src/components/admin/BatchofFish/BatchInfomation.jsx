@@ -212,6 +212,10 @@ const BatchInfo = () => {
                   render: (_, record) => `${record.minSize} - ${record.maxSize}`,
                 },
                 {
+                  title: "Tuổi cá",
+                  dataIndex: "age",
+                },
+                {
                   title: "Số lượng",
                   dataIndex: "numberOfFish",
                   sorter: (a, b) => a.numberOfFish - b.numberOfFish,
@@ -221,12 +225,12 @@ const BatchInfo = () => {
                   dataIndex: "quantityInStock",
                   sorter: (a, b) => a.quantityInStock - b.quantityInStock,
                 },
-                {
-                  title: "Sức chứa",
-                  dataIndex: "capacity",
-                  render: (capacity) => `${capacity} con`,
-                  sorter: (a, b) => a.capacity - b.capacity,
-                },
+                // {
+                //   title: "Sức chứa",
+                //   dataIndex: "capacity",
+                //   render: (capacity) => `${capacity} con`,
+                //   sorter: (a, b) => a.capacity - b.capacity,
+                // },
                 {
                   title: "Loại cá",
                   dataIndex: "categories",
