@@ -10,7 +10,7 @@ import {
   Input,
   DatePicker,
   Checkbox,
-  Modal,
+  Modal, Table,
 } from "antd";
 import { CiEdit } from "react-icons/ci";
 import { FaHistory } from "react-icons/fa";
@@ -36,23 +36,6 @@ const UserProfilePage = () => {
   useEffect(() => {
     fetchUserProfile();
   }, [form]);
-
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const profileData = await getUserProfile();
-  //     setUserProfile(profileData);
-  //     form.setFieldsValue({
-  //       ...profileData,
-  //       dateOfBirth: profileData.dateOfBirth
-  //         ? moment(profileData.dateOfBirth)
-  //         : null,
-  //     });
-  //   } catch (error) {
-  //     message.error("Có lỗi xảy ra, vui lòng thử lại.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     // Only set form values once userProfile is fetched and non-null
@@ -174,7 +157,7 @@ const UserProfilePage = () => {
       case "security":
         return renderSecuritySettings();
       case "orderHistory":
-        return <div>Lịch sử đơn hàng</div>;
+        return renderOrderHistory();
       case "feedback":
         return <div>Đánh giá của tôi</div>;
       case "favorites":
@@ -468,6 +451,71 @@ const UserProfilePage = () => {
     </div>
   );
 
+  const renderOrderHistory = () => (
+    <div>
+      <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>
+        Lịch sử đơn hàng
+      </h2>
+      <Table
+        // dataSource={orderHistoryData}
+        columns={[
+          {
+            title: "Mã Đơn Hàng",
+            dataIndex: "orderId",
+            key: "orderId",
+          },
+          {
+            title: "Ngày Đặt",
+            dataIndex: "orderDate",
+            key: "orderDate",
+            render: (date) => moment(date).format("DD/MM/YYYY"),
+          },
+          {
+            title: "Sản Phẩm",
+            dataIndex: "items",
+            key: "items",
+            render: (items) =>
+              items.map((item, index) => (
+                <div key={index}>
+                  {item.name} - {item.quantity} x {item.price.toLocaleString()}₫
+                </div>
+              )),
+          },
+          {
+            title: "Tổng Tiền",
+            dataIndex: "totalAmount",
+            key: "totalAmount",
+            render: (amount) => `${amount.toLocaleString()}₫`,
+          },
+          {
+            title: "Trạng Thái",
+            dataIndex: "status",
+            key: "status",
+            render: (status) => (
+              <span
+                style={{
+                  color:
+                    status === "Đã giao"
+                      ? "green"
+                      : status === "Đang xử lý"
+                        ? "orange"
+                        : "red",
+                  fontWeight: "bold",
+                }}
+              >
+              {status}
+            </span>
+            ),
+          },
+        ]}
+        bordered
+        pagination={{ pageSize: 5 }}
+        loading={loading}
+      />
+    </div>
+  );
+
+
   return (
     <>
       <Header />
@@ -545,42 +593,42 @@ const UserProfilePage = () => {
             >
               <MdOutlineSecurity style={{ marginRight: "8px" }} /> Bảo mật
             </li>
-            <li
-              onClick={() => setSelectedSection("feedback")}
-              style={{
-                fontSize: "18px",
-                padding: "10px",
-                borderBottom: "1px solid #ccc",
-                cursor: "pointer",
-                backgroundColor:
-                  selectedSection === "feedback" ? "brown" : "transparent",
-                color: selectedSection === "feedback" ? "white" : "black",
-                borderRadius: "10px",
-                display: "flex",
-                alignItems: "center",
-                transition: "background-color 0.3s, color 0.3s",
-              }}
-            >
-              <MdFeedback style={{ marginRight: "8px" }} /> Đánh giá của tôi
-            </li>
-            <li
-              onClick={() => setSelectedSection("favorites")}
-              style={{
-                fontSize: "18px",
-                padding: "10px",
-                borderBottom: "1px solid #ccc",
-                cursor: "pointer",
-                backgroundColor:
-                  selectedSection === "favorites" ? "brown" : "transparent",
-                color: selectedSection === "favorites" ? "white" : "black",
-                borderRadius: "10px",
-                display: "flex",
-                alignItems: "center",
-                transition: "background-color 0.3s, color 0.3s",
-              }}
-            >
-              <FaFish style={{ marginRight: "8px" }} /> Sản phẩm yêu thích
-            </li>
+            {/*<li*/}
+            {/*  onClick={() => setSelectedSection("feedback")}*/}
+            {/*  style={{*/}
+            {/*    fontSize: "18px",*/}
+            {/*    padding: "10px",*/}
+            {/*    borderBottom: "1px solid #ccc",*/}
+            {/*    cursor: "pointer",*/}
+            {/*    backgroundColor:*/}
+            {/*      selectedSection === "feedback" ? "brown" : "transparent",*/}
+            {/*    color: selectedSection === "feedback" ? "white" : "black",*/}
+            {/*    borderRadius: "10px",*/}
+            {/*    display: "flex",*/}
+            {/*    alignItems: "center",*/}
+            {/*    transition: "background-color 0.3s, color 0.3s",*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <MdFeedback style={{ marginRight: "8px" }} /> Đánh giá của tôi*/}
+            {/*</li>*/}
+            {/*<li*/}
+            {/*  onClick={() => setSelectedSection("favorites")}*/}
+            {/*  style={{*/}
+            {/*    fontSize: "18px",*/}
+            {/*    padding: "10px",*/}
+            {/*    borderBottom: "1px solid #ccc",*/}
+            {/*    cursor: "pointer",*/}
+            {/*    backgroundColor:*/}
+            {/*      selectedSection === "favorites" ? "brown" : "transparent",*/}
+            {/*    color: selectedSection === "favorites" ? "white" : "black",*/}
+            {/*    borderRadius: "10px",*/}
+            {/*    display: "flex",*/}
+            {/*    alignItems: "center",*/}
+            {/*    transition: "background-color 0.3s, color 0.3s",*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <FaFish style={{ marginRight: "8px" }} /> Sản phẩm yêu thích*/}
+            {/*</li>*/}
           </ul>
         </div>
         <div style={{ width: "75%", padding: "20px" }}>{renderContent()}</div>

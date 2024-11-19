@@ -15,9 +15,10 @@ const formatCurrency = (value) => {
 };
 
 const CartPage = () => {
-  const { removeItem, updateQuantity} = useCartStore();
+  const {removeItem, updateQuantity} = useCartStore();
   // const { cartItems } = useAuthStore();
-  const items = useCartStore(state => state.items);
+  const items = useCartStore(state => state.items)
+    .filter(item => item.cartItemStatus === "PENDING_FOR_ORDER");
   const navigate = useNavigate();
   const columns = [
     {
@@ -83,7 +84,7 @@ const CartPage = () => {
       message.warning("Giỏ hàng trống, không thể thanh toán");
       return;
     }
-    navigate("/checkout", { state: { cartItems: items } }); // Chuyển hướng đến CheckoutPage và truyền dữ liệu giỏ hàng
+    navigate("/checkout", {state: {cartItems: items}}); // Chuyển hướng đến CheckoutPage và truyền dữ liệu giỏ hàng
   };
   return (
     <>
@@ -93,7 +94,8 @@ const CartPage = () => {
         <Table columns={columns} dataSource={items} rowKey="cartItemId"/>
         <div style={{textAlign: "right", marginTop: 20}}>
           <h2>Tổng cộng: {formatCurrency(total)}</h2>
-          <Button type="primary" size="large" style={{marginTop: 10, backgroundColor: "#FF0000", color: "white"}} onClick={() => handleCheckout()}>
+          <Button type="primary" size="large" style={{marginTop: 10, backgroundColor: "#FF0000", color: "white"}}
+                  onClick={() => handleCheckout()}>
             Thanh toán
           </Button>
         </div>

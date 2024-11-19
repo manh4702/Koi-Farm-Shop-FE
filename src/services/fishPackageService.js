@@ -34,21 +34,28 @@ export const getFishPackages = async () => {
         pageSize: 100,
       },
     });
-    const fishPackages = response.data.data.listData.map((item) => ({
-      fishPackageId: item.fishPackageId.toString(),
-      name: item.name,
-      description: item.description,
-      price: `${item.totalPrice} VND`,
-      imageUrl: item.imageUrl,
-      age: item.age,
-      size: item.size,
-      gender: item.gender,
-      dailyFood: item.dailyFood,
-      numberOfFish: item.numberOfFish,
-      productStatus: item.productStatus,
-    }));
 
-    return fishPackages;
+    return response.data.data.listData;
+    // const fishPackages = response.data.data.listData.map((item) => ({
+    //   fishPackageId: item.fishPackageId.toString(),
+    //   name: item.name,
+    //   description: item.description,
+    //   price: item.totalPrice,
+    //   imageUrl: item.imageUrl,
+    //   age: item.age,
+    //   // size: item.size,
+    //   minSize: item.minSize,
+    //   maxSize: item.maxSize,
+    //   // gender: item.gender,
+    //   dailyFood: item.dailyFood,
+    //   numberOfFish: item.numberOfFish,
+    //   quantityInStock: item.quantityInStock,
+    //   productStatus: item.productStatus,
+    //   capacity: item.capacity,
+    //   categories: item.categories || [],
+    // }));
+
+    // return fishPackages;
   } catch (error) {
     console.error('Error fetching fish packages:', error);
     throw error;
@@ -96,6 +103,18 @@ export const createFishPackage = async (formData) => {
     return response.data;
   } catch (error) {
     console.error('Error creating fish package:', error);
+    throw error;
+  }
+};
+
+export const addFishToPackage = async (formData) => {
+  try {
+    const response = await axios.post('/api/FishPackage/AddFish', formData, {
+      headers: {"Content-Type": "multipart/form-data"},
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding fish to package:', error);
     throw error;
   }
 };

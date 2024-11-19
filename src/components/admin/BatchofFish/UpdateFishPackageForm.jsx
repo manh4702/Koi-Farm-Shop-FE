@@ -10,10 +10,19 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
   const {updateFishPackage} = useFishPackageStore();
   const [fileList, setFileList] = useState([]);
   const [isNameChanged, setIsNameChanged] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [remainingCapacity, setRemainingCapacity] = useState(0);
+  const {fetchFishPackages} = useFishPackageStore();
 
   useEffect(() => {
     if (fishPackage) {
-      form.setFieldsValue(fishPackage);
+      // form.setFieldsValue(fishPackage);
+      form.setFieldsValue({
+        ...fishPackage,
+        fishes: fishPackage.fishes || [],
+      })
+      setRemainingCapacity(fishPackage.capacity - (fishPackage.fishes?.reduce((sum, fish) => sum + fish.quantity, 0) || 0));
+
       // Nếu có ảnh cũ, hiển thị nó
       if (fishPackage.imageUrl) {
         setFileList([
@@ -47,17 +56,38 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
     return false;
   };
 
+  const handleFishQuantityChange = (value, field) => {
+    const fishes = form.getFieldValue('fishes') || [];
+    const totalOtherFish = fishes.reduce((sum, fish, index) => {
+      if (index !== field) {
+        return sum + (fish?.quantity || 0);
+      }
+      return sum;
+    }, 0);
+
+    const maxAllowed = fishPackage.capacity - totalOtherFish;
+    if (value > maxAllowed) {
+      const newFishes = [...fishes];
+      newFishes[field] = { ...newFishes[field], quantity: maxAllowed };
+      form.setFieldsValue({ fishes: newFishes });
+      message.warning(`Số lượng đã được điều chỉnh xuống ${maxAllowed} để phù hợp với capacity`);
+    }
+
+    setRemainingCapacity(fishPackage.capacity - totalOtherFish - value);
+  };
+
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
 
       // Append basic fields
       formData.append("Name", isNameChanged ? values.name : "");
+      formData.append("Age", values.age);
       formData.append("Description", values.description);
       formData.append("TotalPrice", values.totalPrice !== undefined ? values.totalPrice : "");
       formData.append("DailyFood", values.dailyFood);
-      formData.append("NumberOfFish", values.numberOfFish);
-      formData.append("ProductStatus", values.productStatus);
+      formData.append("Capacity", values.capacity);
+      formData.append("QuantityInStock", values.quantityInStock);
 
       // Handle image
       if (fileList.length > 0) {
@@ -72,6 +102,8 @@ const UpdateFishPackageForm = ({visible, onCancel, fishPackage, onSuccess}) => {
       }
 
       await updateFishPackage(fishPackage.fishPackageId, formData);
+      
+      
       message.success("Lô cá đã được cập nhật thành công!");
       onSuccess();
       onCancel();

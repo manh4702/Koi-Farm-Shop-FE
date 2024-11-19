@@ -350,7 +350,7 @@ const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
                   justifyContent: 'center',
                 }}
               >
-                <FiUpload style={{fontSize: "22", fontWeight: "bold", color: "#43aeff"}}/>
+                <FiUpload style={{fontSize: "22", fontWeight: "bold", color: "43aeff"}}/>
                 <div style={{marginTop: 8}}>Tải ảnh lên</div>
               </div>
             )}

@@ -50,7 +50,7 @@ const useCartStore = create((set, get) => ({
     let apiEndpoint = item.fishPackageId ? '/api/CartItem/FishPackage' : '/api/CartItem/FishSingle';
     let apiBody = {
       userCartId: userCartIdParsed,
-      ...(item.fishPackageId ? {packageId: item.fishPackageId} : {fishId: item.fishId, quantity: 1})
+      ...(item.fishPackageId ? {packageId: item.fishPackageId, quantity: 1} : {fishId: item.fishId, quantity: 1})
     };
 
     try {

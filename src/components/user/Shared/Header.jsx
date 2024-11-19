@@ -35,9 +35,11 @@ const Header = () => {
     color: isActive(path) ? "red" : "black",
   });
 
-  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItemCount = cartItems
+  .filter((item) => item.cartItemStatus === "PENDING_FOR_ORDER")
+  .reduce((total, item) => total + item.quantity, 0);
   // const cartItemCount = useCartStore(state => state.items.length);
-  
+
   const handleLogout = () => {
     logout(navigate);
   };
@@ -125,7 +127,7 @@ const Header = () => {
   return (
     <AntHeader className="h-[200px] bg-white border-b border-gray-200">
       {/* Top Bar */}
-      <div style={{ marginTop: "5px" }} className="max-w-7xl mx-auto px-4">
+      <div style={{marginTop: "5px"}} className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-bold text-red-600">
             <PhoneOutlined/> 036988088 - 0907832421
@@ -152,30 +154,33 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-[140px]">
-          <Link to="/">
-           <img
-           src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
-           alt="Cá Koi Store"
-            className="h-[150px] object-contain"
-           style={{
-             width: "80%",
-             aspectRatio: "3/3",
-             objectFit: "contain",
-             mixBlendMode: "darken",
-           }}
-          />
+        <div className="flex flex-col lg:flex-row justify-between items-center py-4">
+          {/* Logo */}
+          <div className="w-full lg:w-1/6">
+            <Link to="/">
+              <img
+                src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"
+                alt="Cá Koi Store"
+                className="h-[100px] object-contain"
+                style={{
+                  width: "100%",
+                  aspectRatio: "3/3",
+                  objectFit: "contain",
+                  mixBlendMode: "darken",
+                }}
+              />
+            </Link>
+          </div>
 
-          </Link>
-
-          <div className="flex-1 mx-8">
+          {/* Search */}
+          <div className="w-full lg:w-1/3 my-4 lg:my-0">
             <Search/>
           </div>
 
-          <div className="hidden lg:flex">
-            <Menu mode="horizontal" className="flex items-center border-none flex-wrap">
+          {/* Desktop Menu */}
+          <div className="hidden lg:block w-full lg:w-1/2">
+            <Menu mode="horizontal" className="flex justify-end border-none">
               <Menu.Item key="home">
                 <Link to="/" style={getMenuItemStyle("/")}>
                   Trang Chủ
@@ -210,6 +215,8 @@ const Header = () => {
               </Menu.Item>
             </Menu>
           </div>
+
+          {/* Mobile Menu Button */}
           <div className="lg:hidden">
             <Dropdown overlay={mobileMenu} trigger={['click']}>
               <Button icon={<BarsOutlined/>}/>
@@ -217,6 +224,72 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Main Header */}
+      {/*<div className="max-w-7xl mx-auto px-4">*/}
+      {/*  <div className="flex justify-between items-center h-[140px]">*/}
+      {/*    <Link to="/">*/}
+      {/*      <img*/}
+      {/*        src="https://thumbs.dreamstime.com/b/koi-fish-vector-design-create-illustration-65431503.jpg"*/}
+      {/*        alt="Cá Koi Store"*/}
+      {/*        className="h-[150px] object-contain"*/}
+      {/*        style={{*/}
+      {/*          width: "80%",*/}
+      {/*          aspectRatio: "3/3",*/}
+      {/*          objectFit: "contain",*/}
+      {/*          mixBlendMode: "darken",*/}
+      {/*        }}*/}
+      {/*      />*/}
+
+      {/*    </Link>*/}
+
+      {/*    <div className="flex-1 mx-4">*/}
+      {/*      <Search/>*/}
+      {/*    </div>*/}
+
+      {/*    <div className="hidden lg:flex">*/}
+      {/*      <Menu mode="horizontal" className="flex items-center border-none flex-wrap">*/}
+      {/*        <Menu.Item key="home">*/}
+      {/*          <Link to="/" style={getMenuItemStyle("/")}>*/}
+      {/*            Trang Chủ*/}
+      {/*          </Link>*/}
+      {/*        </Menu.Item>*/}
+      {/*        <Menu.Item key="about">*/}
+      {/*          <Link to="/about" style={getMenuItemStyle("/about")}>*/}
+      {/*            Giới Thiệu*/}
+      {/*          </Link>*/}
+      {/*        </Menu.Item>*/}
+      {/*        <Menu.Item key="products">*/}
+      {/*          <Dropdown overlay={productMenu} trigger={['hover']}>*/}
+      {/*            <Link to="/products" style={getMenuItemStyle("/products")}>*/}
+      {/*              Sản Phẩm*/}
+      {/*            </Link>*/}
+      {/*          </Dropdown>*/}
+      {/*        </Menu.Item>*/}
+      {/*        <Menu.Item key="consignment">*/}
+      {/*          <Link to="/fish-consignment" style={getMenuItemStyle("/fish-consignment")}>*/}
+      {/*            Ký Gửi Cá*/}
+      {/*          </Link>*/}
+      {/*        </Menu.Item>*/}
+      {/*        <Menu.Item key="news">*/}
+      {/*          <Link to="/news" style={getMenuItemStyle("/news")}>*/}
+      {/*            Tin Tức*/}
+      {/*          </Link>*/}
+      {/*        </Menu.Item>*/}
+      {/*        <Menu.Item key="contact">*/}
+      {/*          <Link to="/contact" style={getMenuItemStyle("/contact")}>*/}
+      {/*            Liên Hệ*/}
+      {/*          </Link>*/}
+      {/*        </Menu.Item>*/}
+      {/*      </Menu>*/}
+      {/*    </div>*/}
+      {/*    <div className="lg:hidden">*/}
+      {/*      <Dropdown overlay={mobileMenu} trigger={['click']}>*/}
+      {/*        <Button icon={<BarsOutlined/>}/>*/}
+      {/*      </Dropdown>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </AntHeader>
   );
 };

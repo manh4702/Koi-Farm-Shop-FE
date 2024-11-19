@@ -8,7 +8,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { getFishPackages } from "../../../services/fishPackageService.js";
 
 
-const FishPackageDetail = ({ fishPackage }) => {
+const FishPackageDetail = ({ fishPackage, getCategoryName  }) => {
   if (!fishPackage) return null; // Không hiển thị gì nếu không có dữ liệu
 
   const statusText = fishPackage.status === "AVAILABLE" ? "Có sẵn" : "Đã bán";
@@ -26,12 +26,24 @@ const FishPackageDetail = ({ fishPackage }) => {
   };
 
   const getStatusTag = (status) => {
-    return status === "AVAILABLE" ? (
-      <Tag color="green">Có sẵn</Tag>
-    ) : (
-      <Tag color="red">Đã bán</Tag>
+    const statusConfig = {
+      NOTFULL: {color: "orange", text: "Chưa đủ số lượng"},
+      AVAILABLE: {color: "green", text: "Có sẵn"},
+      SOLDOUT: {color: "red", text: "Đã bán hết"}
+    };
+    const config = statusConfig[status] || {color: "default", text: "Không xác định"};
+    return <Tag color={config.color}>{config.text}</Tag>;
+  };
+
+  const renderCategory = (category) => {
+    return (
+      <div key={category.categoryId} style={{ marginBottom: "8px" }}>
+        <strong>Loại cá:</strong> {getCategoryName(category.categoryId)} - {category.quantityOfEach} con
+      </div>
     );
   };
+
+
 
 
   const tabItems = [
@@ -39,9 +51,9 @@ const FishPackageDetail = ({ fishPackage }) => {
       key: "1",
       label: "Thông tin Lô Cá",
       children: (
-        <div style={{ padding: "20px" }}>
+        <div style={{padding: "20px"}}>
           {/* Phần hình ảnh */}
-          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <div style={{textAlign: "center", marginBottom: "24px"}}>
             <Image
               src={fishPackage.imageUrl}
               alt={fishPackage.name}
@@ -57,15 +69,19 @@ const FishPackageDetail = ({ fishPackage }) => {
 
           <Descriptions
             bordered
-            column={{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }}
+            column={{xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1}}
           >
+            {/*<Descriptions.Item label="Mã lô cá" span={2}>*/}
+            {/*  {fishPackage.fishPackageId}*/}
+            {/*</Descriptions.Item>*/}
+
             <Descriptions.Item label="Tên lô cá" span={2}>
               <strong>{fishPackage.name}</strong>
             </Descriptions.Item>
 
             <Descriptions.Item label="Giá">
-              <span style={{ color: "#f50" }}>
-                {formatCurrency(fishPackage.price)}
+              <span style={{color: "#f50"}}>
+                {formatCurrency(fishPackage.totalPrice)}
               </span>
             </Descriptions.Item>
 
@@ -73,8 +89,20 @@ const FishPackageDetail = ({ fishPackage }) => {
               {getStatusTag(fishPackage.productStatus)}
             </Descriptions.Item>
 
-            <Descriptions.Item label="Số lượng">
+            <Descriptions.Item label="Sức chứa">
+              {fishPackage.capacity} con
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Số lượng cá">
               {fishPackage.numberOfFish} con
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Số lượng trong kho">
+              {fishPackage.quantityInStock} lô
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Kích thước">
+              {fishPackage.minSize} - {fishPackage.maxSize} cm
             </Descriptions.Item>
 
             <Descriptions.Item label="Thức ăn/ngày">
@@ -82,24 +110,15 @@ const FishPackageDetail = ({ fishPackage }) => {
             </Descriptions.Item>
           </Descriptions>
 
-          {/*<Divider orientation="left">Thông số chi tiết</Divider>*/}
-          
-          {/*<Descriptions*/}
-          {/*  bordered*/}
-          {/*  column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}*/}
-          {/*>*/}
-          {/*  <Descriptions.Item label="Tuổi">*/}
-          {/*    {fishPackage.age} năm*/}
-          {/*  </Descriptions.Item>*/}
-          
-          {/*  <Descriptions.Item label="Kích thước">*/}
-          {/*    {fishPackage.size} cm*/}
-          {/*  </Descriptions.Item>*/}
-          
-          {/*  /!*<Descriptions.Item label="Giới tính">*!/*/}
-          {/*  /!*  {fishPackage.gender}*!/*/}
-          {/*  /!*</Descriptions.Item>*!/*/}
-          {/*</Descriptions>*/}
+          <Divider orientation="left">Thông tin loại cá</Divider>
+         
+          <Descriptions bordered>
+            <Descriptions.Item label="Danh sách loại cá" span={3}>
+              <div>
+                {fishPackage.categories.map((category) => renderCategory(category))}
+              </div>
+            </Descriptions.Item>
+          </Descriptions>
 
           <Divider orientation="left">Mô tả chi tiết</Divider>
 
@@ -119,8 +138,8 @@ const FishPackageDetail = ({ fishPackage }) => {
       ),
     },
   ];
-  
-  return <Tabs defaultActiveKey="1" items={tabItems} />;
+
+  return <Tabs defaultActiveKey="1" items={tabItems}/>;
 };
 
 export default FishPackageDetail;

@@ -99,24 +99,6 @@ const FishCard = ({fish}) => {
       >
         {fish.description}
       </p>
-      {/*<p*/}
-      {/*  style={{*/}
-      {/*    marginBottom: "0.5rem",*/}
-      {/*    display: "flex",*/}
-      {/*    alignItems: "center",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Tuổi: {fish.age} tuổi*/}
-      {/*</p>*/}
-      {/*<p*/}
-      {/*  style={{*/}
-      {/*    marginBottom: "0.5rem",*/}
-      {/*    display: "flex",*/}
-      {/*    alignItems: "center",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Kích thước: {fish.size} cm*/}
-      {/*</p>*/}
 
       {fish.isLot ? (
         <div style={{height: "200px"}}>
@@ -151,10 +133,20 @@ const FishCard = ({fish}) => {
       >
         {formatCurrency(fish.price)}
       </p>
-      {/*<div style={{display: "flex", flexDirection: "column", gap: "10px"}}>*/}
-      {/*  {renderActionButtons()}*/}
-      {/*</div>*/}
-      {fish.productStatus === "AVAILABLE" ? (
+      {fish.productStatus === "SOLDOUT" ?
+        (
+          <p style={{
+            backgroundColor: "red",
+            padding: "5px",
+            margin: "10px 0",
+            width: "100%",
+            textAlign: "center",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "10px",
+            fontSize: "20px"
+          }}>Liên hệ</p>
+        ) : (
         <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
           <Button
             type="primary"
@@ -193,19 +185,7 @@ const FishCard = ({fish}) => {
             <ShoppingCartOutlined/> Thêm vào giỏ hàng
           </Button>
         </div>
-      ) : (
-        <p style={{
-          backgroundColor: "red",
-          padding: "5px",
-          margin: "10px 0",
-          width: "100%",
-          textAlign: "center",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: "10px",
-          fontSize: "20px"
-        }}>Liên hệ</p>
-      )
+      ) 
       }
     </Card>
   );
