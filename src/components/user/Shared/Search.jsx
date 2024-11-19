@@ -80,7 +80,7 @@ const Search = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-2.5">
+    <div className="flex items-center justify-center mt-2.5" style={{width: "600px"}}>
       <input
         type="text"
         placeholder="Tìm kiếm sản phẩm..."
