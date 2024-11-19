@@ -131,7 +131,7 @@ const FishCard = ({fish}) => {
           marginBottom: "1rem",
         }}
       >
-        {formatCurrency(fish.price)}
+        {formatCurrency(fish.price||fish.totalPrice)}
       </p>
       {fish.productStatus === "SOLDOUT" ?
         (

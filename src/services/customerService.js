@@ -42,3 +42,17 @@ export const deleteUser = async (userId) => {
     throw error;
   }
 };
+
+export const getOrderHistory = async (userId) => {
+  try {
+    const response = await axios.get(`/api/Order/user/${userId}`);
+    if (response.data.success) {
+      return response.data.data;
+    } else {
+      throw new Error("Failed to fetch order history");
+    }
+  } catch (error) {
+    console.error("Error fetching order history:", error);
+    throw error;
+  }
+};

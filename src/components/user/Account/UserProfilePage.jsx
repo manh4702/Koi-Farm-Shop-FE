@@ -1,6 +1,6 @@
 // // // src/components/user/Account/UserProfilePage.js
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Card,
   Descriptions,
@@ -10,21 +10,21 @@ import {
   Input,
   DatePicker,
   Checkbox,
-  Modal, Table,
+  Modal, Table, Tag,
 } from "antd";
-import { CiEdit } from "react-icons/ci";
-import { FaHistory } from "react-icons/fa";
-import { MdOutlineSecurity, MdFeedback } from "react-icons/md";
-import { FaFish } from "react-icons/fa";
+import {CiEdit} from "react-icons/ci";
+import {FaHistory} from "react-icons/fa";
+import {MdOutlineSecurity, MdFeedback} from "react-icons/md";
+import {FaFish} from "react-icons/fa";
 import {
   getUserProfile,
   updateUserProfile,
-  deleteUser,
+  deleteUser, getOrderHistory,
 } from "../../../services/customerService";
 import moment from "moment";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import { GrOverview } from "react-icons/gr";
+import {GrOverview} from "react-icons/gr";
 
 const UserProfilePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -32,6 +32,7 @@ const UserProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedSection, setSelectedSection] = useState("overview");
   const [form] = Form.useForm();
+  const [orderHistory, setOrderHistory] = useState([]);
 
   useEffect(() => {
     fetchUserProfile();
@@ -53,8 +54,24 @@ const UserProfilePage = () => {
     try {
       const profileData = await getUserProfile();
       setUserProfile(profileData);
+      if (profileData?.userId) {
+        fetchOrderHistory(profileData.userId);
+      }
     } catch (error) {
       message.error("Có lỗi xảy ra, vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchOrderHistory = async (userId) => {
+    try {
+      setLoading(true);
+      const orders = await getOrderHistory(userId);
+      setOrderHistory(orders);
+      console.log(orders);
+    } catch (error) {
+      message.error("Có lỗi xảy ra khi tải lịch sử đơn hàng.");
     } finally {
       setLoading(false);
     }
@@ -170,7 +187,7 @@ const UserProfilePage = () => {
   const renderOverview = () => (
     <div>
       <h2
-        style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}
+        style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}
       >
         Thông Tin Cá Nhân
       </h2>
@@ -180,7 +197,7 @@ const UserProfilePage = () => {
           extra={
             <CiEdit
               onClick={handleEditClick}
-              style={{ fontSize: "25px", cursor: "pointer" }}
+              style={{fontSize: "25px", cursor: "pointer"}}
             />
           }
           style={{
@@ -204,7 +221,7 @@ const UserProfilePage = () => {
           <Descriptions column={1}>
             <Descriptions.Item
               label={
-                <span style={{ fontWeight: "bold", color: "black" }}>
+                <span style={{fontWeight: "bold", color: "black"}}>
                   Họ và Tên
                 </span>
               }
@@ -213,7 +230,7 @@ const UserProfilePage = () => {
             </Descriptions.Item>
             <Descriptions.Item
               label={
-                <span style={{ fontWeight: "bold", color: "black" }}>
+                <span style={{fontWeight: "bold", color: "black"}}>
                   Email
                 </span>
               }
@@ -222,7 +239,7 @@ const UserProfilePage = () => {
             </Descriptions.Item>
             <Descriptions.Item
               label={
-                <span style={{ fontWeight: "bold", color: "black" }}>
+                <span style={{fontWeight: "bold", color: "black"}}>
                   Số Điện Thoại
                 </span>
               }
@@ -231,7 +248,7 @@ const UserProfilePage = () => {
             </Descriptions.Item>
             <Descriptions.Item
               label={
-                <span style={{ fontWeight: "bold", color: "black" }}>
+                <span style={{fontWeight: "bold", color: "black"}}>
                   Ngày Sinh
                 </span>
               }
@@ -267,27 +284,27 @@ const UserProfilePage = () => {
             <Form.Item
               name="name"
               label="Họ và Tên"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
             >
-              <Input style={{ width: "25rem", border: "1px solid black" }} />
+              <Input style={{width: "25rem", border: "1px solid black"}}/>
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
-              rules={[{ required: true, type: "email" }]}
+              rules={[{required: true, type: "email"}]}
             >
-              <Input style={{ width: "25rem", border: "1px solid black" }} />
+              <Input style={{width: "25rem", border: "1px solid black"}}/>
             </Form.Item>
             <Form.Item
               name="phone"
               label="Số Điện Thoại"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
             >
-              <Input style={{ width: "25rem", border: "1px solid black" }} />
+              <Input style={{width: "25rem", border: "1px solid black"}}/>
             </Form.Item>
             <Form.Item name="dateOfBirth" label="Ngày Sinh">
               <DatePicker
-                style={{ width: "25rem", border: "1px solid black" }}
+                style={{width: "25rem", border: "1px solid black"}}
               />
             </Form.Item>
             <div
@@ -301,7 +318,7 @@ const UserProfilePage = () => {
                 type="primary"
                 htmlType="submit"
                 loading={loading}
-                style={{ marginRight: "10px", backgroundColor: "green" }}
+                style={{marginRight: "10px", backgroundColor: "green"}}
               >
                 Cập Nhật
               </Button>
@@ -346,7 +363,7 @@ const UserProfilePage = () => {
               key={index}
               type="inner"
               title={`Địa chỉ ${index + 1}`}
-              style={{ marginBottom: "10px" }}
+              style={{marginBottom: "10px"}}
             >
               <p>{address}</p>
             </Card>
@@ -361,7 +378,7 @@ const UserProfilePage = () => {
   const renderSecuritySettings = () => (
     <div>
       <h2
-        style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}
+        style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}
       >
         Bảo mật
       </h2>
@@ -387,34 +404,34 @@ const UserProfilePage = () => {
         <Form
           layout="vertical"
           onFinish={handlePasswordUpdate}
-          style={{ width: "100%" }}
+          style={{width: "100%"}}
         >
           <Form.Item
             name="currentPassword"
             label="Mật Khẩu Hiện Tại"
             rules={[
-              { required: true, message: "Vui lòng nhập mật khẩu hiện tại!" },
+              {required: true, message: "Vui lòng nhập mật khẩu hiện tại!"},
             ]}
           >
             <Input.Password
-              style={{ width: "25rem", border: "1px solid black" }}
+              style={{width: "25rem", border: "1px solid black"}}
             />
           </Form.Item>
           <Form.Item
             name="newPassword"
             label="Mật Khẩu Mới"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu mới!" }]}
+            rules={[{required: true, message: "Vui lòng nhập mật khẩu mới!"}]}
           >
             <Input.Password
-              style={{ width: "25rem", border: "1px solid black" }}
+              style={{width: "25rem", border: "1px solid black"}}
             />
           </Form.Item>
           <Form.Item
             name="confirmPassword"
             label="Xác Nhận Mật Khẩu Mới"
             rules={[
-              { required: true, message: "Vui lòng xác nhận mật khẩu mới!" },
-              ({ getFieldValue }) => ({
+              {required: true, message: "Vui lòng xác nhận mật khẩu mới!"},
+              ({getFieldValue}) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
@@ -427,7 +444,7 @@ const UserProfilePage = () => {
             ]}
           >
             <Input.Password
-              style={{ width: "25rem", border: "1px solid black" }}
+              style={{width: "25rem", border: "1px solid black"}}
             />
           </Form.Item>
           <div
@@ -441,7 +458,7 @@ const UserProfilePage = () => {
               type="primary"
               htmlType="submit"
               loading={loading}
-              style={{ backgroundColor: "green", borderColor: "green" }}
+              style={{backgroundColor: "green", borderColor: "green"}}
             >
               Cập Nhật Mật Khẩu
             </Button>
@@ -453,17 +470,21 @@ const UserProfilePage = () => {
 
   const renderOrderHistory = () => (
     <div>
-      <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>
+      <h2 style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>
         Lịch sử đơn hàng
       </h2>
       <Table
-        // dataSource={orderHistoryData}
+        dataSource={orderHistory.map((order) => ({
+          ...order,
+          key: order.orderId,
+        }))}
+        style={{width: "100%", maxWidth: "1000px", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.2)"}}
         columns={[
-          {
-            title: "Mã Đơn Hàng",
-            dataIndex: "orderId",
-            key: "orderId",
-          },
+          // {
+          //   title: "Mã Đơn Hàng",
+          //   dataIndex: "orderId",
+          //   key: "orderId",
+          // },
           {
             title: "Ngày Đặt",
             dataIndex: "orderDate",
@@ -476,40 +497,70 @@ const UserProfilePage = () => {
             key: "items",
             render: (items) =>
               items.map((item, index) => (
-                <div key={index}>
-                  {item.name} - {item.quantity} x {item.price.toLocaleString()}₫
+                <div key={index} style={{display: "flex", alignItems: "center", marginBottom: "10px"}}>
+                  <img
+                    src={item.packageImage}
+                    alt={item.packageName}
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                      borderRadius: "5px",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <div>
+                    <div style={{fontWeight: "bold"}}>{item.packageName}</div>
+                    <div>Số lượng: {item.quantity}</div>
+                  </div>
                 </div>
               )),
           },
           {
+            title: "Địa Chỉ",
+            dataIndex: "address",
+            key: "address",
+            render: (address) =>
+              address ? (
+                <div>
+                  <div>{address.street || "Chưa cập nhật"}</div>
+                  <div>{`${address.district || ""}, ${address.city || ""}`}</div>
+                </div>
+              ) : (
+                <div>Không có địa chỉ</div>
+              ),
+          },
+          {
             title: "Tổng Tiền",
-            dataIndex: "totalAmount",
-            key: "totalAmount",
+            dataIndex: "totalPrice",
+            key: "totalPrice",
             render: (amount) => `${amount.toLocaleString()}₫`,
           },
           {
             title: "Trạng Thái",
             dataIndex: "status",
             key: "status",
-            render: (status) => (
-              <span
-                style={{
-                  color:
-                    status === "Đã giao"
-                      ? "green"
-                      : status === "Đang xử lý"
-                        ? "orange"
-                        : "red",
-                  fontWeight: "bold",
-                }}
-              >
-              {status}
-            </span>
-            ),
+            render: (status) => {
+              let color = "";
+              let text = "";
+
+              if (status === "COMPLETED") {
+                color = "green";
+                text = "Hoàn thành";
+              } else if (status === "PENDING") {
+                color = "orange";
+                text = "Đang xử lý";
+              } else {
+                color = "red";
+                text = "Đã hủy";
+              }
+
+              return <Tag color={color}>{text}</Tag>;
+            },
           },
         ]}
         bordered
-        pagination={{ pageSize: 5 }}
+        pagination={{pageSize: 5}}
         loading={loading}
       />
     </div>
@@ -518,8 +569,8 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <Header />
-      <div style={{ display: "flex", margin: "0 200px" }}>
+      <Header/>
+      <div style={{display: "flex", margin: "0 200px"}}>
         <div
           style={{
             width: "25%",
@@ -538,7 +589,7 @@ const UserProfilePage = () => {
           >
             Tài khoản
           </h2>
-          <ul style={{ listStyleType: "none", padding: 0 }}>
+          <ul style={{listStyleType: "none", padding: 0}}>
             <li
               onClick={() => setSelectedSection("overview")}
               style={{
@@ -555,7 +606,7 @@ const UserProfilePage = () => {
                 transition: "background-color 0.3s, color 0.3s",
               }}
             >
-              <GrOverview style={{ marginRight: "8px" }} /> Tổng quan
+              <GrOverview style={{marginRight: "8px"}}/> Tổng quan
             </li>
             <li
               onClick={() => setSelectedSection("orderHistory")}
@@ -573,7 +624,7 @@ const UserProfilePage = () => {
                 transition: "background-color 0.3s, color 0.3s",
               }}
             >
-              <FaHistory style={{ marginRight: "8px" }} /> Lịch sử đơn hàng
+              <FaHistory style={{marginRight: "8px"}}/> Lịch sử đơn hàng
             </li>
             <li
               onClick={() => setSelectedSection("security")}
@@ -591,7 +642,7 @@ const UserProfilePage = () => {
                 transition: "background-color 0.3s, color 0.3s",
               }}
             >
-              <MdOutlineSecurity style={{ marginRight: "8px" }} /> Bảo mật
+              <MdOutlineSecurity style={{marginRight: "8px"}}/> Bảo mật
             </li>
             {/*<li*/}
             {/*  onClick={() => setSelectedSection("feedback")}*/}
@@ -631,9 +682,9 @@ const UserProfilePage = () => {
             {/*</li>*/}
           </ul>
         </div>
-        <div style={{ width: "75%", padding: "20px" }}>{renderContent()}</div>
+        <div style={{width: "75%", padding: "20px"}}>{renderContent()}</div>
       </div>
-      <Footer />
+      <Footer/>
     </>
   );
 };
