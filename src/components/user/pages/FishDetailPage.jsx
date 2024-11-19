@@ -224,52 +224,41 @@ const FishDetailPage = () => {
                 </Button>
               </>
             )}
-
-
-            <div>
-              {fish.gender && (
-                <p>
-                  <strong>Giới tính:</strong> {getGenderLabel(fish.gender)}
-                </p>
-              )}
-              {fish.size && (
-                <p>
-                  <strong>Kích thước:</strong> {fish.size}
-                </p>
-              )}
-              {fish.screeningRate && (
-                <p>
-                  <strong>Tỉ lệ sàng lọc:</strong> {fish.screeningRate}
-                </p>
-              )}
-              {fish.quantityInStock && (
-                <p>
-                  <strong>Số lượng cá trong kho:</strong> {fish.quantityInStock}
-                </p>
-              )}
-              <p>
-                <strong>Tuổi:</strong> {fish.age} năm
-              </p>
-              {fish.origin && (
-                <p>
-                  <strong>Nguồn gốc:</strong> {fish.origin}
-                </p>
-              )}
-              <p>
-                <strong>Giống:</strong> {fish.categoryName}
-              </p>
-              <p>
-                <strong>Lượng thức ăn/ngày:</strong> {fish.dailyFood} gram
-              </p>
-              {fish.rating && (
-                <p>
-                  <strong>Đánh giá:</strong> <Rate allowHalf defaultValue={fish.rating}/>
-                </p>
-              )}
-              <p style={{marginTop: "24px"}}>{fish.description}</p>
-            </div>
-
-
+<div>
+  <p>
+    <strong>Tên cá:</strong> {fish.name}
+  </p>
+  <p>
+    <strong>ID cá:</strong> {fish.fishId}
+  </p>
+  <p>
+    <strong>Tuổi:</strong> {fish.age} năm
+  </p>
+  <p>
+    <strong>Giới tính:</strong> {fish.gender === "Male" ? "Đực" : "Cái"}
+  </p>
+  <p>
+    <strong>Kích thước:</strong> {fish.size} cm
+  </p>
+  <p>
+    <strong>Mô tả:</strong> {fish.description}
+  </p>
+  <p>
+    <strong>Loại cá:</strong> {fish.categoryName}
+  </p>
+  <p>
+    <strong>Lượng thức ăn mỗi ngày:</strong> {fish.dailyFood} gram
+  </p>
+  <p>
+    <strong>Giá:</strong> {formatCurrency(fish.price)}
+  </p>
+  <p>
+    <strong>Tình trạng:</strong> {fish.status === "GOOD" ? "Tốt" : "Không tốt"}
+  </p>
+  <p>
+    <strong>Trạng thái sản phẩm:</strong> {fish.productStatus === "AVAILABLE" ? "Còn hàng" : "Hết hàng"}
+  </p>
+</div>
             {/* Kiểm tra nếu có video giới thiệu */}
             {fish.video && (
               <>
