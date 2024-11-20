@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios.jsx";
-import { motion, AnimatePresence } from "framer-motion"; // Thêm animation
+import { motion, AnimatePresence } from "framer-motion";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -25,16 +25,12 @@ const Search = () => {
   }, []);
 
   const handleSearch = async () => {
-    if (query.trim() === "") {
-      return;
-    }
-
     setLoading(true);
     setIsSearched(true);
 
     try {
       const response = await axios.get(
-        `/api/FishPackage?page=1&pageSize=10&search=${query}`,
+        '/api/Search/SearchAll?page=1&pageSize=10',
         {
           headers: { accept: "*/*" },
         }
@@ -53,8 +49,13 @@ const Search = () => {
     }
   };
 
-  const handleResultClick = (id) => {
-    navigate(`/products/fish-packages/${id}`);
+  const handleResultClick = (item) => {
+    // Điều hướng dựa vào loại item (fish hoặc package)
+    if (item.isPackage) {
+      navigate(`/products/fish-packages/${item.fishPackageId}`);
+    } else {
+      navigate(`/products/fish/${item.fishId}`);
+    }
     setIsSearched(false);
     setQuery("");
   };
@@ -100,15 +101,26 @@ const Search = () => {
               <ul className="max-h-[400px] overflow-y-auto">
                 {results.map((item) => (
                   <motion.li
-                    key={item.fishPackageId}
+                    key={item.isPackage ? item.fishPackageId : item.fishId}
                     whileHover={{ backgroundColor: "#f3f4f6" }}
                     className="p-4 cursor-pointer border-b border-gray-100
                                hover:bg-gray-50 transition-colors duration-200"
-                    onClick={() => handleResultClick(item.fishPackageId)}
+                    onClick={() => handleResultClick(item)}
                   >
                     <div className="flex items-center space-x-3">
                       <div className="flex-1">
                         <h4 className="text-gray-800 font-medium">{item.name}</h4>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className="text-sm text-gray-500">
+                            {item.isPackage ? 'Lô cá' : 'Cá đơn'} |
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {item.price.toLocaleString('vi-VN')}đ
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            | {item.productStatus}
+                          </span>
+                        </div>
                         {item.description && (
                           <p className="text-sm text-gray-500 mt-1 line-clamp-2">
                             {item.description}
