@@ -13,6 +13,14 @@ const Search = () => {
   const searchRef = useRef(null);
   const inputRef = useRef(null);
 
+  const convertStatus = (status) => {
+    const statusMap = {
+      'AVAILABLE': 'Còn hàng',
+      'SOLDOUT': 'Đã bán hết'
+    };
+    return statusMap[status] || status;
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -50,7 +58,6 @@ const Search = () => {
   };
 
   const handleResultClick = (item) => {
-    // Điều hướng dựa vào loại item (fish hoặc package)
     if (item.isPackage) {
       navigate(`/products/fish-packages/${item.fishPackageId}`);
     } else {
@@ -58,6 +65,13 @@ const Search = () => {
     }
     setIsSearched(false);
     setQuery("");
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
   };
 
   return (
@@ -115,10 +129,14 @@ const Search = () => {
                             {item.isPackage ? 'Lô cá' : 'Cá đơn'} |
                           </span>
                           <span className="text-sm text-gray-500">
-                            {item.price.toLocaleString('vi-VN')}đ
+                            {formatPrice(item.price)}
                           </span>
-                          <span className="text-sm text-gray-500">
-                            | {item.productStatus}
+                          <span className={`text-sm ${
+                            item.productStatus === 'AVAILABLE' 
+                              ? 'text-green-500' 
+                              : 'text-red-500'
+                          }`}>
+                            | {convertStatus(item.productStatus)}
                           </span>
                         </div>
                         {item.description && (
