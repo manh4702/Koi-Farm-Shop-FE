@@ -1,6 +1,12 @@
 // src/store/fishPackageStore.js
 import { create } from "zustand";
-import { getFishPackages, updateFishPackage, createFishPackage, deleteFishPackage } from "../services/fishPackageService.js";
+import {
+  getFishPackages,
+  updateFishPackage,
+  createFishPackage,
+  deleteFishPackage,
+  updateFishQuantities, getFishPackageById, deleteFishFromPackage, addFishToPackage
+} from "../services/fishPackageService.js";
 
 // Zustand store for fish packages
 export const useFishPackageStore = create((set) => ({
@@ -38,6 +44,38 @@ export const useFishPackageStore = create((set) => ({
       throw error;
     }
   },
+
+  updateFishQuantities: async (formData) => {
+    try {
+      const result = await updateFishQuantities(formData);
+      return result;
+    } catch (error) {
+      console.error('Update quantities error:', error);
+      throw error;
+    }
+  },
+
+  deleteFishFromPackage: async (packageId, categoryId) => {
+    try {
+      const result = await deleteFishFromPackage(packageId, categoryId);
+      return result;
+    } catch (error) {
+      console.error('Delete fish error:', error);
+      throw error;
+    }
+  },
+
+  addFishToPackage: async (formData) => {
+    try {
+      const result = await addFishToPackage(formData);
+      return result;
+    } catch (error) {
+      console.error('Add fish error:', error);
+      throw error;
+    }
+  },
+  
+  
   createFishPackage: async (newData) => {
     try {
       const newFishPackage = await createFishPackage(newData);
