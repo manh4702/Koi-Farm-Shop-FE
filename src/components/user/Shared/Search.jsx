@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import React, {useState, useRef, useEffect} from "react";
+import {SearchOutlined} from "@ant-design/icons";
+import {useNavigate} from "react-router-dom";
 import axios from "../../../api/axios.jsx";
-import { motion, AnimatePresence } from "framer-motion";
+import {motion, AnimatePresence} from "framer-motion";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -38,9 +38,10 @@ const Search = () => {
 
     try {
       const response = await axios.get(
-        '/api/Search/SearchAll?page=1&pageSize=10',
+        '/api/Search/SearchAll',
         {
-          headers: { accept: "*/*" },
+          params: {search: query},
+          headers: {accept: "*/*"},
         }
       );
       setResults(response.data.data.listData);
@@ -94,16 +95,16 @@ const Search = () => {
                      h-8 w-8 flex items-center justify-center rounded-full
                      bg-red-500 hover:bg-red-600 transition-colors duration-300"
         >
-          <SearchOutlined className="text-white text-lg" />
+          <SearchOutlined className="text-white text-lg"/>
         </button>
       </div>
 
       <AnimatePresence>
         {isSearched && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{opacity: 0, y: -10}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: -10}}
             className="absolute w-full mt-2 bg-white rounded-lg shadow-lg
                       border border-gray-100 overflow-hidden z-50"
           >
@@ -116,7 +117,7 @@ const Search = () => {
                 {results.map((item) => (
                   <motion.li
                     key={item.isPackage ? item.fishPackageId : item.fishId}
-                    whileHover={{ backgroundColor: "#f3f4f6" }}
+                    whileHover={{backgroundColor: "#f3f4f6"}}
                     className="p-4 cursor-pointer border-b border-gray-100
                                hover:bg-gray-50 transition-colors duration-200"
                     onClick={() => handleResultClick(item)}
@@ -132,8 +133,8 @@ const Search = () => {
                             {formatPrice(item.price)}
                           </span>
                           <span className={`text-sm ${
-                            item.productStatus === 'AVAILABLE' 
-                              ? 'text-green-500' 
+                            item.productStatus === 'AVAILABLE'
+                              ? 'text-green-500'
                               : 'text-red-500'
                           }`}>
                             | {convertStatus(item.productStatus)}
