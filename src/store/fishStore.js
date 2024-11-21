@@ -1,6 +1,13 @@
 // src/store/fishStore.js
 import { create } from 'zustand';
-import {createFish, deleteFish, fetchFishes, getFishById, updateFish} from '../services/fishService';
+import {
+  createFish,
+  deleteFish,
+  fetchFishes,
+  fetchFishesCustomer,
+  getFishById,
+  updateFish
+} from '../services/fishService';
 
 export const useFishStore = create((set) => ({
   fishes: [],
@@ -17,6 +24,17 @@ export const useFishStore = create((set) => ({
       set({ error: error.message, loading: false });
     }
   },
+
+  loadFishesCustomer: async () => {
+    set({ loading: true, error: null });
+    try {
+      const fishes = await fetchFishesCustomer();
+      set({ fishes, loading: false });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+  
   loadFishById: async (id) => {
     set({ loading: true, error: null });
     try {

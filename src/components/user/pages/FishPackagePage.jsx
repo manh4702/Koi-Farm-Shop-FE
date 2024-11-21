@@ -7,8 +7,9 @@ import FishCard from "../Product/FishCard";
 import ZaloIcon from "../Shared/ZaloIcon";
 import YTIconts from "../Shared/YoutubeIcon";
 import FBIconts from "../Shared/FacebookIcon";
-import {getFishPackages} from "../../../services/fishPackageService";
+import {getFishPackages, getFishPackagesCustomer} from "../../../services/fishPackageService";
 import useFishStore from "../../../store/useFishStore.js";
+import {useFishPackageStore} from "@/store/fishPackageStore.js";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -18,6 +19,7 @@ const FishPackagePage = () => {
   const [loading, setLoading] = useState(true);
 
   const {fishPackages, currentPage, totalRecords, setFishPackages, setCurrentPage, setTotalRecords} = useFishStore();
+  const {fetchFishPackagesCustomer} = useFishPackageStore();
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -25,7 +27,7 @@ const FishPackagePage = () => {
 
   const fetchFishPackages = async () => {
     try {
-      const data = await getFishPackages(currentPage, ITEMS_PER_PAGE);
+      const data = await getFishPackagesCustomer(currentPage, ITEMS_PER_PAGE);
       setFishPackages(data);
       if (data.length > totalRecords) {
         const updatedTotalRecords = data[0]?.total || data.length; // Cập nhật số lượng bản ghi tổng
@@ -45,9 +47,12 @@ const FishPackagePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchFishPackages();
+    // fetchFishPackagesCustomer();
+    
   }, [currentPage]);
 
   useEffect(() => {
+    
     const handleScroll = () => {
       const scrollToTopButton = document.getElementById("scrollToTop");
       scrollToTopButton.style.display =
