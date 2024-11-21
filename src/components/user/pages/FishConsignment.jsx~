@@ -174,7 +174,7 @@ const FishConsignment = () => {
               onChange={handlePurposeChange}
               allowClear
             >
-              {/*<Option value="care">Ký gửi chăm sóc</Option>*/}
+              <Option value="care">Ký gửi chăm sóc</Option>
               <Option value="sell">Ký gửi để bán</Option>
             </Select>
           </Form.Item>
