@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Table, Button, InputNumber, message} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
@@ -18,9 +18,10 @@ const CartPage = () => {
   const {removeItem, updateQuantity} = useCartStore();
   // const { cartItems } = useAuthStore();
   const items = useCartStore(state => state.items)
-    .filter(item => item.cartItemStatus === "PENDING_FOR_ORDER");
+  .filter(item => item.cartItemStatus === "PENDING_FOR_ORDER");
   console.log(items);
   const navigate = useNavigate();
+
   const columns = [
     {
       title: "Sản phẩm",
@@ -43,14 +44,22 @@ const CartPage = () => {
     {
       title: "Số lượng",
       key: "quantity",
-      render: (_, record) => (
-        <InputNumber
-          min={1}
-          defaultValue={record.quantity}
-          onChange={(value) => updateQuantity(record.cartItemId, value)}
-          disabled={record.fishId}
-        />
-      ),
+      render: (_, record) => {
+        const { availableQuantity, quantity } = record;
+        console.log("table", availableQuantity);
+        return (
+          <InputNumber
+            min={1}
+            max={quantity + availableQuantity}
+            defaultValue={record.quantity}
+            onChange={(value) => updateQuantity(record.cartItemId, value)}
+            disabled={record.fishId}
+            controls={true}
+            keyboard={false}
+            onKeyDown={(e) => e.preventDefault()}
+          />
+        );
+      },
     },
     {
       title: "Tổng",

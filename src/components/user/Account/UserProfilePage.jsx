@@ -26,6 +26,7 @@ import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import {GrOverview} from "react-icons/gr";
 import fishConsignmentStore from "@/store/fishConsignmentStore.jsx";
+import {useNavigate} from "react-router-dom";
 
 const UserProfilePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -35,6 +36,7 @@ const UserProfilePage = () => {
   const [form] = Form.useForm();
   const [orderHistory, setOrderHistory] = useState([]);
   const [consignments, setConsignments] = useState([]);
+  const navigate = useNavigate();
 
   const {
     fishConsignments,
@@ -582,95 +584,115 @@ const UserProfilePage = () => {
   );
 
   const renderConsignmentHistory = () => (
-    <div>
-      <h2 style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>
-        Lịch sử kí gửi
-      </h2>
-      {loading ? (
-        <p>Đang tải...</p>
-      ) : error ? (
-        <p style={{color: "red"}}>{error}</p>
-      ) : fishConsignments.length > 0 ? (
-        fishConsignments.map((consignment) => (
-          <Card
-            key={consignment.fishConsignmentId}
-            style={{
-              marginBottom: "10px",
-              border: "1px solid gray",
-              borderRadius: "8px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            }}
-          >
-            <Descriptions column={1}>
-              <Descriptions.Item
-                label={
-                  <span style={{fontWeight: "bold"}}>
+      <div>
+        <h2 style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>
+          Lịch sử kí gửi
+        </h2>
+        {loading ? (
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "200px"}}>
+            <Spin size="large" tip="Đang tải lịch sử kí gửi..."/>
+          </div>
+        ) : error ? (
+          <p style={{color: "red"}}>{error}</p>
+        ) : fishConsignments.length > 0 ? (
+          fishConsignments.map((consignment) => (
+            <Card
+              key={consignment.fishConsignmentId}
+              style={{
+                marginBottom: "10px",
+                border: "1px solid gray",
+                borderRadius: "8px",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              }}
+            >
+              <Descriptions column={1}>
+                <Descriptions.Item
+                  label={
+                    <span style={{fontWeight: "bold"}}>
                     ID Kí Gửi
                   </span>
-                }
-              >
-                {consignment.fishConsignmentId}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <span style={{fontWeight: "bold"}}>
+                  }
+                >
+                  {consignment.fishConsignmentId}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <span style={{fontWeight: "bold"}}>
                     Ngày Tạo
                   </span>
-                }
-              >
-                {moment(consignment.createDate).format("DD/MM/YYYY")}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <span style={{fontWeight: "bold"}}>
+                  }
+                >
+                  {moment(consignment.createDate).format("DD/MM/YYYY")}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <span style={{fontWeight: "bold"}}>
                     Mục Đích
                   </span>
-                }
-              >
-                {consignment.purpose}
-              </Descriptions.Item>
+                  }
+                >
+                  {consignment.purpose}
+                </Descriptions.Item>
 
-              <Descriptions.Item
-                label={
-                  <span style={{fontWeight: "bold"}}>
+                <Descriptions.Item
+                  label={
+                    <span style={{fontWeight: "bold"}}>
                     Trạng Thái
                   </span>
-                }
-              >
-                {(() => {
-                  switch (consignment.consignmentStatus) {
-                    case "PendingApproval":
-                      return <Tag color="orange">Đang chờ duyệt</Tag>;
-                    case "Approved":
-                      return <Tag color="blue">Đã duyệt</Tag>;
-                    case "PriceAgreed":
-                      return <Tag color="cyan">Đã thỏa thuận giá</Tag>;
-                    case "Rejected":
-                      return <Tag color="red">Bị từ chối</Tag>;
-                    case "Completed":
-                      return <Tag color="green">Hoàn thành</Tag>;
-                    default:
-                      return <Tag color="gray">Không xác định</Tag>;
                   }
-                })()}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <span style={{fontWeight: "bold"}}>
+                >
+                  {(() => {
+                    switch (consignment.consignmentStatus) {
+                      case "PendingApproval":
+                        return <Tag color="orange">Đang chờ duyệt</Tag>;
+                      case "Approved":
+                        return <Tag color="blue">Đã duyệt</Tag>;
+                      case "PriceAgreed":
+                        return <Tag color="cyan">Đã thỏa thuận giá</Tag>;
+                      case "Rejected":
+                        return <Tag color="red">Bị từ chối</Tag>;
+                      case "Completed":
+                        return <Tag color="green">Hoàn thành</Tag>;
+                      default:
+                        return <Tag color="gray">Không xác định</Tag>;
+                    }
+                  })()}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <span style={{fontWeight: "bold"}}>
                     Mô Tả
                   </span>
-                }
-              >
-                {consignment.conditionDescription}
-              </Descriptions.Item>
-            </Descriptions>
-          </Card>
-        ))
-      ) : (
-        <p>Không có kí gửi nào.</p>
-      )}
-    </div>
-  );
+                  }
+                >
+                  {consignment.conditionDescription}
+                </Descriptions.Item>
+              </Descriptions>
+            </Card>
+          ))
+        ) : (
+          <div style={{textAlign: "center", marginTop: "50px"}}>
+            {/*<img*/}
+            {/*  src="https://via.placeholder.com/300x200?text=No+Consignment"*/}
+            {/*  alt="No Consignment"*/}
+            {/*  style={{maxWidth: "300px", marginBottom: "20px"}}*/}
+            {/*/>*/}
+            <p style={{fontSize: "18px", fontWeight: "bold", color: "gray"}}>
+              Hiện chưa có lịch sử ký gửi nào.
+            </p>
+            <Button
+              type="primary"
+              size="large"
+              style={{backgroundColor: "red", borderRadius: "8px"}}
+              onClick={() => navigate("/fish-consignment")}
+            >
+              Bắt đầu ký gửi
+            </Button>
+          </div>
+        )}
+      </div>
+    )
+  ;
 
 
   return (

@@ -28,7 +28,12 @@ const useCartStore = create((set, get) => ({
     try {
       const response = await axios.get(`/api/Cart/User/${userId}`);
       if (response.data.success) {
-        get().setCartItems(response.data.data.cartItems);
+        const cartItems = response.data.data.cartItems.map((item) => ({
+          ...item,
+          availableQuantity: null, // Giá trị mặc định nếu không có từ API
+        }));
+        // get().setCartItems(response.data.data.cartItems);
+        get().setCartItems(cartItems);
         get().setUserCartId(response.data.data.userCartId);
       }
     } catch (error) {
@@ -96,33 +101,54 @@ const useCartStore = create((set, get) => ({
     }
   },
 
-  updateQuantity: async (cartItemId, quantity) => {
+  updateQuantity: async (cartItemId, newQuantity) => {
     try {
       const item = get().items.find((item) => item.cartItemId === cartItemId);
-      if (item && item.packageId) {
-        // API call to update quantity for fish package using the packageId
-        const response = await axios.put(`/api/CartItem/PackageQuantity/${item.packageId}&&${quantity}`);
-        if (response.status === 200) {
-          set((state) => ({
-            items: state.items.map((item) =>
-              item.cartItemId === cartItemId ? { ...item, quantity } : item
-            ),
-          }));
-          message.success("Đã cập nhật số lượng sản phẩm.");
+      if (!item) {
+        message.error("Sản phẩm không tồn tại trong giỏ hàng.");
+        return;
+      }
+
+      const oldQuantity = item.quantity;
+      const delta = newQuantity - oldQuantity;
+      if (delta === 0) return;
+
+      // Gọi API cập nhật số lượng
+      const response = await axios.put(`/api/CartItem/PackageQuantity/${cartItemId}&&${newQuantity}`);
+      if (response.status === 200 && response.data.success) {
+        // Trích xuất availableQuantity từ thông báo
+        const messageText = response.data.message || "";
+        const availableQuantity = parseInt(messageText.match(/now it's only (\d+)/)?.[1], 10) || 0;
+
+        // Cập nhật store
+        set((state) => {
+          const updatedItems = state.items.map((item) =>
+            item.cartItemId === cartItemId
+              ? {
+                ...item,
+                quantity: newQuantity,
+                availableQuantity, // Cập nhật số lượng còn lại
+              }
+              : item
+          );
+          sessionStorage.setItem("cartItems", JSON.stringify(updatedItems));
+          return { items: updatedItems };
+        });
+
+        // Phản hồi người dùng
+        if (availableQuantity === 0) {
+          message.warning("Sản phẩm này đã đạt giới hạn. Không thể thêm nữa.");
         } else {
-          message.error("Không thể cập nhật số lượng sản phẩm.");
+          message.success(`Cập nhật số lượng thành công.`);
         }
       } else {
-        message.error("Sản phẩm này không thể thay đổi số lượng.");
+        message.error("Không thể cập nhật số lượng sản phẩm.");
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.includes("Exceed the package quantity")) {
-        message.warning("Số lượng vượt quá giới hạn");
-      } 
+      message.error("Đã xảy ra lỗi khi cập nhật số lượng.");
+      console.error("Error updating quantity:", error);
     }
   },
-
-
 }));
 
 export default useCartStore;
