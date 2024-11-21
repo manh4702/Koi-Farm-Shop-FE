@@ -1,36 +1,34 @@
-import React, { useState } from "react";
-import { Table, Button, Space, Menu, Dropdown } from "antd";
-import { DeleteOutlined, EditOutlined, MoreOutlined, SettingOutlined, PlusOutlined } from "@ant-design/icons";
+import React, {useEffect, useState} from "react";
+import {Table, Button, Space, Menu, Dropdown, message} from "antd";
+import {DeleteOutlined, EditOutlined, MoreOutlined, SettingOutlined, PlusOutlined} from "@ant-design/icons";
 import UpdateConsignment from "./UpdateConsignment";
 import AddConsignment from "./AddConsignmentModal";
+import fishConsignmentStore from "@/store/fishConsignmentStore.jsx";
+import fishConsignment from "@/components/user/pages/FishConsignment.jsx";
 
-const ConsignmentManagement = () => {
-  const [consignments, setConsignments] = useState([
-    {
-      id: 1,
-      name: "Kohaku",
-      type: "Koi Nhật Bản",
-      price: 1000000,
-      owner: "Nguyen Van A",
-      receivedDate: new Date("2023-12-10").toISOString(),
-      returnDate: new Date("2024-01-10").toISOString(),
-      purpose: "Cá gửi để bán",
-    },
-    {
-      id: 2,
-      name: "Shousui",
-      type: "Koi Trung Quốc",
-      price: 500000,
-      owner: "Tran Van B",
-      receivedDate: new Date("2023-12-15").toISOString(),
-      returnDate: new Date("2024-01-15").toISOString(),
-      purpose: "Cá gửi chăm sóc",
-    },
-  ]);
+const ConsignmentCare = () => {
+  const [consignments, setConsignments] = useState([]);
 
-  const [isAdding, setIsAdding] = useState(false); 
-  const [isEditing, setIsEditing] = useState(false); 
-  const [currentConsignment, setCurrentConsignment] = useState(null); 
+  const [isAdding, setIsAdding] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentConsignment, setCurrentConsignment] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  const {fetchFishConsignments, loading, error, createFishConsignmentSell, fishConsignments } = fishConsignmentStore()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchFishConsignments();
+      } catch (err) {
+        message.error('Có lỗi xảy ra khi tải danh sách kí gửi.');
+      }
+    };
+
+    fetchData();
+  }, [fetchFishConsignments]);
+
+  console.log("data", fishConsignments);
 
   // Hàm mở modal sửa
   const handleEdit = (record) => {
@@ -103,18 +101,12 @@ const ConsignmentManagement = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text.toLocaleString()} VND`,
+      render: (text) => `${parseFloat(text).toLocaleString()} VND`,
     },
     {
-      title: "Ngày nhập",
-      dataIndex: "receivedDate",
+      title: "Ngày tạo",
+      dataIndex: "createDate",
       key: "receivedDate",
-      render: (text) => (text ? new Date(text).toLocaleDateString() : ""),
-    },
-    {
-      title: "Ngày trả",
-      dataIndex: "returnDate",
-      key: "returnDate",
       render: (text) => (text ? new Date(text).toLocaleDateString() : ""),
     },
     {
@@ -123,15 +115,15 @@ const ConsignmentManagement = () => {
       key: "purpose",
     },
     {
-      title: <SettingOutlined />,
+      title: <SettingOutlined/>,
       key: "action",
       render: (_, record) => {
         const menu = (
           <Menu>
-            <Menu.Item key="edit" icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+            <Menu.Item key="edit" icon={<EditOutlined/>} onClick={() => handleEdit(record)}>
               Sửa
             </Menu.Item>
-            <Menu.Item key="delete" icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>
+            <Menu.Item key="delete" icon={<DeleteOutlined/>} onClick={() => handleDelete(record.id)}>
               Xóa
             </Menu.Item>
           </Menu>
@@ -140,8 +132,8 @@ const ConsignmentManagement = () => {
         return (
           <Space size="middle">
             <Dropdown overlay={menu} placement="bottomLeft">
-              <Button type="ghost" style={{ paddingLeft: 0 }}>
-                <MoreOutlined />
+              <Button type="ghost" style={{paddingLeft: 0}}>
+                <MoreOutlined/>
               </Button>
             </Dropdown>
           </Space>
@@ -152,13 +144,13 @@ const ConsignmentManagement = () => {
 
   return (
     <div>
-      <h1 style={{ fontSize: "20px", marginBottom: "20px" }}>Quản lý ký gửi</h1>
+      <h1 style={{fontSize: "20px", marginBottom: "20px"}}>Quản lý ký gửi</h1>
 
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} style={{ marginBottom: 16, float: "right" }}>
+      <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd} style={{marginBottom: 16, float: "right"}}>
         Thêm đơn ký gửi
       </Button>
 
-      <Table columns={columns} dataSource={consignments} pagination={{ pageSize: 20 }} />
+      <Table columns={columns} dataSource={fishConsignments} pagination={{pageSize: 20}}/>
 
       {/* Modal thêm đơn ký gửi */}
       <AddConsignment
@@ -178,4 +170,4 @@ const ConsignmentManagement = () => {
   );
 };
 
-export default ConsignmentManagement;
+export default ConsignmentCare;

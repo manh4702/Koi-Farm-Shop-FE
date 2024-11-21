@@ -19,7 +19,7 @@ const useOrderStore = create((set) => ({
             address: `${order.address.street}, ${order.address.city}, ${order.address.district}`,
             phone: order.phone, // Assuming phone is not provided
             products: order.items.map(item => ({
-              name: item.fishName,
+              name: item.fishName||item.packageName,
               quantity: item.quantity,
               price: item.price,
               image: item.fishImage

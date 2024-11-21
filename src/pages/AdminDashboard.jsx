@@ -13,12 +13,13 @@ import StaffManagement from "../components/admin/StaffManagement/StaffManagement
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
-import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
+import ConsignmentSell from "../components/admin/FishConsignment/ConsignmentSell.jsx";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import useAuthStore from "../store/store";
 import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
 import FishInfo from "../components/admin/InformationFish/FishInfo.jsx";
 import CategoryInfo from "../components/admin/InformationFish/CategoryInfo.jsx";
+import ConsignmentCare from "@/components/admin/FishConsignment/ConsignmentCare.jsx";
 
 const { Content, Footer } = Layout;
 
@@ -49,8 +50,10 @@ const AdminDashboard = () => {
         return <FeedbackAndRate />;
       case "promotion-management":
         return <PromotionManagement />;
-      case "consignment-management":
-        return <ConsignmentManagement />;
+      case "consignment-sell":
+        return <ConsignmentSell />;
+      case "consignment-care":
+        return <ConsignmentCare />;
       case "batch-info":
         return <BatchInfo />;
       default:

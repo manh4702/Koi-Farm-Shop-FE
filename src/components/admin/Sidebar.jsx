@@ -72,21 +72,42 @@ function Sidebar({setSelectedKey}) {
           <Menu.Item key="3-2" onClick={() => setSelectedKey("fish-info")}>
             Thông tin cá đơn
           </Menu.Item>
+          <Menu.Item
+            key="3-3"
+            // icon={<GiCirclingFish/>}
+            onClick={() => setSelectedKey("batch-info")}
+          >
+            Thông tin lô cá
+          </Menu.Item>
         </SubMenu>
-        <Menu.Item
-          key="11"
+        {/*<Menu.Item*/}
+        {/*  key="11"*/}
+        {/*  icon={<GiCirclingFish/>}*/}
+        {/*  onClick={() => setSelectedKey("batch-info")}*/}
+        {/*>*/}
+        {/*  Thông tin lô cá*/}
+        {/*</Menu.Item>*/}
+        <SubMenu
+          key="4"
           icon={<GiCirclingFish/>}
-          onClick={() => setSelectedKey("batch-info")}
+          title="Quản lý ký gửi"
         >
-          Thông tin lô cá
-        </Menu.Item>
-        <Menu.Item
-          key="4" // Gán key duy nhất
-          icon={<FileDoneOutlined/>} // Icon cho chức năng ký gửi
-          onClick={() => setSelectedKey("consignment-management")} // Gán key
-        >
-          Quản lý Ký gửi
-        </Menu.Item>
+          <Menu.Item
+            key="4-1" // Gán key duy nhất
+            icon={<FileDoneOutlined/>} // Icon cho chức năng ký gửi
+            onClick={() => setSelectedKey("consignment-sell")} // Gán key
+          >
+            Ký gửi bán
+          </Menu.Item>
+          <Menu.Item
+            key="4-2" // Gán key duy nhất
+            icon={<FileDoneOutlined/>} // Icon cho chức năng ký gửi
+            onClick={() => setSelectedKey("consignment-care")} // Gán key
+          >
+            Ký gửi chăm sóc
+          </Menu.Item>
+        </SubMenu>
+        
         {/* SubMenu for Order Management */}
         {/*<SubMenu*/}
         {/*  key="5"*/}
