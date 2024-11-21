@@ -36,26 +36,20 @@ export const getFishPackages = async () => {
     });
 
     return response.data.data.listData;
-    // const fishPackages = response.data.data.listData.map((item) => ({
-    //   fishPackageId: item.fishPackageId.toString(),
-    //   name: item.name,
-    //   description: item.description,
-    //   price: item.totalPrice,
-    //   imageUrl: item.imageUrl,
-    //   age: item.age,
-    //   // size: item.size,
-    //   minSize: item.minSize,
-    //   maxSize: item.maxSize,
-    //   // gender: item.gender,
-    //   dailyFood: item.dailyFood,
-    //   numberOfFish: item.numberOfFish,
-    //   quantityInStock: item.quantityInStock,
-    //   productStatus: item.productStatus,
-    //   capacity: item.capacity,
-    //   categories: item.categories || [],
-    // }));
-
     // return fishPackages;
+  } catch (error) {
+    console.error('Error fetching fish packages:', error);
+    throw error;
+  }
+};
+
+export const getFishPackagesCustomer = async () => {
+  try {
+    const response = await axios.get('/api/FishPackage/Displayable');
+    return response.data.data.map(fish => ({
+      ...fish,
+      productStatus: fish.productStatus,
+    }));
   } catch (error) {
     console.error('Error fetching fish packages:', error);
     throw error;
