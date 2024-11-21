@@ -22,7 +22,14 @@ const ConsignmentSell = () => {
   const [currentConsignment, setCurrentConsignment] = useState(null);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
-  const {fetchFishConsignments, loading, error, createFishConsignmentSell, fishConsignments} = fishConsignmentStore()
+  const {
+    fetchFishConsignments,
+    loading,
+    error,
+    createFishConsignmentSell,
+    fishConsignments,
+    listConsignmentForSale
+  } = fishConsignmentStore()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,6 +105,10 @@ const ConsignmentSell = () => {
     setIsAdding(false);
   };
 
+  const handleListForSale = (record) => {
+    listConsignmentForSale(record.fishConsignmentId);  // Gọi API từ store
+  };
+
   const statusColors = {
     PendingApproval: 'blue',
     Approved: 'green',
@@ -121,8 +132,8 @@ const ConsignmentSell = () => {
     },
     {
       title: "Chủ sở hữu",
-      dataIndex: "owner",
-      key: "owner",
+      dataIndex: "userName",
+      key: "userName",
     },
     {
       title: "Số điện thoại",
@@ -141,6 +152,24 @@ const ConsignmentSell = () => {
       render: (text) => `${parseFloat(text).toLocaleString()} VND`,
     },
     {
+      title: "Giá cuối",
+      dataIndex: "finalPrice",
+      key: "finalPrice",
+      render: (text) => text ? `${parseFloat(text).toLocaleString()} VND` : 'Chưa thu',
+    },
+    {
+      title: "Phí dịch vụ",
+      dataIndex: "serviceFee",
+      key: "serviceFee",
+      render: (text) => text ? `${parseFloat(text).toLocaleString()} VND` : 'N/A',
+    },
+    {
+      title: "Phí hoa hồng",
+      dataIndex: "commissionFee",
+      key: "commissionFee",
+      render: (text) => text ? `${parseFloat(text).toLocaleString()} VND` : 'N/A',
+    },
+    {
       title: "Ngày tạo",
       dataIndex: "createDate",
       key: "createDate",
@@ -154,7 +183,7 @@ const ConsignmentSell = () => {
         <Tag color={statusColors[status] || 'default'}>
           {status === 'PendingApproval' ? 'Đang chờ duyệt' :
             status === 'Approved' ? 'Đã duyệt' :
-              status === 'OnProcessing' ? 'Đang xử lý' :
+              status === 'OnProcessing' ? 'Đã đăng bán' :
                 status === 'Rejected' ? 'Bị từ chối' :
                   status === 'Completed' ? 'Hoàn thành' :
                     status === 'Cancelled' ? 'Đã hủy' :
@@ -171,12 +200,19 @@ const ConsignmentSell = () => {
             {/*<Menu.Item key="edit" icon={<EditOutlined/>} onClick={() => handleEdit(record)}>*/}
             {/*  Sửa*/}
             {/*</Menu.Item>*/}
-            <Menu.Item key="view" icon={< EyeOutlined/>} onClick={() =>  handleViewDetails(record)}>
+            <Menu.Item key="view" icon={< EyeOutlined/>} onClick={() => handleViewDetails(record)}>
               Xem chi tiết
             </Menu.Item>
-            <Menu.Item key="delete" icon={<DeleteOutlined/>} onClick={() => handleDelete(record.id)}>
-              Xóa
+            <Menu.Item
+              key="list-for-sale" icon={<PlusOutlined/>}
+              onClick={() => handleListForSale(record)}
+              disabled={record.consignmentStatus  === "OnProcessing"}
+            >
+              Thêm vào danh sách bán
             </Menu.Item>
+            {/*<Menu.Item key="delete" icon={<DeleteOutlined/>} onClick={() => handleDelete(record.id)}>*/}
+            {/*  Xóa*/}
+            {/*</Menu.Item>*/}
 
           </Menu>
         );

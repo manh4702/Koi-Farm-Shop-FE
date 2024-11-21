@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Modal, Descriptions, Tag, Divider, Button, Spin, InputNumber} from "antd";
+import {Modal, Descriptions, Tag, Divider, Button, Spin, InputNumber, Row, Col, Image} from "antd";
 import fishConsignmentStore from "@/store/fishConsignmentStore.jsx";
 
 const statusColors = {
@@ -11,8 +11,8 @@ const statusColors = {
   Cancelled: "gray",
 };
 
-const ConsignmentDetail = ({ consignment, visible, onClose }) => {
-  const { approveFishConsignment, loading, fetchFishConsignments } = fishConsignmentStore();
+const ConsignmentDetail = ({consignment, visible, onClose}) => {
+  const {approveFishConsignment, loading, fetchFishConsignments} = fishConsignmentStore();
   const [approving, setApproving] = useState(false);
 
   const [agreedPrice, setAgreedPrice] = useState("");
@@ -21,7 +21,7 @@ const ConsignmentDetail = ({ consignment, visible, onClose }) => {
   const [consignmentDurationMonths, setConsignmentDurationMonths] = useState("");
   const [finalPrice, setFinalPrice] = useState("");
   const [commissionFeePercent, setCommissionFeePercent] = useState("");
-  
+
   useEffect(() => {
     // Khi giá thỏa thuận thay đổi hoặc phí hoa hồng thay đổi, tính toán lại giá cuối cùng
     if (agreedPrice > 0 && commissionFeePercent >= 0) {
@@ -45,7 +45,7 @@ const ConsignmentDetail = ({ consignment, visible, onClose }) => {
   //
   //   fetchData();
   // }, [approving, fetchFishConsignments]);
-  
+
   if (!consignment) return null;
 
   const renderStatusTag = (status) => (
@@ -74,7 +74,7 @@ const ConsignmentDetail = ({ consignment, visible, onClose }) => {
       commissionFee: (agreedPrice * commissionFeePercent) / 100,
       consignmentDurationMonths: consignmentDurationMonths,
     };
-    
+
     try {
       await approveFishConsignment(consignment.fishConsignmentId, approvalData);
       await fetchFishConsignments();
@@ -107,31 +107,86 @@ const ConsignmentDetail = ({ consignment, visible, onClose }) => {
       width={800}
     >
       <Divider orientation="left">Thông tin cơ bản</Divider>
-      <Descriptions bordered>
-        <Descriptions.Item label="Tên cá Koi" span={3}>
-          {consignment.fishInfo?.name || "Không rõ"}
-        </Descriptions.Item>
-        <Descriptions.Item label="Chủ sở hữu" span={3}>
-          {consignment.owner || "Không rõ"}
-        </Descriptions.Item>
-        <Descriptions.Item label="Số điện thoại" span={3}>
-          {consignment.phone || "Không rõ"}
-        </Descriptions.Item>
-        <Descriptions.Item label="Hình thức ký gửi" span={3}>
-          {consignment.type || "Không rõ"}
-        </Descriptions.Item>
-        <Descriptions.Item label="Giá ban đầu" span={3}>
-          {`${parseFloat(consignment.initialPrice || 0).toLocaleString()} VND`}
-        </Descriptions.Item>
-        <Descriptions.Item label="Ngày tạo" span={3}>
-          {consignment.createDate
-            ? new Date(consignment.createDate).toLocaleDateString()
-            : "Không rõ"}
-        </Descriptions.Item>
-        <Descriptions.Item label="Trạng thái" span={3}>
-          {renderStatusTag(consignment.consignmentStatus)}
-        </Descriptions.Item>
-      </Descriptions>
+      <Row gutter={16}>
+        <Col span={6}>
+          <Image
+            width="100%"
+            src={consignment.fishInfo?.imageUrl || "https://via.placeholder.com/150"}
+            alt={consignment.fishInfo?.name || "Hình ảnh không có sẵn"}
+            preview={false}
+            style={{borderRadius: "8px"}}
+          />
+
+        </Col>
+        <Col span={18}>
+          <Descriptions bordered>
+            <Descriptions.Item label="Tên cá Koi" span={3}>
+              {consignment.fishInfo?.name || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Chủ sở hữu" span={3}>
+              {consignment.owner || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Số điện thoại" span={3}>
+              {consignment.phone || "Không rõ"}
+            </Descriptions.Item>
+
+          </Descriptions>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={8}>
+          <Descriptions bordered>
+            <Descriptions.Item label="Giá ban đầu" span={3}>
+              {`${parseFloat(consignment.initialPrice || 0).toLocaleString()} VND`}
+            </Descriptions.Item>
+            <Descriptions.Item label="Phí dịch vụ" span={3}>
+              {formatCurrency(consignment.serviceFee || 0)}
+            </Descriptions.Item>
+            <Descriptions.Item label="Giá chốt" span={3}>
+              {formatCurrency(consignment.finalPrice || 0)}
+            </Descriptions.Item>
+            <Descriptions.Item label="Phí hoa hồng" span={3}>
+              {formatCurrency(consignment.commissionFee || 0)}
+            </Descriptions.Item>
+          </Descriptions>
+        </Col>
+
+        <Col span={8}>
+          <Descriptions bordered>
+            <Descriptions.Item label="Hình thức ký gửi" span={3}>
+              {consignment.type || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Ngày tạo" span={3}>
+              {consignment.createDate
+                ? new Date(consignment.createDate).toLocaleDateString()
+                : "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Danh mục" span={3}>
+              {consignment.fishInfo?.categoryName || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Giới tính" span={3}>
+              {consignment.fishInfo?.gender || "Không rõ"}
+            </Descriptions.Item>
+          </Descriptions>
+        </Col>
+        <Col span={8}>
+          <Descriptions bordered>
+            
+            <Descriptions.Item label="Tuổi" span={3}>
+              {consignment.fishInfo?.age || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Kích thước (cm)" span={3}>
+              {consignment.fishInfo?.size || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Trạng thái" span={3}>
+              {consignment.fishInfo?.status || "Không rõ"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Trạng thái" span={3}>
+              {renderStatusTag(consignment.consignmentStatus)}
+            </Descriptions.Item>
+          </Descriptions>
+        </Col>
+      </Row>
 
       <Divider orientation="left">Mô tả</Divider>
       <div
