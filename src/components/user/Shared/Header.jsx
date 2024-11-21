@@ -36,8 +36,8 @@ const Header = () => {
   });
 
   const cartItemCount = cartItems
-  .filter((item) => item.cartItemStatus === "PENDING_FOR_ORDER")
-  .reduce((total, item) => total + item.quantity, 0);
+  .filter((item) => item.cartItemStatus === "PENDING_FOR_ORDER").length;
+  // .reduce((total, item) => total + item.quantity, 0);
   // const cartItemCount = useCartStore(state => state.items.length);
 
   const handleLogout = () => {

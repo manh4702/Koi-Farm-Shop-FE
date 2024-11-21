@@ -93,16 +93,29 @@ export const updateFishPackage = async (fishPackageId, formData) => {
   }
 };
 
-export const createFishPackage = async (formData) => {
+export const updateFishQuantities = async (formData) => {
   try {
-    // const formData = buildFormData(formData);
-    const response = await axios.post('/api/FishPackage', formData, {
-      headers: {"Content-Type": "multipart/form-data"},
+    const response = await axios.put('/api/FishPackage/UpdateQuantity', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
     });
 
+    if (response.data.success) {
+      return response.data.data;
+    }
+    throw new Error(response.data.message || 'Failed to update fish quantities');
+  } catch (error) {
+    console.error('Error updating fish quantities:', error);
+    throw error;
+  }
+};
+
+export const deleteFishFromPackage = async (packageId, categoryId) => {
+  try {
+    const response = await axios.delete(`/api/FishPackage/DeleteFishInPackage/${packageId}&&${categoryId}`);
     return response.data;
   } catch (error) {
-    console.error('Error creating fish package:', error);
     throw error;
   }
 };
@@ -115,6 +128,20 @@ export const addFishToPackage = async (formData) => {
     return response.data;
   } catch (error) {
     console.error('Error adding fish to package:', error);
+    throw error;
+  }
+};
+
+export const createFishPackage = async (formData) => {
+  try {
+    // const formData = buildFormData(formData);
+    const response = await axios.post('/api/FishPackage', formData, {
+      headers: {"Content-Type": "multipart/form-data"},
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating fish package:', error);
     throw error;
   }
 };

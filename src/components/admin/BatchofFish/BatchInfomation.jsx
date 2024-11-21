@@ -11,10 +11,10 @@ import {
 } from "@ant-design/icons";
 import {useFishPackageStore} from "../../../store/fishPackageStore.js";
 import CreateFishPackageForm from "./CreateFishPackageForm";
-import UpdateFishPackageForm from "./UpdateFishPackageForm";
 import FishPackageDetail from "./FishPackageDetail";
 import SubMenu from "antd/es/menu/SubMenu.js";
 import useCategoryStore from "@/store/categoryStore.js";
+import UpdateFishPackageForm from "@/components/admin/BatchofFish/UpdateFishPackageForm.jsx";
 
 const BatchInfo = () => {
   const {
