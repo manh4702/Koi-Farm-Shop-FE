@@ -96,14 +96,33 @@ const useCartStore = create((set, get) => ({
     }
   },
 
-  updateQuantity: async (id, quantity) => {
-    await set((state) => ({
-      items: state.items.map((item) =>
-        item.id === id ? {...item, quantity} : item
-      ),
-    }));
-    // Optionally, make an API call to update the quantity if necessary
+  updateQuantity: async (cartItemId, quantity) => {
+    try {
+      const item = get().items.find((item) => item.cartItemId === cartItemId);
+      if (item && item.packageId) {
+        // API call to update quantity for fish package using the packageId
+        const response = await axios.put(`/api/CartItem/PackageQuantity/${item.packageId}&&${quantity}`);
+        if (response.status === 200) {
+          set((state) => ({
+            items: state.items.map((item) =>
+              item.cartItemId === cartItemId ? { ...item, quantity } : item
+            ),
+          }));
+          message.success("Đã cập nhật số lượng sản phẩm.");
+        } else {
+          message.error("Không thể cập nhật số lượng sản phẩm.");
+        }
+      } else {
+        message.error("Sản phẩm này không thể thay đổi số lượng.");
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.includes("Exceed the package quantity")) {
+        message.warning("Số lượng vượt quá giới hạn");
+      } 
+    }
   },
+
+
 }));
 
 export default useCartStore;
