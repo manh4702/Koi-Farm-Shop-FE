@@ -13,7 +13,7 @@ import StaffManagement from "../components/admin/StaffManagement/StaffManagement
 import BlogManagement from "../components/admin/BlogManagerment/BlogManagement";
 import FAQManagement from "../components/admin/FAQmanagement/FAQmanagement";
 import PromotionManagement from "../components/admin/InfoPromotion/PromotionManagement";
-import ConsignmentManagement from "../components/admin/FishConsignment/ConsignmentManagement";
+import ConsignmentSell from "../components/admin/FishConsignment/ConsignmentSell.jsx";
 import FeedbackAndRate from "../components/admin/Feedback&Rate/FeedbackandRate";
 import BatchInfo from "../components/admin/BatchofFish/BatchInfomation";
 import CustomerManagementFS from "../components/admin/User/forStaff";
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
       case "promotion-management":
         return <PromotionManagement />;
       case "consignment-management":
-        return <ConsignmentManagement />;
+        return <ConsignmentSell />;
         case "batch-info":
         return <BatchInfo />;
       default:

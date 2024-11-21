@@ -1,34 +1,158 @@
 // src/stores/fishConsignmentStore.jsx
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import {create} from 'zustand';
+import {devtools} from 'zustand/middleware';
 import axios from '../api/axios.jsx';
+import {message} from 'antd';
+import {fetchUsersByRole} from "@/services/userService.js";
+import {getOrderHistory} from "@/services/customerService.js";
+
 
 const fishConsignmentStore = create(
   devtools((set) => ({
     fishConsignments: [],
+    orderHistory:[],
     loading: false,
     error: null,
 
     // Fetch the consignments of a specific user by their userId
     fetchFishConsignmentsUser: async (userId) => {
-      set({ loading: true, error: null });
+      set({loading: true, error: null});
       try {
         if (!userId) {
           throw new Error('User ID không được cung cấp.');
         }
         const response = await axios.get(`/api/FishConsignment/user/${userId}`);
         if (response.data.success) {
-          set({ fishConsignments: response.data.data });
+          set({fishConsignments: response.data.data});
         } else {
-          set({ error: response.data.message });
+          set({error: response.data.message});
         }
       } catch (err) {
-        set({ error: 'Có lỗi xảy ra khi tải danh sách kí gửi.' });
+        set({error: 'Có lỗi xảy ra khi tải danh sách kí gửi.'});
+      } finally {
+        set({loading: false});
+      }
+    },
+
+    fetchFishConsignments: async () => {
+      set({loading: true, error: null});
+      try {
+        // const users = await fetchUsersByRole("Customer");
+        // const userMap = new Map(users.map((user) => [user.userId, user.fullName || user.userName]));
+        
+        const response = await axios.get(`/api/FishConsignment`);
+        const data = response.data;
+        const transformedData = response.data.map((item) => ({
+          ...item,
+          // owner: userMap.get(item.userId) || "Không xác định",
+        }));
+        set({fishConsignments: transformedData});
+        
+      } catch (err) {
+        set({error: 'Có lỗi xảy ra khi tải danh sách kí gửi.'});
+        return [];
+      } finally {
+        set({loading: false});
+      }
+    },
+
+    getOrderHistory: async () => {
+      set({ loading: true });
+      try {
+        const userId = sessionStorage.getItem('userId');
+
+        if (!userId) {
+          throw new Error('Không tìm thấy userId trong sessionStorage');
+        }
+        const data = await getOrderHistory(userId); // Gọi service để lấy dữ liệu
+        set({ orderHistory: data });
+      } catch (error) {
+        set({ orderHistory: [] });
+        throw new Error('Lấy lịch sử đơn hàng thất bại');
       } finally {
         set({ loading: false });
       }
     },
 
+    createFishConsignmentCare: async (formData) => {
+      set({ loading: true, error: null });
+      try {
+        const response = await axios.post('/api/FishConsignment/care', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        if (response.data.success) {
+          message.success('Yêu cầu chăm sóc cá đã được gửi thành công!');
+        } else {
+          throw new Error(response.data.message || 'Gửi yêu cầu chăm sóc cá thất bại.');
+        }
+      } catch (err) {
+        message.error(err.message || 'Có lỗi xảy ra khi gửi yêu cầu chăm sóc cá.');
+        set({ error: err.message });
+      } finally {
+        set({ loading: false });
+      }
+    },
+
+    createFishConsignmentSell: async (formData) => {
+      set({loading: true, error: null});
+      try {
+        const response = await axios.post(`/api/FishConsignment/sale`, formData, {
+          headers: {'Content-Type': 'multipart/form-data'},
+        });
+        if (response.data.success) {
+          message.success('Đơn ký gửi đã được tạo thành công!');
+        } else {
+          throw new Error(response.data.message || 'Tạo đơn ký gửi thất bại.');
+        }
+      } catch (err) {
+        message.error(err.message || 'Có lỗi xảy ra khi tạo đơn ký gửi.');
+        set({error: err.message});
+      } finally {
+        set({loading: false});
+      }
+    },
+    approveFishConsignment: async (consignmentId, approvalData) => {
+      set({loading: true, error: null});
+      try {
+        const response = await axios.post(`/api/FishConsignment/approve/${consignmentId}`, approvalData, {
+          headers: {'Content-Type': 'application/json'},
+        });
+
+        if (response.data.success) {
+          message.success('Ký gửi đã được phê duyệt thành công!');
+          // Optional: Update the local state if needed
+          set((state) => ({
+            fishConsignments: state.fishConsignments.map((item) =>
+              item.id === consignmentId ? {...item, status: 'approved'} : item
+            ),
+          }));
+        } else {
+          throw new Error(response.data.message || 'Phê duyệt ký gửi thất bại.');
+        }
+      } catch (err) {
+        message.error(err.message || 'Có lỗi xảy ra khi phê duyệt ký gửi.');
+        set({error: err.message});
+      } finally {
+        set({loading: false});
+      }
+    },
+
+    listConsignmentForSale: async (consignmentId) => {
+      set({ loading: true, error: null });
+      try {
+        const response = await axios.post(`/api/FishConsignment/list-for-sale/${consignmentId}`);
+        if (response.data.success) {
+          message.success('Ký gửi đã được đưa vào danh sách bán thành công!');
+        } else {
+          throw new Error(response.data.message || 'Thêm ký gửi vào danh sách bán thất bại.');
+        }
+      } catch (err) {
+        message.error(err.message || 'Có lỗi xảy ra khi thêm ký gửi vào danh sách bán.');
+        set({ error: err.message });
+      } finally {
+        set({ loading: false });
+      }
+    },
   }))
 );
 
