@@ -46,11 +46,11 @@ const CartPage = () => {
       key: "quantity",
       render: (_, record) => {
         const { availableQuantity, quantity } = record;
-        console.log("table", availableQuantity);
+        console.log("table", availableQuantity, quantity);
         return (
           <InputNumber
             min={1}
-            max={quantity + availableQuantity}
+            max={quantity + (availableQuantity ?? Infinity)}
             defaultValue={record.quantity}
             onChange={(value) => updateQuantity(record.cartItemId, value)}
             disabled={record.fishId}

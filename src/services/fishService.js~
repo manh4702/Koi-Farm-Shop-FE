@@ -19,7 +19,7 @@ export const fetchFishesCustomer = async () => {
   try {
     const response = await axios.get('/api/Fish/Displayable');
     // return response.data;
-    return response.data.data.map(fish => ({
+    return response.data.map(fish => ({
       ...fish,
       productStatus: fish.productStatus || 'AVAILABLE' // Đảm bảo luôn có giá trị mặc định
     }));

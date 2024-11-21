@@ -20,12 +20,12 @@ const ProductPage = () => {
   const [currentPageFishPackages, setCurrentPageFishPackages] = useState(1);
   // const [selectedFishes, setSelectedFishes] = useState([]);
 
-  const {fishes, loadFishes} = useFishStore();
-  const {fishPackages, fetchFishPackages} = useFishPackageStore();
+  const {fishes, loadFishes, loadFishesCustomer} = useFishStore();
+  const {fishPackages, fetchFishPackages, fetchFishPackagesCustomer} = useFishPackageStore();
 
   useEffect(() => {
-    loadFishes();
-    fetchFishPackages();
+    loadFishesCustomer();
+    fetchFishPackagesCustomer();
 
     const handleScroll = () => {
       const scrollToTopButton = document.getElementById("scrollToTop");

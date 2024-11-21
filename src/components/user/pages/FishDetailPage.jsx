@@ -3,8 +3,8 @@ import React, {useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import {Button, Image, message, Rate} from "antd";
-import {ShoppingCartOutlined, DollarOutlined} from "@ant-design/icons";
+import {Button, Image, message, Rate, Spin} from "antd";
+import {ShoppingCartOutlined, DollarOutlined, LoadingOutlined, FrownOutlined} from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
 import {getFishById} from "../../../services/fishService.js";
 import {Transformation} from "cloudinary-react"; // Store quản lý giỏ hàng
@@ -23,6 +23,7 @@ const FishDetailPage = () => {
   const [fish, setFish] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const antIcon = <LoadingOutlined style={{fontSize: 48, fontWeight: "bold", color: "red"}} spin/>;
 
   useEffect(() => {
     const fetchFishDetail = async () => {
@@ -54,15 +55,54 @@ const FishDetailPage = () => {
   };
 
   if (loading) {
-    return <p>Đang tải dữ liệu...</p>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          background: "#f0f2f5",
+        }}
+      >
+        <Spin indicator={antIcon} tip="Đang tải dữ liệu..."/>
+      </div>
+    );
   }
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  // if (error) {
+  //   return <p>{error}</p>;
+  // }
 
-  if (!fish) {
-    return <p>Không tìm thấy sản phẩm.</p>;
+  if (error || !fish) {
+    return (
+      <>
+        <Header/>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "50px",
+            background: "#f9f9f9",
+            borderRadius: "8px",
+          }}
+        >
+          <FrownOutlined style={{fontSize: "64px", color: "#ff4d4f"}}/>
+          <h2 style={{marginTop: "16px", color: "#333"}}>Không tìm thấy sản phẩm</h2>
+          <p style={{color: "#777", marginTop: "8px"}}>
+            Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
+          </p>
+          <Button
+            type="primary"
+            size="large"
+            style={{marginTop: "20px", backgroundColor: "red"}}
+            onClick={() => window.location.href = "/products"} // Chuyển về danh sách sản phẩm
+          >
+            Quay lại Sản phẩm
+          </Button>
+        </div>
+        <Footer/>
+      </>
+    );
   }
 
 

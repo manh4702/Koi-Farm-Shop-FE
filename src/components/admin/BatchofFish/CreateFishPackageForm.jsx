@@ -118,6 +118,11 @@ const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
       return;
     }
 
+    if (!fileList[0]?.originFileObj) {
+      message.warning("Vui lòng tải ảnh lên!");
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -168,7 +173,7 @@ const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
         onCancel();
       }
     } catch (error) {
-      message.error("Có lỗi xảy ra khi tạo lô cá: " + error.message);
+      message.error("Có lỗi xảy ra khi tạo lô cá");
     } finally {
       setSubmitting(false);
     }
@@ -315,7 +320,7 @@ const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
               rules={[{required: true, message: "Vui lòng nhập sức chứa!"}]}
             >
               <InputNumber
-                min={1}
+                min={3}
                 style={{width: "100%"}}
                 onChange={handleCapacityChange}
               />
@@ -332,7 +337,10 @@ const CreateFishPackageForm = ({visible, onCancel, onSuccess}) => {
           </Col>
         </Row>
 
-        <Form.Item label="Ảnh" required>
+        <Form.Item 
+          label="Ảnh" 
+          required
+        >
           <Upload
             listType="picture-card"
             fileList={fileList}

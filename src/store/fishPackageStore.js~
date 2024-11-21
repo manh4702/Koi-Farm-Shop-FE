@@ -5,7 +5,7 @@ import {
   updateFishPackage,
   createFishPackage,
   deleteFishPackage,
-  updateFishQuantities, getFishPackageById, deleteFishFromPackage, addFishToPackage, getFishPackagesCustomer
+  updateFishQuantities, getFishPackageById, deleteFishFromPackage, addFishToPackage
 } from "../services/fishPackageService.js";
 
 // Zustand store for fish packages
@@ -22,7 +22,7 @@ export const useFishPackageStore = create((set) => ({
   },
   fetchFishPackagesCustomer: async () => {
     try {
-      const fishPackages = await getFishPackagesCustomer();
+      const fishPackages = await getFishPackages();
       set({ fishPackages });
     } catch (error) {
       set({ error: error.message });

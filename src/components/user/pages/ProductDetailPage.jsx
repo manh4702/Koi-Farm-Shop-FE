@@ -1,12 +1,12 @@
 // // src/components/user/pages/ProductDetailPage.jsx
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
-import {Button, Image, message, Rate, Tag} from "antd";
-import { ShoppingCartOutlined, DollarOutlined } from "@ant-design/icons";
+import {Button, Image, message, Rate, Spin, Tag} from "antd";
+import {ShoppingCartOutlined, DollarOutlined, LoadingOutlined, FrownOutlined} from "@ant-design/icons";
 import useCartStore from "../../../store/cartStore";
-import { getFishPackageById } from "../../../services/fishPackageService.js";
+import {getFishPackageById} from "../../../services/fishPackageService.js";
 import {getCategories} from "@/services/CategoryService.js";
 
 const formatCurrency = (value) => {
@@ -20,13 +20,14 @@ const formatCurrency = (value) => {
 };
 
 const ProductDetailPage = () => {
-  const { id } = useParams();
+  const {id} = useParams();
   const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
   const [fish, setFish] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
+  const antIcon = <LoadingOutlined style={{fontSize: 48, fontWeight: "bold", color: "red"}} spin/>;
 
   // useEffect(() => {
   //   const fetchFishById = async (fishId) => {
@@ -75,15 +76,50 @@ const ProductDetailPage = () => {
   };
 
   if (loading) {
-    return <div>Đang tải dữ liệu...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          background: "#f0f2f5",
+        }}
+      >
+        <Spin indicator={antIcon} tip="Đang tải dữ liệu..."/>
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!fish) {
-    return <div>Không tìm thấy sản phẩm.</div>;
+  if (error || !fish) {
+    return (
+      <>
+        <Header/>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "50px",
+            background: "#f9f9f9",
+            borderRadius: "8px",
+          }}
+        >
+          <FrownOutlined style={{fontSize: "64px", color: "#ff4d4f"}}/>
+          <h2 style={{marginTop: "16px", color: "#333"}}>Không tìm thấy sản phẩm</h2>
+          <p style={{color: "#777", marginTop: "8px"}}>
+            Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
+          </p>
+          <Button
+            type="primary"
+            size="large"
+            style={{marginTop: "20px", backgroundColor: "red"}}
+            onClick={() => window.location.href = "/products"} // Chuyển về danh sách sản phẩm
+          >
+            Quay lại Sản phẩm
+          </Button>
+        </div>
+        <Footer/>
+      </>
+    );
   }
 
   // Hàm xử lý thêm vào giỏ hàng
@@ -112,9 +148,9 @@ const ProductDetailPage = () => {
 
   return (
     <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      style={{minHeight: "100vh", display: "flex", flexDirection: "column"}}
     >
-      <Header />
+      <Header/>
       <main
         style={{
           flexGrow: 1,
@@ -127,7 +163,7 @@ const ProductDetailPage = () => {
         }}
       >
         {/* Phần hình ảnh chính */}
-        <div style={{ flex: 1 }}>
+        <div style={{flex: 1}}>
           <Image
             src={fish.imageUrl}
             alt={fish.name}
@@ -142,7 +178,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Phần chi tiết sản phẩm */}
-        <div style={{ flex: 1 }}>
+        <div style={{flex: 1}}>
           <h1
             style={{
               fontSize: "2rem",
@@ -176,7 +212,7 @@ const ProductDetailPage = () => {
                 }}
                 onClick={handleBuyNow}
               >
-                <DollarOutlined /> Mua ngay
+                <DollarOutlined/> Mua ngay
               </Button>
 
               <Button
@@ -201,7 +237,7 @@ const ProductDetailPage = () => {
                 }}
                 onClick={handleAddToCart}
               >
-                <ShoppingCartOutlined /> Thêm vào giỏ hàng
+                <ShoppingCartOutlined/> Thêm vào giỏ hàng
               </Button>
             </>
           ) : (
