@@ -203,7 +203,11 @@ const ConsignmentSell = () => {
             <Menu.Item key="view" icon={< EyeOutlined/>} onClick={() => handleViewDetails(record)}>
               Xem chi tiết
             </Menu.Item>
-            <Menu.Item key="list-for-sale" icon={<PlusOutlined />} onClick={() => handleListForSale(record)}>
+            <Menu.Item
+              key="list-for-sale" icon={<PlusOutlined/>}
+              onClick={() => handleListForSale(record)}
+              disabled={record.consignmentStatus  === "OnProcessing"}
+            >
               Thêm vào danh sách bán
             </Menu.Item>
             {/*<Menu.Item key="delete" icon={<DeleteOutlined/>} onClick={() => handleDelete(record.id)}>*/}
