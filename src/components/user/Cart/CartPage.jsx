@@ -19,6 +19,7 @@ const CartPage = () => {
   // const { cartItems } = useAuthStore();
   const items = useCartStore(state => state.items)
     .filter(item => item.cartItemStatus === "PENDING_FOR_ORDER");
+  console.log(items);
   const navigate = useNavigate();
   const columns = [
     {
@@ -44,9 +45,10 @@ const CartPage = () => {
       key: "quantity",
       render: (_, record) => (
         <InputNumber
-          max={1}
+          min={1}
           defaultValue={record.quantity}
           onChange={(value) => updateQuantity(record.cartItemId, value)}
+          disabled={record.fishId}
         />
       ),
     },

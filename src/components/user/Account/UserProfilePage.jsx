@@ -25,6 +25,7 @@ import moment from "moment";
 import Header from "../Shared/Header";
 import Footer from "../Shared/Footer";
 import {GrOverview} from "react-icons/gr";
+import fishConsignmentStore from "@/store/fishConsignmentStore.jsx";
 
 const UserProfilePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -33,6 +34,20 @@ const UserProfilePage = () => {
   const [selectedSection, setSelectedSection] = useState("overview");
   const [form] = Form.useForm();
   const [orderHistory, setOrderHistory] = useState([]);
+  const [consignments, setConsignments] = useState([]);
+
+  const {
+    fishConsignments,
+    error,
+    fetchFishConsignmentsUser,
+  } = fishConsignmentStore();
+
+  useEffect(() => {
+    const userId = sessionStorage.getItem("userId");
+    if (userId) {
+      fetchFishConsignmentsUser(userId);
+    }
+  }, []);
 
   useEffect(() => {
     fetchUserProfile();
@@ -58,7 +73,7 @@ const UserProfilePage = () => {
         fetchOrderHistory(profileData.userId);
       }
     } catch (error) {
-      message.error("Có lỗi xảy ra, vui lòng thử lại.");
+      // message.error("Có lỗi xảy ra, vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
@@ -71,7 +86,7 @@ const UserProfilePage = () => {
       setOrderHistory(orders);
       console.log(orders);
     } catch (error) {
-      message.error("Có lỗi xảy ra khi tải lịch sử đơn hàng.");
+      // message.error("Có lỗi xảy ra khi tải lịch sử đơn hàng.");
     } finally {
       setLoading(false);
     }
@@ -175,8 +190,8 @@ const UserProfilePage = () => {
         return renderSecuritySettings();
       case "orderHistory":
         return renderOrderHistory();
-      case "feedback":
-        return <div>Đánh giá của tôi</div>;
+      case "consignmentHistory":
+        return renderConsignmentHistory();
       case "favorites":
         return <div>Sản phẩm yêu thích</div>;
       default:
@@ -566,6 +581,97 @@ const UserProfilePage = () => {
     </div>
   );
 
+  const renderConsignmentHistory = () => (
+    <div>
+      <h2 style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>
+        Lịch sử kí gửi
+      </h2>
+      {loading ? (
+        <p>Đang tải...</p>
+      ) : error ? (
+        <p style={{color: "red"}}>{error}</p>
+      ) : fishConsignments.length > 0 ? (
+        fishConsignments.map((consignment) => (
+          <Card
+            key={consignment.fishConsignmentId}
+            style={{
+              marginBottom: "10px",
+              border: "1px solid gray",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            <Descriptions column={1}>
+              <Descriptions.Item
+                label={
+                  <span style={{fontWeight: "bold"}}>
+                    ID Kí Gửi
+                  </span>
+                }
+              >
+                {consignment.fishConsignmentId}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span style={{fontWeight: "bold"}}>
+                    Ngày Tạo
+                  </span>
+                }
+              >
+                {moment(consignment.createDate).format("DD/MM/YYYY")}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span style={{fontWeight: "bold"}}>
+                    Mục Đích
+                  </span>
+                }
+              >
+                {consignment.purpose}
+              </Descriptions.Item>
+
+              <Descriptions.Item
+                label={
+                  <span style={{fontWeight: "bold"}}>
+                    Trạng Thái
+                  </span>
+                }
+              >
+                {(() => {
+                  switch (consignment.consignmentStatus) {
+                    case "PendingApproval":
+                      return <Tag color="orange">Đang chờ duyệt</Tag>;
+                    case "Approved":
+                      return <Tag color="blue">Đã duyệt</Tag>;
+                    case "PriceAgreed":
+                      return <Tag color="cyan">Đã thỏa thuận giá</Tag>;
+                    case "Rejected":
+                      return <Tag color="red">Bị từ chối</Tag>;
+                    case "Completed":
+                      return <Tag color="green">Hoàn thành</Tag>;
+                    default:
+                      return <Tag color="gray">Không xác định</Tag>;
+                  }
+                })()}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span style={{fontWeight: "bold"}}>
+                    Mô Tả
+                  </span>
+                }
+              >
+                {consignment.conditionDescription}
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
+        ))
+      ) : (
+        <p>Không có kí gửi nào.</p>
+      )}
+    </div>
+  );
+
 
   return (
     <>
@@ -644,42 +750,24 @@ const UserProfilePage = () => {
             >
               <MdOutlineSecurity style={{marginRight: "8px"}}/> Bảo mật
             </li>
-            {/*<li*/}
-            {/*  onClick={() => setSelectedSection("feedback")}*/}
-            {/*  style={{*/}
-            {/*    fontSize: "18px",*/}
-            {/*    padding: "10px",*/}
-            {/*    borderBottom: "1px solid #ccc",*/}
-            {/*    cursor: "pointer",*/}
-            {/*    backgroundColor:*/}
-            {/*      selectedSection === "feedback" ? "brown" : "transparent",*/}
-            {/*    color: selectedSection === "feedback" ? "white" : "black",*/}
-            {/*    borderRadius: "10px",*/}
-            {/*    display: "flex",*/}
-            {/*    alignItems: "center",*/}
-            {/*    transition: "background-color 0.3s, color 0.3s",*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <MdFeedback style={{ marginRight: "8px" }} /> Đánh giá của tôi*/}
-            {/*</li>*/}
-            {/*<li*/}
-            {/*  onClick={() => setSelectedSection("favorites")}*/}
-            {/*  style={{*/}
-            {/*    fontSize: "18px",*/}
-            {/*    padding: "10px",*/}
-            {/*    borderBottom: "1px solid #ccc",*/}
-            {/*    cursor: "pointer",*/}
-            {/*    backgroundColor:*/}
-            {/*      selectedSection === "favorites" ? "brown" : "transparent",*/}
-            {/*    color: selectedSection === "favorites" ? "white" : "black",*/}
-            {/*    borderRadius: "10px",*/}
-            {/*    display: "flex",*/}
-            {/*    alignItems: "center",*/}
-            {/*    transition: "background-color 0.3s, color 0.3s",*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <FaFish style={{ marginRight: "8px" }} /> Sản phẩm yêu thích*/}
-            {/*</li>*/}
+            <li
+              onClick={() => setSelectedSection("consignmentHistory")}
+              style={{
+                fontSize: "18px",
+                padding: "10px",
+                borderBottom: "1px solid #ccc",
+                cursor: "pointer",
+                backgroundColor:
+                  selectedSection === "consignmentHistory" ? "brown" : "transparent",
+                color: selectedSection === "consignmentHistory" ? "white" : "black",
+                borderRadius: "10px",
+                display: "flex",
+                alignItems: "center",
+                transition: "background-color 0.3s, color 0.3s",
+              }}
+            >
+              <FaFish style={{marginRight: "8px"}}/> Lịch sử kí gửi
+            </li>
           </ul>
         </div>
         <div style={{width: "75%", padding: "20px"}}>{renderContent()}</div>
